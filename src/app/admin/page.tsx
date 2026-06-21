@@ -1,493 +1,295 @@
 "use client";
 
-import { useCMS } from "@/context/CMSContext";
+import { useMemo } from "react";
+import Link from "next/link";
+import {
+  Building2,
+  Users,
+  DollarSign,
+  TrendingUp,
+  ArrowUpRight,
+  Home as HomeIcon,
+  Mail,
+  Calendar,
+} from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { StatCard } from "@/components/admin/StatCard";
+import { LeadStatusBadge } from "@/components/admin/LeadStatusBadge";
 import { useProperties } from "@/hooks/useProperties";
-import { useMenu } from "@/hooks/useMenu";
-import { useMedia } from "@/hooks/useMedia";
-import { useBlog } from "@/hooks/useBlog";
-import { useTeam } from "@/hooks/useTeam";
 import { useLeads } from "@/hooks/useLeads";
-import { useCMSExport } from "@/hooks/useCMSExport";
-import { useSiteSettings } from "@/hooks/useSiteSettings";
-import { useSEO } from "@/hooks/useSEO";
-import { useState } from "react";
+import { useTeam } from "@/hooks/useTeam";
+import { useBlog } from "@/hooks/useBlog";
+import { formatCurrency, formatDate } from "@/lib/utils";
 
-/**
- * Phase 2: Functional CMS test page (unstyled).
- * Will be replaced with a premium dashboard in Phase 4.
- */
-export default function AdminTestPage() {
-  const { state, isHydrated, persistNow } = useCMS();
-  const properties = useProperties();
-  const menu = useMenu();
-  const media = useMedia();
-  const blog = useBlog();
-  const team = useTeam();
-  const leads = useLeads();
-  const siteSettings = useSiteSettings();
-  const seo = useSEO();
-  const cmsExport = useCMSExport();
+export default function AdminDashboard() {
+  const { properties, stats: propStats } = useProperties();
+  const { leads, stats: leadStats } = useLeads();
+  const { team } = useTeam();
+  const { posts } = useBlog();
 
-  const [newPropertyTitle, setNewPropertyTitle] = useState("");
-  const [newMenuLabel, setNewMenuLabel] = useState("");
-  const [newMenuHref, setNewMenuHref] = useState("");
-  const [siteName, setSiteName] = useState(state.siteSettings.siteName);
+  const totalRevenue = useMemo(() => {
+    return properties
+      .filter((p) => p.status === "sold" || p.status === "rented")
+      .reduce((sum, p) => sum + p.price, 0);
+  }, [properties]);
 
-  if (!isHydrated) {
-    return <div style={{ padding: 24 }}>Loading CMS...</div>;
-  }
+  const recentLeads = [...leads]
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    )
+    .slice(0, 5);
+
+  const recentProperties = [...properties]
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    )
+    .slice(0, 5);
+
+  // Simple bar chart data (properties by category)
+  const categoryData = useMemo(() => {
+    const counts: Record<string, number> = {};
+    properties.forEach((p) => {
+      counts[p.category] = (counts[p.category] || 0) + 1;
+    });
+    return Object.entries(counts).map(([name, value]) => ({ name, value }));
+  }, [properties]);
+
+  const maxCategory = Math.max(...categoryData.map((d) => d.value), 1);
 
   return (
-    <div
-      style={{
-        padding: 24,
-        fontFamily: "system-ui",
-        maxWidth: 1200,
-        margin: "0 auto",
-      }}>
-      <h1 style={{ fontSize: 28, marginBottom: 8 }}>
-        🛠️ CMS Engine — Phase 2 Test
-      </h1>
-      <p style={{ color: "#666", marginBottom: 24 }}>
-        Functional test page. Will be replaced with premium dashboard in Phase
-        4.
-      </p>
-
-      {/* ============ STATE OVERVIEW ============ */}
-      <section
-        style={{
-          marginBottom: 32,
-          padding: 16,
-          background: "#f5f5f5",
-          borderRadius: 8,
-        }}>
-        <h2 style={{ fontSize: 20, marginBottom: 12 }}>📊 State Overview</h2>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
-            gap: 12,
-          }}>
-          <StatCard label="Properties" value={properties.properties.length} />
-          <StatCard label="Team" value={team.team.length} />
-          <StatCard label="Blog Posts" value={blog.posts.length} />
-          <StatCard label="Menu Items" value={menu.menu.length} />
-          <StatCard label="Media Files" value={media.media.length} />
-          <StatCard label="Leads" value={leads.leads.length} />
+    <div className="space-y-6">
+      {/* Welcome */}
+      <div className="rounded-xl bg-gradient-to-br from-primary to-primary/80 p-6 md:p-8 text-primary-foreground">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h2 className="font-display text-2xl md:text-3xl font-bold">
+              Welcome back, Admin 👋
+            </h2>
+            <p className="mt-1 text-primary-foreground/80">
+              Here&apos;s what&apos;s happening with your business today.
+            </p>
+          </div>
+          <Button asChild variant="secondary" size="lg">
+            <Link href="/admin/inventory">
+              <Building2 className="h-4 w-4 mr-2" /> Add Property
+            </Link>
+          </Button>
         </div>
-        <button
-          onClick={persistNow}
-          style={{ marginTop: 12, padding: "6px 12px", cursor: "pointer" }}>
-          💾 Force Save to localStorage
-        </button>
-      </section>
+      </div>
 
-      {/* ============ SITE SETTINGS ============ */}
-      <section
-        style={{
-          marginBottom: 32,
-          padding: 16,
-          border: "1px solid #ddd",
-          borderRadius: 8,
-        }}>
-        <h2 style={{ fontSize: 20, marginBottom: 12 }}>⚙️ Site Settings</h2>
-        <div style={{ display: "flex", gap: 8 }}>
-          <input
-            value={siteName}
-            onChange={(e) => setSiteName(e.target.value)}
-            placeholder="Site Name"
-            style={{ flex: 1, padding: 8 }}
-          />
-          <button
-            onClick={() => siteSettings.updateSettings({ siteName })}
-            style={{ padding: "8px 16px", cursor: "pointer" }}>
-            Update
-          </button>
-        </div>
-        <p style={{ marginTop: 8, fontSize: 14, color: "#666" }}>
-          Current: <strong>{state.siteSettings.siteName}</strong>
-        </p>
-      </section>
-
-      {/* ============ MENU MANAGEMENT ============ */}
-      <section
-        style={{
-          marginBottom: 32,
-          padding: 16,
-          border: "1px solid #ddd",
-          borderRadius: 8,
-        }}>
-        <h2 style={{ fontSize: 20, marginBottom: 12 }}>🧭 Menu Management</h2>
-        <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
-          <input
-            value={newMenuLabel}
-            onChange={(e) => setNewMenuLabel(e.target.value)}
-            placeholder="Label"
-            style={{ flex: 1, padding: 8 }}
-          />
-          <input
-            value={newMenuHref}
-            onChange={(e) => setNewMenuHref(e.target.value)}
-            placeholder="/path"
-            style={{ flex: 1, padding: 8 }}
-          />
-          <button
-            onClick={() => {
-              if (newMenuLabel && newMenuHref) {
-                menu.addMenuItem({ label: newMenuLabel, href: newMenuHref });
-                setNewMenuLabel("");
-                setNewMenuHref("");
-              }
-            }}
-            style={{ padding: "8px 16px", cursor: "pointer" }}>
-            + Add
-          </button>
-        </div>
-        <ul style={{ listStyle: "none", padding: 0 }}>
-          {menu.menu.map((item, idx) => (
-            <li
-              key={item.id}
-              style={{
-                padding: 8,
-                marginBottom: 4,
-                background: "#fafafa",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}>
-              <span>
-                {idx + 1}. <strong>{item.label}</strong> → {item.href}
-              </span>
-              <div style={{ display: "flex", gap: 4 }}>
-                <button
-                  onClick={() => menu.moveMenuItem(item.id, "up")}
-                  disabled={idx === 0}>
-                  ↑
-                </button>
-                <button
-                  onClick={() => menu.moveMenuItem(item.id, "down")}
-                  disabled={idx === menu.menu.length - 1}>
-                  ↓
-                </button>
-                <button onClick={() => menu.deleteMenuItem(item.id)}>🗑️</button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* ============ PROPERTIES ============ */}
-      <section
-        style={{
-          marginBottom: 32,
-          padding: 16,
-          border: "1px solid #ddd",
-          borderRadius: 8,
-        }}>
-        <h2 style={{ fontSize: 20, marginBottom: 12 }}>🏠 Properties</h2>
-        <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
-          <input
-            value={newPropertyTitle}
-            onChange={(e) => setNewPropertyTitle(e.target.value)}
-            placeholder="New property title..."
-            style={{ flex: 1, padding: 8 }}
-          />
-          <button
-            onClick={() => {
-              if (newPropertyTitle) {
-                properties.addProperty({
-                  title: newPropertyTitle,
-                  description: "Description for " + newPropertyTitle,
-                  price: 500000,
-                  location: "New City",
-                  address: "123 Test St",
-                  bedrooms: 3,
-                  bathrooms: 2,
-                  area: 1500,
-                  type: "sale",
-                  category: "house",
-                  images: [],
-                  features: [],
-                  agentId: "agent-1",
-                  status: "available",
-                });
-                setNewPropertyTitle("");
-              }
-            }}
-            style={{ padding: "8px 16px", cursor: "pointer" }}>
-            + Add Property
-          </button>
-        </div>
-        <ul
-          style={{
-            listStyle: "none",
-            padding: 0,
-            maxHeight: 300,
-            overflowY: "auto",
-          }}>
-          {properties.properties.map((p) => (
-            <li
-              key={p.id}
-              style={{
-                padding: 8,
-                marginBottom: 4,
-                background: "#fafafa",
-                display: "flex",
-                justifyContent: "space-between",
-              }}>
-              <span>
-                <strong>{p.title}</strong> — ${p.price.toLocaleString()} (
-                {p.type})
-              </span>
-              <button onClick={() => properties.deleteProperty(p.id)}>
-                🗑️
-              </button>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* ============ MEDIA UPLOAD ============ */}
-      <section
-        style={{
-          marginBottom: 32,
-          padding: 16,
-          border: "1px solid #ddd",
-          borderRadius: 8,
-        }}>
-        <h2 style={{ fontSize: 20, marginBottom: 12 }}>🖼️ Media Upload</h2>
-        <input
-          type="file"
-          accept="image/*"
-          multiple
-          onChange={async (e) => {
-            if (e.target.files) {
-              await media.uploadFiles(e.target.files);
-              e.target.value = "";
-            }
-          }}
-          style={{ marginBottom: 12 }}
+      {/* Stats Grid */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard
+          label="Total Properties"
+          value={propStats.total}
+          icon={Building2}
+          trend={{ value: "12% this month", positive: true }}
         />
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))",
-            gap: 8,
-          }}>
-          {media.media.map((m) => (
-            <div key={m.id} style={{ position: "relative" }}>
-              <img
-                src={m.url}
-                alt={m.name}
-                style={{
-                  width: "100%",
-                  height: 100,
-                  objectFit: "cover",
-                  borderRadius: 4,
-                }}
-              />
-              <button
-                onClick={() => media.deleteMedia(m.id)}
-                style={{
-                  position: "absolute",
-                  top: 4,
-                  right: 4,
-                  background: "rgba(0,0,0,0.6)",
-                  color: "white",
-                  border: "none",
-                  borderRadius: 4,
-                  padding: "2px 6px",
-                  cursor: "pointer",
-                }}>
-                ×
-              </button>
-              <p
-                style={{
-                  fontSize: 11,
-                  marginTop: 4,
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }}>
-                {m.name}
-              </p>
+        <StatCard
+          label="Active Leads"
+          value={leadStats.total}
+          icon={Users}
+          trend={{ value: `${leadStats.new} new`, positive: true }}
+        />
+        <StatCard
+          label="Available"
+          value={propStats.available}
+          icon={HomeIcon}
+          trend={{
+            value: `${propStats.forSale} sale / ${propStats.forRent} rent`,
+            positive: true,
+          }}
+        />
+        <StatCard
+          label="Total Revenue"
+          value={formatCurrency(totalRevenue)}
+          icon={DollarSign}
+          trend={{ value: "Closed deals", positive: true }}
+        />
+      </div>
+
+      {/* Charts + Recent Activity */}
+      <div className="grid lg:grid-cols-3 gap-6">
+        {/* Bar Chart */}
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>Properties by Category</CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Distribution of your listings
+                </p>
+              </div>
+              <TrendingUp className="h-5 w-5 text-muted-foreground" />
             </div>
-          ))}
-        </div>
-        {media.media.length === 0 && (
-          <p style={{ color: "#999", fontSize: 14 }}>No media uploaded yet.</p>
-        )}
-        <p style={{ marginTop: 8, fontSize: 12, color: "#666" }}>
-          Storage used: {media.getStorageUsage().kb} KB
-        </p>
-      </section>
+          </CardHeader>
+          <CardContent>
+            {categoryData.length === 0 ? (
+              <div className="text-center py-12 text-muted-foreground">
+                <p>No properties yet</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {categoryData.map((d) => (
+                  <div key={d.name}>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-sm font-medium capitalize">
+                        {d.name}
+                      </span>
+                      <span className="text-sm text-muted-foreground">
+                        {d.value}
+                      </span>
+                    </div>
+                    <div className="h-2 rounded-full bg-muted overflow-hidden">
+                      <div
+                        className="h-full bg-primary rounded-full transition-all"
+                        style={{ width: `${(d.value / maxCategory) * 100}%` }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
-      {/* ============ EXPORT / IMPORT ============ */}
-      <section
-        style={{
-          marginBottom: 32,
-          padding: 16,
-          border: "1px solid #ddd",
-          borderRadius: 8,
-        }}>
-        <h2 style={{ fontSize: 20, marginBottom: 12 }}>💾 Backup & Restore</h2>
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          <button
-            onClick={cmsExport.exportData}
-            style={{
-              padding: "8px 16px",
-              cursor: "pointer",
-              background: "#2563eb",
-              color: "white",
-              border: "none",
-              borderRadius: 4,
-            }}>
-            📤 Export JSON Backup
-          </button>
-          <button
-            onClick={cmsExport.triggerImport}
-            style={{
-              padding: "8px 16px",
-              cursor: "pointer",
-              background: "#059669",
-              color: "white",
-              border: "none",
-              borderRadius: 4,
-            }}>
-            📥 Import JSON
-          </button>
-          <button
-            onClick={cmsExport.resetToDefaults}
-            style={{
-              padding: "8px 16px",
-              cursor: "pointer",
-              background: "#dc2626",
-              color: "white",
-              border: "none",
-              borderRadius: 4,
-            }}>
-            ⚠️ Reset to Defaults
-          </button>
-        </div>
-      </section>
-
-      {/* ============ SEO PREVIEW ============ */}
-      <section
-        style={{
-          marginBottom: 32,
-          padding: 16,
-          border: "1px solid #ddd",
-          borderRadius: 8,
-        }}>
-        <h2 style={{ fontSize: 20, marginBottom: 12 }}>🔍 SEO Preview</h2>
-        <div style={{ display: "grid", gap: 8 }}>
-          {Object.entries(state.seo).map(([page, data]) => (
-            <div key={page} style={{ padding: 8, background: "#fafafa" }}>
-              <strong style={{ textTransform: "capitalize" }}>{page}</strong>
-              <p style={{ color: "#2563eb", fontSize: 14, margin: "4px 0" }}>
-                {data.title}
-              </p>
-              <p style={{ color: "#666", fontSize: 12 }}>{data.description}</p>
+        {/* Quick Stats */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Quick Stats</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between py-2 border-b">
+              <span className="text-sm text-muted-foreground">Blog Posts</span>
+              <span className="font-semibold">{posts.length}</span>
             </div>
-          ))}
-        </div>
-      </section>
+            <div className="flex items-center justify-between py-2 border-b">
+              <span className="text-sm text-muted-foreground">
+                Team Members
+              </span>
+              <span className="font-semibold">{team.length}</span>
+            </div>
+            <div className="flex items-center justify-between py-2 border-b">
+              <span className="text-sm text-muted-foreground">New Leads</span>
+              <span className="font-semibold text-accent">{leadStats.new}</span>
+            </div>
+            <div className="flex items-center justify-between py-2 border-b">
+              <span className="text-sm text-muted-foreground">Qualified</span>
+              <span className="font-semibold text-primary">
+                {leadStats.qualified}
+              </span>
+            </div>
+            <div className="flex items-center justify-between py-2">
+              <span className="text-sm text-muted-foreground">Closed</span>
+              <span className="font-semibold text-accent">
+                {leadStats.closed}
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
-      {/* ============ LEADS ============ */}
-      <section
-        style={{
-          marginBottom: 32,
-          padding: 16,
-          border: "1px solid #ddd",
-          borderRadius: 8,
-        }}>
-        <h2 style={{ fontSize: 20, marginBottom: 12 }}>📥 Leads</h2>
-        <p style={{ marginBottom: 8, fontSize: 14 }}>
-          Total: <strong>{leads.stats.total}</strong> | New:{" "}
-          <strong>{leads.stats.new}</strong> | Contacted:{" "}
-          <strong>{leads.stats.contacted}</strong> | Qualified:{" "}
-          <strong>{leads.stats.qualified}</strong> | Closed:{" "}
-          <strong>{leads.stats.closed}</strong>
-        </p>
-        <button
-          onClick={() =>
-            leads.addLead({
-              name: "Test Lead " + Math.floor(Math.random() * 1000),
-              email: "test@example.com",
-              phone: "+1 555-0000",
-              message: "Interested in a property",
-            })
-          }
-          style={{ padding: "8px 16px", cursor: "pointer" }}>
-          + Add Test Lead
-        </button>
-        {leads.leads.length > 0 && (
-          <ul style={{ marginTop: 12, listStyle: "none", padding: 0 }}>
-            {leads.leads.slice(0, 5).map((l) => (
-              <li
-                key={l.id}
-                style={{
-                  padding: 8,
-                  marginBottom: 4,
-                  background: "#fafafa",
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}>
-                <span>
-                  <strong>{l.name}</strong> — {l.status}
-                </span>
-                <div>
-                  <select
-                    value={l.status}
-                    onChange={(e) =>
-                      leads.updateLeadStatus(l.id, e.target.value as any)
-                    }
-                    style={{ marginRight: 8 }}>
-                    <option value="new">new</option>
-                    <option value="contacted">contacted</option>
-                    <option value="qualified">qualified</option>
-                    <option value="closed">closed</option>
-                  </select>
-                  <button onClick={() => leads.deleteLead(l.id)}>🗑️</button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+      {/* Recent Leads + Recent Properties */}
+      <div className="grid lg:grid-cols-2 gap-6">
+        {/* Recent Leads */}
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle className="flex items-center gap-2">
+              <Mail className="h-5 w-5" /> Recent Leads
+            </CardTitle>
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/admin/leads">
+                View all <ArrowUpRight className="h-3 w-3 ml-1" />
+              </Link>
+            </Button>
+          </CardHeader>
+          <CardContent>
+            {recentLeads.length === 0 ? (
+              <div className="text-center py-8 text-muted-foreground text-sm">
+                No leads yet. They&apos;ll appear here when clients submit
+                inquiries.
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {recentLeads.map((lead) => (
+                  <div key={lead.id} className="flex items-center gap-3">
+                    <Avatar className="h-9 w-9">
+                      <AvatarFallback className="text-xs bg-primary/10 text-primary">
+                        {lead.name.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate">
+                        {lead.name}
+                      </p>
+                      <p className="text-xs text-muted-foreground truncate">
+                        {lead.email}
+                      </p>
+                    </div>
+                    <LeadStatusBadge status={lead.status} />
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
-      {/* ============ RAW STATE ============ */}
-      <details style={{ marginBottom: 32 }}>
-        <summary style={{ cursor: "pointer", fontSize: 16, marginBottom: 8 }}>
-          🔬 Raw CMS State (debug)
-        </summary>
-        <pre
-          style={{
-            background: "#1e1e1e",
-            color: "#d4d4d4",
-            padding: 16,
-            borderRadius: 8,
-            overflow: "auto",
-            maxHeight: 400,
-            fontSize: 12,
-          }}>
-          {JSON.stringify(state, null, 2)}
-        </pre>
-      </details>
-    </div>
-  );
-}
-
-function StatCard({ label, value }: { label: string; value: number }) {
-  return (
-    <div
-      style={{
-        padding: 12,
-        background: "white",
-        borderRadius: 6,
-        textAlign: "center",
-      }}>
-      <div style={{ fontSize: 24, fontWeight: 700 }}>{value}</div>
-      <div style={{ fontSize: 12, color: "#666" }}>{label}</div>
+        {/* Recent Properties */}
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle className="flex items-center gap-2">
+              <HomeIcon className="h-5 w-5" /> Recent Properties
+            </CardTitle>
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/admin/inventory">
+                View all <ArrowUpRight className="h-3 w-3 ml-1" />
+              </Link>
+            </Button>
+          </CardHeader>
+          <CardContent>
+            {recentProperties.length === 0 ? (
+              <div className="text-center py-8 text-muted-foreground text-sm">
+                No properties yet.
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {recentProperties.map((p) => (
+                  <div key={p.id} className="flex items-center gap-3">
+                    <div className="h-12 w-12 rounded-md overflow-hidden bg-muted flex-shrink-0">
+                      {p.images[0] ? (
+                        <img
+                          src={p.images[0]}
+                          alt=""
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <HomeIcon className="h-5 w-5 text-muted-foreground" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate">{p.title}</p>
+                      <p className="text-xs text-muted-foreground flex items-center gap-1">
+                        <Calendar className="h-3 w-3" />
+                        {formatDate(p.createdAt)}
+                      </p>
+                    </div>
+                    <Badge variant="outline" className="capitalize">
+                      {p.type}
+                    </Badge>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

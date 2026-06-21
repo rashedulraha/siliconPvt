@@ -8,16 +8,21 @@ import {
   useRef,
   useCallback,
   useMemo,
+  useState,
 } from "react";
 import { cmsReducer } from "./CMSReducer";
 import type { CMSState, CMSAction } from "@/types";
 import { storage } from "@/utils/storage";
 import { STORAGE_KEYS } from "@/utils/constants";
-import { seedProperties, seedTeam, seedBlog, seedPages } from "@/utils/seed";
+import {
+  seedProperties,
+  seedTeam,
+  seedBlog,
+  seedPages,
+  seedTestimonials,
+  seedJobs,
+} from "@/utils/seed";
 
-/* ============================================================
- *  INITIAL STATE (with seed data)
- * ============================================================ */
 export const initialState: CMSState = {
   siteSettings: {
     siteName: "EstateHub",
@@ -25,6 +30,7 @@ export const initialState: CMSState = {
     contactEmail: "hello@estatehub.com",
     contactPhone: "+1 (555) 123-4567",
     address: "123 Real Estate Ave, Suite 100, New York, NY 10001",
+    businessHours: "Mon - Fri: 9:00 AM - 6:00 PM",
     social: {
       facebook: "https://facebook.com",
       twitter: "https://twitter.com",
@@ -44,6 +50,8 @@ export const initialState: CMSState = {
   team: seedTeam,
   blog: seedBlog,
   pages: seedPages,
+  testimonials: seedTestimonials,
+  jobs: seedJobs,
   theme: {
     primaryColor: "hsl(221, 83%, 24%)",
     secondaryColor: "hsl(40, 96%, 53%)",
@@ -80,65 +88,45 @@ export const initialState: CMSState = {
   },
 };
 
-/* ============================================================
- *  CONTEXT SHAPE
- * ============================================================ */
 interface CMSContextType {
   state: CMSState;
   dispatch: (action: CMSAction) => void;
   isHydrated: boolean;
-  /** Force-save current state to localStorage */
   persistNow: () => void;
-  /** Reset CMS to initial state (clears localStorage) */
   resetAll: () => void;
 }
 
 export const CMSContext = createContext<CMSContextType | undefined>(undefined);
 
-/* ============================================================
- *  PROVIDER
- * ============================================================ */
 export function CMSProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(cmsReducer, initialState);
   const [isHydrated, setIsHydrated] = useState(false);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  /* ---------- Hydration: load from localStorage on mount ---------- */
   useEffect(() => {
     const saved = storage.get<CMSState | null>(STORAGE_KEYS.CMS_DATA, null);
     if (saved) {
-      // Merge saved data with initial state to handle schema migrations
-      // (new fields added in updates won't break old saved data)
       const merged = mergeWithDefaults(initialState, saved);
       dispatch({ type: "SET_STATE", payload: merged });
     }
     setIsHydrated(true);
   }, []);
 
-  /* ---------- Auto-save: debounced localStorage persistence ---------- */
   useEffect(() => {
     if (!isHydrated) return;
-
-    if (saveTimerRef.current) {
-      clearTimeout(saveTimerRef.current);
-    }
-
+    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
     saveTimerRef.current = setTimeout(() => {
       storage.set(STORAGE_KEYS.CMS_DATA, state);
-    }, 300); // 300ms debounce
-
+    }, 300);
     return () => {
-      if (saveTimerRef.current) {
-        clearTimeout(saveTimerRef.current);
-      }
+      if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
     };
   }, [state, isHydrated]);
 
-  /* ---------- Imperative helpers ---------- */
-  const persistNow = useCallback(() => {
-    storage.set(STORAGE_KEYS.CMS_DATA, state);
-  }, [state]);
-
+  const persistNow = useCallback(
+    () => storage.set(STORAGE_KEYS.CMS_DATA, state),
+    [state],
+  );
   const resetAll = useCallback(() => {
     storage.remove(STORAGE_KEYS.CMS_DATA);
     dispatch({ type: "SET_STATE", payload: initialState });
@@ -152,26 +140,12 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
   return <CMSContext.Provider value={value}>{children}</CMSContext.Provider>;
 }
 
-/* ============================================================
- *  HOOK
- * ============================================================ */
 export function useCMS() {
   const context = useContext(CMSContext);
-  if (!context) {
-    throw new Error("useCMS must be used within a CMSProvider");
-  }
+  if (!context) throw new Error("useCMS must be used within a CMSProvider");
   return context;
 }
 
-/* ============================================================
- *  HELPERS
- * ============================================================ */
-import { useState } from "react";
-
-/**
- * Deep merge saved state with initial state to handle schema migrations.
- * Ensures new fields added in future versions don't break old saved data.
- */
 function mergeWithDefaults(
   defaults: CMSState,
   saved: Partial<CMSState>,
@@ -183,6 +157,8 @@ function mergeWithDefaults(
     team: saved.team || defaults.team,
     blog: saved.blog || defaults.blog,
     pages: saved.pages || defaults.pages,
+    testimonials: saved.testimonials || defaults.testimonials,
+    jobs: saved.jobs || defaults.jobs,
     theme: { ...defaults.theme, ...(saved.theme || {}) },
     media: saved.media || defaults.media,
     leads: saved.leads || defaults.leads,

@@ -20,7 +20,7 @@ export interface Property {
   address: string;
   bedrooms: number;
   bathrooms: number;
-  area: number; // sqft
+  area: number;
   type: "sale" | "rent";
   category: "apartment" | "house" | "villa" | "condo" | "land" | "commercial";
   images: string[];
@@ -112,6 +112,7 @@ export interface Lead {
   phone: string;
   message: string;
   propertyId?: string;
+  jobId?: string;
   status: "new" | "contacted" | "qualified" | "closed";
   createdAt: string;
 }
@@ -122,6 +123,7 @@ export interface SiteSettings {
   contactEmail: string;
   contactPhone: string;
   address: string;
+  businessHours?: string;
   social: {
     facebook?: string;
     twitter?: string;
@@ -140,6 +142,35 @@ export interface SEOConfig {
   careers: SEOData;
 }
 
+/* ============================================================
+ *  NEW TYPES FOR PHASE 3
+ * ============================================================ */
+
+export interface Testimonial {
+  id: string;
+  name: string;
+  role: string;
+  quote: string;
+  avatar: string;
+  rating: number; // 1-5
+  order: number;
+}
+
+export interface Job {
+  id: string;
+  title: string;
+  slug: string;
+  department: string;
+  location: string;
+  type: "full-time" | "part-time" | "contract" | "remote" | "internship";
+  description: string;
+  requirements: string[];
+  benefits: string[];
+  salaryRange?: string;
+  active: boolean;
+  postedAt: string;
+}
+
 export interface CMSState {
   siteSettings: SiteSettings;
   menu: MenuItem[];
@@ -151,6 +182,8 @@ export interface CMSState {
   media: MediaItem[];
   leads: Lead[];
   seo: SEOConfig;
+  testimonials: Testimonial[];
+  jobs: Job[];
 }
 
 export type CMSAction =
@@ -177,4 +210,10 @@ export type CMSAction =
   | { type: "UPDATE_THEME"; payload: Partial<ThemeConfig> }
   | { type: "UPDATE_SEO"; payload: { page: keyof SEOConfig; data: SEOData } }
   | { type: "UPDATE_PAGE"; payload: PageContent }
+  | { type: "ADD_TESTIMONIAL"; payload: Testimonial }
+  | { type: "UPDATE_TESTIMONIAL"; payload: Testimonial }
+  | { type: "DELETE_TESTIMONIAL"; payload: string }
+  | { type: "ADD_JOB"; payload: Job }
+  | { type: "UPDATE_JOB"; payload: Job }
+  | { type: "DELETE_JOB"; payload: string }
   | { type: "RESET_STATE" };

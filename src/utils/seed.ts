@@ -1,5 +1,12 @@
 import { generateId } from "@/lib/utils";
-import { Property, TeamMember, BlogPost, PageContent } from "@/types";
+
+import {
+  Property,
+  TeamMember,
+  BlogPost,
+  PageContent,
+  Testimonial,
+} from "@/types";
 
 export const seedProperties: Property[] = [
   {
@@ -346,5 +353,127 @@ export const seedPages: PageContent[] = [
         },
       },
     ],
+  },
+];
+
+export const seedTestimonials: Testimonial[] = [
+  {
+    id: "test-1",
+    name: "Jennifer & Mark Thompson",
+    role: "Home Buyers, Manhattan",
+    quote:
+      "EstateHub made our dream of owning a Manhattan penthouse a reality. Sarah's expertise and patience throughout the process were exceptional. We couldn't be happier!",
+    avatar:
+      "https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=200",
+    rating: 5,
+    order: 1,
+  },
+  {
+    id: "test-2",
+    name: "Robert Chen",
+    role: "Property Investor",
+    quote:
+      "As an investor, I need a team that understands the market deeply. Michael's insights have helped me build a portfolio that consistently outperforms. Truly top-tier service.",
+    avatar:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200",
+    rating: 5,
+    order: 2,
+  },
+  {
+    id: "test-3",
+    name: "Amanda Rodriguez",
+    role: "First-Time Buyer, Austin",
+    quote:
+      "I was terrified of buying my first home, but Emily walked me through every step. She found me the perfect house in my budget and negotiated an amazing deal.",
+    avatar:
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200",
+    rating: 5,
+    order: 3,
+  },
+];
+
+/* ============================================================
+ *  JOBS (Phase 3)
+ * ============================================================ */
+export const seedJobs: Job[] = [
+  {
+    id: "job-1",
+    title: "Senior Real Estate Agent",
+    slug: "senior-real-estate-agent",
+    department: "Sales",
+    location: "New York, NY",
+    type: "full-time",
+    description:
+      "We're looking for an experienced agent to join our luxury division. You'll handle high-value residential properties and work with our most discerning clients.",
+    requirements: [
+      "5+ years in luxury real estate",
+      "Valid real estate license",
+      "Track record of $10M+ in annual sales",
+      "Exceptional negotiation skills",
+      "Strong network in the luxury market",
+    ],
+    benefits: [
+      "Competitive commission structure",
+      "Marketing support & lead generation",
+      "Premium brand positioning",
+      "Flexible schedule",
+      "Health & dental insurance",
+    ],
+    salaryRange: "$150,000 - $500,000+ OTE",
+    active: true,
+    postedAt: "2026-06-01T10:00:00Z",
+  },
+  {
+    id: "job-2",
+    title: "Marketing Manager",
+    slug: "marketing-manager",
+    department: "Marketing",
+    location: "Remote",
+    type: "full-time",
+    description:
+      "Lead our digital marketing efforts to grow brand awareness and generate qualified leads. You'll own our content strategy, SEO, and paid acquisition.",
+    requirements: [
+      "4+ years in B2C marketing",
+      "Experience with real estate or luxury brands",
+      "Proficiency in Google Ads, Meta Ads, SEO",
+      "Strong copywriting skills",
+      "Data-driven mindset",
+    ],
+    benefits: [
+      "Fully remote position",
+      "Unlimited PTO",
+      "Annual learning budget",
+      "Home office stipend",
+      "Equity options",
+    ],
+    salaryRange: "$90,000 - $130,000",
+    active: true,
+    postedAt: "2026-06-10T10:00:00Z",
+  },
+  {
+    id: "job-3",
+    title: "Property Photographer",
+    slug: "property-photographer",
+    department: "Creative",
+    location: "Los Angeles, CA",
+    type: "contract",
+    description:
+      "Capture stunning visuals of our premium listings. You'll work with top agents to produce photography, videography, and drone content.",
+    requirements: [
+      "Professional photography portfolio",
+      "Experience with architectural/interior photography",
+      "Own professional equipment",
+      "Proficiency in Lightroom/Photoshop",
+      "Drone license (Part 107) preferred",
+    ],
+    benefits: [
+      "Flexible project-based work",
+      "Creative freedom",
+      "Work with luxury properties",
+      "Competitive per-project rates",
+    ],
+    salaryRange: "$75 - $150 per listing",
+    active: true,
+    postedAt: "2026-06-15T10:00:00Z",
   },
 ];
