@@ -2,17 +2,19 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import "@/styles/a11y.css";
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
-import { CMSProvider } from "@/components/providers/CMSProvider";
+
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingActions } from "@/components/layout/FloatingActions";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
-import { SkipToContent } from "@/components/layout/SkipToContent";
+
 import { CookieConsent } from "@/components/layout/CookieConsent";
 import { AnalyticsProvider } from "@/components/analytics/AnalyticsProvider";
 import { ToastProvider } from "@/components/feedback/ToastProvider";
 import { defaultMetadata } from "@/lib/metadata";
+import { SkipToContent } from "@/components/feedback/SkipToContent";
+import { CMSProvider } from "@/context/CMSContext";
+import { ThemeProvider } from "@/components/Providers/ThemeProvider";
 
 const inter = Inter({
   subsets: ["latin"],
