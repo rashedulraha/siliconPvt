@@ -32,3 +32,5 @@ export const PROPERTY_STATUSES = [
   "rented",
   "pending",
 ] as const;
+
+export const CMS_EXPORT_VERSION = "1.0.0";

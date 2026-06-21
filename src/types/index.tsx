@@ -71,7 +71,7 @@ export interface PageSection {
     | "stats"
     | "content"
     | "gallery";
-  data: Record<string, any>;
+  data: Record<string, unknown>;
   order: number;
 }
 
