@@ -217,3 +217,34 @@ export type CMSAction =
   | { type: "UPDATE_JOB"; payload: Job }
   | { type: "DELETE_JOB"; payload: string }
   | { type: "RESET_STATE" };
+
+export interface Favorite {
+  propertyId: string;
+  addedAt: string;
+}
+
+export interface ComparisonItem {
+  propertyId: string;
+  addedAt: string;
+}
+
+export interface EMIInput {
+  propertyPrice: number;
+  downPaymentPercent: number;
+  interestRate: number; // annual %
+  loanTermYears: number;
+}
+
+export interface EMIResult {
+  loanAmount: number;
+  downPayment: number;
+  emi: number;
+  totalInterest: number;
+  totalPayment: number;
+  monthlyBreakdown: {
+    month: number;
+    principal: number;
+    interest: number;
+    balance: number;
+  }[];
+}

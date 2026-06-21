@@ -26,6 +26,14 @@ import { PageSEO } from "@/components/seo/PageSEO";
 import { useProperties } from "@/hooks/useProperties";
 import { useTeam } from "@/hooks/useTeam";
 import { formatCurrency } from "@/lib/utils";
+import { FavoriteButton } from "@/components/property/FavoriteButton";
+import { CompareCheckbox } from "@/components/property/CompareCheckbox";
+import { EMICalculator } from "@/components/calculator/EMICalculator";
+import { useWhatsApp } from "@/hooks/useWhatsApp";
+import { Analytics } from "@/lib/analytics";
+import { motion } from "framer-motion";
+import { MessageCircle } from "lucide-react";
+import { useEffect } from "react";
 
 export default function PropertyDetailsPage({
   params,
@@ -35,6 +43,11 @@ export default function PropertyDetailsPage({
   const { slug } = use(params);
   const { getPropertyBySlug, properties } = useProperties();
   const { getMemberById } = useTeam();
+  const { inquireAboutProperty } = useWhatsApp();
+
+  useEffect(() => {
+    Analytics.propertyView(property.id, property.title, property.price);
+  }, [property]);
 
   const property = getPropertyBySlug(slug);
   if (!property) return notFound();
