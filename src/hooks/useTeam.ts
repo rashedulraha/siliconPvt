@@ -1,32 +1,53 @@
 "use client";
 
 import { useCallback } from "react";
-import { useTheme as useNextTheme } from "next-themes";
 import { useCMS } from "@/context/CMSContext";
-import { ThemeConfig } from "@/types";
+import type { TeamMember } from "@/types";
+import { generateId } from "@/lib/utils";
 
-/**
- * Combined theme hook — merges next-themes (for dark/light mode)
- * with CMS theme config (colors, fonts).
- */
-export function useTheme() {
-  const nextTheme = useNextTheme();
+export function useTeam() {
   const { state, dispatch } = useCMS();
 
-  const updateThemeConfig = useCallback(
-    (data: Partial<ThemeConfig>) => {
-      dispatch({ type: "UPDATE_THEME", payload: data });
+  const addMember = useCallback(
+    (data: Omit<TeamMember, "id">) => {
+      const member: TeamMember = {
+        ...data,
+        id: generateId(),
+      };
+      dispatch({ type: "ADD_TEAM_MEMBER", payload: member });
+      return member;
     },
     [dispatch],
   );
 
+  const updateMember = useCallback(
+    (id: string, data: Partial<TeamMember>) => {
+      const existing = state.team.find((t) => t.id === id);
+      if (!existing) return null;
+      const updated: TeamMember = { ...existing, ...data };
+      dispatch({ type: "UPDATE_TEAM_MEMBER", payload: updated });
+      return updated;
+    },
+    [state.team, dispatch],
+  );
+
+  const deleteMember = useCallback(
+    (id: string) => {
+      dispatch({ type: "DELETE_TEAM_MEMBER", payload: id });
+    },
+    [dispatch],
+  );
+
+  const getMemberById = useCallback(
+    (id: string) => state.team.find((t) => t.id === id),
+    [state.team],
+  );
+
   return {
-    // next-themes
-    theme: nextTheme.theme,
-    setTheme: nextTheme.setTheme,
-    resolvedTheme: nextTheme.resolvedTheme,
-    // CMS theme config
-    themeConfig: state.theme,
-    updateThemeConfig,
+    team: state.team,
+    addMember,
+    updateMember,
+    deleteMember,
+    getMemberById,
   };
 }

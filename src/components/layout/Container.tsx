@@ -6,5 +6,9 @@ interface ContainerProps {
 }
 
 export function Container({ children, className }: ContainerProps) {
-  return <div className={cn("container-custom", className)}>{children}</div>;
+  return (
+    <div className={cn("container-custom container mx-auto px-4", className)}>
+      {children}
+    </div>
+  );
 }

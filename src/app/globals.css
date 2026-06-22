@@ -1,121 +1,580 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
+@source "../**/*.{js,jsx,ts,tsx}";
 
-@layer base {
-  :root {
-    /* Light Theme - Premium Real Estate Palette */
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0); /* Deep Navy - Trust */
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0); /* Gold - Luxury */
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0); /* Emerald - Growth */
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --destructive-foreground: 210 40% 98%;
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --radius: 0.625rem;
+@theme {
+  /* ==========================================================================
+     TYPOGRAPHY - Premium Font Stack (Apple-style)
+     ========================================================================== */
+  --font-sans:
+    var(--font-inter), -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-playfair), "Playfair Display", Georgia, serif;
+  --font-mono: "SF Mono", Monaco, "Cascadia Code", monospace;
 
-    /* Typography */
-    --font-sans: "Inter", system-ui, sans-serif;
-    --font-display: "Playfair Display", serif;
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+  /* Spacing Scale */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --spacing-3xl: 4rem;
+  --spacing-4xl: 6rem;
+
+  /* Border Radius - Apple-style */
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+  --radius-full: 9999px;
+
+  /* ==========================================================================
+     LIGHT THEME - Premium Minimalist (Apple-inspired)
+     ========================================================================== */
+  --color-background: oklch(100% 0 0);
+  --color-background-secondary: oklch(98.5% 0 0);
+  --color-background-tertiary: oklch(97% 0 0);
+  --color-foreground: oklch(15% 0.01 260);
+  --color-foreground-secondary: oklch(45% 0.01 260);
+  --color-foreground-tertiary: oklch(65% 0.01 260);
+
+  --color-card: oklch(100% 0 0);
+  --color-card-foreground: oklch(15% 0.01 260);
+  --color-card-border: oklch(92% 0.005 260);
+
+  --color-popover: oklch(100% 0 0);
+  --color-popover-foreground: oklch(15% 0.01 260);
+
+  /* Primary: Deep Midnight Blue (Luxury) */
+  --color-primary: oklch(18% 0.03 260);
+  --color-primary-foreground: oklch(98% 0 0);
+  --color-primary-hover: oklch(22% 0.03 260);
+  --color-primary-active: oklch(15% 0.03 260);
+
+  /* Secondary: Champagne Gold (Luxury Accent) */
+  --color-secondary: oklch(85% 0.12 85);
+  --color-secondary-foreground: oklch(18% 0.03 260);
+  --color-secondary-hover: oklch(80% 0.12 85);
+  --color-secondary-active: oklch(75% 0.12 85);
+
+  /* Accent: Subtle Blue-Green */
+  --color-accent: oklch(92% 0.02 180);
+  --color-accent-foreground: oklch(18% 0.03 260);
+  --color-accent-hover: oklch(88% 0.02 180);
+
+  /* Muted */
+  --color-muted: oklch(97% 0.005 260);
+  --color-muted-foreground: oklch(55% 0.01 260);
+
+  /* Destructive */
+  --color-destructive: oklch(65% 0.2 25);
+  --color-destructive-foreground: oklch(98% 0 0);
+
+  /* Borders & Inputs */
+  --color-border: oklch(92% 0.005 260);
+  --color-input: oklch(97% 0.005 260);
+  --color-ring: oklch(18% 0.03 260);
+
+  /* Shadows - Apple-style (Subtle & Layered) */
+  --shadow-xs: 0 1px 2px oklch(0% 0 0 / 0.04);
+  --shadow-sm: 0 2px 4px oklch(0% 0 0 / 0.05), 0 1px 2px oklch(0% 0 0 / 0.03);
+  --shadow-md: 0 4px 8px oklch(0% 0 0 / 0.06), 0 2px 4px oklch(0% 0 0 / 0.04);
+  --shadow-lg: 0 8px 16px oklch(0% 0 0 / 0.07), 0 4px 8px oklch(0% 0 0 / 0.05);
+  --shadow-xl:
+    0 12px 24px oklch(0% 0 0 / 0.08), 0 8px 12px oklch(0% 0 0 / 0.06);
+  --shadow-2xl:
+    0 20px 40px oklch(0% 0 0 / 0.1), 0 12px 20px oklch(0% 0 0 / 0.08);
+  --shadow-inner: inset 0 2px 4px oklch(0% 0 0 / 0.03);
+
+  /* Blur Effects */
+  --blur-xs: blur(8px);
+  --blur-sm: blur(12px);
+  --blur-md: blur(16px);
+  --blur-lg: blur(24px);
+  --blur-xl: blur(40px);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ==========================================================================
+   DARK THEME - Premium Midnight (Linear-style)
+   ========================================================================== */
+.dark {
+  --color-background: oklch(8% 0.01 260);
+  --color-background-secondary: oklch(11% 0.01 260);
+  --color-background-tertiary: oklch(14% 0.01 260);
+  --color-foreground: oklch(98% 0 0);
+  --color-foreground-secondary: oklch(82% 0.01 260);
+  --color-foreground-tertiary: oklch(65% 0.01 260);
+
+  --color-card: oklch(11% 0.01 260);
+  --color-card-foreground: oklch(98% 0 0);
+  --color-card-border: oklch(18% 0.01 260);
+
+  --color-popover: oklch(11% 0.01 260);
+  --color-popover-foreground: oklch(98% 0 0);
+
+  --color-primary: oklch(98% 0 0);
+  --color-primary-foreground: oklch(8% 0.01 260);
+  --color-primary-hover: oklch(95% 0 0);
+  --color-primary-active: oklch(92% 0 0);
+
+  --color-secondary: oklch(85% 0.12 85);
+  --color-secondary-foreground: oklch(8% 0.01 260);
+  --color-secondary-hover: oklch(80% 0.12 85);
+  --color-secondary-active: oklch(75% 0.12 85);
+
+  --color-accent: oklch(18% 0.02 180);
+  --color-accent-foreground: oklch(98% 0 0);
+  --color-accent-hover: oklch(22% 0.02 180);
+
+  --color-muted: oklch(14% 0.01 260);
+  --color-muted-foreground: oklch(65% 0.01 260);
+
+  --color-destructive: oklch(65% 0.2 25);
+  --color-destructive-foreground: oklch(98% 0 0);
+
+  --color-border: oklch(18% 0.01 260);
+  --color-input: oklch(14% 0.01 260);
+  --color-ring: oklch(98% 0 0);
+
+  /* Dark mode shadows (more subtle) */
+  --shadow-xs: 0 1px 2px oklch(0% 0 0 / 0.3);
+  --shadow-sm: 0 2px 4px oklch(0% 0 0 / 0.35), 0 1px 2px oklch(0% 0 0 / 0.25);
+  --shadow-md: 0 4px 8px oklch(0% 0 0 / 0.4), 0 2px 4px oklch(0% 0 0 / 0.3);
+  --shadow-lg: 0 8px 16px oklch(0% 0 0 / 0.45), 0 4px 8px oklch(0% 0 0 / 0.35);
+  --shadow-xl: 0 12px 24px oklch(0% 0 0 / 0.5), 0 8px 12px oklch(0% 0 0 / 0.4);
+  --shadow-2xl:
+    0 20px 40px oklch(0% 0 0 / 0.6), 0 12px 20px oklch(0% 0 0 / 0.5);
+}
+
+/* ==========================================================================
+   PREMIUM UTILITY CLASSES (Apple/Linear-style)
+   ========================================================================== */
+
+/* Glass Morphism - Frosted Glass Effect */
+@utility glass {
+  background: oklch(100% 0 0 / 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid oklch(100% 0 0 / 0.2);
+}
+
+.dark .glass {
+  background: oklch(11% 0.01 260 / 0.7);
+  border: 1px solid oklch(100% 0 0 / 0.1);
+}
+
+/* Glass Card */
+@utility glass-card {
+  background: oklch(100% 0 0 / 0.8);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid oklch(92% 0.005 260);
+  box-shadow: var(--shadow-xl);
+}
+
+.dark .glass-card {
+  background: oklch(11% 0.01 260 / 0.8);
+  border: 1px solid oklch(18% 0.01 260);
+}
+
+/* Premium Button - Primary */
+@utility btn-premium {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  letter-spacing: -0.01em;
+  border-radius: var(--radius-lg);
+  border: none;
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+  transition: all var(--transition-base);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    background: var(--color-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
   }
 
-  .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --destructive-foreground: 210 40% 98%;
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+  &:active {
+    transform: translateY(0);
+    background: var(--color-primary-active);
   }
 
-  .theme {
-    --font-heading: var(--font-sans);
-    --font-sans: var(--font-sans);
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      180deg,
+      oklch(100% 0 0 / 0.1) 0%,
+      oklch(100% 0 0 / 0) 50%
+    );
+    opacity: 0;
+    transition: opacity var(--transition-fast);
   }
 
-  * {
-    @apply border-border outline-ring/50;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-    font-feature-settings:
-      "rlig" 1,
-      "calt" 1;
-  }
-
-  html {
-    @apply font-sans;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-family: var(--font-display);
-    letter-spacing: -0.02em;
+  &:hover::before {
+    opacity: 1;
   }
 }
 
-@layer utilities {
-  .container-custom {
-    @apply mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8;
+/* Premium Button - Secondary (Gold) */
+@utility btn-premium-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  letter-spacing: -0.01em;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  color: var(--color-foreground);
+  transition: all var(--transition-base);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--color-background-secondary);
+    border-color: var(--color-foreground-tertiary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
   }
-  .text-balance {
-    text-wrap: balance;
+
+  &:active {
+    transform: translateY(0);
   }
+}
+
+/* Premium Button - Ghost */
+@utility btn-premium-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  letter-spacing: -0.01em;
+  border-radius: var(--radius-lg);
+  background: transparent;
+  color: var(--color-foreground);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--color-muted);
+  }
+}
+
+/* Gradient Text */
+@utility text-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--color-secondary) 0%,
+    var(--color-secondary-hover) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Gradient Background - Subtle */
+@utility gradient-subtle {
+  background: linear-gradient(
+    135deg,
+    var(--color-background) 0%,
+    var(--color-background-secondary) 100%
+  );
+}
+
+/* Gradient Background - Premium */
+@utility gradient-premium {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    oklch(25% 0.05 260) 100%
+  );
+}
+
+/* Premium Card */
+@utility card-premium {
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem;
+  transition: all var(--transition-base);
+
+  &:hover {
+    box-shadow: var(--shadow-xl);
+    transform: translateY(-2px);
+  }
+}
+
+/* Premium Input */
+@utility input-premium {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  background: var(--color-input);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  color: var(--color-foreground);
+  transition: all var(--transition-fast);
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-ring);
+    box-shadow: 0 0 0 3px oklch(18% 0.03 260 / 0.1);
+  }
+
+  &::placeholder {
+    color: var(--color-muted-foreground);
+  }
+}
+
+/* Smooth Scroll Container */
+@utility scroll-smooth-premium {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Text Selection */
+@utility selection-premium {
+  &::selection {
+    background: var(--color-secondary);
+    color: var(--color-secondary-foreground);
+  }
+}
+
+/* Image Reveal Effect */
+@utility image-reveal {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--color-primary);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+  }
+
+  &:hover::before {
+    transform: scaleX(1);
+  }
+
+  & img {
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+  }
+}
+
+/* Magnetic Button Effect */
+@utility magnetic-button {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* Shimmer Effect */
+@utility shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-background-secondary) 0%,
+    var(--color-background-tertiary) 50%,
+    var(--color-background-secondary) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Fade In Animation */
+@utility fade-in {
+  animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide Up Animation */
+@utility slide-up {
+  animation: slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scale In Animation */
+@utility scale-in {
+  animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ==========================================================================
+   BASE STYLES
+   ========================================================================== */
+* {
+  border-color: var(--color-border);
+  outline-color: var(--color-ring);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.01em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* Smooth scrolling */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus visible */
+*:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+/* Text selection */
+::selection {
+  background: var(--color-secondary);
+  color: var(--color-secondary-foreground);
+}
+
+/* Container */
+@utility container-premium {
+  @apply mx-auto w-full max-w-[1400px] px-6 lg:px-8;
+}
+
+/* ==========================================================================
+   SCROLLBAR STYLING (Premium)
+   ========================================================================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-muted-foreground);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-foreground-tertiary);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-muted-foreground)
+    var(--color-background-secondary);
 }

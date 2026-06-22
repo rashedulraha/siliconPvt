@@ -2,6 +2,7 @@
   "name": "estatehub",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -26,13 +27,13 @@
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.40.0",
     "input-otp": "^1.4.2",
-    "lucide-react": "^0.378.0",
+    "lucide-react": "^0.562.0",
     "next": "16.2.9",
-    "next-themes": "^0.3.0",
+    "next-themes": "^0.4.6",
     "radix-ui": "^1.6.0",
-    "react": "^18.3.1",
-    "react-day-picker": "^10.0.1",
-    "react-dom": "^18.3.1",
+    "react": "^19.2.0",
+    "react-day-picker": "^9.14.0",
+    "react-dom": "^19.2.0",
     "react-resizable-panels": "^4.11.2",
     "recharts": "^3.8.0",
     "shadcn": "^4.11.0",
@@ -42,21 +43,14 @@
     "vaul": "^1.1.2"
   },
   "devDependencies": {
-    "@types/node": "^20.12.12",
-    "@types/react": "^18.3.2",
-    "@types/react-dom": "^18.3.0",
-    "autoprefixer": "^10.4.19",
-    "eslint": "^8.57.0",
-    "eslint-config-next": "14.2.3",
+    "@tailwindcss/postcss": "^4.3.1",
+    "@types/node": "^24.10.4",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.1",
+    "eslint-config-next": "16.2.9",
     "postcss": "^8.5.15",
-    "tailwindcss": "^3.4.3",
-    "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5.4.5"
-  },
-  "overrides": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "@types/react": "^18.3.2",
-    "@types/react-dom": "^18.3.0"
+    "tailwindcss": "^4.3.1",
+    "typescript": "^5.9.3"
   }
 }
