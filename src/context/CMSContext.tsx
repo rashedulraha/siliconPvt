@@ -10,6 +10,7 @@ import {
   useMemo,
   useState,
 } from "react";
+
 import { cmsReducer } from "./CMSReducer";
 import type { CMSState, CMSAction } from "@/types";
 import { storage } from "@/utils/storage";
@@ -23,6 +24,9 @@ import {
   seedJobs,
 } from "@/utils/seed";
 
+/* ============================================================
+ *  INITIAL STATE
+ * ============================================================ */
 export const initialState: CMSState = {
   siteSettings: {
     siteName: "EstateHub",
@@ -88,6 +92,9 @@ export const initialState: CMSState = {
   },
 };
 
+/* ============================================================
+ *  CONTEXT & PROVIDER
+ * ============================================================ */
 interface CMSContextType {
   state: CMSState;
   dispatch: (action: CMSAction) => void;
@@ -103,6 +110,7 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
   const [isHydrated, setIsHydrated] = useState(false);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Hydration: load from localStorage on mount
   useEffect(() => {
     const saved = storage.get<CMSState | null>(STORAGE_KEYS.CMS_DATA, null);
     if (saved) {
@@ -112,6 +120,7 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
     setIsHydrated(true);
   }, []);
 
+  // Auto-save: debounced localStorage persistence
   useEffect(() => {
     if (!isHydrated) return;
     if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
@@ -127,6 +136,7 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
     () => storage.set(STORAGE_KEYS.CMS_DATA, state),
     [state],
   );
+
   const resetAll = useCallback(() => {
     storage.remove(STORAGE_KEYS.CMS_DATA);
     dispatch({ type: "SET_STATE", payload: initialState });
@@ -140,12 +150,20 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
   return <CMSContext.Provider value={value}>{children}</CMSContext.Provider>;
 }
 
+/* ============================================================
+ *  HOOK (This was missing/broken in your file)
+ * ============================================================ */
 export function useCMS() {
   const context = useContext(CMSContext);
-  if (!context) throw new Error("useCMS must be used within a CMSProvider");
+  if (!context) {
+    throw new Error("useCMS must be used within a CMSProvider");
+  }
   return context;
 }
 
+/* ============================================================
+ *  HELPERS
+ * ============================================================ */
 function mergeWithDefaults(
   defaults: CMSState,
   saved: Partial<CMSState>,

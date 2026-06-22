@@ -1,10 +1,11 @@
 "use client";
 
 import { Menu, Bell, Search } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Button } from "../ui/button";
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import { Input } from "../ui/input";
 
 interface AdminHeaderProps {
   title: string;
