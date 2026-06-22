@@ -64,7 +64,7 @@ export default function AdminDashboard() {
   return (
     <div className="space-y-6">
       {/* Welcome */}
-      <div className="rounded-xl bg-gradient-to-br from-primary to-primary/80 p-6 md:p-8 text-primary-foreground">
+      <div className="rounded-xl bg-linear-to-br from-primary to-primary/80 p-6 md:p-8 text-primary-foreground">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h2 className="font-display text-2xl md:text-3xl font-bold">

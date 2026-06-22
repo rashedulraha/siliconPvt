@@ -119,20 +119,21 @@ export interface Lead {
 
 export interface SiteSettings {
   siteName: string;
-  logo: string;
-  contactEmail: string;
-  contactPhone: string;
   address: string;
-  businessHours?: string;
+  contactPhone: string;
+  contactPhone2: string;
+  contactEmail: string;
+  website: string;
   social: {
-    facebook?: string;
-    twitter?: string;
-    instagram?: string;
-    linkedin?: string;
-    youtube?: string;
+    facebook: string;
+    twitter: string;
+    instagram: string;
+    linkedin: string;
+    youtube: string;
+    pinterest: string;
+    rss: string;
   };
 }
-
 export interface SEOConfig {
   home: SEOData;
   about: SEOData;
