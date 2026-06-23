@@ -1,26 +1,395 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Hind+Siliguri:wght@300;400;500;600;700&family=Tiro+Bangla&family=JetBrains+Mono:wght@400..700&display=swap");
 @import "tailwindcss";
+@import "tw-animate-css";
 
+/* ============================================================
+   Silicon Real Estate (Pvt.) Ltd. — Brand Fonts
+   Display: Fraunces (premium, editorial serif) / Tiro Bangla (Bengali serif pair)
+   Body:    Plus Jakarta Sans (clean, trustworthy sans) / Hind Siliguri (Bengali body)
+   Mono:    JetBrains Mono (numbers, prices, data tables)
+   ============================================================ */
+
+@custom-variant dark (&:is(.dark *));
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --radius: 0.75rem;
+
+  /* ===================================================================
+     SILICON REAL ESTATE — Dubai Luxury Palette
+     Deep Navy Primary  → oklch(0.20 0.055 258)  ≈ #0D1B3E
+     Warm Off-White BG  → oklch(0.98 0.006 85)   ≈ #F9F8F4
+     Pure-White Card    → oklch(1 0 0)            = #FFFFFF
+     Luxury Gold Accent → oklch(0.74 0.145 78)   ≈ #C9911A (warm gold)
+     Deep Charcoal FG   → oklch(0.18 0.025 255)  ≈ #0F1624
+     =================================================================== */
+
+  /* Light mode (primary surface) */
+  --background: oklch(0.985 0.006 85);      /* warm milky #F9F8F4 */
+  --foreground: oklch(0.18 0.025 255);      /* deep charcoal navy */
+
+  --card: oklch(1 0 0);                     /* pure white cards */
+  --card-foreground: oklch(0.18 0.025 255);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.025 255);
+
+  /* Deep Navy Primary — the hero background, nav, footer */
+  --primary: oklch(0.20 0.055 258);         /* #0D1B3E deep navy */
+  --primary-foreground: oklch(0.97 0.006 85);
+
+  /* Soft Warm Stone — muted section backgrounds */
+  --secondary: oklch(0.95 0.008 85);        /* warm stone #F2F0EA */
+  --secondary-foreground: oklch(0.20 0.04 258);
+
+  /* Muted surfaces */
+  --muted: oklch(0.95 0.008 85);
+  --muted-foreground: oklch(0.52 0.025 255);
+
+  /* ✦ Luxury Gold Accent — buttons, highlights, prices, icons */
+  --accent: oklch(0.74 0.145 78);           /* warm gold #C9911A */
+  --accent-foreground: oklch(0.12 0.02 258);
+
+  --destructive: oklch(0.58 0.22 25);
+  --destructive-foreground: white;
+
+  /* Clean muted borders */
+  --border: oklch(0.90 0.010 85);           /* warm gray */
+  --input: oklch(0.92 0.008 85);
+  --ring: oklch(0.74 0.145 78);             /* gold ring */
+
+  /* Charts */
+  --chart-1: var(--primary);
+  --chart-2: var(--accent);
+  --chart-3: oklch(0.65 0.08 200);
+  --chart-4: oklch(0.55 0.1 160);
+  --chart-5: oklch(0.6 0.09 40);
+
+  /* Sidebar — dark navy panel */
+  --sidebar: oklch(0.14 0.04 258);
+  --sidebar-foreground: oklch(0.92 0.01 85);
+  --sidebar-primary: var(--accent);
+  --sidebar-primary-foreground: oklch(0.12 0.02 258);
+  --sidebar-accent: oklch(0.22 0.045 258);
+  --sidebar-accent-foreground: oklch(0.92 0.01 85);
+  --sidebar-border: oklch(0.26 0.04 258);
+  --sidebar-ring: var(--accent);
+
+  /* Fonts */
+  --font-sans:  "Plus Jakarta Sans", "Hind Siliguri", sans-serif;
+  --font-serif: "Fraunces", "Tiro Bangla", serif;
+  --font-mono:  "JetBrains Mono", monospace;
+}
+
+.dark {
+  /* Deep navy / charcoal background — opulent dark mode */
+  --background: oklch(0.13 0.025 258);      /* very deep navy */
+  --foreground: oklch(0.93 0.012 85);       /* warm off-white */
+
+  --card: oklch(0.18 0.030 258);            /* navy surface */
+  --card-foreground: oklch(0.93 0.012 85);
+
+  --popover: oklch(0.16 0.028 258);
+  --popover-foreground: oklch(0.93 0.012 85);
+
+  --primary: oklch(0.68 0.080 258);         /* lighter navy in dark */
+  --primary-foreground: oklch(0.12 0.025 258);
+
+  --secondary: oklch(0.22 0.032 258);
+  --secondary-foreground: oklch(0.93 0.012 85);
+
+  --muted: oklch(0.22 0.028 258);
+  --muted-foreground: oklch(0.65 0.022 258);
+
+  --accent: oklch(0.80 0.145 78);           /* gold brightened for dark */
+  --accent-foreground: oklch(0.12 0.02 258);
+
+  --border: oklch(0.28 0.032 258);
+  --input: oklch(0.26 0.030 258);
+  --ring: oklch(0.80 0.145 78);
+
+  --sidebar: oklch(0.10 0.022 258);
+  --sidebar-foreground: oklch(0.90 0.010 85);
+  --sidebar-primary: var(--accent);
+  --sidebar-primary-foreground: oklch(0.12 0.02 258);
+  --sidebar-accent: oklch(0.18 0.028 258);
+  --sidebar-accent-foreground: oklch(0.90 0.010 85);
+  --sidebar-border: oklch(0.22 0.028 258);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --shadow-2xs: var(--shadow-2xs);
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow: var(--shadow);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+
+  --tracking-normal: var(--tracking-normal);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    letter-spacing: var(--tracking-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
   }
 }
 
-body {
-  background: var(--background);
+/* ══════════════════════════════════════════════
+   LUXURY UTILITIES — Dubai Real Estate System
+   ══════════════════════════════════════════════ */
+
+/* Smooth global transitions */
+*, *::before, *::after {
+  transition-property: color, background-color, border-color,
+    box-shadow, opacity, transform, filter, backdrop-filter;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+.no-transition *, .no-transition *::before, .no-transition *::after {
+  transition: none !important;
+}
+
+/* Selection */
+::selection {
+  background-color: oklch(0.74 0.145 78 / 0.28);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar        { width: 6px; height: 6px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  {
+  background: oklch(0.74 0.145 78 / 0.40);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover { background: oklch(0.74 0.145 78 / 0.70); }
+
+/* ── Glassmorphism ───────────────────────────── */
+.glass {
+  background: oklch(1 0 0 / 0.70);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid oklch(1 0 0 / 0.22);
+}
+.dark .glass {
+  background: oklch(0.18 0.030 258 / 0.78);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid oklch(0.74 0.145 78 / 0.14);
+}
+
+.glass-dark {
+  background: oklch(0.14 0.038 258 / 0.82);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid oklch(0.74 0.145 78 / 0.18);
+}
+
+/* ── Gold Shimmer ────────────────────────────── */
+.gold-shimmer {
+  background: linear-gradient(
+    135deg,
+    oklch(0.74 0.145 78) 0%,
+    oklch(0.82 0.16 85) 40%,
+    oklch(0.74 0.145 78) 80%,
+    oklch(0.68 0.13 72) 100%
+  );
+  background-size: 200% 200%;
+  animation: shimmer 3.5s ease infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── Text Gradients ──────────────────────────── */
+.text-gold {
+  background: linear-gradient(135deg,
+    oklch(0.82 0.16 85) 0%,
+    oklch(0.74 0.145 78) 50%,
+    oklch(0.65 0.13 72) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-navy-gold {
+  background: linear-gradient(135deg,
+    oklch(0.30 0.065 258) 0%,
+    oklch(0.74 0.145 78) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Luxury Shadows ──────────────────────────── */
+.shadow-luxury {
+  box-shadow:
+    0 0 0 1px oklch(0.90 0.010 85),
+    0 4px 16px -2px oklch(0.20 0.055 258 / 0.10),
+    0 12px 32px -6px oklch(0.20 0.055 258 / 0.08);
+}
+.shadow-luxury-lg {
+  box-shadow:
+    0 0 0 1px oklch(0.90 0.010 85),
+    0 8px 24px -4px oklch(0.20 0.055 258 / 0.12),
+    0 24px 56px -10px oklch(0.20 0.055 258 / 0.10);
+}
+.shadow-luxury-gold {
+  box-shadow:
+    0 4px 16px -2px oklch(0.74 0.145 78 / 0.25),
+    0 12px 32px -6px oklch(0.74 0.145 78 / 0.15),
+    0 0 0 1px oklch(0.74 0.145 78 / 0.20);
+}
+.dark .shadow-luxury {
+  box-shadow:
+    0 0 0 1px oklch(0.28 0.032 258),
+    0 4px 20px -4px oklch(0 0 0 / 0.55),
+    0 12px 40px -8px oklch(0 0 0 / 0.45);
+}
+
+/* ── Card Hover ──────────────────────────────── */
+.card-lift {
+  transition: transform 300ms ease, box-shadow 300ms ease, border-color 300ms ease;
+}
+.card-lift:hover {
+  transform: translateY(-4px) scale(1.005);
+  border-color: oklch(0.74 0.145 78 / 0.35);
+  box-shadow:
+    0 8px 24px -4px oklch(0.20 0.055 258 / 0.14),
+    0 24px 56px -12px oklch(0.20 0.055 258 / 0.10),
+    0 0 0 1px oklch(0.74 0.145 78 / 0.18);
+}
+
+/* ── Gold Divider ────────────────────────────── */
+.divider-gold {
+  height: 2px;
+  width: 48px;
+  background: linear-gradient(90deg, oklch(0.74 0.145 78), oklch(0.82 0.16 85));
+  border-radius: 9999px;
+}
+
+/* ── Underline Link ──────────────────────────── */
+.link-gold {
+  position: relative;
+  text-decoration: none;
+}
+.link-gold::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: oklch(0.74 0.145 78);
+  border-radius: 9999px;
+  transition: width 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.link-gold:hover::after { width: 100%; }
+
+/* ── Fluid Typography ────────────────────────── */
+.text-display-xl {
+  font-size: clamp(2.75rem, 7vw, 5.5rem);
+  line-height: 1.07;
+  letter-spacing: -0.035em;
+}
+.text-display-lg {
+  font-size: clamp(2.25rem, 5.5vw, 4rem);
+  line-height: 1.10;
+  letter-spacing: -0.028em;
+}
+.text-display-md {
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  line-height: 1.14;
+  letter-spacing: -0.022em;
+}
+.text-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ── Section Spacing ─────────────────────────── */
+.section-y { padding-top: clamp(5rem, 8vw, 8rem); padding-bottom: clamp(5rem, 8vw, 8rem); }
+
+/* ── Focus ring ──────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid oklch(0.74 0.145 78);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── Noise texture ───────────────────────────── */
+.noise::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* ── Scrollbar hide ──────────────────────────── */
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* ── Print ───────────────────────────────────── */
+@media print {
+  .no-print { display: none !important; }
+  body { background: white !important; color: black !important; }
 }

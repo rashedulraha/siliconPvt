@@ -28,7 +28,11 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
+<<<<<<< HEAD
     "next.config.ts"
+=======
+    "next.config.mjs"
+>>>>>>> update-using-kiro
   ],
   "exclude": ["node_modules"]
 }

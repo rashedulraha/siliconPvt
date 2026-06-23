@@ -1,0 +1,17 @@
+{
+  "siteName": "Silicon Real Estate (Pvt.) Ltd.",
+  "address": "2/3 (2nd Floor), Block A, Iqbal Road, Mohammadpur, Dhaka-1207",
+  "contactPhone": "+880 1712 345 678",
+  "contactEmail": "info@siliconrealestate.com",
+  "businessHours": {
+    "weekdays": "Sun–Thu: 9:00 AM – 6:00 PM",
+    "saturday": "10:00 AM – 4:00 PM",
+    "sunday": "Sun–Thu: 9:00 AM – 6:00 PM"
+  },
+  "social": {
+    "facebook": "https://facebook.com/siliconrealestate",
+    "instagram": "https://instagram.com/siliconrealestate",
+    "linkedin": "https://linkedin.com/company/siliconrealestate",
+    "youtube": "https://youtube.com/@siliconrealestate"
+  }
+}
