@@ -29,7 +29,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
           />
           {/* Badges */}
           <div className="absolute top-3 left-3 flex gap-2">
-            <Badge variant={property.type === "sale" ? "default" : "gold"}>
+            <Badge variant={property.type === "sale" ? "default" : "secondary"}>
               For {property.type === "sale" ? "Sale" : "Rent"}
             </Badge>
             <Badge

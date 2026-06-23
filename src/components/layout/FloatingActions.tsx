@@ -4,16 +4,26 @@ import { MessageCircle, Heart, GitCompare } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useWhatsApp } from "@/hooks/useWhatsApp";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useComparison } from "@/hooks/useComparison";
 import { PropertyCompareBar } from "@/components/property/PropertyCompareBar";
+import { useCMS } from "@/context/CMSContext";
 import Link from "next/link";
 
 export function FloatingActions() {
-  const { generalInquiry } = useWhatsApp();
+  const { state } = useCMS();
   const { count: favCount } = useFavorites();
   const { count: compareCount } = useComparison();
+
+  // Derive the contact phone: CMS value takes priority, env var is the fallback
+  const contactPhone =
+    state.siteSettings.contactPhone ||
+    process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
+
+  // Strip all non-digit characters for the wa.me URL
+  const digits = contactPhone ? contactPhone.replace(/\D/g, "") : "";
+
+  const whatsappUrl = `https://wa.me/${digits}?text=Hello%2C%20I%20am%20interested%20in%20your%20properties.`;
 
   return (
     <>
@@ -68,19 +78,24 @@ export function FloatingActions() {
           )}
         </AnimatePresence>
 
-        {/* WhatsApp button */}
-        <motion.button
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          onClick={() => generalInquiry()}
-          className="h-14 w-14 rounded-full bg-[#25D366] hover:bg-[#20BD5A] text-white shadow-xl hover:shadow-2xl transition-all flex items-center justify-center group"
-          aria-label="Chat on WhatsApp">
-          <MessageCircle className="h-6 w-6" />
-          <span className="absolute right-full mr-3 whitespace-nowrap rounded-md bg-background px-3 py-1.5 text-sm font-medium shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Chat with us
-          </span>
-        </motion.button>
+        {/* WhatsApp button — only rendered when a phone number is available */}
+        {digits && (
+          <motion.a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-testid="whatsapp-button"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            className="h-14 w-14 rounded-full bg-[#25D366] hover:bg-[#20BD5A] text-white shadow-xl hover:shadow-2xl transition-all flex items-center justify-center group"
+            aria-label="Chat on WhatsApp">
+            <MessageCircle className="h-6 w-6" />
+            <span className="absolute right-full mr-3 whitespace-nowrap rounded-md bg-background px-3 py-1.5 text-sm font-medium shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              Chat with us
+            </span>
+          </motion.a>
+        )}
       </div>
     </>
   );

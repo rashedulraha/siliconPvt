@@ -121,6 +121,7 @@ export default function HomePage() {
             alt="Premium Real Estate"
             fill
             priority
+            sizes="100vw"
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/85 to-primary/70" />
@@ -446,6 +447,7 @@ export default function HomePage() {
                       src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600"
                       alt="Modern Architecture"
                       fill
+                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                       className="object-cover"
                     />
                   </div>

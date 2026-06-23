@@ -119,11 +119,13 @@ export interface Lead {
 
 export interface SiteSettings {
   siteName: string;
+  logo?: string;
   address: string;
   contactPhone: string;
-  contactPhone2: string;
+  contactPhone2?: string;
   contactEmail: string;
-  website: string;
+  businessHours?: string;
+  website?: string;
   social: {
     facebook: string;
     twitter: string;

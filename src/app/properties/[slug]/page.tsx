@@ -141,7 +141,7 @@ export default function PropertyDetailsPage({
               {/* Badges */}
               <div className="flex flex-wrap gap-2">
                 <Badge
-                  variant={property.type === "sale" ? "default" : "gold"}
+                  variant={property.type === "sale" ? "default" : "secondary"}
                   className="text-sm px-3 py-1">
                   For {property.type === "sale" ? "Sale" : "Rent"}
                 </Badge>
@@ -152,7 +152,7 @@ export default function PropertyDetailsPage({
                 </Badge>
                 <Badge
                   variant={
-                    property.status === "available" ? "success" : "secondary"
+                    property.status === "available" ? "default" : "secondary"
                   }
                   className="capitalize text-sm px-3 py-1">
                   {property.status}
@@ -313,6 +313,7 @@ export default function PropertyDetailsPage({
                         alt={agent.name}
                         fill
                         className="object-cover"
+                        sizes="56px"
                       />
                     </div>
                     <div className="flex-1 min-w-0">

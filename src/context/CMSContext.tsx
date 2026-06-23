@@ -40,6 +40,9 @@ export const initialState: CMSState = {
       twitter: "https://twitter.com",
       instagram: "https://instagram.com",
       linkedin: "https://linkedin.com",
+      youtube: "",
+      pinterest: "",
+      rss: "",
     },
   },
   menu: [
@@ -57,8 +60,8 @@ export const initialState: CMSState = {
   testimonials: seedTestimonials,
   jobs: seedJobs,
   theme: {
-    primaryColor: "hsl(221, 83%, 24%)",
-    secondaryColor: "hsl(40, 96%, 53%)",
+    primaryColor: "hsl(150, 55%, 12%)",
+    secondaryColor: "hsl(37, 85%, 52%)",
     fontFamily: "Inter",
     mode: "system",
   },

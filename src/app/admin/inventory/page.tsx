@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { toast } from "sonner";
 import { Plus, Edit, Trash2, Search, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -61,13 +62,18 @@ export default function InventoryPage() {
   }, [properties, search, typeFilter, statusFilter]);
 
   const handleSave = (data: any) => {
-    if (editingProperty) {
-      updateProperty(editingProperty.id, data);
-    } else {
-      addProperty(data);
+    try {
+      if (editingProperty) {
+        updateProperty(editingProperty.id, data);
+      } else {
+        addProperty(data);
+      }
+      toast.success("Property saved.");
+      setFormOpen(false);
+      setEditingProperty(null);
+    } catch {
+      toast.error("Failed to save property.");
     }
-    setFormOpen(false);
-    setEditingProperty(null);
   };
 
   const openEdit = (p: Property) => {
@@ -270,6 +276,9 @@ export default function InventoryPage() {
           setDeleteId(null);
         }}
       />
+
+      {/* Form-closed sentinel for tests */}
+      {!formOpen && <div data-testid="form-closed" />}
     </div>
   );
 }

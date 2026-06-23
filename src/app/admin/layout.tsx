@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { getAdminSession, ADMIN_SESSION_KEY } from "@/lib/admin-auth";
+import type { AdminSession } from "@/lib/admin-auth";
 
 const pageMeta: Record<string, { title: string; description: string }> = {
   "/admin": {
@@ -32,6 +34,10 @@ const pageMeta: Record<string, { title: string; description: string }> = {
     title: "Media Library",
     description: "Upload and manage images",
   },
+  "/admin/cms": {
+    title: "CMS Editor",
+    description: "Visual content editor",
+  },
 };
 
 export default function AdminLayout({
@@ -40,8 +46,21 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [session, setSession] = useState<AdminSession | null>(null);
   const pathname = usePathname();
+  const router = useRouter();
   const meta = pageMeta[pathname] || { title: "Admin", description: "" };
+
+  useEffect(() => {
+    const s = getAdminSession();
+    if (!s) {
+      router.replace("/admin/login");
+    } else {
+      setSession(s);
+    }
+  // Re-check whenever the ADMIN_SESSION_KEY constant changes (stable) or on mount
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ADMIN_SESSION_KEY]);
 
   return (
     <TooltipProvider>
@@ -55,6 +74,7 @@ export default function AdminLayout({
             title={meta.title}
             description={meta.description}
             onMenuClick={() => setSidebarOpen(true)}
+            userEmail={session?.email}
           />
           <main className="flex-1 p-4 md:p-6 lg:p-8">{children}</main>
         </div>

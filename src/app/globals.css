@@ -21,7 +21,7 @@
   --color-card-foreground: hsl(222.2 47.4% 11.2%);
   --color-popover: hsl(0 0% 100%);
   --color-popover-foreground: hsl(222.2 47.4% 11.2%);
-  --color-primary: hsl(221.2 83.2% 12%);
+  --color-primary: hsl(150 55% 12%);
   --color-primary-foreground: hsl(210 40% 98%);
   --color-secondary: hsl(37 85% 52%);
   --color-secondary-foreground: hsl(222.2 47.4% 11.2%);
@@ -33,7 +33,7 @@
   --color-destructive-foreground: hsl(210 40% 98%);
   --color-border: hsl(214.3 31.8% 91.4%);
   --color-input: hsl(214.3 31.8% 91.4%);
-  --color-ring: hsl(221.2 83.2% 12%);
+  --color-ring: hsl(150 55% 12%);
 }
 
 /* Dark Theme */
@@ -44,9 +44,9 @@
   --color-card-foreground: hsl(210 40% 98%);
   --color-popover: hsl(222.2 84% 4.9%);
   --color-popover-foreground: hsl(210 40% 98%);
-  --color-primary: hsl(210 40% 98%);
+  --color-primary: hsl(150 45% 65%);
   --color-primary-foreground: hsl(222.2 47.4% 11.2%);
-  --color-secondary: hsl(37 85% 52%);
+  --color-secondary: hsl(37 85% 62%);
   --color-secondary-foreground: hsl(222.2 47.4% 11.2%);
   --color-accent: hsl(217.2 32.6% 17.5%);
   --color-accent-foreground: hsl(210 40% 98%);
@@ -93,7 +93,7 @@
   background: linear-gradient(
     135deg,
     var(--color-primary) 0%,
-    hsl(221.2 83.2% 18%) 100%
+    hsl(150 55% 18%) 100%
   );
 }
 

@@ -45,6 +45,18 @@ export function PropertyForm({ initial, onSave, onCancel }: PropertyFormProps) {
   });
   const [newImage, setNewImage] = useState("");
   const [newFeature, setNewFeature] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+
+  /** Returns an error map; empty object means all required fields are valid. */
+  const validate = (values: typeof form): Record<string, string> => {
+    const errors: Record<string, string> = {};
+    if (!values.title.trim()) errors.title = "Title is required.";
+    if (!values.location.trim()) errors.location = "Location is required.";
+    if (!values.price.toString().trim()) errors.price = "Price is required.";
+    if (!values.type.trim()) errors.type = "Type is required.";
+    if (!values.status.trim()) errors.status = "Status is required.";
+    return errors;
+  };
 
   useEffect(() => {
     if (initial) {
@@ -71,6 +83,12 @@ export function PropertyForm({ initial, onSave, onCancel }: PropertyFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const errors = validate(form);
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      return;
+    }
+    setFieldErrors({});
     onSave({
       ...form,
       price: parseFloat(form.price) || 0,
@@ -117,10 +135,18 @@ export function PropertyForm({ initial, onSave, onCancel }: PropertyFormProps) {
                 <Input
                   id="title"
                   value={form.title}
-                  onChange={(e) => setForm({ ...form, title: e.target.value })}
+                  onChange={(e) => {
+                    setForm({ ...form, title: e.target.value });
+                    if (fieldErrors.title) setFieldErrors({ ...fieldErrors, title: "" });
+                  }}
                   placeholder="Modern Downtown Penthouse"
                   required
                 />
+                {fieldErrors.title && (
+                  <span data-field-error="title" className="text-destructive text-xs mt-1 block">
+                    {fieldErrors.title}
+                  </span>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="description">Description *</Label>
@@ -140,12 +166,18 @@ export function PropertyForm({ initial, onSave, onCancel }: PropertyFormProps) {
                   <Input
                     id="location"
                     value={form.location}
-                    onChange={(e) =>
-                      setForm({ ...form, location: e.target.value })
-                    }
+                    onChange={(e) => {
+                      setForm({ ...form, location: e.target.value });
+                      if (fieldErrors.location) setFieldErrors({ ...fieldErrors, location: "" });
+                    }}
                     placeholder="Manhattan, New York"
                     required
                   />
+                  {fieldErrors.location && (
+                    <span data-field-error="location" className="text-destructive text-xs mt-1 block">
+                      {fieldErrors.location}
+                    </span>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="address">Full Address *</Label>
@@ -174,15 +206,26 @@ export function PropertyForm({ initial, onSave, onCancel }: PropertyFormProps) {
                   id="price"
                   type="number"
                   value={form.price}
-                  onChange={(e) => setForm({ ...form, price: e.target.value })}
+                  onChange={(e) => {
+                    setForm({ ...form, price: e.target.value });
+                    if (fieldErrors.price) setFieldErrors({ ...fieldErrors, price: "" });
+                  }}
                   required
                 />
+                {fieldErrors.price && (
+                  <span data-field-error="price" className="text-destructive text-xs mt-1 block">
+                    {fieldErrors.price}
+                  </span>
+                )}
               </div>
               <div className="space-y-2">
                 <Label>Type</Label>
                 <Select
                   value={form.type}
-                  onValueChange={(v) => setForm({ ...form, type: v as any })}>
+                  onValueChange={(v) => {
+                    setForm({ ...form, type: v as any });
+                    if (fieldErrors.type) setFieldErrors({ ...fieldErrors, type: "" });
+                  }}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -191,6 +234,11 @@ export function PropertyForm({ initial, onSave, onCancel }: PropertyFormProps) {
                     <SelectItem value="rent">For Rent</SelectItem>
                   </SelectContent>
                 </Select>
+                {fieldErrors.type && (
+                  <span data-field-error="type" className="text-destructive text-xs mt-1 block">
+                    {fieldErrors.type}
+                  </span>
+                )}
               </div>
               <div className="space-y-2">
                 <Label>Category</Label>
@@ -215,7 +263,10 @@ export function PropertyForm({ initial, onSave, onCancel }: PropertyFormProps) {
                 <Label>Status</Label>
                 <Select
                   value={form.status}
-                  onValueChange={(v) => setForm({ ...form, status: v as any })}>
+                  onValueChange={(v) => {
+                    setForm({ ...form, status: v as any });
+                    if (fieldErrors.status) setFieldErrors({ ...fieldErrors, status: "" });
+                  }}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -226,6 +277,11 @@ export function PropertyForm({ initial, onSave, onCancel }: PropertyFormProps) {
                     <SelectItem value="rented">Rented</SelectItem>
                   </SelectContent>
                 </Select>
+                {fieldErrors.status && (
+                  <span data-field-error="status" className="text-destructive text-xs mt-1 block">
+                    {fieldErrors.status}
+                  </span>
+                )}
               </div>
             </div>
           </div>

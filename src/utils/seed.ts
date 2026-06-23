@@ -6,6 +6,7 @@ import {
   BlogPost,
   PageContent,
   Testimonial,
+  Job,
 } from "@/types";
 
 export const seedProperties: Property[] = [

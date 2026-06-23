@@ -1,0 +1,52 @@
+[
+  {
+    "id": "proj-001",
+    "title": "Silicon City Mohammadpur",
+    "slug": "silicon-city-mohammadpur",
+    "location": "Mohammadpur, Dhaka",
+    "status": "ongoing",
+    "price": "৳ 45,00,000",
+    "imageUrl": "https://placehold.co/800x600?text=Silicon+City+Mohammadpur",
+    "description": "A premium residential complex in the heart of Mohammadpur offering modern apartments with world-class amenities. Strategically located near top schools, hospitals, and commercial hubs."
+  },
+  {
+    "id": "proj-002",
+    "title": "Silicon Heights Uttara",
+    "slug": "silicon-heights-uttara",
+    "location": "Uttara Sector 10, Dhaka",
+    "status": "upcoming",
+    "price": "৳ 68,00,000",
+    "imageUrl": "https://placehold.co/800x600?text=Silicon+Heights+Uttara",
+    "description": "An upcoming luxury high-rise in Uttara's most sought-after sector, featuring spacious units with panoramic city views and smart-home technology. Expected handover in Q4 2026."
+  },
+  {
+    "id": "proj-003",
+    "title": "Silicon Square Mirpur",
+    "slug": "silicon-square-mirpur",
+    "location": "Mirpur DOHS, Dhaka",
+    "status": "completed",
+    "price": "৳ 38,00,000",
+    "imageUrl": "https://placehold.co/800x600?text=Silicon+Square+Mirpur",
+    "description": "A successfully delivered mid-rise residential project in Mirpur DOHS with 120 units, landscaped gardens, and 24/7 security. All units are now occupied by satisfied homeowners."
+  },
+  {
+    "id": "proj-004",
+    "title": "Silicon Garden Bashundhara",
+    "slug": "silicon-garden-bashundhara",
+    "location": "Bashundhara R/A, Dhaka",
+    "status": "ongoing",
+    "price": "৳ 82,00,000",
+    "imageUrl": "https://placehold.co/800x600?text=Silicon+Garden+Bashundhara",
+    "description": "A flagship mixed-use development in Bashundhara Residential Area featuring premium apartments, rooftop gardens, and a ground-floor retail concourse. Construction is currently at 60% completion."
+  },
+  {
+    "id": "proj-005",
+    "title": "Silicon Vista Gulshan",
+    "slug": "silicon-vista-gulshan",
+    "location": "Gulshan 2, Dhaka",
+    "status": "upcoming",
+    "price": "৳ 1,25,00,000",
+    "imageUrl": "https://placehold.co/800x600?text=Silicon+Vista+Gulshan",
+    "description": "An ultra-premium boutique tower in the diplomatic enclave of Gulshan 2, offering only 24 exclusive residences with private terraces and concierge services. Pre-sales now open."
+  }
+]

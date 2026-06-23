@@ -22,7 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   // Dynamic property routes
-  const propertyRoutes = initialState.properties.map((property) => ({
+  const propertyRoutes = (initialState.properties || []).map((property) => ({
     url: `${SITE_URL}/properties/${property.slug}`,
     lastModified: new Date(property.updatedAt),
     changeFrequency: "weekly" as const,
@@ -30,7 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   // Dynamic blog routes
-  const blogRoutes = initialState.blog.map((post) => ({
+  const blogRoutes = (initialState.blog || []).map((post) => ({
     url: `${SITE_URL}/blog/${post.slug}`,
     lastModified: new Date(post.publishedAt),
     changeFrequency: "monthly" as const,

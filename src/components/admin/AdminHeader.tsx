@@ -11,12 +11,14 @@ interface AdminHeaderProps {
   title: string;
   description?: string;
   onMenuClick: () => void;
+  userEmail?: string;
 }
 
 export function AdminHeader({
   title,
   description,
   onMenuClick,
+  userEmail,
 }: AdminHeaderProps) {
   return (
     <header className="sticky top-0 z-30 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -45,6 +47,12 @@ export function AdminHeader({
             <Input placeholder="Search..." className="pl-9 w-64" />
           </div>
         </div>
+
+        {userEmail && (
+          <span className="text-sm text-muted-foreground hidden md:block">
+            {userEmail}
+          </span>
+        )}
 
         <Button variant="ghost" size="icon" aria-label="Notifications">
           <Bell className="h-5 w-5" />

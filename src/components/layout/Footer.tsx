@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import {
   Home as HomeIcon,
@@ -15,12 +16,36 @@ import {
   Share2,
   Rss,
 } from "lucide-react";
+import { toast } from "sonner";
 import { useCMS } from "@/context/CMSContext";
 import { Container } from "./Container";
 
 export function Footer() {
   const { state } = useCMS();
   const { siteSettings, menu } = state;
+
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterEmailError, setNewsletterEmailError] = useState("");
+  const [newsletterSubmitting, setNewsletterSubmitting] = useState(false);
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!newsletterEmail.trim() || !emailPattern.test(newsletterEmail.trim())) {
+      setNewsletterEmailError("Please enter a valid email address.");
+      return;
+    }
+    setNewsletterSubmitting(true);
+    try {
+      await Promise.resolve();
+      console.log("Newsletter subscription:", newsletterEmail);
+      toast.success("Subscribed successfully!");
+      setNewsletterEmail("");
+      setNewsletterEmailError("");
+    } finally {
+      setNewsletterSubmitting(false);
+    }
+  };
 
   const socialLinks = [
     { key: "facebook", icon: Facebook, url: siteSettings.social.facebook },
@@ -66,7 +91,7 @@ export function Footer() {
     <footer className="bg-primary text-primary-foreground border-t border-primary-foreground/10">
       <Container className="py-12 md:py-16">
         {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
           {/* Brand & Contact Info - Column 1 */}
           <div className="xl:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
@@ -203,40 +228,45 @@ export function Footer() {
               </span>
             </h3>
             <ul className="space-y-3 text-sm">
-              <li className="flex items-start gap-2.5 text-primary-foreground/60">
-                <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0 text-secondary" />
-                <span className="leading-relaxed">
-                  2/3 (2nd Floor), Block A, Iqbal Road, <br />
-                  Mohammadpur, Dhaka-1207
-                </span>
-              </li>
-              <li className="flex items-center gap-2.5 text-primary-foreground/60">
-                <Phone className="h-4 w-4 flex-shrink-0 text-secondary" />
-                <div>
+              {siteSettings.address && (
+                <li className="flex items-start gap-2.5 text-primary-foreground/60">
+                  <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0 text-secondary" />
+                  <span className="leading-relaxed">{siteSettings.address}</span>
+                </li>
+              )}
+              {siteSettings.contactPhone && (
+                <li className="flex items-center gap-2.5 text-primary-foreground/60">
+                  <Phone className="h-4 w-4 flex-shrink-0 text-secondary" />
                   <div>
-                    <a
-                      href="tel:+8801712345678"
-                      className="hover:text-secondary transition-colors">
-                      +880 1712 345 678
-                    </a>
+                    <div>
+                      <a
+                        href={`tel:${siteSettings.contactPhone}`}
+                        className="hover:text-secondary transition-colors">
+                        {siteSettings.contactPhone}
+                      </a>
+                    </div>
+                    {siteSettings.contactPhone2 && (
+                      <div>
+                        <a
+                          href={`tel:${siteSettings.contactPhone2}`}
+                          className="hover:text-secondary transition-colors">
+                          {siteSettings.contactPhone2}
+                        </a>
+                      </div>
+                    )}
                   </div>
-                  <div>
-                    <a
-                      href="tel:+8801712345679"
-                      className="hover:text-secondary transition-colors">
-                      +880 1712 345 679
-                    </a>
-                  </div>
-                </div>
-              </li>
-              <li className="flex items-center gap-2.5 text-primary-foreground/60">
-                <Mail className="h-4 w-4 flex-shrink-0 text-secondary" />
-                <a
-                  href="mailto:info@siliconrealestate.com"
-                  className="hover:text-secondary transition-colors">
-                  info@siliconrealestate.com
-                </a>
-              </li>
+                </li>
+              )}
+              {siteSettings.contactEmail && (
+                <li className="flex items-center gap-2.5 text-primary-foreground/60">
+                  <Mail className="h-4 w-4 flex-shrink-0 text-secondary" />
+                  <a
+                    href={`mailto:${siteSettings.contactEmail}`}
+                    className="hover:text-secondary transition-colors">
+                    {siteSettings.contactEmail}
+                  </a>
+                </li>
+              )}
               <li className="flex items-center gap-2.5 text-primary-foreground/60">
                 <span className="text-secondary">🌐</span>
                 <a
@@ -248,6 +278,44 @@ export function Footer() {
                 </a>
               </li>
             </ul>
+          </div>
+        </div>
+
+        {/* Newsletter Subscription */}
+        <div className="mt-10 py-8 border-t border-b border-primary-foreground/10">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+            <div className="sm:flex-1">
+              <h3 className="font-semibold text-primary-foreground mb-1">Stay Updated</h3>
+              <p className="text-sm text-primary-foreground/60">Subscribe to receive the latest property listings and news.</p>
+            </div>
+            <form
+              aria-label="Newsletter subscription"
+              onSubmit={handleNewsletterSubmit}
+              className="flex flex-col gap-2 sm:w-80"
+              noValidate
+            >
+              <div className="flex gap-2">
+                <input
+                  type="email"
+                  value={newsletterEmail}
+                  onChange={(e) => { setNewsletterEmail(e.target.value); if (newsletterEmailError) setNewsletterEmailError(""); }}
+                  placeholder="Enter your email"
+                  aria-label="Email address"
+                  disabled={newsletterSubmitting}
+                  className="flex-1 rounded-md border border-primary-foreground/20 bg-primary-foreground/5 px-3 py-2 text-sm text-primary-foreground placeholder:text-primary-foreground/40 focus:outline-none focus:ring-2 focus:ring-secondary disabled:opacity-50"
+                />
+                <button
+                  type="submit"
+                  disabled={newsletterSubmitting}
+                  className="rounded-md bg-secondary px-4 py-2 text-sm font-semibold text-white hover:bg-secondary/90 transition-colors disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary"
+                >
+                  {newsletterSubmitting ? "..." : "Subscribe"}
+                </button>
+              </div>
+              {newsletterEmailError && (
+                <span data-field-error="email" className="text-xs text-red-300">{newsletterEmailError}</span>
+              )}
+            </form>
           </div>
         </div>
 

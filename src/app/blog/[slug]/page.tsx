@@ -12,7 +12,7 @@ import { Container } from "@/components/layout/Container";
 import { BlogCard } from "@/components/blog/BlogCard";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { useBlog } from "@/hooks/useBlog";
-import type { useTeam } from "@/hooks/useTeam";
+import { useTeam } from "@/hooks/useTeam";
 import { formatDate } from "@/lib/utils";
 
 export default function BlogPostPage({
@@ -53,6 +53,7 @@ export default function BlogPostPage({
             fill
             className="object-cover"
             priority
+            sizes="(min-width: 1024px) 75vw, 100vw"
           />
         </div>
 
@@ -78,6 +79,7 @@ export default function BlogPostPage({
                   alt={author.name}
                   fill
                   className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
               <span>
@@ -112,6 +114,7 @@ export default function BlogPostPage({
                   alt={author.name}
                   fill
                   className="object-cover"
+                  sizes="64px"
                 />
               </div>
               <div>

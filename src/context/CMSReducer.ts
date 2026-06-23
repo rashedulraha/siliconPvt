@@ -1,4 +1,4 @@
-import { CMSState } from "@/types";
+import { CMSState, CMSAction } from "@/types";
 
 export function cmsReducer(state: CMSState, action: CMSAction): CMSState {
   switch (action.type) {

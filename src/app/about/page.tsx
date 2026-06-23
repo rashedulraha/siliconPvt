@@ -68,11 +68,11 @@ export default function AboutPage() {
                 OUR STORY
               </p>
               <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
-                {storySection?.data.title || "From Boutique to Industry Leader"}
+                {(storySection?.data.title as string) || "From Boutique to Industry Leader"}
               </h2>
               <div className="space-y-4 text-muted-foreground leading-relaxed">
                 <p>
-                  {storySection?.data.content ||
+                  {(storySection?.data.content as string) ||
                     "Founded in 2010, EstateHub has grown from a small boutique agency to one of the most trusted names in premium real estate."}
                 </p>
                 <p>
@@ -98,6 +98,7 @@ export default function AboutPage() {
                 alt="Our team"
                 fill
                 className="object-cover"
+                sizes="(min-width: 1024px) 50vw, 100vw"
               />
             </div>
           </div>

@@ -13,6 +13,7 @@ import {
   Briefcase,
   Home as HomeIcon,
   X,
+  FileEdit,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -27,6 +28,7 @@ const navItems = [
   { href: "/admin/theme", label: "Theme", icon: Palette },
   { href: "/admin/seo", label: "SEO", icon: Search },
   { href: "/admin/media", label: "Media", icon: ImageIcon },
+  { href: "/admin/cms", label: "CMS Editor", icon: FileEdit },
 ];
 
 interface AdminSidebarProps {
