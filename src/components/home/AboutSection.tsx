@@ -10,112 +10,204 @@ import {
   Sparkles,
   Award,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/Container";
 
 const highlights = [
-  "RAJUK & Govt. Approved Projects",
+  "RAJUK & Government Approved Projects",
   "100% Legal & Transparent Documentation",
-  "Easy Installment Facilities",
-  "Prime Locations with High ROI",
+  "Flexible Installment Payment Plans",
+  "Prime Locations with High ROI Potential",
+];
+
+const cards = [
+  {
+    icon: Sparkles,
+    title: "Our Mission",
+    body: "Make verified, high-yield land ownership accessible, secure, and completely transparent for every investor.",
+  },
+  {
+    icon: Award,
+    title: "Our Vision",
+    body: "Become Bangladesh's most trusted land development agency, known for integrity over marketing.",
+  },
 ];
 
 export function AboutSection() {
   return (
-    <section className="py-32 relative">
-      <Container>
-        <div className="grid lg:grid-cols-12 gap-16 lg:gap-20 items-center">
-          <div className="lg:col-span-6 space-y-8">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary/5 border border-primary/15">
-              <Building2 className="h-4 w-4 text-primary" />
-              <span className="text-xs font-semibold text-primary uppercase tracking-widest">
-                About Us
-              </span>
-            </div>
+    <section className="section-y bg-background relative overflow-hidden">
+      {/* Subtle background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-accent/3 via-transparent to-primary/3 pointer-events-none" />
 
-            <h2 className="font-serif text-4xl sm:text-5xl font-bold tracking-tight text-foreground leading-[1.1]">
-              Building <span className="text-accent">Future-Ready</span>{" "}
+      <Container className="relative">
+        <div className="grid lg:grid-cols-2 gap-12 xl:gap-20 items-center">
+
+          {/* ── LEFT — Copy ─────────────────────────────────────── */}
+          <div className="space-y-7">
+
+            {/* Section label */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.55 }}
+              className="flex items-center gap-3"
+            >
+              <div className="w-8 h-8 rounded-lg bg-accent/12 flex items-center justify-center">
+                <Building2 className="h-4 w-4 text-accent" />
+              </div>
+              <span className="text-label text-accent">About Silicon Real Estate</span>
+            </motion.div>
+
+            {/* Headline */}
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.08 }}
+              className="font-serif text-display-md font-bold text-foreground leading-[1.12]"
+            >
+              Building <span className="text-gold">Future-Ready</span>{" "}
               Communities
-            </h2>
+            </motion.h2>
 
-            <p className="text-muted-foreground leading-relaxed text-lg font-light">
+            {/* Gold divider */}
+            <motion.div
+              initial={{ opacity: 0, scaleX: 0 }}
+              whileInView={{ opacity: 1, scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              style={{ originX: 0 }}
+            >
+              <div className="divider-gold" />
+            </motion.div>
+
+            {/* Body */}
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.18 }}
+              className="text-muted-foreground text-base sm:text-lg leading-relaxed font-light"
+            >
               Silicon Real Estate (Pvt.) Ltd. is a trusted name in land
               development across Dhaka. We deliver high-yield plots backed by
-              legal verification, RAJUK approval, and a fully transparent
-              process from booking to registration.
-            </p>
+              legal verification, RAJUK approval, and a fully transparent process
+              from booking to registration.
+            </motion.p>
 
-            <div className="space-y-4">
+            {/* Checklist */}
+            <ul className="space-y-3">
               {highlights.map((item, i) => (
-                <motion.div
+                <motion.li
                   key={i}
-                  initial={{ opacity: 0, x: -10 }}
+                  initial={{ opacity: 0, x: -14 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="flex items-center gap-3">
-                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-accent/15 flex items-center justify-center">
-                    <CheckCircle className="h-4 w-4 text-accent" />
+                  transition={{ duration: 0.5, delay: 0.22 + i * 0.08 }}
+                  className="flex items-start gap-3"
+                >
+                  <div className="flex-shrink-0 mt-0.5 w-5 h-5 rounded-full bg-accent/15 flex items-center justify-center">
+                    <CheckCircle className="h-3.5 w-3.5 text-accent" />
                   </div>
-                  <span className="text-foreground font-medium text-[15px]">
+                  <span className="text-foreground font-medium text-[15px] leading-snug">
                     {item}
                   </span>
-                </motion.div>
+                </motion.li>
               ))}
-            </div>
+            </ul>
 
-            <Button
-              asChild
-              size="lg"
-              className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 h-12 rounded-md text-sm font-semibold transition-all duration-300">
-              <Link href="/about">
-                Learn More About Us
-                <ChevronRight className="ml-1.5 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            {/* CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.55 }}
+            >
+              <Link
+                href="/about"
+                className="group inline-flex items-center gap-2 px-7 h-12 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/90 hover:scale-[1.02] transition-all duration-300 shadow-luxury"
+              >
+                Discover Our Story
+                <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
               </Link>
-            </Button>
+            </motion.div>
           </div>
 
-          <div className="lg:col-span-6 grid grid-cols-2 gap-5">
-            <div className="space-y-5">
-              <div className="relative aspect-[3/4] rounded-lg overflow-hidden border border-border">
+          {/* ── RIGHT — Image mosaic ─────────────────────────────── */}
+          <div className="grid grid-cols-2 gap-4">
+
+            <div className="space-y-4">
+              {/* Tall image */}
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.65, delay: 0.1 }}
+                className="relative aspect-[3/4] rounded-xl overflow-hidden shadow-luxury-lg group"
+              >
                 <Image
                   src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600"
-                  alt="Architecture"
+                  alt="Silicon Real Estate architecture"
                   fill
                   sizes="(max-width: 768px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-700 hover:scale-105"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-              </div>
-              <div className="bg-card rounded-lg p-6 border border-border shadow-sm hover:shadow-md transition-all duration-500">
-                <Sparkles className="h-7 w-7 text-accent mb-3" />
-                <p className="font-semibold text-foreground text-sm">
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent" />
+              </motion.div>
+
+              {/* Mission card */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.55, delay: 0.22 }}
+                className="bg-card border border-border rounded-xl p-5 card-lift shadow-luxury"
+              >
+                <Sparkles className="h-6 w-6 text-accent mb-3" />
+                <p className="font-serif font-bold text-foreground text-sm mb-1.5">
                   Our Mission
                 </p>
-                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-                  Make verified, high-yield land ownership accessible and
-                  secure.
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Make verified, high-yield land ownership accessible and secure.
                 </p>
-              </div>
+              </motion.div>
             </div>
-            <div className="space-y-5 pt-10">
-              <div className="bg-card rounded-lg p-6 border border-border shadow-sm hover:shadow-md transition-all duration-500">
-                <Award className="h-7 w-7 text-accent mb-3" />
-                <p className="font-semibold text-foreground text-sm">
+
+            <div className="space-y-4 pt-10">
+              {/* Vision card */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.55, delay: 0.3 }}
+                className="bg-card border border-border rounded-xl p-5 card-lift shadow-luxury"
+              >
+                <Award className="h-6 w-6 text-accent mb-3" />
+                <p className="font-serif font-bold text-foreground text-sm mb-1.5">
                   Our Vision
                 </p>
-                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-                  Be the country's most transparent land development agency.
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Be Bangladesh's most transparent land development agency.
                 </p>
-              </div>
-              <div className="relative aspect-[3/4] rounded-lg overflow-hidden border border-border">
+              </motion.div>
+
+              {/* Tall image */}
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.65, delay: 0.18 }}
+                className="relative aspect-[3/4] rounded-xl overflow-hidden shadow-luxury-lg group"
+              >
                 <Image
                   src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600"
-                  alt="Team at a site visit"
+                  alt="Silicon Real Estate team"
                   fill
                   sizes="(max-width: 768px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-700 hover:scale-105"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-              </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent" />
+              </motion.div>
             </div>
           </div>
         </div>
