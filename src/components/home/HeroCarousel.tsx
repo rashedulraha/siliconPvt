@@ -88,15 +88,16 @@ export function HeroCarousel(): ReactElement {
   // ---------------------------------------------------------------------------
 
   return (
-    <section aria-label="Hero carousel" className="relative w-full h-[90vh] overflow-hidden">
+    <section
+      aria-label="Hero carousel"
+      className="relative w-full h-[90vh] overflow-hidden">
       {/* Embla viewport */}
       <div ref={emblaRef} className="overflow-hidden w-full h-full">
         <div className="flex h-full">
           {slides.map((slide) => (
             <div
               key={slide.id}
-              className="relative flex-[0_0_100%] min-w-0 h-full"
-            >
+              className="relative flex-[0_0_100%] min-w-0 h-full">
               {/* Full-bleed background image */}
               <Image
                 src={slide.imageUrl}
@@ -124,8 +125,7 @@ export function HeroCarousel(): ReactElement {
                 <div>
                   <Link
                     href={slide.ctaHref}
-                    className="inline-block bg-secondary text-white font-semibold px-7 py-3 rounded-md text-sm sm:text-base hover:bg-secondary/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2"
-                  >
+                    className="inline-block bg-secondary text-white font-semibold px-7 py-3 rounded-md text-sm sm:text-base hover:bg-secondary/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2">
                     {slide.ctaLabel}
                   </Link>
                 </div>
@@ -140,8 +140,7 @@ export function HeroCarousel(): ReactElement {
         type="button"
         onClick={scrollPrev}
         aria-label="Previous slide"
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full bg-white/20 text-white backdrop-blur-sm hover:bg-white/35 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
-      >
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full bg-white/20 text-white backdrop-blur-sm hover:bg-white/35 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2">
         <ChevronLeft className="w-5 h-5" aria-hidden="true" />
       </button>
 
@@ -150,8 +149,7 @@ export function HeroCarousel(): ReactElement {
         type="button"
         onClick={scrollNext}
         aria-label="Next slide"
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full bg-white/20 text-white backdrop-blur-sm hover:bg-white/35 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
-      >
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full bg-white/20 text-white backdrop-blur-sm hover:bg-white/35 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2">
         <ChevronRight className="w-5 h-5" aria-hidden="true" />
       </button>
 
@@ -159,8 +157,7 @@ export function HeroCarousel(): ReactElement {
       <div
         role="tablist"
         aria-label="Slide indicators"
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2"
-      >
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
         {scrollSnaps.map((_, index) => (
           <button
             key={index}

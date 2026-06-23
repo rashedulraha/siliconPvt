@@ -68,7 +68,8 @@ export default function AboutPage() {
                 OUR STORY
               </p>
               <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
-                {(storySection?.data.title as string) || "From Boutique to Industry Leader"}
+                {(storySection?.data.title as string) ||
+                  "From Boutique to Industry Leader"}
               </h2>
               <div className="space-y-4 text-muted-foreground leading-relaxed">
                 <p>

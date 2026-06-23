@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Roboto, Poppins } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import "@/styles/a11y.css";
 
@@ -16,17 +16,10 @@ import { SkipToContent } from "@/components/feedback/SkipToContent";
 import { CMSProvider } from "@/context/CMSContext";
 import { ThemeProvider } from "@/components/Providers/ThemeProvider";
 
-const roboto = Roboto({
-  weight: ["300", "400", "500", "700"],
+const inter = Inter({
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
   variable: "--font-sans",
-  display: "swap",
-});
-
-const poppins = Poppins({
-  weight: ["400", "500", "600", "700"],
-  subsets: ["latin"],
-  variable: "--font-display",
   display: "swap",
 });
 
@@ -50,7 +43,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${roboto.variable} ${poppins.variable} font-sans antialiased min-h-screen bg-background text-foreground`}>
+        className={`${inter.variable} font-sans antialiased min-h-screen bg-background text-foreground`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import {
-  Home as HomeIcon,
+  Building2,
   Facebook,
   Twitter,
   Instagram,
@@ -15,6 +15,12 @@ import {
   Youtube,
   Share2,
   Rss,
+  Shield,
+  Send,
+  Award,
+  TrendingUp,
+  Users,
+  CheckCircle,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useCMS } from "@/context/CMSContext";
@@ -87,109 +93,185 @@ export function Footer() {
     { label: "Terms & Conditions", href: "/terms" },
   ];
 
+  // Stats data
+  const stats = [
+    { icon: Award, value: "10+", label: "Years Excellence" },
+    { icon: Users, value: "1500+", label: "Happy Clients" },
+    { icon: Building2, value: "25+", label: "Projects" },
+    { icon: TrendingUp, value: "800+", label: "Acres Developed" },
+  ];
+
   return (
-    <footer className="bg-primary text-primary-foreground border-t border-primary-foreground/10">
+    <footer
+      className="border-t"
+      style={{
+        backgroundColor: "var(--background)",
+        color: "var(--foreground)",
+        borderColor: "var(--border)",
+      }}>
+      {/* Stats Section */}
+      <div className="border-b" style={{ borderColor: "var(--border)" }}>
+        <Container>
+          <div className="py-8 md:py-10">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {stats.map((stat, index) => (
+                <div
+                  key={index}
+                  className="text-center group transition-all duration-300 hover:scale-105">
+                  <div
+                    className="inline-flex items-center justify-center w-10 h-10 rounded-lg mb-2 group-hover:scale-110 transition-all duration-300"
+                    style={{
+                      backgroundColor: "var(--accent)",
+                      opacity: 0.1,
+                    }}>
+                    <stat.icon
+                      className="h-5 w-5"
+                      style={{ color: "var(--accent)" }}
+                    />
+                  </div>
+                  <div
+                    className="font-serif text-2xl font-bold"
+                    style={{ color: "var(--foreground)" }}>
+                    {stat.value}
+                  </div>
+                  <div
+                    className="text-xs uppercase tracking-wider"
+                    style={{ color: "var(--muted-foreground)" }}>
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Container>
+      </div>
+
       <Container className="py-12 md:py-16">
         {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
-          {/* Brand & Contact Info - Column 1 */}
-          <div className="xl:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-secondary/20">
-                <HomeIcon className="h-5 w-5 text-secondary" />
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
+          {/* Brand - Column 1 (3 columns) */}
+          <div className="lg:col-span-3">
+            <Link href="/" className="flex items-center gap-2.5 mb-4 group">
+              <div
+                className="flex h-10 w-10 items-center justify-center rounded-lg transition-all duration-300 group-hover:scale-105 group-hover:rotate-3"
+                style={{
+                  backgroundColor: "var(--primary)",
+                  color: "var(--primary-foreground)",
+                }}>
+                <Building2 className="h-5 w-5" />
               </div>
-              <span className="font-display text-xl font-bold">
+              <span
+                className="font-serif text-xl font-bold tracking-tight"
+                style={{ color: "var(--foreground)" }}>
                 {siteSettings.siteName}
               </span>
             </Link>
-            <p className="text-sm text-primary-foreground/70 leading-relaxed mb-4">
+            <p
+              className="text-sm leading-relaxed mb-5"
+              style={{ color: "var(--muted-foreground)" }}>
               Silicon Real Estate (Pvt.) Ltd. is a trusted land development
               company providing secure & profitable land investment
               opportunities across Bangladesh.
             </p>
 
-            {/* Trust Badges */}
-            <div className="grid grid-cols-2 gap-2 mb-4">
-              <div className="px-3 py-1.5 bg-primary-foreground/5 rounded-lg border border-primary-foreground/10 text-center">
-                <span className="text-xs font-medium text-primary-foreground/80">
-                  Trusted Company
-                </span>
-              </div>
-              <div className="px-3 py-1.5 bg-primary-foreground/5 rounded-lg border border-primary-foreground/10 text-center">
-                <span className="text-xs font-medium text-primary-foreground/80">
-                  Legal Security
-                </span>
-              </div>
-              <div className="px-3 py-1.5 bg-primary-foreground/5 rounded-lg border border-primary-foreground/10 text-center">
-                <span className="text-xs font-medium text-primary-foreground/80">
-                  Prime Locations
-                </span>
-              </div>
-              <div className="px-3 py-1.5 bg-primary-foreground/5 rounded-lg border border-primary-foreground/10 text-center">
-                <span className="text-xs font-medium text-primary-foreground/80">
-                  Customer Satisfaction
-                </span>
-              </div>
-            </div>
-
             {/* Social Links */}
             {socialLinks.length > 0 && (
               <div className="flex flex-wrap gap-2">
-                <span className="text-sm text-primary-foreground/60 mr-1">
-                  Follow Us:
-                </span>
                 {socialLinks.map(({ key, icon: Icon, url }) => (
                   <a
                     key={key}
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex h-8 w-8 items-center justify-center rounded-md bg-primary-foreground/5 hover:bg-primary-foreground/10 transition-colors hover:scale-105 duration-300"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg transition-all duration-300 hover:scale-110 hover:rotate-3"
+                    style={{
+                      backgroundColor: "var(--secondary)",
+                      color: "var(--secondary-foreground)",
+                    }}
                     aria-label={key}>
-                    <Icon className="h-3.5 w-3.5 text-primary-foreground/60 hover:text-secondary transition-colors" />
+                    <Icon className="h-4 w-4" />
                   </a>
                 ))}
               </div>
             )}
           </div>
 
-          {/* Quick Links - Column 2 */}
-          <div>
-            <h3 className="font-semibold text-primary-foreground text-sm uppercase tracking-wider mb-4 pb-2 border-b border-primary-foreground/10 relative">
-              <span className="relative inline-block">
-                Quick Links
-                <span className="absolute -bottom-[2px] left-0 w-full h-[2px] bg-secondary rounded-full"></span>
-              </span>
+          {/* Quick Links - Column 2 (3 columns) */}
+          <div className="lg:col-span-3">
+            <h3
+              className="font-serif font-semibold text-sm uppercase tracking-wider mb-4 pb-2 border-b relative"
+              style={{
+                color: "var(--foreground)",
+                borderColor: "var(--border)",
+              }}>
+              Quick Links
+              <span
+                className="absolute -bottom-[2px] left-0 w-8 h-0.5 rounded-full"
+                style={{ backgroundColor: "var(--accent)" }}
+              />
             </h3>
-            <ul className="space-y-2.5 text-sm">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2.5">
               {quickLinks.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-primary-foreground/60 hover:text-secondary transition-colors flex items-center gap-1.5 group">
-                    <ChevronRight className="h-3 w-3 text-secondary/50 group-hover:text-secondary transition-colors" />
-                    {link.label}
-                  </Link>
-                </li>
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className="flex items-center gap-1.5 text-sm transition-all duration-300 group"
+                  style={{
+                    color: "var(--muted-foreground)",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = "var(--foreground)";
+                    e.currentTarget.style.paddingLeft = "4px";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = "var(--muted-foreground)";
+                    e.currentTarget.style.paddingLeft = "0px";
+                  }}>
+                  <ChevronRight
+                    className="h-3 w-3 transition-all duration-300"
+                    style={{ color: "var(--accent)" }}
+                  />
+                  {link.label}
+                </Link>
               ))}
-            </ul>
+            </div>
           </div>
 
-          {/* Our Projects - Column 3 */}
-          <div>
-            <h3 className="font-semibold text-primary-foreground text-sm uppercase tracking-wider mb-4 pb-2 border-b border-primary-foreground/10 relative">
-              <span className="relative inline-block">
-                Our Projects
-                <span className="absolute -bottom-[2px] left-0 w-full h-[2px] bg-secondary rounded-full"></span>
-              </span>
+          {/* Our Projects - Column 3 (2 columns) */}
+          <div className="lg:col-span-2">
+            <h3
+              className="font-serif font-semibold text-sm uppercase tracking-wider mb-4 pb-2 border-b relative"
+              style={{
+                color: "var(--foreground)",
+                borderColor: "var(--border)",
+              }}>
+              Our Projects
+              <span
+                className="absolute -bottom-[2px] left-0 w-8 h-0.5 rounded-full"
+                style={{ backgroundColor: "var(--accent)" }}
+              />
             </h3>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2.5">
               {projectLinks.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-primary-foreground/60 hover:text-secondary transition-colors flex items-center gap-1.5 group">
-                    <ChevronRight className="h-3 w-3 text-secondary/50 group-hover:text-secondary transition-colors" />
+                    className="flex items-center gap-1.5 text-sm transition-all duration-300 group"
+                    style={{
+                      color: "var(--muted-foreground)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = "var(--foreground)";
+                      e.currentTarget.style.paddingLeft = "4px";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = "var(--muted-foreground)";
+                      e.currentTarget.style.paddingLeft = "0px";
+                    }}>
+                    <ChevronRight
+                      className="h-3 w-3 transition-all duration-300"
+                      style={{ color: "var(--accent)" }}
+                    />
                     {link.label}
                   </Link>
                 </li>
@@ -197,145 +279,186 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Customer Support - Column 4 */}
-          <div>
-            <h3 className="font-semibold text-primary-foreground text-sm uppercase tracking-wider mb-4 pb-2 border-b border-primary-foreground/10 relative">
-              <span className="relative inline-block">
-                Customer Support
-                <span className="absolute -bottom-[2px] left-0 w-full h-[2px] bg-secondary rounded-full"></span>
-              </span>
+          {/* Contact & Newsletter - Column 4 (4 columns) */}
+          <div className="lg:col-span-4">
+            <h3
+              className="font-serif font-semibold text-sm uppercase tracking-wider mb-4 pb-2 border-b relative"
+              style={{
+                color: "var(--foreground)",
+                borderColor: "var(--border)",
+              }}>
+              Contact & Stay Updated
+              <span
+                className="absolute -bottom-[2px] left-0 w-8 h-0.5 rounded-full"
+                style={{ backgroundColor: "var(--accent)" }}
+              />
             </h3>
-            <ul className="space-y-2.5 text-sm">
-              {supportLinks.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-primary-foreground/60 hover:text-secondary transition-colors flex items-center gap-1.5 group">
-                    <ChevronRight className="h-3 w-3 text-secondary/50 group-hover:text-secondary transition-colors" />
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
 
-          {/* Contact Information - Column 5 */}
-          <div>
-            <h3 className="font-semibold text-primary-foreground text-sm uppercase tracking-wider mb-4 pb-2 border-b border-primary-foreground/10 relative">
-              <span className="relative inline-block">
-                Contact Information
-                <span className="absolute -bottom-[2px] left-0 w-full h-[2px] bg-secondary rounded-full"></span>
-              </span>
-            </h3>
-            <ul className="space-y-3 text-sm">
+            {/* Contact Info */}
+            <div className="space-y-2.5 mb-4">
               {siteSettings.address && (
-                <li className="flex items-start gap-2.5 text-primary-foreground/60">
-                  <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0 text-secondary" />
-                  <span className="leading-relaxed">{siteSettings.address}</span>
-                </li>
+                <div className="flex items-start gap-2.5 text-sm">
+                  <MapPin
+                    className="h-4 w-4 mt-0.5 flex-shrink-0"
+                    style={{ color: "var(--accent)" }}
+                  />
+                  <span style={{ color: "var(--muted-foreground)" }}>
+                    {siteSettings.address}
+                  </span>
+                </div>
               )}
               {siteSettings.contactPhone && (
-                <li className="flex items-center gap-2.5 text-primary-foreground/60">
-                  <Phone className="h-4 w-4 flex-shrink-0 text-secondary" />
-                  <div>
-                    <div>
-                      <a
-                        href={`tel:${siteSettings.contactPhone}`}
-                        className="hover:text-secondary transition-colors">
-                        {siteSettings.contactPhone}
-                      </a>
-                    </div>
-                    {siteSettings.contactPhone2 && (
-                      <div>
-                        <a
-                          href={`tel:${siteSettings.contactPhone2}`}
-                          className="hover:text-secondary transition-colors">
-                          {siteSettings.contactPhone2}
-                        </a>
-                      </div>
-                    )}
-                  </div>
-                </li>
+                <div className="flex items-center gap-2.5 text-sm">
+                  <Phone
+                    className="h-4 w-4 flex-shrink-0"
+                    style={{ color: "var(--accent)" }}
+                  />
+                  <a
+                    href={`tel:${siteSettings.contactPhone}`}
+                    className="transition-colors"
+                    style={{ color: "var(--muted-foreground)" }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = "var(--foreground)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = "var(--muted-foreground)";
+                    }}>
+                    {siteSettings.contactPhone}
+                  </a>
+                </div>
               )}
               {siteSettings.contactEmail && (
-                <li className="flex items-center gap-2.5 text-primary-foreground/60">
-                  <Mail className="h-4 w-4 flex-shrink-0 text-secondary" />
+                <div className="flex items-center gap-2.5 text-sm">
+                  <Mail
+                    className="h-4 w-4 flex-shrink-0"
+                    style={{ color: "var(--accent)" }}
+                  />
                   <a
                     href={`mailto:${siteSettings.contactEmail}`}
-                    className="hover:text-secondary transition-colors">
+                    className="transition-colors"
+                    style={{ color: "var(--muted-foreground)" }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = "var(--foreground)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = "var(--muted-foreground)";
+                    }}>
                     {siteSettings.contactEmail}
                   </a>
-                </li>
+                </div>
               )}
-              <li className="flex items-center gap-2.5 text-primary-foreground/60">
-                <span className="text-secondary">🌐</span>
-                <a
-                  href="https://www.siliconrealestate.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-secondary transition-colors">
-                  www.siliconrealestate.com
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Newsletter Subscription */}
-        <div className="mt-10 py-8 border-t border-b border-primary-foreground/10">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-6">
-            <div className="sm:flex-1">
-              <h3 className="font-semibold text-primary-foreground mb-1">Stay Updated</h3>
-              <p className="text-sm text-primary-foreground/60">Subscribe to receive the latest property listings and news.</p>
             </div>
-            <form
-              aria-label="Newsletter subscription"
-              onSubmit={handleNewsletterSubmit}
-              className="flex flex-col gap-2 sm:w-80"
-              noValidate
-            >
-              <div className="flex gap-2">
-                <input
-                  type="email"
-                  value={newsletterEmail}
-                  onChange={(e) => { setNewsletterEmail(e.target.value); if (newsletterEmailError) setNewsletterEmailError(""); }}
-                  placeholder="Enter your email"
-                  aria-label="Email address"
-                  disabled={newsletterSubmitting}
-                  className="flex-1 rounded-md border border-primary-foreground/20 bg-primary-foreground/5 px-3 py-2 text-sm text-primary-foreground placeholder:text-primary-foreground/40 focus:outline-none focus:ring-2 focus:ring-secondary disabled:opacity-50"
-                />
-                <button
-                  type="submit"
-                  disabled={newsletterSubmitting}
-                  className="rounded-md bg-secondary px-4 py-2 text-sm font-semibold text-white hover:bg-secondary/90 transition-colors disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary"
-                >
-                  {newsletterSubmitting ? "..." : "Subscribe"}
-                </button>
-              </div>
-              {newsletterEmailError && (
-                <span data-field-error="email" className="text-xs text-red-300">{newsletterEmailError}</span>
-              )}
-            </form>
+
+            {/* Newsletter */}
+            <div>
+              <p
+                className="text-sm mb-2"
+                style={{ color: "var(--muted-foreground)" }}>
+                Subscribe for updates & offers
+              </p>
+              <form
+                aria-label="Newsletter subscription"
+                onSubmit={handleNewsletterSubmit}
+                className="flex flex-col gap-2"
+                noValidate>
+                <div className="flex gap-2">
+                  <input
+                    type="email"
+                    value={newsletterEmail}
+                    onChange={(e) => {
+                      setNewsletterEmail(e.target.value);
+                      if (newsletterEmailError) setNewsletterEmailError("");
+                    }}
+                    placeholder="Your email address"
+                    aria-label="Email address"
+                    disabled={newsletterSubmitting}
+                    className="flex-1 rounded-md px-3 py-2 text-sm transition-all duration-300 focus:outline-none focus:ring-2 disabled:opacity-50"
+                    style={{
+                      backgroundColor: "var(--secondary)",
+                      color: "var(--foreground)",
+                      border: "1px solid var(--border)",
+                    }}
+                    onFocus={(e) => {
+                      e.currentTarget.style.borderColor = "var(--accent)";
+                      e.currentTarget.style.boxShadow = `0 0 0 3px var(--accent)`;
+                      e.currentTarget.style.boxShadow =
+                        e.currentTarget.style.boxShadow + "15";
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.style.borderColor = "var(--border)";
+                      e.currentTarget.style.boxShadow = "none";
+                    }}
+                  />
+                  <button
+                    type="submit"
+                    disabled={newsletterSubmitting}
+                    className="rounded-md px-4 py-2 text-sm font-semibold transition-all duration-300 hover:scale-105 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 whitespace-nowrap"
+                    style={{
+                      backgroundColor: "var(--accent)",
+                      color: "var(--accent-foreground)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.opacity = "0.85";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.opacity = "1";
+                    }}>
+                    {newsletterSubmitting ? (
+                      "..."
+                    ) : (
+                      <>
+                        Subscribe
+                        <Send className="inline ml-1.5 h-3.5 w-3.5" />
+                      </>
+                    )}
+                  </button>
+                </div>
+                {newsletterEmailError && (
+                  <span
+                    className="text-xs"
+                    style={{ color: "var(--destructive)" }}>
+                    {newsletterEmailError}
+                  </span>
+                )}
+              </form>
+            </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-primary-foreground/10">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-primary-foreground/40">
-            <p>
+        <div
+          className="mt-12 pt-8 border-t"
+          style={{ borderColor: "var(--border)" }}>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
+            <p style={{ color: "var(--muted-foreground)" }}>
               © {new Date().getFullYear()} {siteSettings.siteName}. All Rights
               Reserved.
             </p>
             <div className="flex flex-wrap items-center gap-4">
-              <span className="text-xs px-3 py-1 bg-secondary/10 rounded-full text-secondary font-medium">
-                RAJUK & Govt. Approved Company
+              <span
+                className="flex items-center gap-1.5 text-xs px-3 py-1 rounded-full font-medium"
+                style={{
+                  backgroundColor: "var(--secondary)",
+                  color: "var(--secondary-foreground)",
+                }}>
+                <Shield className="h-3 w-3" />
+                RAJUK & Govt. Approved
               </span>
-              <span className="text-xs">
-                Website Designed & Developed by{" "}
+              <span style={{ color: "var(--muted-foreground)" }}>
+                Website by{" "}
                 <a
                   href="#"
-                  className="text-secondary hover:text-secondary/80 transition-colors">
-                  Your Company Name
+                  className="transition-colors"
+                  style={{
+                    color: "var(--accent)",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.opacity = "0.7";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.opacity = "1";
+                  }}>
+                  Your Company
                 </a>
               </span>
             </div>

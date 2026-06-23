@@ -1,11 +1,10 @@
 "use client";
 
 import { Menu, Bell, Search } from "lucide-react";
-
-import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Input } from "../ui/input";
+import { ModeToggle } from "../theme-toggle";
 
 interface AdminHeaderProps {
   title: string;
@@ -58,7 +57,7 @@ export function AdminHeader({
           <Bell className="h-5 w-5" />
         </Button>
 
-        <ThemeToggle />
+        <ModeToggle />
 
         <Avatar className="h-9 w-9">
           <AvatarFallback className="bg-primary text-primary-foreground text-sm">
