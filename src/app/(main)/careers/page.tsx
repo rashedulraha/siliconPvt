@@ -79,38 +79,36 @@ export default function CareersPage() {
         description={state.seo.careers.description}
       />
 
-      {/* Hero */}
-      <section className="relative py-20 md:py-28 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-primary/70" />
+      {/* ── Page Hero ───────────────────────────────────── */}
+      <section className="relative pt-28 pb-20 bg-dark-hero overflow-hidden">
+        <div className="absolute top-0 right-0 w-[700px] h-[500px] bg-accent/5 blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[300px] bg-accent/4 blur-[100px] pointer-events-none" />
         <div
-          className="absolute inset-0 opacity-10"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 25% 25%, white 1px, transparent 1px)",
-            backgroundSize: "40px 40px",
-          }}
+          className="absolute inset-0 opacity-[0.04] pointer-events-none"
+          style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }}
         />
-        <Container className="relative text-primary-foreground">
+        <Container className="relative">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full bg-primary-foreground/10 backdrop-blur-sm px-4 py-1.5 text-sm mb-6">
-              <Sparkles className="h-3.5 w-3.5 text-accent" />
-              <span>We&apos;re Hiring</span>
+            <div className="flex items-center gap-3 mb-5">
+              <div className="divider-gold" />
+              <span className="text-label text-accent">Careers</span>
             </div>
-            <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold">
-              Build Your Career With Us
+            <h1 className="font-serif font-bold text-white text-display-lg leading-[1.08] mb-5">
+              Build Your Career <br className="hidden sm:block" />
+              With <span className="text-gold">Silicon</span>
             </h1>
-            <p className="mt-6 text-lg text-primary-foreground/90 max-w-2xl">
+            <p className="text-white/65 text-lg font-light leading-relaxed max-w-2xl mb-8">
               Join a team of passionate professionals reshaping the real estate
               industry. We&apos;re looking for talented people who share our
               commitment to excellence.
             </p>
-            <div className="mt-8 flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2">
               {perks.slice(0, 4).map((perk) => (
                 <Badge
                   key={perk}
                   variant="outline"
-                  className="bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20">
-                  <CheckCircle className="h-3 w-3 mr-1" /> {perk}
+                  className="bg-white/5 text-white border-white/10 px-3 py-1 rounded-full">
+                  <CheckCircle className="h-3 w-3 mr-1.5 text-accent" /> {perk}
                 </Badge>
               ))}
             </div>
@@ -119,7 +117,7 @@ export default function CareersPage() {
       </section>
 
       {/* Jobs List */}
-      <section className="py-16">
+      <section className="section-y bg-background">
         <Container>
           <div className="mb-10">
             <h2 className="font-heading text-3xl md:text-4xl font-bold">
@@ -185,7 +183,7 @@ export default function CareersPage() {
       </section>
 
       {/* Culture */}
-      <section className="py-16 bg-muted/40">
+      <section className="section-y bg-muted/40">
         <Container>
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>

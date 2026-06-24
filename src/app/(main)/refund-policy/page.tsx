@@ -9,16 +9,34 @@ export const metadata: Metadata = {
 
 export default function RefundPolicyPage() {
   return (
-    <section className="pt-28 pb-16 md:pb-24">
-      <Container>
-        <div className="max-w-3xl mx-auto">
-          <div className="mb-10 pb-8 border-b border-border">
-            <p className="text-label text-accent mb-3">Legal</p>
-            <h1 className="font-heading font-bold text-4xl text-foreground mb-3">
+    <>
+      {/* ── Page Hero ───────────────────────────────────── */}
+      <section className="relative pt-28 pb-20 bg-dark-hero overflow-hidden mb-12">
+        <div className="absolute top-0 right-0 w-[700px] h-[500px] bg-accent/5 blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[300px] bg-accent/4 blur-[100px] pointer-events-none" />
+        <div
+          className="absolute inset-0 opacity-[0.04] pointer-events-none"
+          style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }}
+        />
+        <Container className="relative">
+          <div className="max-w-3xl mx-auto">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="divider-gold" />
+              <span className="text-label text-accent">Legal</span>
+            </div>
+            <h1 className="font-serif font-bold text-white text-display-lg leading-[1.08] mb-4">
               Refund Policy
             </h1>
-            <p className="text-muted-foreground text-sm">Last updated: January 2025</p>
+            <p className="text-white/65 text-sm font-light">
+              Last updated: January 2025
+            </p>
           </div>
+        </Container>
+      </section>
+
+      <section className="pb-16 md:pb-24">
+        <Container>
+          <div className="max-w-3xl mx-auto">
 
           <div className="prose prose-slate dark:prose-invert max-w-none
             prose-headings:font-heading prose-headings:text-foreground
@@ -75,5 +93,6 @@ export default function RefundPolicyPage() {
         </div>
       </Container>
     </section>
+    </>
   );
 }

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
@@ -85,17 +85,17 @@ export function HeroSlider() {
   const [formData, setFormData] = useState({ name: "", phone: "", email: "" });
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const startTimer = () => {
+  const startTimer = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
       setCurrent((p) => (p + 1) % heroSlides.length);
     }, 5500);
-  };
+  }, []);
 
   useEffect(() => {
     startTimer();
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  }, []);
+  }, [startTimer]);
 
   const go = (idx: number) => { setCurrent(idx); startTimer(); };
   const prev = () => go((current - 1 + heroSlides.length) % heroSlides.length);
@@ -373,9 +373,9 @@ export function HeroSlider() {
                   disabled={isSubmitting}
                   defaultValue=""
                 >
-                  <option value="" disabled className="bg-dark-hero">Select Project Interest</option>
+                  <option value="" disabled className="bg-[#0D1B3E] text-white">Select Project Interest</option>
                   {["Silicon Green City", "Silicon Village", "Silicon Smart City", "Residential Plot", "Commercial Plot"].map((p) => (
-                    <option key={p} value={p} className="bg-dark-hero">{p}</option>
+                    <option key={p} value={p} className="bg-[#0D1B3E] text-white">{p}</option>
                   ))}
                 </select>
 

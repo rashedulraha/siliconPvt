@@ -11,14 +11,15 @@ import {
 } from "lucide-react";
 import { useUserAuth } from "@/context/UserAuthContext";
 import { useRouter } from "next/navigation";
+import { ModeToggle } from "@/components/theme-toggle";
 
 /* ── Mock data ─────────────────────────────────────────────────────── */
 const mockProperties = [
   {
     id: "1",
-    title: "Dream House Reality",
-    address: "Evergreen 14, Jakarta, Indonesia",
-    price: 367,
+    title: "Bashundhara Premium Residence",
+    address: "Block I, Bashundhara R/A, Dhaka",
+    price: 35000,
     rating: 4.9,
     type: "Home",
     image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&q=80",
@@ -26,9 +27,9 @@ const mockProperties = [
   },
   {
     id: "2",
-    title: "Atap Langit Homes",
-    address: "Eedwest City, Jakarta, Indonesia",
-    price: 278,
+    title: "Uttara Skyline Apartment",
+    address: "Sector 4, Uttara, Dhaka",
+    price: 25000,
     rating: 4.7,
     type: "Apartment",
     image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&q=80",
@@ -36,9 +37,9 @@ const mockProperties = [
   },
   {
     id: "3",
-    title: "Midnight Ridge Villa",
-    address: "440 Thamrin, Jakarta, Indonesia",
-    price: 452,
+    title: "Banani Ridge Luxury Villa",
+    address: "Road 11, Banani, Dhaka",
+    price: 65000,
     rating: 4.8,
     type: "Villa",
     image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80",
@@ -46,9 +47,9 @@ const mockProperties = [
   },
   {
     id: "4",
-    title: "Unity Urban Homes",
-    address: "Forest City, Jakarta, Indonesia",
-    price: 278,
+    title: "Purbachal Green Valley Home",
+    address: "Sector 1, Purbachal, Dhaka",
+    price: 28000,
     rating: 4.7,
     type: "Home",
     image: "https://images.unsplash.com/photo-1560184897-ae75f418493e?w=800&q=80",
@@ -56,9 +57,9 @@ const mockProperties = [
   },
   {
     id: "5",
-    title: "Dream House",
-    address: "Evergreen 15, Jakarta, Indonesia",
-    price: 367,
+    title: "Bashundhara Garden View Condo",
+    address: "Block D, Bashundhara R/A, Dhaka",
+    price: 38000,
     rating: 4.9,
     type: "Apartment",
     image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
@@ -66,9 +67,9 @@ const mockProperties = [
   },
   {
     id: "6",
-    title: "Lalaland Thick Villa",
-    address: "Forest Land, Jakarta, Indonesia",
-    price: 278,
+    title: "Gulshan Lakefront Villa",
+    address: "Road 7, Gulshan-2, Dhaka",
+    price: 85000,
     rating: 4.7,
     type: "Villa",
     image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80",
@@ -76,12 +77,12 @@ const mockProperties = [
   },
 ];
 
-const activeDetail = mockProperties[2]; // Midnight Ridge Villa
+const activeDetail = mockProperties[2]; // Banani Ridge Luxury Villa
 
 const priceRanges = [
-  { label: "Under $1,000",       value: "under-1000" },
-  { label: "$1,000 - $15,000",   value: "1k-15k" },
-  { label: "More Than $15,000",  value: "over-15k" },
+  { label: "Under ৳30,000",       value: "under-30000" },
+  { label: "৳30,000 - ৳60,000",   value: "30k-60k" },
+  { label: "More Than ৳60,000",   value: "over-60k" },
 ];
 
 const typeOptions = [
@@ -96,12 +97,12 @@ const amenities = ["Garden", "Gym", "Garage"];
 /* ── Sub-components ────────────────────────────────────────────────── */
 function TypeBadge({ type }: { type: string }) {
   const colors: Record<string, string> = {
-    Home:      "bg-blue-500",
-    Apartment: "bg-purple-500",
-    Villa:     "bg-amber-500",
+    Home:      "bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/40",
+    Apartment: "bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300 border border-purple-200 dark:border-purple-800/40",
+    Villa:     "bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300 border border-amber-200 dark:border-amber-800/40",
   };
   return (
-    <span className={`${colors[type] ?? "bg-gray-500"} text-white text-[10px] font-heading font-semibold px-2 py-0.5 rounded-full`}>
+    <span className={`${colors[type] ?? "bg-muted text-muted-foreground border border-border"} text-[10px] font-heading font-semibold px-2 py-0.5 rounded-full`}>
       {type}
     </span>
   );
@@ -138,10 +139,10 @@ function PropertyCard({
         </div>
         <button
           onClick={(e) => e.stopPropagation()}
-          className="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center hover:bg-white transition-all"
+          className="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center hover:bg-background transition-all"
           aria-label="Save"
         >
-          <Heart className="w-3.5 h-3.5 text-gray-500" />
+          <Heart className="w-3.5 h-3.5 text-muted-foreground hover:text-destructive transition-colors" />
         </button>
       </div>
       <div className="p-3">
@@ -154,7 +155,7 @@ function PropertyCard({
         </div>
         <div className="flex items-center justify-between">
           <span className="font-heading font-bold text-base text-foreground">
-            ${property.price.toFixed(2)}<span className="text-xs font-normal text-muted-foreground">/month</span>
+            ৳{property.price.toLocaleString()}<span className="text-xs font-normal text-muted-foreground">/month</span>
           </span>
           <div className="flex items-center gap-1">
             <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
@@ -204,7 +205,7 @@ export default function DashboardPage() {
               key={tab}
               className={`px-3.5 py-1.5 rounded-xl text-sm font-medium transition-all ${
                 tab === "Buy"
-                  ? "bg-primary text-white shadow-blue"
+                  ? "bg-primary text-primary-foreground shadow-blue"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted"
               }`}
             >
@@ -221,7 +222,7 @@ export default function DashboardPage() {
             placeholder="Search Anything..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-9 pl-9 pr-8 rounded-xl bg-muted border border-border text-sm focus:outline-none focus:border-primary/40 focus:bg-white transition-all"
+            className="w-full h-9 pl-9 pr-8 rounded-xl bg-muted border border-border text-sm focus:outline-none focus:border-primary/40 focus:bg-card transition-all"
           />
           {search && (
             <button
@@ -235,6 +236,7 @@ export default function DashboardPage() {
 
         {/* Right icons */}
         <div className="flex items-center gap-2 ml-auto">
+          <ModeToggle />
           <button className="w-8 h-8 rounded-xl hover:bg-muted flex items-center justify-center text-muted-foreground transition-all" aria-label="Messages">
             <MessageCircle className="w-4 h-4" />
           </button>
@@ -266,7 +268,7 @@ export default function DashboardPage() {
       <div className="flex flex-1 overflow-hidden">
 
         {/* ── LEFT: Filters ────────────────────── */}
-        <aside className="w-56 flex-shrink-0 bg-white border-r border-border overflow-y-auto scrollbar-hide p-4 space-y-5 hidden lg:block">
+        <aside className="w-56 flex-shrink-0 bg-card border-r border-border overflow-y-auto scrollbar-hide p-4 space-y-5 hidden lg:block">
           <div className="flex items-center justify-between">
             <h2 className="font-heading font-semibold text-sm text-foreground flex items-center gap-1.5">
               <SlidersHorizontal className="w-4 h-4 text-primary" />
@@ -289,11 +291,11 @@ export default function DashboardPage() {
                 className="w-full h-8 pl-7 pr-3 rounded-lg bg-muted border border-border text-xs focus:outline-none focus:border-primary/40 transition-all"
               />
             </div>
-            {["Jakarta, Indonesia", "Semarang, Indonesia"].map((loc) => (
+            {["Dhaka, Bangladesh", "Chittagong, Bangladesh"].map((loc) => (
               <label key={loc} className="flex items-center gap-2 cursor-pointer group">
                 <input
                   type="checkbox"
-                  defaultChecked={loc.includes("Jakarta")}
+                  defaultChecked={loc.includes("Dhaka")}
                   className="w-3.5 h-3.5 rounded accent-primary"
                 />
                 <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">{loc}</span>
@@ -340,8 +342,8 @@ export default function DashboardPage() {
                   className="w-full accent-primary h-1.5"
                 />
                 <div className="flex items-center justify-between text-[10px] text-muted-foreground">
-                  <span>$10K</span>
-                  <span>$50K</span>
+                  <span>৳20K</span>
+                  <span>৳100K</span>
                 </div>
               </div>
             )}
@@ -399,7 +401,7 @@ export default function DashboardPage() {
                   key={a}
                   className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
                     a === "Garden"
-                      ? "bg-primary text-white shadow-blue"
+                      ? "bg-primary text-primary-foreground shadow-blue"
                       : "bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary"
                   }`}
                 >
@@ -414,7 +416,7 @@ export default function DashboardPage() {
         <main className="flex-1 overflow-y-auto scrollbar-hide p-4">
           {/* Mobile filter row */}
           <div className="flex items-center gap-2 mb-4 lg:hidden">
-            <button className="flex items-center gap-1.5 px-3 h-8 rounded-xl bg-white border border-border text-xs font-medium text-foreground hover:bg-muted transition-all">
+            <button className="flex items-center gap-1.5 px-3 h-8 rounded-xl bg-card border border-border text-xs font-medium text-foreground hover:bg-muted transition-all">
               <Filter className="w-3.5 h-3.5" /> Filters
             </button>
             <div className="flex gap-1 overflow-x-auto scrollbar-hide">
@@ -422,7 +424,7 @@ export default function DashboardPage() {
                 <button
                   key={t}
                   className={`px-3 h-8 rounded-xl text-xs font-medium flex-shrink-0 transition-all ${
-                    t === "All" ? "bg-primary text-white" : "bg-white border border-border text-muted-foreground hover:bg-muted"
+                    t === "All" ? "bg-primary text-primary-foreground" : "bg-card border border-border text-muted-foreground hover:bg-muted"
                   }`}
                 >
                   {t}
@@ -444,7 +446,7 @@ export default function DashboardPage() {
         </main>
 
         {/* ── RIGHT: Detail Panel ───────────────── */}
-        <aside className="w-80 flex-shrink-0 bg-white border-l border-border overflow-y-auto scrollbar-hide hidden xl:flex flex-col">
+        <aside className="w-80 flex-shrink-0 bg-card border-l border-border overflow-y-auto scrollbar-hide hidden xl:flex flex-col">
           {/* Photo grid */}
           <div className="relative h-44 grid grid-cols-2 gap-1 p-1 flex-shrink-0">
             <div className="relative rounded-xl overflow-hidden col-span-1 row-span-2">
@@ -481,7 +483,7 @@ export default function DashboardPage() {
             <div className="flex items-start justify-between gap-2 mb-1">
               <h2 className="font-heading font-bold text-base text-foreground leading-tight">{selected.title}</h2>
               <div className="text-right flex-shrink-0">
-                <span className="font-heading font-bold text-lg text-foreground">${selected.price.toFixed(2)}</span>
+                <span className="font-heading font-bold text-lg text-foreground">৳{selected.price.toLocaleString()}</span>
                 <span className="text-[10px] text-muted-foreground">/month</span>
               </div>
             </div>
