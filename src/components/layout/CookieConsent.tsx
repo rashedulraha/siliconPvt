@@ -43,8 +43,8 @@ export function CookieConsent() {
           role="dialog"
           aria-label="Cookie consent">
           <div className="flex items-start gap-3">
-            <div className="h-10 w-10 rounded-lg bg-secondary/10 flex items-center justify-center flex-shrink-0">
-              <Cookie className="h-5 w-5 text-secondary" />
+            <div className="h-10 w-10 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
+              <Cookie className="h-5 w-5 text-accent" />
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="font-semibold mb-1">We use cookies</h3>

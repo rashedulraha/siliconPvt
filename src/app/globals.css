@@ -1,392 +1,520 @@
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Hind+Siliguri:wght@300;400;500;600;700&family=Tiro+Bangla&family=JetBrains+Mono:wght@400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=JetBrains+Mono:wght@400..700&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* ============================================================
-   Silicon Real Estate (Pvt.) Ltd. — Brand Fonts
-   Display: Fraunces (premium, editorial serif) / Tiro Bangla (Bengali serif pair)
-   Body:    Plus Jakarta Sans (clean, trustworthy sans) / Hind Siliguri (Bengali body)
-   Mono:    JetBrains Mono (numbers, prices, data tables)
-   ============================================================ */
+/*
+  Silicon Real Estate — Design System
+  Headings : Poppins (clean, modern, trustworthy)
+  Body     : Roboto (readable, neutral)
+  Mono     : JetBrains Mono (prices, data)
+*/
 
 @custom-variant dark (&:is(.dark *));
+
 :root {
-  --radius: 0.75rem;
+  /* ── Radius ─────────────────────────────────── */
+  --radius: 1rem; /* 16px base — Apple-style */
 
-  /* ===================================================================
-     SILICON REAL ESTATE — Dubai Luxury Palette
-     Deep Navy Primary  → oklch(0.20 0.055 258)  ≈ #0D1B3E
-     Warm Off-White BG  → oklch(0.98 0.006 85)   ≈ #F9F8F4
-     Pure-White Card    → oklch(1 0 0)            = #FFFFFF
-     Luxury Gold Accent → oklch(0.74 0.145 78)   ≈ #C9911A (warm gold)
-     Deep Charcoal FG   → oklch(0.18 0.025 255)  ≈ #0F1624
-     =================================================================== */
+  /* ── Brand Color Tokens ─────────────────────── */
+  /* Trust Blue primary */
+  --brand-blue:      #1A5FA8;
+  --brand-blue-light:#EEF4FB;
+  --brand-blue-mid:  #2E7DD1;
+  /* Teal secondary */
+  --brand-teal:      #0E8A7E;
+  --brand-teal-light:#E6F5F4;
+  /* Gold accent */
+  --brand-gold:      #C9911A;
+  --brand-gold-light:#FEF3DC;
+  /* Neutrals */
+  --brand-navy:      #0D1B3E;
+  --brand-gray:      #F0F4F8;
 
-  /* Light mode (primary surface) */
-  --background: oklch(0.985 0.006 85);      /* warm milky #F9F8F4 */
-  --foreground: oklch(0.18 0.025 255);      /* deep charcoal navy */
+  /* ── Dark hero / footer semantic tokens ─────── */
+  --dark-hero:       #0D1B3E;
+  --footer-bg:       #0D1B3E;
+  --input-surface:   #F4F7FB;
 
-  --card: oklch(1 0 0);                     /* pure white cards */
-  --card-foreground: oklch(0.18 0.025 255);
+  --background:           #F4F7FB;   /* soft blue-gray */
+  --foreground:           #0D1B3E;   /* deep navy */
+  --card:                 #FFFFFF;
+  --card-foreground:      #0D1B3E;
+  --popover:              #FFFFFF;
+  --popover-foreground:   #0D1B3E;
+  --primary:              #1A5FA8;   /* trust blue */
+  --primary-foreground:   #FFFFFF;
+  --secondary:            #EEF4FB;   /* light blue */
+  --secondary-foreground: #1A5FA8;
+  --muted:                #F0F4F8;
+  --muted-foreground:     #6B7A99;
+  --accent:               #C9911A;   /* gold */
+  --accent-foreground:    #0D1B3E;
+  --destructive:          #DC2626;
+  --destructive-foreground: #FFFFFF;
+  --border:               #DDE3EE;
+  --input:                #EEF1F7;
+  --ring:                 #1A5FA8;
 
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.025 255);
+  /* Teal token for use in CSS */
+  --teal:                 #0E8A7E;
+  --teal-light:           #E6F5F4;
 
-  /* Deep Navy Primary — the hero background, nav, footer */
-  --primary: oklch(0.20 0.055 258);         /* #0D1B3E deep navy */
-  --primary-foreground: oklch(0.97 0.006 85);
-
-  /* Soft Warm Stone — muted section backgrounds */
-  --secondary: oklch(0.95 0.008 85);        /* warm stone #F2F0EA */
-  --secondary-foreground: oklch(0.20 0.04 258);
-
-  /* Muted surfaces */
-  --muted: oklch(0.95 0.008 85);
-  --muted-foreground: oklch(0.52 0.025 255);
-
-  /* ✦ Luxury Gold Accent — buttons, highlights, prices, icons */
-  --accent: oklch(0.74 0.145 78);           /* warm gold #C9911A */
-  --accent-foreground: oklch(0.12 0.02 258);
-
-  --destructive: oklch(0.58 0.22 25);
-  --destructive-foreground: white;
-
-  /* Clean muted borders */
-  --border: oklch(0.90 0.010 85);           /* warm gray */
-  --input: oklch(0.92 0.008 85);
-  --ring: oklch(0.74 0.145 78);             /* gold ring */
+  /* WhatsApp brand token (intentionally kept as brand color) */
+  --whatsapp: #25D366;
 
   /* Charts */
-  --chart-1: var(--primary);
-  --chart-2: var(--accent);
-  --chart-3: oklch(0.65 0.08 200);
-  --chart-4: oklch(0.55 0.1 160);
-  --chart-5: oklch(0.6 0.09 40);
+  --chart-1: #1A5FA8;
+  --chart-2: #C9911A;
+  --chart-3: #0E8A7E;
+  --chart-4: #7C3AED;
+  --chart-5: #DC2626;
 
-  /* Sidebar — dark navy panel */
-  --sidebar: oklch(0.14 0.04 258);
-  --sidebar-foreground: oklch(0.92 0.01 85);
-  --sidebar-primary: var(--accent);
-  --sidebar-primary-foreground: oklch(0.12 0.02 258);
-  --sidebar-accent: oklch(0.22 0.045 258);
-  --sidebar-accent-foreground: oklch(0.92 0.01 85);
-  --sidebar-border: oklch(0.26 0.04 258);
-  --sidebar-ring: var(--accent);
+  /* Admin sidebar — dark navy */
+  --sidebar:                    #0D1B3E;
+  --sidebar-foreground:         #EEF4FB;
+  --sidebar-primary:            #C9911A;
+  --sidebar-primary-foreground: #0D1B3E;
+  --sidebar-accent:             #1A2F52;
+  --sidebar-accent-foreground:  #EEF4FB;
+  --sidebar-border:             #1E2E50;
+  --sidebar-ring:               #C9911A;
 
   /* Fonts */
-  --font-sans:  "Plus Jakarta Sans", "Hind Siliguri", sans-serif;
-  --font-serif: "Fraunces", "Tiro Bangla", serif;
-  --font-mono:  "JetBrains Mono", monospace;
+  --font-heading: "Poppins", sans-serif;
+  --font-body:    "Roboto", sans-serif;
+  --font-mono:    "JetBrains Mono", monospace;
+  --font-sans:    "Roboto", sans-serif;
+  --font-serif:   "Poppins", sans-serif;
 }
 
 .dark {
-  /* Deep navy / charcoal background — opulent dark mode */
-  --background: oklch(0.13 0.025 258);      /* very deep navy */
-  --foreground: oklch(0.93 0.012 85);       /* warm off-white */
+  --background:           #0A1628;
+  --foreground:           #EEF4FB;
+  --card:                 #111E35;
+  --card-foreground:      #EEF4FB;
+  --popover:              #0F1D32;
+  --popover-foreground:   #EEF4FB;
+  --primary:              #4A90D9;
+  --primary-foreground:   #0D1B3E;
+  --secondary:            #1A2F52;
+  --secondary-foreground: #A8C4E8;
+  --muted:                #162338;
+  --muted-foreground:     #8899BB;
+  --accent:               #D4A030;
+  --accent-foreground:    #0D1B3E;
+  --destructive:          #EF4444;
+  --destructive-foreground: #FFFFFF;
+  --border:               #1E2E50;
+  --input:                #1A2F52;
+  --ring:                 #4A90D9;
 
-  --card: oklch(0.18 0.030 258);            /* navy surface */
-  --card-foreground: oklch(0.93 0.012 85);
-
-  --popover: oklch(0.16 0.028 258);
-  --popover-foreground: oklch(0.93 0.012 85);
-
-  --primary: oklch(0.68 0.080 258);         /* lighter navy in dark */
-  --primary-foreground: oklch(0.12 0.025 258);
-
-  --secondary: oklch(0.22 0.032 258);
-  --secondary-foreground: oklch(0.93 0.012 85);
-
-  --muted: oklch(0.22 0.028 258);
-  --muted-foreground: oklch(0.65 0.022 258);
-
-  --accent: oklch(0.80 0.145 78);           /* gold brightened for dark */
-  --accent-foreground: oklch(0.12 0.02 258);
-
-  --border: oklch(0.28 0.032 258);
-  --input: oklch(0.26 0.030 258);
-  --ring: oklch(0.80 0.145 78);
-
-  --sidebar: oklch(0.10 0.022 258);
-  --sidebar-foreground: oklch(0.90 0.010 85);
-  --sidebar-primary: var(--accent);
-  --sidebar-primary-foreground: oklch(0.12 0.02 258);
-  --sidebar-accent: oklch(0.18 0.028 258);
-  --sidebar-accent-foreground: oklch(0.90 0.010 85);
-  --sidebar-border: oklch(0.22 0.028 258);
+  --sidebar:                    #060E1F;
+  --sidebar-foreground:         #A8C4E8;
+  --sidebar-primary:            #D4A030;
+  --sidebar-primary-foreground: #0D1B3E;
+  --sidebar-accent:             #0D1B3E;
+  --sidebar-accent-foreground:  #A8C4E8;
+  --sidebar-border:             #162338;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
+  --color-background:              var(--background);
+  --color-foreground:              var(--foreground);
+  --color-card:                    var(--card);
+  --color-card-foreground:         var(--card-foreground);
+  --color-popover:                 var(--popover);
+  --color-popover-foreground:      var(--popover-foreground);
+  --color-primary:                 var(--primary);
+  --color-primary-foreground:      var(--primary-foreground);
+  --color-secondary:               var(--secondary);
+  --color-secondary-foreground:    var(--secondary-foreground);
+  --color-muted:                   var(--muted);
+  --color-muted-foreground:        var(--muted-foreground);
+  --color-accent:                  var(--accent);
+  --color-accent-foreground:       var(--accent-foreground);
+  --color-destructive:             var(--destructive);
+  --color-destructive-foreground:  var(--destructive-foreground);
+  --color-border:                  var(--border);
+  --color-input:                   var(--input);
+  --color-ring:                    var(--ring);
+  --color-chart-1:                 var(--chart-1);
+  --color-chart-2:                 var(--chart-2);
+  --color-chart-3:                 var(--chart-3);
+  --color-chart-4:                 var(--chart-4);
+  --color-chart-5:                 var(--chart-5);
+  --color-whatsapp:                var(--whatsapp);
+  --color-dark-hero:               var(--dark-hero);
+  --color-footer-bg:               var(--footer-bg);
+  --color-input-surface:           var(--input-surface);
+  --color-sidebar:                 var(--sidebar);
+  --color-sidebar-foreground:      var(--sidebar-foreground);
+  --color-sidebar-primary:         var(--sidebar-primary);
   --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent:          var(--sidebar-accent);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border:          var(--sidebar-border);
+  --color-sidebar-ring:            var(--sidebar-ring);
 
-  --font-sans: var(--font-sans);
-  --font-serif: var(--font-serif);
-  --font-mono: var(--font-mono);
+  --font-sans:   var(--font-sans);
+  --font-serif:  var(--font-serif);
+  --font-mono:   var(--font-mono);
 
   --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-
-  --shadow-2xs: var(--shadow-2xs);
-  --shadow-xs: var(--shadow-xs);
-  --shadow-sm: var(--shadow-sm);
-  --shadow: var(--shadow);
-  --shadow-md: var(--shadow-md);
-  --shadow-lg: var(--shadow-lg);
-  --shadow-xl: var(--shadow-xl);
-
-  --tracking-normal: var(--tracking-normal);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) + 8px);
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
+  * { @apply border-border outline-ring/50; }
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-sans);
-    letter-spacing: var(--tracking-normal);
+    font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-serif);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  /* font-display is an alias for font-heading throughout the legacy components */
+  .font-display {
+    font-family: var(--font-heading);
   }
 }
 
-/* ══════════════════════════════════════════════
-   LUXURY UTILITIES — Dubai Real Estate System
-   ══════════════════════════════════════════════ */
-
-/* Smooth global transitions */
+/* ── Smooth global transitions ───────────────── */
 *, *::before, *::after {
   transition-property: color, background-color, border-color,
     box-shadow, opacity, transform, filter, backdrop-filter;
-  transition-duration: 300ms;
+  transition-duration: 250ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 .no-transition *, .no-transition *::before, .no-transition *::after {
   transition: none !important;
 }
 
-/* Selection */
+/* ── Selection ───────────────────────────────── */
 ::selection {
-  background-color: oklch(0.74 0.145 78 / 0.28);
-  color: var(--foreground);
+  background-color: var(--primary);
+  color: var(--primary-foreground);
 }
 
-/* Scrollbar */
-::-webkit-scrollbar        { width: 6px; height: 6px; }
+/* ── Scrollbar ───────────────────────────────── */
+::-webkit-scrollbar        { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track  { background: transparent; }
-::-webkit-scrollbar-thumb  {
-  background: oklch(0.74 0.145 78 / 0.40);
-  border-radius: 9999px;
-}
-::-webkit-scrollbar-thumb:hover { background: oklch(0.74 0.145 78 / 0.70); }
+::-webkit-scrollbar-thumb  { background: var(--primary); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--brand-blue-mid); }
 
-/* ── Glassmorphism ───────────────────────────── */
+/* ── Focus ring ──────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ══════════════════════════════════════════════
+   GLASS UTILITIES
+   ══════════════════════════════════════════════ */
+
+/* Light glass — white surface with blur */
 .glass {
-  background: oklch(1 0 0 / 0.70);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid oklch(1 0 0 / 0.22);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 2px 8px rgba(26, 95, 168, 0.06),
+    0 8px 32px rgba(26, 95, 168, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.90);
 }
 .dark .glass {
-  background: oklch(0.18 0.030 258 / 0.78);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid oklch(0.74 0.145 78 / 0.14);
+  background: rgba(17, 30, 53, 0.78);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(74, 144, 217, 0.18);
 }
 
-.glass-dark {
-  background: oklch(0.14 0.038 258 / 0.82);
-  backdrop-filter: blur(32px) saturate(180%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%);
-  border: 1px solid oklch(0.74 0.145 78 / 0.18);
-}
-
-/* ── Gold Shimmer ────────────────────────────── */
-.gold-shimmer {
+/* Frosted panel — tinted blue glass */
+.glass-panel {
   background: linear-gradient(
     135deg,
-    oklch(0.74 0.145 78) 0%,
-    oklch(0.82 0.16 85) 40%,
-    oklch(0.74 0.145 78) 80%,
-    oklch(0.68 0.13 72) 100%
+    rgba(238, 244, 251, 0.85) 0%,
+    rgba(255, 255, 255, 0.92) 100%
   );
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid rgba(221, 227, 238, 0.70);
+  box-shadow:
+    0 4px 20px rgba(26, 95, 168, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.80);
+}
+
+/* Navbar glass */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.90);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border-bottom: 1px solid rgba(221, 227, 238, 0.80);
+  box-shadow: 0 1px 20px rgba(26, 95, 168, 0.07);
+}
+
+/* Dark glass — for hero/CTA overlays */
+.glass-dark {
+  background: rgba(13, 27, 62, 0.82);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border: 1px solid rgba(201, 145, 26, 0.18);
+}
+
+/* Property card glass */
+.glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(221, 227, 238, 0.60);
+  box-shadow:
+    0 1px 3px rgba(13, 27, 62, 0.04),
+    0 4px 16px rgba(13, 27, 62, 0.06),
+    0 8px 32px rgba(13, 27, 62, 0.04);
+}
+
+/* ── Card Interactions ───────────────────────── */
+.card-lift {
+  transition: transform 250ms ease, box-shadow 250ms ease;
+}
+.card-lift:hover {
+  transform: translateY(-5px) scale(1.01);
+  box-shadow:
+    0 8px 24px rgba(26, 95, 168, 0.14),
+    0 24px 56px rgba(26, 95, 168, 0.08),
+    0 0 0 1px rgba(26, 95, 168, 0.12);
+}
+
+/* ══════════════════════════════════════════════
+   SHADOW SYSTEM
+   ══════════════════════════════════════════════ */
+.shadow-soft {
+  box-shadow:
+    0 1px 3px rgba(13, 27, 62, 0.04),
+    0 4px 16px rgba(13, 27, 62, 0.06),
+    0 8px 32px rgba(13, 27, 62, 0.04);
+}
+.shadow-soft-md {
+  box-shadow:
+    0 2px 6px rgba(13, 27, 62, 0.06),
+    0 8px 24px rgba(13, 27, 62, 0.08),
+    0 16px 48px rgba(13, 27, 62, 0.05);
+}
+.shadow-soft-lg {
+  box-shadow:
+    0 4px 12px rgba(13, 27, 62, 0.08),
+    0 16px 40px rgba(13, 27, 62, 0.10),
+    0 32px 80px rgba(13, 27, 62, 0.06);
+}
+.shadow-blue {
+  box-shadow:
+    0 4px 16px rgba(26, 95, 168, 0.20),
+    0 12px 32px rgba(26, 95, 168, 0.12);
+}
+.shadow-gold {
+  box-shadow:
+    0 4px 16px rgba(201, 145, 26, 0.25),
+    0 12px 32px rgba(201, 145, 26, 0.15),
+    0 0 0 1px rgba(201, 145, 26, 0.20);
+}
+
+/* Backward-compat aliases */
+.shadow-luxury {
+  box-shadow:
+    0 2px 6px rgba(13, 27, 62, 0.06),
+    0 8px 24px rgba(13, 27, 62, 0.08),
+    0 16px 48px rgba(13, 27, 62, 0.05);
+}
+.shadow-luxury-lg {
+  box-shadow:
+    0 4px 12px rgba(13, 27, 62, 0.08),
+    0 16px 40px rgba(13, 27, 62, 0.10),
+    0 32px 80px rgba(13, 27, 62, 0.06);
+}
+.shadow-luxury-gold {
+  box-shadow:
+    0 4px 16px rgba(201, 145, 26, 0.25),
+    0 12px 32px rgba(201, 145, 26, 0.15),
+    0 0 0 1px rgba(201, 145, 26, 0.20);
+}
+
+/* ══════════════════════════════════════════════
+   TYPOGRAPHY UTILITIES
+   ══════════════════════════════════════════════ */
+.text-display-xl {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  font-family: var(--font-heading);
+}
+.text-display-lg {
+  font-size: clamp(2rem, 5vw, 3.75rem);
+  line-height: 1.10;
+  letter-spacing: -0.025em;
+  font-family: var(--font-heading);
+}
+.text-display-md {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+  font-family: var(--font-heading);
+}
+.text-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  font-family: var(--font-heading);
+}
+
+/* ── Text gradients ──────────────────────────── */
+.text-blue-gradient {
+  background: linear-gradient(135deg, #1A5FA8 0%, #2E7DD1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.text-gold {
+  background: linear-gradient(135deg, #D4A030 0%, #C9911A 50%, #B07D16 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.text-teal-gradient {
+  background: linear-gradient(135deg, #0E8A7E 0%, #12A898 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Gold shimmer (kept from legacy for hero form) ── */
+.gold-shimmer {
+  background: linear-gradient(135deg, #C9911A 0%, #E0AA30 40%, #C9911A 80%, #B07D16 100%);
   background-size: 200% 200%;
   animation: shimmer 3.5s ease infinite;
 }
-
 @keyframes shimmer {
   0%   { background-position: 0% 50%; }
   50%  { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
-/* ── Text Gradients ──────────────────────────── */
-.text-gold {
-  background: linear-gradient(135deg,
-    oklch(0.82 0.16 85) 0%,
-    oklch(0.74 0.145 78) 50%,
-    oklch(0.65 0.13 72) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* ── Section spacing ─────────────────────────── */
+.section-y {
+  padding-top: clamp(4rem, 7vw, 7rem);
+  padding-bottom: clamp(4rem, 7vw, 7rem);
 }
 
-.text-navy-gold {
-  background: linear-gradient(135deg,
-    oklch(0.30 0.065 258) 0%,
-    oklch(0.74 0.145 78) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ── Luxury Shadows ──────────────────────────── */
-.shadow-luxury {
-  box-shadow:
-    0 0 0 1px oklch(0.90 0.010 85),
-    0 4px 16px -2px oklch(0.20 0.055 258 / 0.10),
-    0 12px 32px -6px oklch(0.20 0.055 258 / 0.08);
-}
-.shadow-luxury-lg {
-  box-shadow:
-    0 0 0 1px oklch(0.90 0.010 85),
-    0 8px 24px -4px oklch(0.20 0.055 258 / 0.12),
-    0 24px 56px -10px oklch(0.20 0.055 258 / 0.10);
-}
-.shadow-luxury-gold {
-  box-shadow:
-    0 4px 16px -2px oklch(0.74 0.145 78 / 0.25),
-    0 12px 32px -6px oklch(0.74 0.145 78 / 0.15),
-    0 0 0 1px oklch(0.74 0.145 78 / 0.20);
-}
-.dark .shadow-luxury {
-  box-shadow:
-    0 0 0 1px oklch(0.28 0.032 258),
-    0 4px 20px -4px oklch(0 0 0 / 0.55),
-    0 12px 40px -8px oklch(0 0 0 / 0.45);
-}
-
-/* ── Card Hover ──────────────────────────────── */
-.card-lift {
-  transition: transform 300ms ease, box-shadow 300ms ease, border-color 300ms ease;
-}
-.card-lift:hover {
-  transform: translateY(-4px) scale(1.005);
-  border-color: oklch(0.74 0.145 78 / 0.35);
-  box-shadow:
-    0 8px 24px -4px oklch(0.20 0.055 258 / 0.14),
-    0 24px 56px -12px oklch(0.20 0.055 258 / 0.10),
-    0 0 0 1px oklch(0.74 0.145 78 / 0.18);
-}
-
-/* ── Gold Divider ────────────────────────────── */
-.divider-gold {
-  height: 2px;
+/* ── Decorative dividers ─────────────────────── */
+.divider-blue {
+  height: 3px;
   width: 48px;
-  background: linear-gradient(90deg, oklch(0.74 0.145 78), oklch(0.82 0.16 85));
+  background: linear-gradient(90deg, #1A5FA8, #2E7DD1);
+  border-radius: 9999px;
+}
+.divider-gold {
+  height: 3px;
+  width: 48px;
+  background: linear-gradient(90deg, #C9911A, #E0AA30);
   border-radius: 9999px;
 }
 
-/* ── Underline Link ──────────────────────────── */
-.link-gold {
+/* ── Animated underline link ─────────────────── */
+.link-underline {
   position: relative;
   text-decoration: none;
 }
-.link-gold::after {
+.link-underline::after {
   content: "";
   position: absolute;
   bottom: -2px;
   left: 0;
   width: 0;
   height: 1.5px;
-  background: oklch(0.74 0.145 78);
+  background: var(--primary);
   border-radius: 9999px;
-  transition: width 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: width 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-.link-gold:hover::after { width: 100%; }
+.link-underline:hover::after { width: 100%; }
 
-/* ── Fluid Typography ────────────────────────── */
-.text-display-xl {
-  font-size: clamp(2.75rem, 7vw, 5.5rem);
-  line-height: 1.07;
-  letter-spacing: -0.035em;
+/* ── Button styles ───────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0 1.5rem;
+  height: 2.75rem;
+  border-radius: 0.75rem;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 0.875rem;
+  box-shadow: 0 2px 8px rgba(26, 95, 168, 0.30);
+  transition: background 200ms, box-shadow 200ms, transform 200ms;
 }
-.text-display-lg {
-  font-size: clamp(2.25rem, 5.5vw, 4rem);
-  line-height: 1.10;
-  letter-spacing: -0.028em;
+.btn-primary:hover {
+  background: var(--brand-blue-mid);
+  box-shadow: 0 4px 16px rgba(26, 95, 168, 0.40);
+  transform: translateY(-1px);
 }
-.text-display-md {
-  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
-  line-height: 1.14;
-  letter-spacing: -0.022em;
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0 1.5rem;
+  height: 2.75rem;
+  border-radius: 0.75rem;
+  background: var(--accent);
+  color: var(--accent-foreground);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.875rem;
+  box-shadow: 0 2px 8px rgba(201, 145, 26, 0.30);
+  transition: all 200ms;
 }
-.text-label {
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+.btn-gold:hover {
+  background: var(--brand-gold-light);
+  filter: brightness(0.95);
+  box-shadow: 0 4px 16px rgba(201, 145, 26, 0.45);
+  transform: translateY(-1px);
 }
 
-/* ── Section Spacing ─────────────────────────── */
-.section-y { padding-top: clamp(5rem, 8vw, 8rem); padding-bottom: clamp(5rem, 8vw, 8rem); }
-
-/* ── Focus ring ──────────────────────────────── */
-*:focus-visible {
-  outline: 2px solid oklch(0.74 0.145 78);
-  outline-offset: 3px;
-  border-radius: 4px;
+/* ── Background patterns ─────────────────────── */
+.bg-dot-pattern {
+  background-image: radial-gradient(circle, rgba(26,95,168,0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
+.bg-grid-pattern {
+  background-image:
+    linear-gradient(rgba(26,95,168,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,95,168,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── Scrollbar hide ──────────────────────────── */
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
 
 /* ── Noise texture ───────────────────────────── */
 .noise::before {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   pointer-events: none;
   border-radius: inherit;
 }
-
-/* ── Scrollbar hide ──────────────────────────── */
-.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-.scrollbar-hide::-webkit-scrollbar { display: none; }
 
 /* ── Print ───────────────────────────────────── */
 @media print {

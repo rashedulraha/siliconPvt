@@ -37,7 +37,7 @@ export function BlogCard({ post, author, featured = false }: BlogCardProps) {
                 </Badge>
               ))}
             </div>
-            <h2 className="font-display text-2xl md:text-3xl font-bold line-clamp-2 group-hover:text-primary transition-colors">
+            <h2 className="font-heading text-2xl md:text-3xl font-bold line-clamp-2 group-hover:text-primary transition-colors">
               {post.title}
             </h2>
             <p className="mt-3 text-muted-foreground line-clamp-3">
@@ -81,7 +81,7 @@ export function BlogCard({ post, author, featured = false }: BlogCardProps) {
               </Badge>
             ))}
           </div>
-          <h3 className="font-display text-lg font-semibold line-clamp-2 group-hover:text-primary transition-colors">
+          <h3 className="font-heading text-lg font-semibold line-clamp-2 group-hover:text-primary transition-colors">
             {post.title}
           </h3>
           <p className="mt-2 text-sm text-muted-foreground line-clamp-2 flex-1">

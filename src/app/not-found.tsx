@@ -17,7 +17,7 @@ export default function NotFound() {
       <div className="max-w-2xl mx-auto text-center space-y-8">
         {/* 404 illustration */}
         <div className="relative">
-          <div className="font-display text-[10rem] md:text-[14rem] font-bold leading-none text-primary/10 select-none">
+          <div className="font-heading text-[10rem] md:text-[14rem] font-bold leading-none text-primary/10 select-none">
             404
           </div>
           <div className="absolute inset-0 flex items-center justify-center">
@@ -28,7 +28,7 @@ export default function NotFound() {
         </div>
 
         <div className="space-y-3">
-          <h1 className="font-display text-3xl md:text-4xl font-bold">
+          <h1 className="font-heading text-3xl md:text-4xl font-bold">
             Page Not Found
           </h1>
           <p className="text-lg text-muted-foreground max-w-md mx-auto">

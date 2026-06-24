@@ -113,7 +113,7 @@ export function HeroCarousel(): ReactElement {
 
               {/* Slide content */}
               <div className="relative z-10 flex flex-col justify-center h-full max-w-4xl mx-auto px-6 sm:px-10 lg:px-16">
-                <p className="text-secondary font-semibold text-sm sm:text-base uppercase tracking-widest mb-3">
+                <p className="text-accent font-semibold text-sm sm:text-base uppercase tracking-widest mb-3">
                   {slide.subtitle}
                 </p>
                 <h1 className="text-white text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-4">
@@ -125,7 +125,7 @@ export function HeroCarousel(): ReactElement {
                 <div>
                   <Link
                     href={slide.ctaHref}
-                    className="inline-block bg-secondary text-white font-semibold px-7 py-3 rounded-md text-sm sm:text-base hover:bg-secondary/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2">
+                    className="btn-gold">
                     {slide.ctaLabel}
                   </Link>
                 </div>
@@ -169,7 +169,7 @@ export function HeroCarousel(): ReactElement {
             className={[
               "w-2.5 h-2.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-1",
               index === selectedIndex
-                ? "bg-secondary w-7"
+                ? "bg-accent w-7"
                 : "bg-white/50 hover:bg-white/80",
             ].join(" ")}
           />

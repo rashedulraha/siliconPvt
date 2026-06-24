@@ -61,8 +61,8 @@ export function AdminSidebar({ open, onClose }: AdminSidebarProps) {
               <HomeIcon className="h-4 w-4" />
             </div>
             <div>
-              <p className="font-display text-lg font-bold leading-none">
-                EstateHub
+              <p className="font-heading text-base font-bold leading-none">
+                Silicon RE
               </p>
               <p className="text-xs text-muted-foreground">Admin Panel</p>
             </div>
