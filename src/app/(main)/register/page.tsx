@@ -3,9 +3,9 @@
 import React from "react";
 import Link from "next/link";
 import { Building2 } from "lucide-react";
-import LoginForm from "@/components/auth/LoginForm";
+import RegisterForm from "@/components/auth/RegisterForm";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-20 bg-gradient-to-br from-background via-secondary/40 to-teal-light/30">
       {/* Ambient blobs */}
@@ -28,11 +28,11 @@ export default function LoginPage() {
 
         {/* Form card */}
         <div className="glass-card rounded-3xl p-7 shadow-soft-md bg-card/75 border border-border/80 backdrop-blur-md">
-          <LoginForm />
+          <RegisterForm />
           <div className="mt-5 text-center text-xs text-muted-foreground">
-            Don't have an account?{" "}
-            <Link href="/register" className="text-primary font-medium hover:text-primary/70 transition-colors">
-              Register here
+            Already have an account?{" "}
+            <Link href="/login" className="text-primary font-medium hover:text-primary/70 transition-colors">
+              Sign In
             </Link>
           </div>
         </div>

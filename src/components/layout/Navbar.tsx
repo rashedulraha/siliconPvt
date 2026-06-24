@@ -1,5 +1,7 @@
 "use client";
 
+
+
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
@@ -56,37 +58,52 @@ export function Navbar() {
       {/* ── Container (max-w-7xl = 1280px) ───────────── */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-6">
-          
-          {/* ─ Logo ─────────────────────────────────── */}
-          <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
-            <div
-              className="relative flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 overflow-hidden bg-gradient-to-br from-primary/15 to-primary/5 border border-primary/20 group-hover:from-primary/20 group-hover:to-primary/10"
-            >
-              <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-primary/30 to-transparent"
-              />
-              <span
-                className="relative font-heading font-bold text-lg leading-none text-primary"
-              >
-                S
-              </span>
-            </div>
-            <div className="hidden sm:flex flex-col">
-              <span
-                className="font-heading font-bold text-sm tracking-tight leading-tight text-foreground"
-              >
-                {state.siteSettings.siteName}
-              </span>
-              <span
-                className="text-[10px] tracking-[0.2em] uppercase font-medium leading-none text-muted-foreground"
-              >
-                Real Estate
-              </span>
-            </div>
-          </Link>
+
+
+       <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
+  <div
+    className="
+      relative
+      h-11 w-11
+      overflow-hidden
+      rounded-xl
+      border border-primary/15
+      bg-background/60
+      backdrop-blur-md
+      transition-all duration-300
+      group-hover:scale-[1.03]
+      group-hover:border-primary/30
+      flex items-center justify-center
+      shrink-0
+    "
+  >
+    <Image
+      src="/silicon.png"
+      alt={`${state.siteSettings.siteName} Logo`}
+      fill
+      priority
+      sizes="44px"
+      className="
+        object-contain
+        p-[px]
+        select-none
+      "
+    />
+  </div>
+
+  <div className="hidden sm:flex flex-col">
+    <span className="font-heading font-bold text-sm tracking-tight leading-tight text-foreground">
+      {state.siteSettings.siteName}
+    </span>
+
+    <span className="text-[10px] tracking-[0.2em] uppercase font-medium leading-none text-muted-foreground">
+      Real Estate
+    </span>
+  </div>
+</Link>
 
           {/* ─ Desktop Nav ──────────────────────────── */}
-          <nav className="hidden lg:flex items-center flex-1 justify-center py-1 px-1   bg-blue-500/10 rounded-full">
+          <nav className="hidden lg:flex items-center flex-1 justify-center py-1 px-1   bg-blue-500/10 rounded-full border border/50">
             {[
               {
                 label: "Properties",
@@ -282,7 +299,7 @@ export function Navbar() {
             ) : (
               <div className="flex items-center gap-2">
                 <Link
-                  href="/login"
+                  href="/auth/login"
                   className="px-4 h-9 rounded-lg text-sm font-medium font-heading border border-border text-foreground hover:bg-muted transition-all duration-300 inline-flex items-center"
                 >
                   Sign In

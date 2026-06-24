@@ -15,6 +15,7 @@ import { cmsReducer } from "./CMSReducer";
 import type { CMSState, CMSAction } from "@/types";
 import { storage } from "@/utils/storage";
 import { STORAGE_KEYS } from "@/utils/constants";
+import { fetchProperties } from "@/utils/dataSync";
 import {
   seedProperties,
   seedTeam,
@@ -113,14 +114,31 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
   const [isHydrated, setIsHydrated] = useState(false);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Hydration: load from localStorage on mount
+  // Hydration: load from localStorage on mount, then sync properties via API
   useEffect(() => {
     const saved = storage.get<CMSState | null>(STORAGE_KEYS.CMS_DATA, null);
+    let loadedState = initialState;
     if (saved) {
-      const merged = mergeWithDefaults(initialState, saved);
-      dispatch({ type: "SET_STATE", payload: merged });
+      loadedState = mergeWithDefaults(initialState, saved);
+      dispatch({ type: "SET_STATE", payload: loadedState });
     }
     setIsHydrated(true);
+
+    async function syncData() {
+      try {
+        const syncedProps = await fetchProperties();
+        dispatch({
+          type: "SET_STATE",
+          payload: {
+            ...loadedState,
+            properties: syncedProps,
+          },
+        });
+      } catch (err) {
+        console.error("[CMSProvider] Failed to sync properties from API:", err);
+      }
+    }
+    syncData();
   }, []);
 
   // Auto-save: debounced localStorage persistence
