@@ -15,7 +15,7 @@ import { useUserAuth } from "@/context/UserAuthContext";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
@@ -25,11 +25,7 @@ export function Navbar() {
   const { user, isLoggedIn, logout } = useUserAuth();
   const menuItems = [...state.menu].sort((a, b) => a.order - b.order);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+
 
   useEffect(() => {
     setIsOpen(false);
@@ -46,8 +42,7 @@ export function Navbar() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const isHeroPage = pathname === "/" || pathname === "/projects" || pathname === "/properties";
-  const isTransparent = isHeroPage && !scrolled;
+
 
   function handleLogout() {
     logout();
@@ -56,12 +51,7 @@ export function Navbar() {
 
   return (
     <header
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 w-full duration-500 ease-out",
-        isTransparent
-          ? "bg-transparent"
-          : "bg-background/80 backdrop-blur-2xl border-b border-border/50 shadow-lg shadow-black/5"
-      )}
+      className="fixed top-0 left-0 right-0 z-50 w-full duration-300 ease-out border-b shadow-xs bg-background border-border/40"
     >
       {/* ── Container (max-w-7xl = 1280px) ───────────── */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -70,44 +60,25 @@ export function Navbar() {
           {/* ─ Logo ─────────────────────────────────── */}
           <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
             <div
-              className={cn(
-                "relative flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 overflow-hidden",
-                isTransparent
-                  ? "bg-gradient-to-br from-white/20 to-white/5 border border-white/20 group-hover:from-white/30 group-hover:to-white/10"
-                  : "bg-gradient-to-br from-primary/15 to-primary/5 border border-primary/20 group-hover:from-primary/20 group-hover:to-primary/10"
-              )}
+              className="relative flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 overflow-hidden bg-gradient-to-br from-primary/15 to-primary/5 border border-primary/20 group-hover:from-primary/20 group-hover:to-primary/10"
             >
               <div
-                className={cn(
-                  "absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500",
-                  isTransparent
-                    ? "bg-gradient-to-br from-white/30 to-transparent"
-                    : "bg-gradient-to-br from-primary/30 to-transparent"
-                )}
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-primary/30 to-transparent"
               />
               <span
-                className={cn(
-                  "relative font-heading font-bold text-lg leading-none",
-                  isTransparent ? "text-white" : "text-primary"
-                )}
+                className="relative font-heading font-bold text-lg leading-none text-primary"
               >
                 S
               </span>
             </div>
             <div className="hidden sm:flex flex-col">
               <span
-                className={cn(
-                  "font-heading font-bold text-sm tracking-tight leading-tight",
-                  isTransparent ? "text-white" : "text-foreground"
-                )}
+                className="font-heading font-bold text-sm tracking-tight leading-tight text-foreground"
               >
                 {state.siteSettings.siteName}
               </span>
               <span
-                className={cn(
-                  "text-[10px] tracking-[0.2em] uppercase font-medium leading-none",
-                  isTransparent ? "text-white/50" : "text-muted-foreground"
-                )}
+                className="text-[10px] tracking-[0.2em] uppercase font-medium leading-none text-muted-foreground"
               >
                 Real Estate
               </span>
@@ -115,18 +86,17 @@ export function Navbar() {
           </Link>
 
           {/* ─ Desktop Nav ──────────────────────────── */}
-          <nav className="hidden lg:flex items-center gap-2 flex-1 justify-center">
+          <nav className="hidden lg:flex items-center flex-1 justify-center py-1 px-1   bg-blue-500/10 rounded-full">
             {[
               {
-                label: "About",
-                href: "/about",
+                label: "Properties",
+                href: "/properties",
                 links: [
-                  { label: "Company Overview", href: "/about" },
-                  { label: "Mission & Vision", href: "/about#mission" },
-                  { label: "Chairman Message", href: "/about#chairman" },
-                  { label: "Our Team", href: "/about#team" },
-                  { label: "Achievements", href: "/about#achievements" },
-                  { label: "Client Trust", href: "/about#trust" },
+                  { label: "All Properties", href: "/properties" },
+                  { label: "Residential Plots", href: "/properties?category=residential" },
+                  { label: "Commercial Plots", href: "/properties?category=commercial" },
+                  { label: "Ready Flat", href: "/properties?category=flat" },
+                  { label: "Land Investment", href: "/investment" },
                 ],
               },
               {
@@ -140,14 +110,15 @@ export function Navbar() {
                 ],
               },
               {
-                label: "Properties",
-                href: "/properties",
+                label: "About",
+                href: "/about",
                 links: [
-                  { label: "All Properties", href: "/properties" },
-                  { label: "Residential Plots", href: "/properties?category=residential" },
-                  { label: "Commercial Plots", href: "/properties?category=commercial" },
-                  { label: "Ready Flat", href: "/properties?category=flat" },
-                  { label: "Land Investment", href: "/investment" },
+                  { label: "Company Overview", href: "/about" },
+                  { label: "Mission & Vision", href: "/about#mission" },
+                  { label: "Chairman Message", href: "/about#chairman" },
+                  { label: "Our Team", href: "/about#team" },
+                  { label: "Achievements", href: "/about#achievements" },
+                  { label: "Client Trust", href: "/about#trust" },
                 ],
               },
               {
@@ -184,15 +155,14 @@ export function Navbar() {
             ].map((group) => {
               const isGroupActive = pathname === group.href || pathname?.startsWith(group.href + "/");
               return (
-                <div key={group.label} className="relative group/nav py-3 px-1">
+                <div key={group.label} className="relative group/nav">
                   <Link
                     href={group.href}
                     className={cn(
                       "flex items-center gap-1 px-3 py-1.5 text-[13px] font-medium rounded-lg transition-all duration-300 select-none",
-                      isGroupActive && !isTransparent && "bg-primary/[0.08] text-primary shadow-xs",
-                      isGroupActive && isTransparent && "bg-white/[0.15] text-white shadow-xs",
-                      !isGroupActive && isTransparent && "text-white/80 hover:text-white hover:bg-white/[0.08]",
-                      !isGroupActive && !isTransparent && "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+                      isGroupActive
+                        ? "bg-primary/[0.08] text-primary shadow-xs"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
                     )}
                   >
                     {group.label}
@@ -201,12 +171,12 @@ export function Navbar() {
 
                   {/* Dropdown Box */}
                   <div className="absolute left-1/2 -translate-x-1/2 top-full hidden group-hover/nav:block pt-1.5 w-52 z-50">
-                    <div className="bg-white border border-border/70 rounded-xl shadow-lg py-1.5 overflow-hidden">
+                    <div className="bg-background border border-border rounded-md shadow-lg py-1.5 overflow-hidden">
                       {group.links.map((link) => (
                         <Link
                           key={link.label}
                           href={link.href}
-                          className="block px-4 py-2 text-[12px] text-foreground hover:bg-secondary/70 hover:text-primary transition-all font-medium"
+                          className="block px-4 py-2 text-[12px] text-popover-foreground hover:bg-primary/10 hover:text-blue-500 transition-all font-medium"
                         >
                           {link.label}
                         </Link>
@@ -223,12 +193,7 @@ export function Navbar() {
             {state.siteSettings.contactPhone && (
               <a
                 href={`tel:${state.siteSettings.contactPhone}`}
-                className={cn(
-                  "flex items-center gap-2 text-xs font-medium transition-all duration-300 px-3 py-2 rounded-lg",
-                  isTransparent
-                    ? "text-white/70 hover:text-white hover:bg-white/[0.08]"
-                    : "text-muted-foreground hover:text-primary hover:bg-primary/[0.06]"
-                )}
+                className="flex items-center gap-2 text-xs font-medium transition-all duration-300 px-3 py-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/[0.06]"
               >
                 <Phone className="w-3.5 h-3.5" />
                 <span className="hidden xl:inline font-medium">
@@ -237,12 +202,7 @@ export function Navbar() {
               </a>
             )}
 
-            <div
-              className={cn(
-                "h-6 w-px",
-                isTransparent ? "bg-white/15" : "bg-border"
-              )}
-            />
+            <div className="h-6 w-px bg-border" />
 
             <ModeToggle />
 
@@ -250,12 +210,7 @@ export function Navbar() {
               <div className="relative" ref={userMenuRef}>
                 <button
                   onClick={() => setUserMenuOpen((v) => !v)}
-                  className={cn(
-                    "flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl border transition-all duration-300",
-                    isTransparent
-                      ? "border-white/15 bg-white/[0.08] hover:bg-white/[0.15]"
-                      : "border-border bg-muted/50 hover:bg-muted shadow-sm"
-                  )}
+                  className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl border border-border bg-muted/50 hover:bg-muted shadow-xs transition-all duration-300"
                   aria-expanded={userMenuOpen}
                   aria-haspopup="true"
                 >
@@ -265,7 +220,7 @@ export function Navbar() {
                       alt={user.name}
                       width={32}
                       height={32}
-                      className="w-8 h-8 rounded-lg object-cover ring-2 ring-white/20"
+                      className="w-8 h-8 rounded-lg object-cover ring-2 ring-primary/20"
                     />
                   ) : (
                     <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center ring-2 ring-primary/20">
@@ -274,27 +229,20 @@ export function Navbar() {
                   )}
                   <div className="text-left hidden xl:block">
                     <p
-                      className={cn(
-                        "text-xs font-semibold font-heading leading-tight",
-                        isTransparent ? "text-white" : "text-foreground"
-                      )}
+                      className="text-xs font-semibold font-heading leading-tight text-foreground"
                     >
                       {user.name}
                     </p>
                     <p
-                      className={cn(
-                        "text-[10px] leading-tight",
-                        isTransparent ? "text-white/50" : "text-muted-foreground"
-                      )}
+                      className="text-[10px] leading-tight text-muted-foreground"
                     >
                       {user.email}
                     </p>
                   </div>
                   <ChevronDown
                     className={cn(
-                      "w-3.5 h-3.5 transition-transform duration-300 hidden xl:block",
-                      userMenuOpen && "rotate-180",
-                      isTransparent ? "text-white/60" : "text-muted-foreground"
+                      "w-3.5 h-3.5 transition-transform duration-300 hidden xl:block text-muted-foreground",
+                      userMenuOpen && "rotate-180"
                     )}
                   />
                 </button>
@@ -335,12 +283,7 @@ export function Navbar() {
               <div className="flex items-center gap-2">
                 <Link
                   href="/login"
-                  className={cn(
-                    "px-4 h-9 rounded-lg text-sm font-medium font-heading border transition-all duration-300 inline-flex items-center",
-                    isTransparent
-                      ? "border-white/20 text-white hover:bg-white/[0.1]"
-                      : "border-border text-foreground hover:bg-muted"
-                  )}
+                  className="px-4 h-9 rounded-lg text-sm font-medium font-heading border border-border text-foreground hover:bg-muted transition-all duration-300 inline-flex items-center"
                 >
                   Sign In
                 </Link>
@@ -361,12 +304,7 @@ export function Navbar() {
               <Link
                 href="/favorites"
                 aria-label="Favorites"
-                className={cn(
-                  "w-9 h-9 rounded-lg flex items-center justify-center transition-all",
-                  isTransparent
-                    ? "text-white/80 hover:bg-white/[0.1]"
-                    : "text-muted-foreground hover:bg-muted"
-                )}
+                className="w-9 h-9 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-muted transition-all"
               >
                 <Heart className="w-4 h-4" />
               </Link>
@@ -375,12 +313,7 @@ export function Navbar() {
             <button
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Toggle menu"
-              className={cn(
-                "w-9 h-9 rounded-lg border flex items-center justify-center transition-all duration-300",
-                isTransparent
-                  ? "border-white/20 text-white/85 hover:bg-white/[0.1]"
-                  : "border-border text-foreground hover:bg-muted"
-              )}
+              className="w-9 h-9 rounded-lg border border-border text-foreground hover:bg-muted flex items-center justify-center transition-all duration-300"
             >
               {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>
@@ -407,14 +340,9 @@ export function Navbar() {
                   onClick={() => setIsOpen(false)}
                   className={cn(
                     "px-4 py-3 text-sm font-medium rounded-lg transition-all",
-                    isActive && !isTransparent &&
-                      "bg-primary/[0.08] text-primary",
-                    isActive && isTransparent &&
-                      "bg-white/[0.15] text-white",
-                    !isActive && isTransparent &&
-                      "text-white/85 hover:bg-white/[0.08] hover:text-white",
-                    !isActive && !isTransparent &&
-                      "text-foreground hover:bg-muted"
+                    isActive
+                      ? "bg-primary/[0.08] text-primary"
+                      : "text-foreground hover:bg-muted"
                   )}
                 >
                   {item.label}
@@ -426,28 +354,19 @@ export function Navbar() {
           {isLoggedIn && user ? (
             <div className="space-y-2">
               <div
-                className={cn(
-                  "flex items-center gap-3 px-4 py-3 rounded-lg",
-                  isTransparent ? "bg-white/[0.08]" : "bg-muted"
-                )}
+                className="flex items-center gap-3 px-4 py-3 rounded-lg bg-muted"
               >
                 <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
                   <User className="w-4 h-4 text-primary" />
                 </div>
                 <div>
                   <p
-                    className={cn(
-                      "text-sm font-semibold",
-                      isTransparent ? "text-white" : "text-foreground"
-                    )}
+                    className="text-sm font-semibold text-foreground"
                   >
                     {user.name}
                   </p>
                   <p
-                    className={cn(
-                      "text-xs",
-                      isTransparent ? "text-white/60" : "text-muted-foreground"
-                    )}
+                    className="text-xs text-muted-foreground"
                   >
                     {user.email}
                   </p>
@@ -475,12 +394,7 @@ export function Navbar() {
               <Link
                 href="/login"
                 onClick={() => setIsOpen(false)}
-                className={cn(
-                  "w-full h-10 rounded-lg border text-sm font-medium font-heading inline-flex items-center justify-center",
-                  isTransparent
-                    ? "border-white/20 text-white hover:bg-white/[0.1]"
-                    : "border-border text-foreground hover:bg-muted"
-                )}
+                className="w-full h-10 rounded-lg border border-border text-foreground hover:bg-muted inline-flex items-center justify-center text-sm font-medium font-heading"
               >
                 Sign In
               </Link>

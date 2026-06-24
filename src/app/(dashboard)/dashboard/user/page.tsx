@@ -60,9 +60,9 @@ export default function UserDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB] text-foreground font-sans">
+    <div className="min-h-screen bg-background text-foreground font-sans">
       {/* Mini top bar */}
-      <header className="sticky top-0 z-40 bg-white border-b border-border/60 shadow-xs h-14 flex items-center px-4 sm:px-6 md:px-8 justify-between">
+      <header className="sticky top-0 z-40 bg-card border-b border-border/60 shadow-xs h-14 flex items-center px-4 sm:px-6 md:px-8 justify-between">
         <div className="flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2 group">
             <div className="w-8 h-8 rounded-xl bg-primary/8 border border-primary/20 flex items-center justify-center">
@@ -83,7 +83,7 @@ export default function UserDashboard() {
       {/* Main Content Area */}
       <Container className="py-8 max-w-7xl">
         {/* Welcome Banner */}
-        <div className="mb-8 rounded-2xl bg-white border border-border/50 p-6 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="mb-8 rounded-2xl bg-card border border-border/50 p-6 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-primary/8 text-primary uppercase tracking-wider">
               Client Portal
@@ -114,7 +114,7 @@ export default function UserDashboard() {
           {/* Left Column — Pipeline and Shortcuts */}
           <div className="space-y-6">
             {/* 1. Pipeline / Inquiry Tracker */}
-            <Card className="border-border/50 shadow-xs rounded-2xl overflow-hidden bg-white">
+            <Card className="border-border/50 shadow-xs rounded-2xl overflow-hidden bg-card">
               <CardHeader className="pb-4 border-b border-border/40">
                 <div className="flex items-center justify-between">
                   <div className="space-y-1">
@@ -139,7 +139,7 @@ export default function UserDashboard() {
                       <div key={step.key} className="relative">
                         {/* Dot indicator */}
                         <div 
-                          className={`absolute -left-[31px] top-0.5 w-4 h-4 rounded-full flex items-center justify-center border-2 bg-white ${
+                          className={`absolute -left-[31px] top-0.5 w-4 h-4 rounded-full flex items-center justify-center border-2 bg-background ${
                             isDone 
                               ? "border-emerald-500 bg-emerald-500" 
                               : isActive 
@@ -180,7 +180,7 @@ export default function UserDashboard() {
             {/* 2. Quick Shortcuts Grid */}
             <div className="grid sm:grid-cols-3 gap-4">
               <Link href="/calculator" className="block group">
-                <Card className="border-border/50 hover:border-primary/20 hover:shadow-xs transition-all duration-300 rounded-xl bg-white h-full card-lift">
+                <Card className="border-border/50 hover:border-primary/20 hover:shadow-xs transition-all duration-300 rounded-xl bg-card h-full card-lift">
                   <CardHeader className="p-5 pb-3">
                     <div className="w-9 h-9 rounded-lg bg-primary/8 flex items-center justify-center text-primary mb-2 group-hover:bg-primary/12">
                       <Building2 className="w-4.5 h-4.5" />
@@ -198,7 +198,7 @@ export default function UserDashboard() {
               </Link>
 
               <a href="/public/data/properties.json" download className="block group">
-                <Card className="border-border/50 hover:border-primary/20 hover:shadow-xs transition-all duration-300 rounded-xl bg-white h-full card-lift">
+                <Card className="border-border/50 hover:border-primary/20 hover:shadow-xs transition-all duration-300 rounded-xl bg-card h-full card-lift">
                   <CardHeader className="p-5 pb-3">
                     <div className="w-9 h-9 rounded-lg bg-primary/8 flex items-center justify-center text-primary mb-2 group-hover:bg-primary/12">
                       <FileText className="w-4.5 h-4.5" />
@@ -216,7 +216,7 @@ export default function UserDashboard() {
               </a>
 
               <Link href="/contact" className="block group">
-                <Card className="border-border/50 hover:border-primary/20 hover:shadow-xs transition-all duration-300 rounded-xl bg-white h-full card-lift">
+                <Card className="border-border/50 hover:border-primary/20 hover:shadow-xs transition-all duration-300 rounded-xl bg-card h-full card-lift">
                   <CardHeader className="p-5 pb-3">
                     <div className="w-9 h-9 rounded-lg bg-primary/8 flex items-center justify-center text-primary mb-2 group-hover:bg-primary/12">
                       <Calendar className="w-4.5 h-4.5" />
@@ -238,7 +238,7 @@ export default function UserDashboard() {
           {/* Right Column — Saved Properties & Recommendations */}
           <div className="space-y-6">
             {/* 3. Saved Properties */}
-            <Card className="border-border/50 shadow-xs rounded-2xl bg-white">
+            <Card className="border-border/50 shadow-xs rounded-2xl bg-card">
               <CardHeader className="pb-3 border-b border-border/40">
                 <CardTitle className="text-base font-heading font-semibold text-foreground flex items-center gap-2">
                   <Heart className="w-4 h-4 text-destructive fill-destructive" /> Saved Properties ({savedPropertiesList.length})
@@ -282,7 +282,7 @@ export default function UserDashboard() {
             </Card>
 
             {/* Recommended Properties */}
-            <Card className="border-border/50 shadow-xs rounded-2xl bg-white">
+            <Card className="border-border/50 shadow-xs rounded-2xl bg-card">
               <CardHeader className="pb-3 border-b border-border/40">
                 <CardTitle className="text-base font-heading font-semibold text-foreground flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-accent" /> Recommended for You

@@ -137,7 +137,7 @@ export default function ServicesPage() {
           style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }}
         />
         <Container className="relative">
-          <div className="max-w-3xl">
+          <div className="max-w- bg-">
             <div className="flex items-center gap-3 mb-5">
               <div className="divider-gold" />
               <span className="text-label text-accent">What We Offer</span>

@@ -143,7 +143,7 @@ export function HeroSlider() {
 
       {/* ── Core Layout Grid Interface ── */}
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 min-h-screen flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12 xl:gap-16 items-center w-full py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 xl:gap-12 items-center w-full pt-24 pb-16 md:pt-28 md:pb-20">
           
           {/* LEFT PANELS: Content Flow Engine */}
           <div className="space-y-6 text-left">
@@ -269,10 +269,10 @@ export function HeroSlider() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="w-full"
           >
-            <div className="bg-card border border-border rounded-xl shadow-md overflow-hidden">
-              <div className="px-5 py-4 border-b border-border bg-muted/40">
+            <div className="bg-card/75 backdrop-blur-md border border-border/50 rounded-2xl shadow-xl overflow-hidden">
+              <div className="px-5 py-4 border-b border-border/50 bg-muted/40">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 rounded-md bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center border border-border">
+                  <div className="w-7 h-7 rounded-md bg-background flex items-center justify-center border border-border/50">
                     <Star className="w-3.5 h-3.5 text-neutral-700 dark:text-neutral-300 fill-current" />
                   </div>
                   <div className="text-left">
@@ -282,7 +282,7 @@ export function HeroSlider() {
                 </div>
               </div>
 
-              <form onSubmit={handleSubmit} className="p-5 space-y-3 bg-card">
+              <form onSubmit={handleSubmit} className="p-5 space-y-3 bg-transparent">
                 {[
                   { type: "text",  placeholder: "Full Name *",     field: "name" },
                   { type: "tel",   placeholder: "Phone Number *",  field: "phone" },
@@ -296,19 +296,19 @@ export function HeroSlider() {
                     onChange={(e) => setFormData((p) => ({ ...p, [field]: e.target.value }))}
                     required={field !== "email"}
                     disabled={isSubmitting}
-                    className="w-full h-10 px-3 rounded-lg bg-muted/50 focus:bg-card border border-border text-foreground placeholder:text-muted-foreground/60 text-xs focus:outline-none focus:ring-1 focus:ring-neutral-400 transition-all disabled:opacity-50"
+                    className="w-full h-10 px-3 rounded-lg bg-background/50 focus:bg-background border border-border/40 text-foreground placeholder:text-muted-foreground/50 text-xs focus:outline-none focus:ring-1 focus:ring-primary/40 transition-all disabled:opacity-50"
                   />
                 ))}
 
                 <div className="relative">
                   <select
-                    className="w-full h-10 px-3 rounded-lg bg-muted/50 border border-border text-muted-foreground text-xs focus:outline-none focus:ring-1 focus:ring-neutral-400 appearance-none cursor-pointer"
+                    className="w-full h-10 px-3 rounded-lg bg-background/50 border border-border/40 text-muted-foreground text-xs focus:outline-none focus:ring-1 focus:ring-primary/40 appearance-none cursor-pointer"
                     disabled={isSubmitting}
                     defaultValue=""
                   >
                     <option value="" disabled>Select Project Interest</option>
                     {["Silicon Orchard", "Silicon Commercial Square", "Silicon Royal Heights"].map((p) => (
-                      <option key={p} value={p} className="bg-card text-foreground">{p}</option>
+                       <option key={p} value={p} className="bg-card text-foreground">{p}</option>
                     ))}
                   </select>
                   <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground/60 text-[10px]">&darr;</div>
@@ -317,7 +317,7 @@ export function HeroSlider() {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full h-10 rounded-lg bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 text-xs font-medium flex items-center justify-center gap-1.5 transition-all shadow-xs"
+                  className="w-full h-10 rounded-lg bg-primary hover:bg-primary/95 text-primary-foreground text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-md shadow-primary/10"
                 >
                   {isSubmitting ? (
                     <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Submitting…</>

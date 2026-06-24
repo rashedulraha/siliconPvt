@@ -201,9 +201,9 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB] text-foreground font-sans flex flex-col">
+    <div className="min-h-screen bg-background text-foreground font-sans flex flex-col">
       {/* Top Header */}
-      <header className="sticky top-0 z-40 bg-white border-b border-border/60 shadow-xs h-14 flex items-center px-4 sm:px-6 md:px-8 justify-between flex-shrink-0">
+      <header className="sticky top-0 z-40 bg-card border-b border-border/60 shadow-xs h-14 flex items-center px-4 sm:px-6 md:px-8 justify-between flex-shrink-0">
         <div className="flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2 group">
             <div className="w-8 h-8 rounded-xl bg-primary/8 border border-primary/20 flex items-center justify-center">
@@ -224,7 +224,7 @@ export default function AdminDashboard() {
       {/* Admin Panel Main Container */}
       <div className="flex-1 flex flex-col lg:flex-row overflow-hidden max-w-8xl mx-auto w-full">
         {/* Left Side Navigation (Tabs) */}
-        <aside className="w-full lg:w-60 bg-white border-r border-border/50 p-4 space-y-2 flex-shrink-0">
+        <aside className="w-full lg:w-60 bg-card border-r border-border/50 p-4 space-y-2 flex-shrink-0">
           <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider px-2 mb-3">Management</p>
           <button 
             onClick={() => setActiveTab("overview")} 
@@ -267,7 +267,7 @@ export default function AdminDashboard() {
         </aside>
 
         {/* Right Side Content Pane */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 bg-[#F9FAFB]">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 bg-background">
           {/* TAB 1: OVERVIEW */}
           {activeTab === "overview" && (
             <div className="space-y-6">
@@ -279,7 +279,7 @@ export default function AdminDashboard() {
 
               {/* Stats Cards */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <Card className="border-border/50 shadow-xs rounded-xl bg-white">
+                <Card className="border-border/50 shadow-xs rounded-xl bg-card">
                   <CardHeader className="p-4 pb-1 flex flex-row items-center justify-between">
                     <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Properties</span>
                     <Building2 className="w-4 h-4 text-primary" />
@@ -290,7 +290,7 @@ export default function AdminDashboard() {
                   </CardContent>
                 </Card>
 
-                <Card className="border-border/50 shadow-xs rounded-xl bg-white">
+                <Card className="border-border/50 shadow-xs rounded-xl bg-card">
                   <CardHeader className="p-4 pb-1 flex flex-row items-center justify-between">
                     <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Active Pipelines</span>
                     <Users className="w-4 h-4 text-emerald-500" />
@@ -303,7 +303,7 @@ export default function AdminDashboard() {
                   </CardContent>
                 </Card>
 
-                <Card className="border-border/50 shadow-xs rounded-xl bg-white">
+                <Card className="border-border/50 shadow-xs rounded-xl bg-card">
                   <CardHeader className="p-4 pb-1 flex flex-row items-center justify-between">
                     <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Sales Won</span>
                     <CheckCircle className="w-4 h-4 text-amber-500" />
@@ -316,7 +316,7 @@ export default function AdminDashboard() {
                   </CardContent>
                 </Card>
 
-                <Card className="border-border/50 shadow-xs rounded-xl bg-white">
+                <Card className="border-border/50 shadow-xs rounded-xl bg-card">
                   <CardHeader className="p-4 pb-1 flex flex-row items-center justify-between">
                     <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Total Sales Revenue</span>
                     <DollarSign className="w-4 h-4 text-indigo-500" />
@@ -331,7 +331,7 @@ export default function AdminDashboard() {
               </div>
 
               {/* Recent Active Leads */}
-              <Card className="border-border/50 shadow-xs rounded-2xl bg-white overflow-hidden">
+              <Card className="border-border/50 shadow-xs rounded-2xl bg-card overflow-hidden">
                 <CardHeader className="pb-3 border-b border-border/40">
                   <CardTitle className="text-sm font-heading font-semibold text-foreground">
                     Active Client Pipeline Summary
@@ -385,7 +385,7 @@ export default function AdminDashboard() {
 
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {leads.map((lead) => (
-                  <Card key={lead.id} className="border-border/50 shadow-xs rounded-xl bg-white">
+                  <Card key={lead.id} className="border-border/50 shadow-xs rounded-xl bg-card">
                     <CardHeader className="pb-2">
                       <div className="flex items-center justify-between">
                         <span className="text-[10px] font-mono text-muted-foreground">ID: {lead.id}</span>
@@ -432,7 +432,7 @@ export default function AdminDashboard() {
               </div>
 
               {/* Add Property Form */}
-              <Card className="border-border/50 shadow-xs rounded-2xl bg-white overflow-hidden">
+              <Card className="border-border/50 shadow-xs rounded-2xl bg-card overflow-hidden">
                 <CardHeader className="pb-3 border-b border-border/40">
                   <CardTitle className="text-sm font-heading font-semibold text-foreground flex items-center gap-2">
                     <Plus className="w-4 h-4 text-primary" /> Add New Listing
@@ -521,7 +521,7 @@ export default function AdminDashboard() {
               </Card>
 
               {/* Property Inventory List */}
-              <Card className="border-border/50 shadow-xs rounded-2xl bg-white overflow-hidden">
+              <Card className="border-border/50 shadow-xs rounded-2xl bg-card overflow-hidden">
                 <CardHeader className="pb-3 border-b border-border/40">
                   <CardTitle className="text-sm font-heading font-semibold text-foreground">
                     Active Listings ({state.properties.length})
@@ -574,7 +574,7 @@ export default function AdminDashboard() {
                 <p className="text-xs text-muted-foreground mt-0.5">Modify main website settings and text fields. Changes dynamically propagate to public routes.</p>
               </div>
 
-              <Card className="border-border/50 shadow-xs rounded-2xl bg-white">
+              <Card className="border-border/50 shadow-xs rounded-2xl bg-card">
                 <CardHeader className="pb-3 border-b border-border/40 flex flex-row items-center justify-between">
                   <div>
                     <CardTitle className="text-sm font-heading font-semibold text-foreground">
@@ -640,7 +640,7 @@ export default function AdminDashboard() {
               </Card>
 
               {/* Homepage Hero Settings section */}
-              <Card className="border-border/50 shadow-xs rounded-2xl bg-white">
+              <Card className="border-border/50 shadow-xs rounded-2xl bg-card">
                 <CardHeader className="pb-3 border-b border-border/40">
                   <CardTitle className="text-sm font-heading font-semibold text-foreground">
                     Live Public Page Preview Links

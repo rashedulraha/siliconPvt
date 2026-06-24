@@ -9,7 +9,7 @@
   Mono     : JetBrains Mono (prices, data)
 */
 
-@custom-variant dark (&:is(.dark *));
+@variant dark (&:where(.dark, .dark *));
 
 :root {
   /* ── Radius ─────────────────────────────────── */
@@ -420,8 +420,8 @@
 
 /* ── Section spacing ─────────────────────────── */
 .section-y {
-  padding-top: clamp(4rem, 7vw, 7rem);
-  padding-bottom: clamp(4rem, 7vw, 7rem);
+  padding-top: clamp(3rem, 5vw, 5rem);
+  padding-bottom: clamp(3rem, 5vw, 5rem);
 }
 
 /* ── Decorative dividers ─────────────────────── */
