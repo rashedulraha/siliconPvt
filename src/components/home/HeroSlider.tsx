@@ -113,7 +113,7 @@ export function HeroSlider() {
   const slide = heroSlides[current];
 
   return (
-    <section className="relative w-full min-h-screen overflow-hidden bg-[#0D1B3E]">
+    <section className="relative w-full min-h-screen overflow-hidden bg-dark-hero">
 
       {/* ── Cinematic background ───────────────────────────────────────── */}
       <div className="absolute inset-0">
@@ -138,8 +138,8 @@ export function HeroSlider() {
         </AnimatePresence>
 
         {/* Multi-layer cinematic gradient — dark left, fade right */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0D1B3E]/96 via-[#0D1B3E]/80 to-[#0D1B3E]/35" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0D1B3E]/60 via-transparent to-[#0D1B3E]/20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-dark-hero/96 via-dark-hero/80 to-dark-hero/35" />
+        <div className="absolute inset-0 bg-gradient-to-t from-dark-hero/60 via-transparent to-dark-hero/20" />
 
         {/* Ambient gold orb — upper right */}
         <div className="absolute -top-32 right-1/4 w-[600px] h-[600px] rounded-full bg-accent/8 blur-[120px] pointer-events-none" />
@@ -373,9 +373,9 @@ export function HeroSlider() {
                   disabled={isSubmitting}
                   defaultValue=""
                 >
-                  <option value="" disabled className="bg-[#0D1B3E]">Select Project Interest</option>
+                  <option value="" disabled className="bg-dark-hero">Select Project Interest</option>
                   {["Silicon Green City", "Silicon Village", "Silicon Smart City", "Residential Plot", "Commercial Plot"].map((p) => (
-                    <option key={p} value={p} className="bg-[#0D1B3E]">{p}</option>
+                    <option key={p} value={p} className="bg-dark-hero">{p}</option>
                   ))}
                 </select>
 

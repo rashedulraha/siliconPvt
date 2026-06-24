@@ -185,7 +185,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-[#F0F4F9]">
+    <div className="flex flex-col h-screen overflow-hidden bg-background">
 
       {/* ── Dashboard Top Bar ──────────────────── */}
       <header className="glass-nav h-14 flex-shrink-0 flex items-center px-4 gap-4 z-40">
@@ -194,7 +194,7 @@ export default function DashboardPage() {
           <div className="w-8 h-8 rounded-xl bg-primary/12 border border-primary/20 flex items-center justify-center">
             <span className="font-heading font-bold text-primary text-sm">S</span>
           </div>
-          <span className="font-heading font-semibold text-sm text-foreground hidden sm:block">EstateEase</span>
+          <span className="font-heading font-semibold text-sm text-foreground hidden sm:block">Silicon RE</span>
         </Link>
 
         {/* Nav tabs */}
@@ -538,13 +538,13 @@ export default function DashboardPage() {
                   <button className="h-10 rounded-xl border border-border text-xs font-heading font-semibold text-foreground hover:bg-muted transition-all">
                     Contact Agent
                   </button>
-                  <button className="h-10 rounded-xl bg-primary text-white text-xs font-heading font-semibold hover:bg-[#2E7DD1] transition-all shadow-blue">
+                  <button className="h-10 rounded-xl bg-primary text-primary-foreground text-xs font-heading font-semibold hover:bg-primary/85 transition-all shadow-blue">
                     Order Now
                   </button>
                 </div>
 
                 {/* Map placeholder */}
-                <div className="h-36 rounded-2xl bg-[#E8F0F8] flex items-center justify-center relative overflow-hidden">
+                <div className="h-36 rounded-2xl bg-secondary flex items-center justify-center relative overflow-hidden">
                   <div className="absolute inset-0 bg-grid-pattern opacity-50" />
                   <div className="relative text-center">
                     <Map className="w-8 h-8 text-primary/40 mx-auto mb-1" />
