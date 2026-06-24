@@ -1,15 +1,18 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Phone, Mail, Clock, MessageCircle, ChevronRight } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, MessageCircle, ChevronRight, Compass, MessageSquare } from "lucide-react";
 import { Container } from "@/components/layout/Container";
 import { ContactForm } from "@/components/contact/ContactForm";
+import { SiteVisitBookingForm } from "@/components/contact/SiteVisitBookingForm";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { useCMS } from "@/context/CMSContext";
 
 export default function ContactPage() {
   const { state } = useCMS();
   const { siteSettings } = state;
+  const [activeFormTab, setActiveFormTab] = useState<"visit" | "general">("visit");
 
   const info = [
     { icon: MapPin,    label: "Visit Us",        value: siteSettings.address,        href: undefined },
@@ -41,7 +44,7 @@ export default function ContactPage() {
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-3xl">
             <div className="flex items-center gap-3 mb-5">
               <div className="divider-gold" />
-              <span className="text-label text-accent">Contact Us</span>
+              <span className="text-label text-accent">Contact Channels</span>
             </div>
             <h1 className="font-medium text-white text-display-lg leading-[1.08] mb-4">
               Let's Start a{" "}
@@ -56,20 +59,50 @@ export default function ContactPage() {
       </section>
 
       {/* ── Content ───────────────────────────────────── */}
-      <section className="section-y bg-background">
+      <section className="section-y bg-[#F8FAFC] dark:bg-[#0B132B]">
         <Container>
           <div className="grid lg:grid-cols-[1fr_420px] xl:grid-cols-[1fr_460px] gap-10 xl:gap-14 items-start">
 
-            {/* LEFT — Contact Form */}
-            <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-              <div className="bg-card rounded-2xl border border-border shadow-luxury p-8">
-                {/* Form header */}
-                <div className="mb-6">
-                  <h2 className="font-medium text-2xl text-foreground mb-1">Send Us a Message</h2>
-                  <p className="text-muted-foreground text-sm">Fill out the form and we'll get back to you within 24 hours.</p>
-                </div>
-                <ContactForm />
+            {/* LEFT — Dynamic Switcher and Form */}
+            <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="space-y-6">
+              
+              {/* Luxury Tab Switcher */}
+              <div className="flex p-1 rounded-xl bg-neutral-100 dark:bg-neutral-900 border border-neutral-200/50 dark:border-neutral-800/40 w-fit">
+                <button
+                  onClick={() => setActiveFormTab("visit")}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${
+                    activeFormTab === "visit"
+                      ? "bg-white dark:bg-[#111E35] text-accent border border-neutral-200/30 dark:border-neutral-800/20 shadow-xs"
+                      : "text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200"
+                  }`}
+                >
+                  <Compass className="w-3.5 h-3.5" />
+                  Book Site Visit
+                </button>
+                <button
+                  onClick={() => setActiveFormTab("general")}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${
+                    activeFormTab === "general"
+                      ? "bg-white dark:bg-[#111E35] text-accent border border-neutral-200/30 dark:border-neutral-800/20 shadow-xs"
+                      : "text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200"
+                  }`}
+                >
+                  <MessageSquare className="w-3.5 h-3.5" />
+                  General Inquiry
+                </button>
               </div>
+
+              {activeFormTab === "visit" ? (
+                <SiteVisitBookingForm />
+              ) : (
+                <div className="bg-white dark:bg-[#111E35] rounded-2xl border border-neutral-200/60 dark:border-neutral-800/60 shadow-xl p-8">
+                  <div className="mb-6">
+                    <h2 className="font-semibold text-base text-neutral-850 dark:text-neutral-100 mb-1">Send Us a Message</h2>
+                    <p className="text-neutral-400 dark:text-neutral-500 text-xs font-light">Fill out the form and we'll get back to you within 24 hours.</p>
+                  </div>
+                  <ContactForm />
+                </div>
+              )}
             </motion.div>
 
             {/* RIGHT — Contact Info + Why */}

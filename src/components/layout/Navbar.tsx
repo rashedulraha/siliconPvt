@@ -61,35 +61,35 @@ export function Navbar() {
 
 
        <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
-  <div
-    className="
-      relative
-      h-11 w-11
-      overflow-hidden
-      rounded-xl
-      border border-primary/15
-      bg-background/60
-      backdrop-blur-md
-      transition-all duration-300
-      group-hover:scale-[1.03]
-      group-hover:border-primary/30
-      flex items-center justify-center
-      shrink-0
-    "
-  >
-    <Image
-      src="/silicon.png"
-      alt={`${state.siteSettings.siteName} Logo`}
-      fill
-      priority
-      sizes="44px"
-      className="
-        object-contain
-        p-[px]
-        select-none
-      "
-    />
-  </div>
+                  <div
+          className="
+            relative
+            h-11 w-11
+            overflow-hidden
+            rounded-xl
+            border border-primary/15
+            bg-background/60
+            backdrop-blur-md
+            transition-all duration-300
+            group-hover:scale-[1.03]
+            group-hover:border-primary/30
+            flex items-center justify-center
+            shrink-0
+          "
+        >
+          <Image
+            src="/silicon.png"
+            alt={`${state.siteSettings.siteName} Logo`}
+            fill
+            priority
+            sizes="44px"
+            className="
+              object-contain
+              p-[px]
+              select-none
+            "
+          />
+        </div>
 
   <div className="hidden sm:flex flex-col">
     <span className="font-heading font-bold text-sm tracking-tight leading-tight text-foreground">
@@ -100,7 +100,7 @@ export function Navbar() {
       Real Estate
     </span>
   </div>
-</Link>
+      </Link>
 
           {/* ─ Desktop Nav ──────────────────────────── */}
           <nav className="hidden lg:flex items-center flex-1 justify-center py-1 px-1   bg-blue-500/10 rounded-full border border/50">

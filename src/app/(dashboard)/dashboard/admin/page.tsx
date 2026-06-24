@@ -16,6 +16,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useCMS } from "@/context/CMSContext";
 import { toast } from "sonner";
 import { formatCurrency } from "@/lib/utils";
+import { ModeToggle } from "@/components/theme-toggle";
 
 // Mock Pipeline States
 const PIPELINE_STATUSES = [
@@ -83,7 +84,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     if (mounted && !isLoading) {
       if (!isLoggedIn || user?.role !== "admin") {
-        router.replace("/login");
+        router.replace("/auth/login");
       }
     }
   }, [mounted, isLoading, isLoggedIn, user, router]);
@@ -207,19 +208,60 @@ export default function AdminDashboard() {
       {/* Top Header */}
       <header className="sticky top-0 z-40 bg-card border-b border-border/60 shadow-xs h-14 flex items-center px-4 sm:px-6 md:px-8 justify-between flex-shrink-0">
         <div className="flex items-center gap-3">
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-xl bg-primary/8 border border-primary/20 flex items-center justify-center">
-              <span className="font-heading font-bold text-primary text-sm">S</span>
-            </div>
-            <span className="font-heading font-semibold text-sm text-foreground">Silicon Admin Console</span>
-          </Link>
+           <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
+                  <div
+          className="
+            relative
+            h-11 w-11
+            overflow-hidden
+            rounded-xl
+            border border-primary/15
+            bg-background/60
+            backdrop-blur-md
+            transition-all duration-300
+            group-hover:scale-[1.03]
+            group-hover:border-primary/30
+            flex items-center justify-center
+            shrink-0
+          "
+        >
+          <Image
+            src="/silicon.png"
+            alt={`${state.siteSettings.siteName} Logo`}
+            fill
+            priority
+            sizes="44px"
+            className="
+              object-contain
+              p-[px]
+              select-none
+            "
+          />
+        </div>
+
+  <div className="hidden sm:flex flex-col">
+    <span className="font-heading font-bold text-sm tracking-tight leading-tight text-foreground">
+      {state.siteSettings.siteName}
+    </span>
+
+    <span className="text-[10px] tracking-[0.2em] uppercase font-medium leading-none text-muted-foreground">
+      Realstate Admin console
+    </span>
+  </div>
+      </Link>
+
         </div>
 
         <div className="flex items-center gap-4">
           <span className="text-xs text-muted-foreground hidden sm:inline">Administrator: {user.name}</span>
-          <Button variant="ghost" size="sm" onClick={handleLogout} className="text-xs gap-1.5 h-8">
+
+          <div className="flex items-center gap-2">
+            <ModeToggle/>
+               <Button variant="ghost" size="sm" onClick={handleLogout} className="text-xs gap-1.5 h-8">
             <LogOut className="w-3.5 h-3.5" /> Sign Out
           </Button>
+          </div>
+       
         </div>
       </header>
 

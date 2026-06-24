@@ -6,7 +6,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { 
   Building2, Calendar, FileText, Heart, LogOut, ArrowRight,
-  CheckCircle2, Clock, MapPin, Sparkles, User, HelpCircle
+  CheckCircle2, Clock, MapPin, Sparkles, User, HelpCircle,
+  Phone, Mail, ArrowUpRight, Check, Download, Loader2, ShieldCheck
 } from "lucide-react";
 import { useUserAuth } from "@/context/UserAuthContext";
 import { Container } from "@/components/layout/Container";
@@ -14,13 +15,22 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useCMS } from "@/context/CMSContext";
+import { ModeToggle } from "@/components/theme-toggle";
 
 // Localized mock pipeline tracking steps
 const PIPELINE_STEPS = [
-  { key: "visit", label: "Site Visit Scheduled", desc: "Visit scheduled for June 28, 2026", date: "June 25, 2026" },
-  { key: "legal", label: "Deed Verification", desc: "CS, SA, RS Khatian and Mutation verification", date: "Pending" },
-  { key: "agreement", label: "Draft Agreement", desc: "Preparing 300 BDT stamp deed copy", date: "Pending" },
-  { key: "registration", label: "Registration & Mutation", desc: "Sub-registry office deed transfer", date: "Pending" },
+  { key: "visit", label: "Site Visit Scheduled", desc: "Completed on June 25, 2026", date: "June 25, 2026", status: "completed" },
+  { key: "legal", label: "Deed Verification & Khatian Audit", desc: "CS, SA, RS Khatian, Mutation & Registry checking", date: "In Progress", status: "active" },
+  { key: "agreement", label: "Stamp Deed Drafting", desc: "Preparing 300 BDT stamp deed copy", date: "Pending", status: "pending" },
+  { key: "registration", label: "Sub-Registry Office Transfer", desc: "Deed transfer & mutation registry registration", date: "Pending", status: "pending" },
+];
+
+// Mock installment history
+const LEDGER_ITEMS = [
+  { id: "INST-004", type: "Installment #4", date: "June 15, 2026", amount: 150000, status: "paid", method: "Bank Wire (SCB)" },
+  { id: "INST-003", type: "Installment #3", date: "May 15, 2026", amount: 150000, status: "paid", method: "Bank Wire (SCB)" },
+  { id: "INST-002", type: "Installment #2", date: "April 15, 2026", amount: 150000, status: "paid", method: "EFT Transfer" },
+  { id: "INST-001", type: "Booking Money", date: "March 10, 2026", amount: 500000, status: "paid", method: "Pay Order (City Bank)" },
 ];
 
 export default function UserDashboard() {
@@ -29,15 +39,18 @@ export default function UserDashboard() {
   const { state } = useCMS();
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  // Redirect to correct /auth/login route to prevent 404/redirect loops
   useEffect(() => {
     if (mounted && !isLoading) {
       if (!isLoggedIn || user?.role !== "user") {
-        router.replace("/login");
+        router.replace("/auth/login");
       }
     }
   }, [mounted, isLoading, isLoggedIn, user, router]);
@@ -45,7 +58,10 @@ export default function UserDashboard() {
   if (!mounted || isLoading || !isLoggedIn || user?.role !== "user") {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="text-sm text-muted-foreground">Checking authentication...</p>
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="w-6 h-6 text-primary animate-spin" />
+          <p className="text-xs text-muted-foreground">Synchronizing secure terminal session...</p>
+        </div>
       </div>
     );
   }
@@ -61,196 +77,389 @@ export default function UserDashboard() {
     router.push("/");
   }
 
+  const handleDownloadReceipt = (id: string) => {
+    setDownloadingId(id);
+    setTimeout(() => {
+      setDownloadingId(null);
+      setToastMessage(`Receipt ${id} downloaded successfully.`);
+      setTimeout(() => setToastMessage(null), 3000);
+    }, 1200);
+  };
+
+  // Metrics calculations
+  const totalInvested = 950000;
+  const targetInvestment = 3600000;
+  const progressPercent = Math.round((totalInvested / targetInvestment) * 100);
+
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#0B132B] text-foreground font-sans selection:bg-amber-100 dark:selection:bg-amber-900/30">
+      {/* Dynamic Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-6 right-6 z-50 bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 px-4 py-3 rounded-xl border border-neutral-800 dark:border-neutral-100 flex items-center gap-2.5 shadow-xl animate-in fade-in slide-in-from-bottom-5 duration-350">
+          <Check className="w-4 h-4 text-emerald-500 stroke-[2.5]" />
+          <span className="text-xs font-medium">{toastMessage}</span>
+        </div>
+      )}
+
       {/* Mini top bar */}
-      <header className="sticky top-0 z-40 bg-card border-b border-border/60 shadow-xs h-14 flex items-center px-4 sm:px-6 md:px-8 justify-between">
+      <header className="sticky top-0 z-40 bg-white/70 dark:bg-[#111E35]/70 backdrop-blur-md border-b border-border/40 shadow-xs h-14 flex items-center px-4 sm:px-6 md:px-8 justify-between">
         <div className="flex items-center gap-3">
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-xl bg-primary/8 border border-primary/20 flex items-center justify-center">
-              <span className="font-heading font-bold text-primary text-sm">S</span>
-            </div>
-            <span className="font-heading font-semibold text-sm text-foreground">Silicon Client Area</span>
-          </Link>
+        <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
+                  <div
+          className="
+            relative
+            h-11 w-11
+            overflow-hidden
+            rounded-xl
+            border border-primary/15
+            bg-background/60
+            backdrop-blur-md
+            transition-all duration-300
+            group-hover:scale-[1.03]
+            group-hover:border-primary/30
+            flex items-center justify-center
+            shrink-0
+          "
+        >
+          <Image
+            src="/silicon.png"
+            alt={`${state.siteSettings.siteName} Logo`}
+            fill
+            priority
+            sizes="44px"
+            className="
+              object-contain
+              p-[px]
+              select-none
+            "
+          />
+        </div>
+
+  <div className="hidden sm:flex flex-col">
+    <span className="font-heading font-bold text-sm tracking-tight leading-tight text-foreground">
+      {state.siteSettings.siteName}
+    </span>
+
+    <span className="text-[10px] tracking-[0.2em] uppercase font-medium leading-none text-muted-foreground">
+      Realstate user console
+    </span>
+  </div>
+           </Link>
         </div>
 
         <div className="flex items-center gap-4">
-          <span className="text-xs text-muted-foreground hidden sm:inline">Logged in as {user.name}</span>
-          <Button variant="ghost" size="sm" onClick={handleLogout} className="text-xs gap-1.5 h-8">
-            <LogOut className="w-3.5 h-3.5" /> Sign Out
-          </Button>
-        </div>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-[11px] text-muted-foreground font-medium hidden sm:inline">Active Session · {user.name}</span>
+          </div>
+         <div className="flex items-center gap-2">
+           <ModeToggle/>
+          <button 
+            onClick={handleLogout} 
+            className="flex items-center gap-1.5 h-8 px-3 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-900 text-[11px] font-medium text-neutral-600 dark:text-neutral-300 transition-colors cursor-pointer"
+          >
+            <LogOut className="w-3 h-3" /> Sign Out
+          </button>
+         </div>
+        </div> 
       </header>
 
       {/* Main Content Area */}
-      <Container className="py-8 max-w-7xl">
-        {/* Welcome Banner */}
-        <div className="mb-8 rounded-2xl bg-card border border-border/50 p-6 sm:p-8 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <Container className="py-8 max-w-7xl space-y-8">
+        
+        {/* Welcome Header */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-neutral-200/50 dark:border-neutral-800/40">
           <div className="space-y-1">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-primary/8 text-primary uppercase tracking-wider">
-              Client Portal
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[9px] font-bold bg-amber-50 dark:bg-amber-950/20 text-amber-600 dark:text-amber-400 border border-amber-200/30 uppercase tracking-wider">
+              ✨ Premium Member
             </span>
-            <h1 className="font-heading font-bold text-2xl sm:text-3xl text-foreground tracking-tight">
-              Welcome back, {user.name}
+            <h1 className="font-light text-2xl sm:text-3xl text-neutral-900 dark:text-neutral-50 tracking-tight leading-none">
+              Welcome back, <span className="font-medium">{user.name}</span>
             </h1>
-            <p className="text-sm text-muted-foreground">
-              Monitor your active land purchases, legal papers, and saved listings.
+            <p className="text-xs text-neutral-400 dark:text-neutral-500 font-light">
+              Overview of your private land assets, legal title verification, and upcoming investments.
             </p>
           </div>
-
           <div className="flex flex-wrap gap-2">
-            <Button asChild variant="outline" size="sm">
+            <Button asChild variant="outline" size="sm" className="rounded-lg text-xs h-9">
               <Link href="/properties">
-                Browse Properties
+                Browse Collection
               </Link>
             </Button>
-            <Button asChild size="sm" className="bg-primary hover:bg-primary/95 text-white">
+            <Button asChild size="sm" className="rounded-lg text-xs h-9 bg-neutral-950 dark:bg-white text-white dark:text-neutral-950 hover:opacity-90">
               <Link href="/contact">
-                Schedule Site Visit
+                Request VIP Tour
               </Link>
             </Button>
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-[1fr_380px] gap-8 items-start">
-          {/* Left Column — Pipeline and Shortcuts */}
-          <div className="space-y-6">
-            {/* 1. Pipeline / Inquiry Tracker */}
-            <Card className="border-border/50 shadow-xs rounded-2xl overflow-hidden bg-card">
-              <CardHeader className="pb-4 border-b border-border/40">
-                <div className="flex items-center justify-between">
+        {/* Core Layout Grid */}
+        <div className="grid lg:grid-cols-3 gap-8 items-start">
+          
+          {/* LEFT 2 COLUMNS — Investment Metrics & Financial Ledger */}
+          <div className="lg:col-span-2 space-y-8">
+            
+            {/* 1. VIP Financial Overview Card */}
+            <div className="relative overflow-hidden rounded-2xl bg-neutral-900 dark:bg-[#070D1E] text-white p-6 sm:p-8 border border-neutral-800 dark:border-neutral-800/45 shadow-xl">
+              {/* Mesh background gradient lines */}
+              <div className="absolute inset-0 bg-gradient-to-br from-neutral-800/10 via-transparent to-neutral-950/80 opacity-60 pointer-events-none" />
+              <div 
+                className="absolute inset-0 opacity-[0.02] pointer-events-none" 
+                style={{
+                  backgroundImage: "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+                  backgroundSize: "24px 24px"
+                }}
+              />
+
+              <div className="relative z-10 grid md:grid-cols-5 gap-6 items-center">
+                {/* Net Invested Value */}
+                <div className="md:col-span-3 space-y-4">
                   <div className="space-y-1">
-                    <CardTitle className="text-base font-heading font-semibold text-foreground">
-                      Active Property Inquiry &amp; Investment Progress
+                    <span className="text-[10px] uppercase tracking-widest text-neutral-400 font-semibold flex items-center gap-1.5">
+                      <ShieldCheck className="w-3.5 h-3.5 text-amber-500" /> Secure Asset Valuation
+                    </span>
+                    <div className="text-4xl sm:text-5xl font-light font-mono tracking-tight text-white flex items-baseline gap-1">
+                      ৳4,800,000
+                    </div>
+                    <div className="text-xs text-neutral-400 font-light flex items-center gap-2">
+                      <span>Total Booked Value: ৳6,000,000</span>
+                      <span className="w-1 h-1 bg-neutral-600 rounded-full" />
+                      <span className="text-amber-400 font-medium">{progressPercent}% Settled</span>
+                    </div>
+                  </div>
+
+                  {/* Upcoming Installment Ribbon inside VIP Area */}
+                  <div className="rounded-xl bg-amber-500/10 border border-amber-500/20 p-3 flex items-center justify-between gap-3 text-xs">
+                    <div className="flex items-center gap-2 text-amber-400 font-medium">
+                      <Clock className="w-3.5 h-3.5" />
+                      <span>Next Due: ৳150,000 on July 15, 2026</span>
+                    </div>
+                    <button className="text-[10px] font-semibold text-neutral-900 bg-amber-400 hover:bg-amber-300 px-3 py-1 rounded-md transition-all duration-200 cursor-pointer active:scale-98">
+                      Direct Deposit
+                    </button>
+                  </div>
+                </div>
+
+                {/* Minimalist SVG Progress Circle */}
+                <div className="md:col-span-2 flex flex-col items-center justify-center p-2">
+                  <div className="relative w-28 h-28">
+                    {/* SVG Circle */}
+                    <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                      <circle 
+                        cx="50" cy="50" r="42" 
+                        className="stroke-neutral-800" 
+                        strokeWidth="5" 
+                        fill="transparent" 
+                      />
+                      <circle 
+                        cx="50" cy="50" r="42" 
+                        className="stroke-amber-400 transition-all duration-1000 ease-out" 
+                        strokeWidth="6" 
+                        strokeDasharray={2 * Math.PI * 42}
+                        strokeDashoffset={2 * Math.PI * 42 * (1 - progressPercent / 100)}
+                        strokeLinecap="round" 
+                        fill="transparent" 
+                      />
+                    </svg>
+                    {/* Inner Text */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                      <span className="text-xs font-light text-neutral-400">Equity</span>
+                      <span className="text-lg font-bold font-mono text-white">{progressPercent}%</span>
+                    </div>
+                  </div>
+                  <span className="text-[10px] text-neutral-400 mt-2 font-mono">Portfolio: Silicon Orchard B-09</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 2. Financial Ledger Table */}
+            <Card className="border-neutral-200/60 dark:border-neutral-800/60 shadow-xs rounded-2xl bg-white dark:bg-[#111E35] overflow-hidden">
+              <CardHeader className="pb-3 border-b border-neutral-100 dark:border-neutral-900/60">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <div>
+                    <CardTitle className="text-sm font-semibold tracking-tight text-neutral-800 dark:text-neutral-100">
+                      Financial Statement &amp; Payments
                     </CardTitle>
-                    <CardDescription className="text-xs">
-                      Silicon Orchard - Block B, Plot 5 (Residential) · 2.5 Katha
+                    <CardDescription className="text-xs text-neutral-400 dark:text-neutral-500 font-light mt-0.5">
+                      Installment ledger history for transaction audits.
                     </CardDescription>
                   </div>
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-100 uppercase tracking-wide">
+                  <span className="text-[10px] font-semibold text-neutral-400 dark:text-neutral-500 font-mono">
+                    Currency: BDT (৳)
+                  </span>
+                </div>
+              </CardHeader>
+              <CardContent className="p-0">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-neutral-100 dark:border-neutral-900/60 bg-neutral-50/50 dark:bg-neutral-950/20 text-[10px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider">
+                        <th className="py-3 px-5">Installment</th>
+                        <th className="py-3 px-5">Due / Paid Date</th>
+                        <th className="py-3 px-5 text-right">Amount</th>
+                        <th className="py-3 px-5">Reference Method</th>
+                        <th className="py-3 px-5">Status</th>
+                        <th className="py-3 px-5 text-center">Receipt</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-neutral-100 dark:divide-neutral-900/40 text-xs">
+                      {LEDGER_ITEMS.map((item) => (
+                        <tr key={item.id} className="hover:bg-neutral-50/30 dark:hover:bg-neutral-950/10 transition-colors">
+                          <td className="py-4 px-5 font-medium text-neutral-800 dark:text-neutral-200">
+                            {item.type}
+                          </td>
+                          <td className="py-4 px-5 text-neutral-500 dark:text-neutral-400 font-light">
+                            {item.date}
+                          </td>
+                          <td className="py-4 px-5 text-right font-mono font-medium text-neutral-900 dark:text-neutral-100">
+                            ৳{item.amount.toLocaleString()}
+                          </td>
+                          <td className="py-4 px-5 text-neutral-500 dark:text-neutral-400 font-light">
+                            {item.method}
+                          </td>
+                          <td className="py-4 px-5">
+                            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] font-medium bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 border border-emerald-200/30">
+                              <span className="w-1 h-1 rounded-full bg-emerald-500" />
+                              Paid
+                            </span>
+                          </td>
+                          <td className="py-4 px-5 text-center">
+                            <button
+                              onClick={() => handleDownloadReceipt(item.id)}
+                              disabled={downloadingId !== null}
+                              className="inline-flex items-center justify-center w-7 h-7 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:border-accent/40 text-neutral-500 hover:text-accent dark:hover:text-accent transition-colors disabled:opacity-50 cursor-pointer"
+                              title="Download PDF"
+                            >
+                              {downloadingId === item.id ? (
+                                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                              ) : (
+                                <Download className="w-3.5 h-3.5" />
+                              )}
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+
+          </div>
+
+          {/* RIGHT COLUMN — Timeline & Consultant Card */}
+          <div className="space-y-8">
+            
+            {/* 3. Site Visit & Title Registry Tracker */}
+            <Card className="border-neutral-200/60 dark:border-neutral-800/60 shadow-xs rounded-2xl bg-white dark:bg-[#111E35]">
+              <CardHeader className="pb-3 border-b border-neutral-100 dark:border-neutral-900/60">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle className="text-sm font-semibold tracking-tight text-neutral-800 dark:text-neutral-100">
+                      Lifecycle Track
+                    </CardTitle>
+                    <CardDescription className="text-xs text-neutral-400 dark:text-neutral-500 font-light mt-0.5">
+                      Silicon Orchard · Block B, Plot 09
+                    </CardDescription>
+                  </div>
+                  <span className="px-2 py-0.5 rounded-full text-[9px] font-semibold bg-amber-500/10 text-amber-500 border border-amber-500/20 uppercase tracking-wide">
                     Legal Phase
                   </span>
                 </div>
               </CardHeader>
-              <CardContent className="pt-6">
-                <div className="relative pl-6 border-l border-border/80 ml-2 space-y-6">
+              <CardContent className="pt-5">
+                <div className="relative pl-5 border-l border-neutral-200 dark:border-neutral-800 ml-1.5 space-y-6">
                   {PIPELINE_STEPS.map((step, idx) => {
-                    const isDone = idx === 0;
-                    const isActive = idx === 1;
+                    const isDone = step.status === "completed";
+                    const isActive = step.status === "active";
+                    
                     return (
                       <div key={step.key} className="relative">
                         {/* Dot indicator */}
                         <div 
-                          className={`absolute -left-[31px] top-0.5 w-4 h-4 rounded-full flex items-center justify-center border-2 bg-background ${
+                          className={`absolute -left-[27px] top-0.5 w-3.5 h-3.5 rounded-full flex items-center justify-center border-2 bg-white dark:bg-[#111E35] ${
                             isDone 
-                              ? "border-emerald-500 bg-emerald-500" 
+                              ? "border-emerald-500" 
                               : isActive 
-                                ? "border-primary bg-primary" 
-                                : "border-border"
+                                ? "border-amber-400" 
+                                : "border-neutral-200 dark:border-neutral-800"
                           }`}
                         >
-                          {isDone && <CheckCircle2 className="w-3.5 h-3.5 text-white bg-emerald-500 rounded-full" />}
-                          {isActive && <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />}
+                          {isDone && <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />}
+                          {isActive && <div className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse" />}
                         </div>
 
-                        <div>
+                        <div className="space-y-0.5">
                           <div className="flex items-center justify-between gap-4">
-                            <h4 className={`text-sm font-semibold leading-none ${isDone ? "text-muted-foreground line-through" : "text-foreground"}`}>
+                            <h4 className={`text-xs font-semibold ${isDone ? "text-neutral-400 dark:text-neutral-500 line-through font-light" : "text-neutral-800 dark:text-neutral-200"}`}>
                               {step.label}
                             </h4>
-                            <span className="text-[10px] font-mono font-medium text-muted-foreground">{step.date}</span>
+                            <span className={`text-[9px] font-mono ${isActive ? "text-amber-500 font-bold" : "text-neutral-400 dark:text-neutral-500"}`}>
+                              {step.date}
+                            </span>
                           </div>
-                          <p className="text-xs text-muted-foreground mt-1">{step.desc}</p>
+                          <p className="text-[11px] text-neutral-400 dark:text-neutral-500 font-light leading-relaxed">
+                            {step.desc}
+                          </p>
                         </div>
                       </div>
                     );
                   })}
                 </div>
+              </CardContent>
+            </Card>
 
-                <div className="mt-6 pt-5 border-t border-border/40 flex flex-col sm:flex-row justify-between gap-3 text-xs">
-                  <div>
-                    <span className="text-muted-foreground font-medium">Consultant Assigned:</span>{" "}
-                    <span className="font-semibold text-foreground">Md. Aminul Islam (Senior Manager)</span>
+            {/* 4. Consultant Contact Card */}
+            <Card className="border-neutral-200/60 dark:border-neutral-800/60 shadow-xs rounded-2xl bg-white dark:bg-[#111E35] overflow-hidden">
+              <CardContent className="p-5 space-y-4">
+                <div className="flex items-center gap-4">
+                  <div className="relative w-11 h-11 rounded-xl overflow-hidden bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700">
+                    <Image
+                      src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=120"
+                      alt="Consultant Avatar"
+                      fill
+                      className="object-cover object-top"
+                    />
                   </div>
-                  <a href="tel:+8801712345678" className="text-primary font-semibold hover:underline">
-                    Call Consultant (+880 1712 345 678)
+                  <div>
+                    <span className="text-[9px] text-amber-500 font-semibold uppercase tracking-wider block">Assigned Advisor</span>
+                    <h4 className="text-xs font-bold text-neutral-800 dark:text-neutral-100">Md. Aminul Islam</h4>
+                    <p className="text-[10px] text-neutral-400 dark:text-neutral-500 font-light">Senior Relationship Manager</p>
+                  </div>
+                </div>
+
+                <div className="pt-3 border-t border-neutral-100 dark:border-neutral-900/60 grid grid-cols-2 gap-2 text-[10px]">
+                  <a 
+                    href="tel:+8801712345678" 
+                    className="flex items-center justify-center gap-1.5 h-8 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:border-accent/30 hover:bg-neutral-50 dark:hover:bg-neutral-900/50 text-neutral-700 dark:text-neutral-300 transition-colors font-medium cursor-pointer"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-accent" />
+                    Call Advisor
+                  </a>
+                  <a 
+                    href="mailto:aminul@siliconrealestate.com" 
+                    className="flex items-center justify-center gap-1.5 h-8 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:border-accent/30 hover:bg-neutral-50 dark:hover:bg-neutral-900/50 text-neutral-700 dark:text-neutral-300 transition-colors font-medium cursor-pointer"
+                  >
+                    <Mail className="w-3.5 h-3.5 text-accent" />
+                    Email Advisor
                   </a>
                 </div>
               </CardContent>
             </Card>
 
-            {/* 2. Quick Shortcuts Grid */}
-            <div className="grid sm:grid-cols-3 gap-4">
-              <Link href="/calculator" className="block group">
-                <Card className="border-border/50 hover:border-primary/20 hover:shadow-xs transition-all duration-300 rounded-xl bg-card h-full card-lift">
-                  <CardHeader className="p-5 pb-3">
-                    <div className="w-9 h-9 rounded-lg bg-primary/8 flex items-center justify-center text-primary mb-2 group-hover:bg-primary/12">
-                      <Building2 className="w-4.5 h-4.5" />
-                    </div>
-                    <CardTitle className="text-sm font-heading font-bold text-foreground">
-                      EMI Calculator
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-5 pt-0">
-                    <p className="text-xs text-muted-foreground leading-relaxed">
-                      Calculate plot installments and EMI plans instantly.
-                    </p>
-                  </CardContent>
-                </Card>
-              </Link>
-
-              <a href="/public/data/properties.json" download className="block group">
-                <Card className="border-border/50 hover:border-primary/20 hover:shadow-xs transition-all duration-300 rounded-xl bg-card h-full card-lift">
-                  <CardHeader className="p-5 pb-3">
-                    <div className="w-9 h-9 rounded-lg bg-primary/8 flex items-center justify-center text-primary mb-2 group-hover:bg-primary/12">
-                      <FileText className="w-4.5 h-4.5" />
-                    </div>
-                    <CardTitle className="text-sm font-heading font-bold text-foreground">
-                      Download Brochure
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-5 pt-0">
-                    <p className="text-xs text-muted-foreground leading-relaxed">
-                      Get full catalogs, maps, and specifications for plots.
-                    </p>
-                  </CardContent>
-                </Card>
-              </a>
-
-              <Link href="/contact" className="block group">
-                <Card className="border-border/50 hover:border-primary/20 hover:shadow-xs transition-all duration-300 rounded-xl bg-card h-full card-lift">
-                  <CardHeader className="p-5 pb-3">
-                    <div className="w-9 h-9 rounded-lg bg-primary/8 flex items-center justify-center text-primary mb-2 group-hover:bg-primary/12">
-                      <Calendar className="w-4.5 h-4.5" />
-                    </div>
-                    <CardTitle className="text-sm font-heading font-bold text-foreground">
-                      Book Site Visit
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-5 pt-0">
-                    <p className="text-xs text-muted-foreground leading-relaxed">
-                      Book a free micro-bus visit to our Purbachal or Orchard sites.
-                    </p>
-                  </CardContent>
-                </Card>
-              </Link>
-            </div>
-          </div>
-
-          {/* Right Column — Saved Properties & Recommendations */}
-          <div className="space-y-6">
-            {/* 3. Saved Properties */}
-            <Card className="border-border/50 shadow-xs rounded-2xl bg-card">
-              <CardHeader className="pb-3 border-b border-border/40">
-                <CardTitle className="text-base font-heading font-semibold text-foreground flex items-center gap-2">
-                  <Heart className="w-4 h-4 text-destructive fill-destructive" /> Saved Properties ({savedPropertiesList.length})
+            {/* 5. Saved Wishlist Properties */}
+            <Card className="border-neutral-200/60 dark:border-neutral-800/60 shadow-xs rounded-2xl bg-white dark:bg-[#111E35]">
+              <CardHeader className="pb-3 border-b border-neutral-100 dark:border-neutral-900/60">
+                <CardTitle className="text-xs font-semibold text-neutral-800 dark:text-neutral-100 flex items-center gap-1.5">
+                  <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" /> Bookmarked Properties ({savedPropertiesList.length})
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-4 px-4 space-y-4">
                 {savedPropertiesList.length > 0 ? (
                   savedPropertiesList.map((prop) => (
-                    <div key={prop.id} className="flex gap-3 pb-3 border-b border-border/30 last:border-0 last:pb-0 items-start">
-                      <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-muted">
+                    <div key={prop.id} className="flex gap-3 pb-3 border-b border-neutral-100 dark:border-neutral-950/20 last:border-0 last:pb-0 items-start">
+                      <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-muted">
                         <Image
                           src={prop.images[0] || "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=150"}
                           alt={prop.title}
@@ -259,23 +468,23 @@ export default function UserDashboard() {
                         />
                       </div>
                       <div className="flex-1 min-w-0 space-y-0.5">
-                        <Link href={`/properties/${prop.slug}`} className="font-heading font-bold text-xs text-foreground hover:text-primary transition-colors block truncate">
+                        <Link href={`/properties/${prop.slug}`} className="font-semibold text-xs text-neutral-800 dark:text-neutral-200 hover:text-primary transition-colors block truncate">
                           {prop.title}
                         </Link>
-                        <div className="flex items-center gap-1 text-[10px] text-muted-foreground truncate">
-                          <MapPin className="w-2.5 h-2.5 text-accent flex-shrink-0" />
+                        <div className="flex items-center gap-1 text-[9px] text-neutral-400 dark:text-neutral-500 truncate">
+                          <MapPin className="w-2.5 h-2.5 flex-shrink-0" />
                           <span className="truncate">{prop.location}</span>
                         </div>
-                        <div className="font-heading font-bold text-xs text-accent">
-                          ৳ {prop.price.toLocaleString("en-IN")}
+                        <div className="font-mono text-xs font-bold text-accent">
+                          ৳{prop.price.toLocaleString()}
                         </div>
                       </div>
                     </div>
                   ))
                 ) : (
                   <div className="text-center py-6 space-y-2">
-                    <p className="text-xs text-muted-foreground">You haven't saved any properties yet.</p>
-                    <Button asChild size="sm" variant="ghost" className="text-xs text-primary hover:underline">
+                    <p className="text-[11px] text-neutral-400 dark:text-neutral-500 font-light">Your bookmark tray is empty.</p>
+                    <Button asChild size="sm" variant="ghost" className="text-[11px] h-7 px-3.5 text-primary hover:underline">
                       <Link href="/properties">Explore Listings <ArrowRight className="w-3 h-3 ml-1" /></Link>
                     </Button>
                   </div>
@@ -284,16 +493,16 @@ export default function UserDashboard() {
             </Card>
 
             {/* Recommended Properties */}
-            <Card className="border-border/50 shadow-xs rounded-2xl bg-card">
-              <CardHeader className="pb-3 border-b border-border/40">
-                <CardTitle className="text-base font-heading font-semibold text-foreground flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-accent" /> Recommended for You
+            <Card className="border-neutral-200/60 dark:border-neutral-800/60 shadow-xs rounded-2xl bg-white dark:bg-[#111E35]">
+              <CardHeader className="pb-3 border-b border-neutral-100 dark:border-neutral-900/60">
+                <CardTitle className="text-xs font-semibold text-neutral-800 dark:text-neutral-100 flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-500" /> Premium Recommendations
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-4 px-4 space-y-4">
                 {recommendedProperties.map((prop) => (
-                  <div key={prop.id} className="flex gap-3 pb-3 border-b border-border/30 last:border-0 last:pb-0 items-start">
-                    <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-muted">
+                  <div key={prop.id} className="flex gap-3 pb-3 border-b border-neutral-100 dark:border-neutral-950/20 last:border-0 last:pb-0 items-start">
+                    <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-muted">
                       <Image
                         src={prop.images[0] || "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=150"}
                         alt={prop.title}
@@ -302,24 +511,26 @@ export default function UserDashboard() {
                       />
                     </div>
                     <div className="flex-1 min-w-0 space-y-0.5">
-                      <Link href={`/properties/${prop.slug}`} className="font-heading font-bold text-xs text-foreground hover:text-primary transition-colors block truncate">
+                      <Link href={`/properties/${prop.slug}`} className="font-semibold text-xs text-neutral-800 dark:text-neutral-200 hover:text-primary transition-colors block truncate">
                         {prop.title}
                       </Link>
-                      <div className="flex items-center gap-1 text-[10px] text-muted-foreground truncate">
-                        <MapPin className="w-2.5 h-2.5 text-accent flex-shrink-0" />
+                      <div className="flex items-center gap-1 text-[9px] text-neutral-400 dark:text-neutral-500 truncate">
+                        <MapPin className="w-2.5 h-2.5 flex-shrink-0" />
                         <span className="truncate">{prop.location}</span>
                       </div>
-                      <div className="font-heading font-bold text-xs text-accent">
-                        ৳ {prop.price.toLocaleString("en-IN")}
+                      <div className="font-mono text-xs font-semibold text-accent">
+                        ৳{prop.price.toLocaleString()}
                       </div>
                     </div>
                   </div>
                 ))}
               </CardContent>
             </Card>
+
           </div>
         </div>
       </Container>
     </div>
   );
 }
+
