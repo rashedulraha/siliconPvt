@@ -37,7 +37,7 @@ interface MockLead {
 }
 
 export default function AdminDashboard() {
-  const { user, isLoggedIn, logout } = useUserAuth();
+  const { user, isLoggedIn, logout, isLoading } = useUserAuth();
   const { state, dispatch } = useCMS();
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
@@ -81,10 +81,12 @@ export default function AdminDashboard() {
   }, []);
 
   useEffect(() => {
-    if (mounted && (!isLoggedIn || user?.role !== "admin")) {
-      router.replace("/login");
+    if (mounted && !isLoading) {
+      if (!isLoggedIn || user?.role !== "admin") {
+        router.replace("/login");
+      }
     }
-  }, [mounted, isLoggedIn, user, router]);
+  }, [mounted, isLoading, isLoggedIn, user, router]);
 
   // Sync settings states when state hydrates
   useEffect(() => {
@@ -105,7 +107,7 @@ export default function AdminDashboard() {
       .reduce((sum, l) => sum + l.value, 0);
   }, [leads]);
 
-  if (!mounted || !isLoggedIn || user?.role !== "admin") {
+  if (!mounted || isLoading || !isLoggedIn || user?.role !== "admin") {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <p className="text-sm text-muted-foreground">Checking authentication...</p>

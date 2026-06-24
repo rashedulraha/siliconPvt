@@ -59,6 +59,9 @@ export interface BlogPost {
   publishedAt: string;
   tags: string[];
   featured: boolean;
+  category: "Buying Guide" | "Selling Tips" | "Market Trends" | "Home Decor & Renovation" | "Neighborhood Guides";
+  readingTime: string;
+  relatedPropertyIds?: string[];
 }
 
 export interface PageSection {

@@ -69,49 +69,112 @@ export const seedTeam: TeamMember[] = [
 
 export const seedBlog: BlogPost[] = [
   {
-    id: generateId(),
-    title: "10 Tips for First-Time Home Buyers in 2026",
-    slug: "10-tips-first-time-home-buyers-2026",
+    id: "post-1",
+    title: "10 Tips for First-Time Home Buyers in Dhaka",
+    slug: "10-tips-first-time-home-buyers-dhaka",
     excerpt:
-      "Navigating the real estate market can be overwhelming. Here are our top 10 tips to help first-time buyers make confident decisions.",
+      "Navigating the Dhaka real estate market can be overwhelming. Here are our top 10 tips to help first-time buyers make confident decisions.",
     content:
-      "Buying your first home is an exciting milestone, but it can also feel overwhelming. From understanding mortgages to navigating inspections, there's a lot to learn. In this comprehensive guide, we break down the 10 most important tips every first-time buyer should know in today's market...",
+      "Buying your first home is an exciting milestone, but it can also feel overwhelming in a bustling metropolis like Dhaka. From verifying RAJUK approvals and developer registrations to negotiating mortgages and inspecting layouts, there is a lot to learn. In this comprehensive guide, we break down the 10 most important tips every first-time buyer should know in today's market. Make sure you check utility connectivity, clear ownership deeds, and neighborhood amenities before signing any agreement.",
     coverImage:
       "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200",
     authorId: "agent-1",
     publishedAt: "2026-06-15T10:00:00Z",
     tags: ["Buying", "Tips", "First-Time Buyer"],
     featured: true,
+    category: "Buying Guide",
+    readingTime: "6 min read",
+    relatedPropertyIds: ["prop-001", "prop-003"],
   },
   {
-    id: generateId(),
-    title: "The Rise of Sustainable Homes: What You Need to Know",
-    slug: "rise-of-sustainable-homes",
+    id: "post-2",
+    title: "Dhaka Real Estate Market Outlook 2026: Key Investment Areas",
+    slug: "dhaka-real-estate-market-outlook-2026",
     excerpt:
-      "Eco-friendly homes are no longer a niche market. Learn how sustainable features are reshaping real estate and increasing property values.",
+      "Explore the emerging hotbeds for property investment in Dhaka. From Uttara to Mirpur DOHS, discover where high ROI lies in 2026.",
     content:
-      "Sustainability is no longer just a buzzword — it's becoming a core consideration for home buyers and sellers alike. From solar panels to energy-efficient appliances, green features are driving property values and appealing to a new generation of environmentally conscious buyers...",
+      "Dhaka's real estate market is expanding rapidly, fueled by mega infrastructure projects like the Metro Rail. If you are looking to invest in 2026, understanding which zones yield the highest rental returns and capital appreciation is crucial. In this post, we analyze emerging commercial spaces, luxury ready-to-move flats in residential enclaves, and future-proof investments in land. Mirpur DOHS and Uttara remain highly attractive due to premium amenities, secure environments, and great connectivity.",
     coverImage:
       "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=1200",
-    authorId: "agent-2",
+    authorId: "agent-4",
     publishedAt: "2026-06-10T10:00:00Z",
-    tags: ["Sustainability", "Trends", "Green Homes"],
+    tags: ["Market", "Investment", "Trends"],
     featured: true,
+    category: "Market Trends",
+    readingTime: "8 min read",
+    relatedPropertyIds: ["prop-002", "prop-003"],
   },
   {
-    id: generateId(),
-    title: "How to Stage Your Home for a Quick Sale",
-    slug: "how-to-stage-your-home-quick-sale",
+    id: "post-3",
+    title: "How to Stage Your Dhaka Apartment for a Quick Sale",
+    slug: "how-to-stage-your-dhaka-apartment-quick-sale",
     excerpt:
-      "Proper staging can reduce days on market by up to 73%. Discover the secrets professional stagers use to sell homes faster.",
+      "Proper staging can reduce days on market by up to 73%. Discover the secrets professional stagers use to sell properties faster in Dhaka.",
     content:
-      "Home staging is one of the most effective ways to sell your property quickly and at the best possible price. A well-staged home helps buyers visualize themselves living in the space, creating an emotional connection that translates to faster offers...",
+      "Selling your apartment can be a long process, but staging can make all the difference. When potential buyers tour your property, they want to imagine themselves living there. Decluttering, painting walls in warm neutral tones, maximizing natural light, and strategically placing modern furniture are key. In this article, we share professional secrets on how to highlight the best features of your Dhaka apartment to draw in multiple offers quickly.",
     coverImage:
       "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200",
     authorId: "agent-3",
     publishedAt: "2026-06-05T10:00:00Z",
     tags: ["Selling", "Staging", "Tips"],
     featured: false,
+    category: "Selling Tips",
+    readingTime: "4 min read",
+    relatedPropertyIds: ["prop-003"],
+  },
+  {
+    id: "post-4",
+    title: "5 Modern Home Decor Trends for Apartments in Dhaka",
+    slug: "5-modern-home-decor-trends-dhaka",
+    excerpt:
+      "Transform your living space with these contemporary design trends. Learn how to maximize light and space in urban apartments.",
+    content:
+      "Urban apartments in Dhaka often require creative space management. Modern design trends are shifting toward warm minimalism, smart storage, and bio-philic elements. Integrating indoor plants, choosing sleek multifunctional furniture, and using warm wood accents are excellent ways to create a luxury feel. Here is how you can elevate your apartment interior without doing a complete overhaul.",
+    coverImage:
+      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1200",
+    authorId: "agent-2",
+    publishedAt: "2026-06-02T10:00:00Z",
+    tags: ["Home Decor", "Interior", "Renovation"],
+    featured: false,
+    category: "Home Decor & Renovation",
+    readingTime: "5 min read",
+    relatedPropertyIds: ["prop-003"],
+  },
+  {
+    id: "post-5",
+    title: "Living in Mirpur DOHS: A Comprehensive Neighborhood Guide",
+    slug: "living-in-mirpur-dohs-neighborhood-guide",
+    excerpt:
+      "Discover why Mirpur DOHS has become one of the most sought-after, secure, and family-friendly residential areas in Dhaka.",
+    content:
+      "Mirpur DOHS is renowned for its planned structure, serene lakes, strict security, and clean environment. It is an exceptional neighborhood for growing families. With top schools, medical services, and retail outlets all nearby, it offers a self-contained lifestyle. Our detailed neighborhood guide breaks down the cost of living, accessibility, safety, and community activities that make Mirpur DOHS stand out.",
+    coverImage:
+      "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1200",
+    authorId: "agent-1",
+    publishedAt: "2026-05-28T10:00:00Z",
+    tags: ["Neighborhood Guide", "Dhaka", "Mirpur DOHS"],
+    featured: false,
+    category: "Neighborhood Guides",
+    readingTime: "7 min read",
+    relatedPropertyIds: ["prop-003"],
+  },
+  {
+    id: "post-6",
+    title: "Understanding Property Registration Costs and Taxes in Bangladesh",
+    slug: "understanding-property-registration-costs-taxes-bangladesh",
+    excerpt:
+      "A clear breakdown of stamp duty, gain taxes, local government taxes, and registration fees required to buy a property in Dhaka.",
+    content:
+      "When planning your property purchase budget, registration fees and taxes are significant considerations. Many buyers forget to factor in these costs, which can range from 10% to 12.5% of the deed value. In this article, we outline current stamp duties, registration fees, local government taxes, and source taxes. Learn how to legally register your new property and calculate exact expenses to avoid surprises.",
+    coverImage:
+      "https://images.unsplash.com/photo-1450133064473-71024230f91b?w=1200",
+    authorId: "agent-4",
+    publishedAt: "2026-05-20T10:00:00Z",
+    tags: ["Buying", "Taxation", "Legal"],
+    featured: false,
+    category: "Buying Guide",
+    readingTime: "9 min read",
+    relatedPropertyIds: ["prop-001", "prop-002"],
   },
 ];
 

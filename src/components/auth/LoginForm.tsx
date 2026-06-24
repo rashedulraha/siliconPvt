@@ -225,36 +225,6 @@ export default function LoginForm() {
         </Button>
       </form>
 
-      {/* Simulator Switcher Block */}
-      <div className="space-y-3 pt-4 border-t border-neutral-100 dark:border-neutral-900">
-        <div className="text-center">
-          <span className="text-[10px] uppercase font-semibold tracking-wider text-neutral-400 dark:text-neutral-500">
-            Developer simulation panel
-          </span>
-        </div>
-        <div className="grid grid-cols-1 gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => handleSimulateLogin("user")}
-            disabled={isSubmitting}
-            className="w-full h-9 rounded-lg text-xs font-normal border-border bg-card hover:bg-neutral-50 dark:hover:bg-neutral-900 text-neutral-700 dark:text-neutral-300 flex items-center justify-center gap-1.5 transition-all cursor-pointer"
-          >
-            <UserCheck className="w-3.5 h-3.5 text-neutral-500" />
-            Simulate Regular User Login
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => handleSimulateLogin("admin")}
-            disabled={isSubmitting}
-            className="w-full h-9 rounded-lg text-xs font-normal border-border bg-card hover:bg-neutral-50 dark:hover:bg-neutral-900 text-neutral-700 dark:text-neutral-300 flex items-center justify-center gap-1.5 transition-all cursor-pointer"
-          >
-            <ShieldCheck className="w-3.5 h-3.5 text-neutral-500" />
-            Simulate Admin Login
-          </Button>
-        </div>
-      </div>
     </div>
   );
 }

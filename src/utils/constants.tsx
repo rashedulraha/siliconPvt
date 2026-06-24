@@ -3,6 +3,7 @@ export const STORAGE_KEYS = {
   THEME: "estatehub_theme",
   FAVORITES: "estatehub_favorites",
   COMPARISON: "estatehub_comparison",
+  BOOKMARKS: "estatehub_bookmarks",
   ANALYTICS_CONSENT: "estatehub_analytics_consent",
 } as const;
 

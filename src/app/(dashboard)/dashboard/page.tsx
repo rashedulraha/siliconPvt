@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useUserAuth } from "@/context/UserAuthContext";
 
 export default function DashboardRedirectPage() {
-  const { isLoggedIn, user } = useUserAuth();
+  const { isLoggedIn, user, isLoading } = useUserAuth();
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
 
@@ -14,7 +14,7 @@ export default function DashboardRedirectPage() {
   }, []);
 
   useEffect(() => {
-    if (mounted) {
+    if (mounted && !isLoading) {
       if (!isLoggedIn || !user) {
         router.replace("/login");
       } else if (user.role === "admin") {
@@ -23,7 +23,7 @@ export default function DashboardRedirectPage() {
         router.replace("/dashboard/user");
       }
     }
-  }, [mounted, isLoggedIn, user, router]);
+  }, [mounted, isLoading, isLoggedIn, user, router]);
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center">

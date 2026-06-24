@@ -2,42 +2,75 @@
 
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, Search, X } from "lucide-react";
+import { BookOpen, Search, X, LayoutGrid } from "lucide-react";
 import { useCMS } from "@/context/CMSContext";
 import { Container } from "@/components/layout/Container";
 import { BlogCard } from "@/components/blog/BlogCard";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { NewsletterSubscribe } from "@/components/blog/NewsletterSubscribe";
 import { useBlog } from "@/hooks/useBlog";
 import { useTeam } from "@/hooks/useTeam";
+import { Button } from "@/components/ui/button";
+
+const CATEGORIES = [
+  "Buying Guide",
+  "Selling Tips",
+  "Market Trends",
+  "Home Decor & Renovation",
+  "Neighborhood Guides",
+] as const;
 
 export default function BlogPage() {
-  const { posts, allTags, getFeaturedPosts } = useBlog();
+  const { posts } = useBlog();
   const { getMemberById } = useTeam();
   const { state } = useCMS();
-  const [activeTag, setActiveTag] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [query, setQuery] = useState("");
+  const [visibleCount, setVisibleCount] = useState(6);
 
-  const featured = getFeaturedPosts(1)[0];
-  const restPosts = posts.filter((p) => p.id !== featured?.id);
+  // Get the single featured post if no search or filter is active
+  const featured = useMemo(() => {
+    return posts.find((p) => p.featured);
+  }, [posts]);
 
-  const filtered = useMemo(() => {
-    let result = restPosts;
-    if (activeTag) {
-      result = result.filter((p) => p.tags.some((t) => t.toLowerCase() === activeTag.toLowerCase()));
+  // Filter posts based on category and search query
+  const filteredPosts = useMemo(() => {
+    let result = posts;
+
+    // If we're not filtering, we exclude the featured post from the grid
+    if (!activeCategory && !query.trim() && featured) {
+      result = result.filter((p) => p.id !== featured.id);
     }
+
+    if (activeCategory) {
+      result = result.filter(
+        (p) => p.category.toLowerCase() === activeCategory.toLowerCase()
+      );
+    }
+
     if (query.trim()) {
       const q = query.toLowerCase();
       result = result.filter(
         (p) =>
           p.title.toLowerCase().includes(q) ||
           p.excerpt.toLowerCase().includes(q) ||
-          p.tags.some((t) => t.toLowerCase().includes(q)),
+          p.category.toLowerCase().includes(q) ||
+          p.tags.some((t) => t.toLowerCase().includes(q))
       );
     }
-    return result;
-  }, [restPosts, activeTag, query]);
 
-  const hasFilters = !!activeTag || !!query.trim();
+    return result;
+  }, [posts, activeCategory, query, featured]);
+
+  const hasFilters = !!activeCategory || !!query.trim();
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + 3);
+  };
+
+  const paginatedPosts = useMemo(() => {
+    return filteredPosts.slice(0, visibleCount);
+  }, [filteredPosts, visibleCount]);
 
   return (
     <>
@@ -52,10 +85,19 @@ export default function BlogPage() {
         <div
           className="absolute inset-0 opacity-[0.04] pointer-events-none"
           aria-hidden="true"
-          style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }}
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
         />
         <Container className="relative">
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-3xl">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="max-w-3xl"
+          >
             <div className="flex items-center gap-3 mb-5">
               <div className="divider-gold" />
               <span className="text-label text-accent">Insights & Knowledge</span>
@@ -64,8 +106,7 @@ export default function BlogPage() {
               Blog &amp; <span className="text-gold">News</span>
             </h1>
             <p className="text-white/65 text-lg font-light leading-relaxed max-w-2xl">
-              Real estate tips, investment guides, Dhaka property news, and legal information —
-              everything you need to make informed property decisions.
+              Real estate guides, investment trends, Dhaka property insights, legal taxes, and interior tips — everything you need for confident property decisions.
             </p>
           </motion.div>
 
@@ -80,9 +121,12 @@ export default function BlogPage() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
               <input
                 type="text"
-                placeholder="Search articles, topics, tips…"
+                placeholder="Search guides, trends, tips…"
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setVisibleCount(6); // reset pagination on search
+                }}
                 className="w-full h-12 pl-11 pr-10 rounded-xl bg-white/8 border border-white/15 text-white placeholder:text-white/35 text-sm focus:outline-none focus:border-accent/60 focus:bg-white/12 transition-all"
               />
               {query && (
@@ -102,15 +146,16 @@ export default function BlogPage() {
       {/* ── Content ────────────────────────────────────── */}
       <section className="section-y bg-background">
         <Container className="space-y-14">
-
           {/* Featured Post */}
           {featured && !hasFilters && (
             <div>
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-7 h-7 rounded-lg bg-accent/12 flex items-center justify-center">
-                  <BookOpen className="h-3.5 w-3.5 text-accent" />
+                <div className="w-8 h-8 rounded-lg bg-accent/12 flex items-center justify-center">
+                  <BookOpen className="h-4 w-4 text-accent" />
                 </div>
-                <h2 className="font-heading font-semibold text-xl text-foreground">Featured Story</h2>
+                <h2 className="font-heading font-semibold text-xl text-foreground">
+                  Featured Story
+                </h2>
               </div>
               <BlogCard
                 post={featured}
@@ -120,85 +165,138 @@ export default function BlogPage() {
             </div>
           )}
 
-          {/* Tags */}
-          {allTags.length > 0 && (
-            <div className="flex flex-wrap gap-2">
+          {/* Category Filter Pills */}
+          <div className="flex flex-wrap gap-2 pt-2 border-t border-border/40">
+            <button
+              onClick={() => {
+                setActiveCategory(null);
+                setVisibleCount(6);
+              }}
+              className={`px-4 h-9 rounded-full text-xs font-heading font-semibold border transition-all cursor-pointer ${
+                activeCategory === null
+                  ? "bg-primary text-primary-foreground border-primary"
+                  : "border-border bg-card text-muted-foreground hover:border-primary/45 hover:text-foreground"
+              }`}
+            >
+              All Articles
+            </button>
+            {CATEGORIES.map((cat) => (
               <button
-                onClick={() => setActiveTag(null)}
-                className={`px-4 h-8 rounded-full text-sm font-heading font-medium border transition-all ${
-                  activeTag === null
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                key={cat}
+                onClick={() => {
+                  setActiveCategory(activeCategory === cat ? null : cat);
+                  setVisibleCount(6);
+                }}
+                className={`px-4 h-9 rounded-full text-xs font-heading font-semibold border transition-all cursor-pointer ${
+                  activeCategory === cat
+                    ? "bg-accent text-accent-foreground border-accent"
+                    : "border-border bg-card text-muted-foreground hover:border-accent/45 hover:text-foreground"
                 }`}
               >
-                All Articles
+                {cat}
               </button>
-              {allTags.map((tag) => (
-                <button
-                  key={tag}
-                  onClick={() => setActiveTag(activeTag === tag ? null : tag)}
-                  className={`px-4 h-8 rounded-full text-sm font-heading font-medium border transition-all ${
-                    activeTag === tag
-                      ? "bg-accent text-accent-foreground border-accent"
-                      : "border-border text-muted-foreground hover:border-accent/40 hover:text-foreground"
-                  }`}
-                >
-                  {tag}
-                </button>
-              ))}
-              {hasFilters && (
-                <button
-                  onClick={() => { setActiveTag(null); setQuery(""); }}
-                  className="inline-flex items-center gap-1.5 px-3 h-8 rounded-full bg-muted text-muted-foreground text-xs font-semibold hover:bg-muted/80 transition-colors"
-                >
-                  <X className="w-3 h-3" /> Clear
-                </button>
-              )}
-            </div>
-          )}
+            ))}
+            {hasFilters && (
+              <button
+                onClick={() => {
+                  setActiveCategory(null);
+                  setQuery("");
+                  setVisibleCount(6);
+                }}
+                className="inline-flex items-center gap-1.5 px-3.5 h-9 rounded-full bg-destructive/10 text-destructive text-xs font-semibold hover:bg-destructive/15 transition-colors cursor-pointer"
+              >
+                <X className="w-3.5 h-3.5" /> Clear Filters
+              </button>
+            )}
+          </div>
 
-          {/* Grid */}
-          <div>
-            <div className="flex items-center gap-3 mb-6">
+          {/* Blog Grid */}
+          <div className="space-y-8">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-accent/12 flex items-center justify-center">
+                <LayoutGrid className="h-4 w-4 text-accent" />
+              </div>
               <h2 className="font-heading font-semibold text-xl text-foreground">
-                {activeTag ? `Articles tagged "${activeTag}"` : query ? `Results for "${query}"` : "Latest Articles"}
+                {activeCategory
+                  ? `${activeCategory} Articles`
+                  : query
+                  ? `Search Results for "${query}"`
+                  : "Latest Insights"}
               </h2>
               <span className="px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-xs font-medium">
-                {filtered.length}
+                {filteredPosts.length}
               </span>
             </div>
+
             <AnimatePresence mode="wait">
-              {filtered.length === 0 ? (
+              {filteredPosts.length === 0 ? (
                 <motion.div
                   key="empty"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="text-center py-16 rounded-2xl border border-border bg-muted/40"
+                  className="text-center py-20 rounded-2xl border border-dashed border-border bg-muted/20"
                 >
-                  <BookOpen className="h-12 w-12 mx-auto text-muted-foreground/40 mb-3" />
-                  <p className="text-muted-foreground font-medium">No articles found.</p>
-                  <p className="text-sm text-muted-foreground/60 mt-1">Try a different tag or search term.</p>
+                  <BookOpen className="h-12 w-12 mx-auto text-muted-foreground/30 mb-4 animate-pulse" />
+                  <p className="text-foreground font-semibold text-base">
+                    No articles found
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1 max-w-xs mx-auto font-light">
+                    Try searching for another topic or clear the current filters.
+                  </p>
+                  {hasFilters && (
+                    <Button
+                      onClick={() => {
+                        setActiveCategory(null);
+                        setQuery("");
+                      }}
+                      variant="outline"
+                      size="sm"
+                      className="mt-5 rounded-lg border-accent/30 text-accent hover:bg-accent/5"
+                    >
+                      Clear All Filters
+                    </Button>
+                  )}
                 </motion.div>
               ) : (
-                <motion.div
-                  key={activeTag + query}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.35 }}
-                  className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
-                >
-                  {filtered.map((post) => (
-                    <BlogCard
-                      key={post.id}
-                      post={post}
-                      author={getMemberById(post.authorId)}
-                    />
-                  ))}
-                </motion.div>
+                <div className="space-y-12">
+                  <motion.div
+                    key={activeCategory + query + visibleCount}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+                  >
+                    {paginatedPosts.map((post) => (
+                      <BlogCard
+                        key={post.id}
+                        post={post}
+                        author={getMemberById(post.authorId)}
+                      />
+                    ))}
+                  </motion.div>
+
+                  {/* Load More Button */}
+                  {filteredPosts.length > visibleCount && (
+                    <div className="flex justify-center pt-4">
+                      <Button
+                        onClick={handleLoadMore}
+                        variant="outline"
+                        className="rounded-xl px-8 h-11 border-border font-medium hover:border-accent hover:text-accent transition-all cursor-pointer shadow-sm hover:shadow-md"
+                      >
+                        Load More Articles
+                      </Button>
+                    </div>
+                  )}
+                </div>
               )}
             </AnimatePresence>
+          </div>
+
+          {/* Newsletter Box */}
+          <div className="pt-8">
+            <NewsletterSubscribe />
           </div>
         </Container>
       </section>

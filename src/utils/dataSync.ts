@@ -11,7 +11,7 @@ export async function fetchProperties(apiUrl?: string): Promise<Property[]> {
   const endpoint = apiUrl || process.env.NEXT_PUBLIC_PROPERTIES_API_URL;
 
   if (!endpoint) {
-    console.warn("[DataSync] No properties API URL defined. Using local fallback seed data.");
+    console.log("[DataSync] No properties API URL defined. Using local fallback seed data.");
     return propertiesData as Property[];
   }
 

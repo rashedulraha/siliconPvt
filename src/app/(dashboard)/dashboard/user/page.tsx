@@ -24,7 +24,7 @@ const PIPELINE_STEPS = [
 ];
 
 export default function UserDashboard() {
-  const { user, isLoggedIn, logout } = useUserAuth();
+  const { user, isLoggedIn, logout, isLoading } = useUserAuth();
   const { favoriteIds } = useFavorites();
   const { state } = useCMS();
   const router = useRouter();
@@ -35,12 +35,14 @@ export default function UserDashboard() {
   }, []);
 
   useEffect(() => {
-    if (mounted && (!isLoggedIn || user?.role !== "user")) {
-      router.replace("/login");
+    if (mounted && !isLoading) {
+      if (!isLoggedIn || user?.role !== "user") {
+        router.replace("/login");
+      }
     }
-  }, [mounted, isLoggedIn, user, router]);
+  }, [mounted, isLoading, isLoggedIn, user, router]);
 
-  if (!mounted || !isLoggedIn || user?.role !== "user") {
+  if (!mounted || isLoading || !isLoggedIn || user?.role !== "user") {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <p className="text-sm text-muted-foreground">Checking authentication...</p>

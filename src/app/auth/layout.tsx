@@ -20,8 +20,8 @@ export default function MainLayout({
 }) {
   const pathname = usePathname();
   
-  // Detect if current endpoint is an explicit identity flow route
-  const isAuthPage = pathname.endsWith("/login") || pathname.endsWith("/register");
+  // Strict check for auth pages to avoid accidental nested route match
+  const isAuthPage = ["/auth/login", "/auth/register"].includes(pathname);
 
   if (isAuthPage) {
     return (
@@ -41,8 +41,12 @@ export default function MainLayout({
             />
             
             {/* Micro Header Branding Token */}
-            <div className="relative z-10 flex items-center gap-2">
-               <div
+            <div className="relative z-10 flex items-center justify-between gap-2">
+               {/* FIXED: Added 'relative' and dimensions properly to Link for Next.js Image 'fill' layout */}
+           <div  className="flex items-center gap-5">
+            {/* logo */}
+                <Link 
+                 href="/"
                  className="
                    relative
                    h-11 w-11
@@ -52,30 +56,27 @@ export default function MainLayout({
                    bg-background/60
                    backdrop-blur-md
                    transition-all duration-300
-                   group-hover:scale-[1.03]
-                   group-hover:border-primary/30
+                   hover:scale-[1.03]
+                   hover:border-primary/30
                    flex items-center justify-center
                    shrink-0
                  "
                >
-                 <Link href="/">
-                   <Image
-                   src="/silicon.png"
-                   alt={`Silicon Logo`}
-                   fill
-                   priority
-                   sizes="44px"
-                   className="
-                     object-contain
-                     p-[px]
-                     select-none
-                   "
-                 />
-                 </Link>
-               </div>
+                  <Image
+                    src="/silicon.png"
+                    alt="Silicon Logo"
+                    fill
+                    priority
+                    sizes="44px"
+                    className="object-contain p-1 select-none"
+                  />
+               </Link>
               <span className="text-xs font-medium tracking-wider uppercase text-muted-foreground">
                 Silicon Corporate Network
               </span>
+           </div>
+
+           <div className="text-xs font-medium tracking-wider uppercase text-muted-foreground"><Link href="/">Back Home</Link></div>
             </div>
 
             {/* Middle Typographic Context Array */}
@@ -122,11 +123,9 @@ export default function MainLayout({
     <>
       <SkipToContent />
       <div className="relative flex min-h-screen flex-col bg-background">
-        <Navbar />
         <main id="main-content" tabIndex={-1} className="flex-1 pt-16 outline-none">
           {children}
         </main>
-        <Footer />
       </div>
       <FloatingActions />
       <FloatingSimulator />
