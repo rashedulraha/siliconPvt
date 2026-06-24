@@ -52,7 +52,7 @@ export default function RootLayout({
         className={`${inter.variable} font-sans antialiased min-h-screen bg-background text-foreground`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange>
           <CMSProvider>
