@@ -56,7 +56,7 @@ export function InvestmentProcess() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.08 }}
-            className="font-serif text-display-md font-bold text-foreground"
+            className="text-display-md font-medium text-foreground"
           >
             From First Visit to{" "}
             <span className="text-gold">Registered Deed</span>
@@ -93,12 +93,12 @@ export function InvestmentProcess() {
                   <div className="relative z-10 w-12 h-12 rounded-xl bg-primary flex items-center justify-center shadow-luxury group-hover:bg-accent transition-colors duration-500 flex-shrink-0">
                     <step.icon className="h-5 w-5 text-primary-foreground" />
                   </div>
-                  <span className="font-serif text-4xl font-bold text-border/60 select-none">
+                  <span className="text-4xl font-medium text-border/60 select-none">
                     {step.number}
                   </span>
                 </div>
 
-                <h3 className="font-serif font-bold text-base text-foreground mb-2">
+                <h3 className="font-medium text-base text-foreground mb-2">
                   {step.title}
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed font-light">

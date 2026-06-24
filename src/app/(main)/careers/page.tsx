@@ -93,7 +93,7 @@ export default function CareersPage() {
               <div className="divider-gold" />
               <span className="text-label text-accent">Careers</span>
             </div>
-            <h1 className="font-serif font-bold text-white text-display-lg leading-[1.08] mb-5">
+            <h1 className="font-medium text-white text-display-lg leading-[1.08] mb-5">
               Build Your Career <br className="hidden sm:block" />
               With <span className="text-gold">Silicon</span>
             </h1>

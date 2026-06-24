@@ -57,7 +57,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
           {/* Bottom left — price */}
           <div className="absolute bottom-3 left-3">
             <div className="flex items-baseline gap-1">
-              <span className="font-serif font-bold text-white text-lg leading-none drop-shadow-lg">
+              <span className="font-medium text-white text-lg leading-none drop-shadow-lg">
                 {formatCurrency(property.price)}
               </span>
               {property.type === "rent" && (
@@ -83,7 +83,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
           </span>
 
           {/* Title */}
-          <h3 className="font-serif font-bold text-foreground text-[1.05rem] leading-snug line-clamp-1 group-hover:text-accent transition-colors duration-300 mb-2">
+          <h3 className="font-medium text-foreground text-[1.05rem] leading-snug line-clamp-1 group-hover:text-accent transition-colors duration-300 mb-2">
             {property.title}
           </h3>
 

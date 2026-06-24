@@ -24,7 +24,7 @@ export default function CookiePolicyPage() {
               <div className="divider-gold" />
               <span className="text-label text-accent">Legal</span>
             </div>
-            <h1 className="font-serif font-bold text-white text-display-lg leading-[1.08] mb-4">
+            <h1 className="font-medium text-white text-display-lg leading-[1.08] mb-4">
               Cookie Policy
             </h1>
             <p className="text-white/65 text-sm font-light">

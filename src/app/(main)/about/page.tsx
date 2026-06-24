@@ -52,7 +52,7 @@ export default function AboutPage() {
               <div className="divider-gold" />
               <span className="text-label text-accent">About Silicon Real Estate</span>
             </div>
-            <h1 className="font-serif font-bold text-white text-display-lg leading-[1.08] mb-5">
+            <h1 className="font-medium text-white text-display-lg leading-[1.08] mb-5">
               Building <span className="text-gold">Trusted</span> Communities{" "}
               <br className="hidden sm:block" />Since 2013
             </h1>
@@ -76,7 +76,7 @@ export default function AboutPage() {
                 </div>
                 <span className="text-label text-accent">Our Story</span>
               </div>
-              <h2 className="font-serif font-bold text-display-md text-foreground leading-[1.12]">
+              <h2 className="font-medium text-display-md text-foreground leading-[1.12]">
                 From Vision to{" "}
                 <span className="text-gold">Industry Leader</span>
               </h2>
@@ -115,9 +115,9 @@ export default function AboutPage() {
               {/* Floating stat card */}
               <div className="absolute bottom-6 left-6 right-6 glass-dark rounded-xl p-4">
                 <div className="grid grid-cols-3 gap-4 text-center">
-                  <div><div className="font-serif font-bold text-2xl text-white">25+</div><div className="text-white/50 text-xs">Projects</div></div>
-                  <div className="border-x border-white/10"><div className="font-serif font-bold text-2xl text-accent">1,500+</div><div className="text-white/50 text-xs">Clients</div></div>
-                  <div><div className="font-serif font-bold text-2xl text-white">800+</div><div className="text-white/50 text-xs">Acres</div></div>
+                  <div><div className="font-medium text-2xl text-white">25+</div><div className="text-white/50 text-xs">Projects</div></div>
+                  <div className="border-x border-white/10"><div className="font-medium text-2xl text-accent">1,500+</div><div className="text-white/50 text-xs">Clients</div></div>
+                  <div><div className="font-medium text-2xl text-white">800+</div><div className="text-white/50 text-xs">Acres</div></div>
                 </div>
               </div>
             </motion.div>
@@ -135,7 +135,7 @@ export default function AboutPage() {
                 <div className="w-12 h-12 rounded-xl bg-accent/15 flex items-center justify-center mx-auto mb-3 group-hover:bg-accent/25 transition-colors">
                   <s.icon className="h-5 w-5 text-accent" />
                 </div>
-                <div className="font-serif font-bold text-3xl text-white">{s.value}</div>
+                <div className="font-medium text-3xl text-white">{s.value}</div>
                 <div className="text-white/50 text-xs font-medium uppercase tracking-[0.1em] mt-1">{s.label}</div>
               </motion.div>
             ))}
@@ -153,7 +153,7 @@ export default function AboutPage() {
               </div>
               <span className="text-label text-accent">Our Core Values</span>
             </motion.div>
-            <motion.h2 initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 }} className="font-serif font-bold text-display-md text-foreground">
+            <motion.h2 initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 }} className="font-medium text-display-md text-foreground">
               What We <span className="text-gold">Stand For</span>
             </motion.h2>
           </div>
@@ -163,7 +163,7 @@ export default function AboutPage() {
                 <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-accent/20 transition-colors">
                   <v.icon className="h-5 w-5 text-accent" />
                 </div>
-                <h3 className="font-serif font-bold text-foreground mb-2">{v.title}</h3>
+                <h3 className="font-medium text-foreground mb-2">{v.title}</h3>
                 <p className="text-sm text-muted-foreground font-light leading-relaxed">{v.desc}</p>
               </motion.div>
             ))}
@@ -182,7 +182,7 @@ export default function AboutPage() {
                 </div>
                 <span className="text-label text-primary/70">Our People</span>
               </motion.div>
-              <motion.h2 initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 }} className="font-serif font-bold text-display-md text-foreground">
+              <motion.h2 initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 }} className="font-medium text-display-md text-foreground">
                 The Experts Behind <span className="text-gold">Every Visit</span>
               </motion.h2>
               <p className="text-muted-foreground text-lg font-light">Experienced professionals dedicated to making your property journey exceptional.</p>

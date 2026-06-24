@@ -76,7 +76,7 @@ export function FeaturedProjects() {
               <Sparkles className="h-4 w-4" />
               Featured Collections
             </div>
-            <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground leading-tight">
+            <h2 className="text-3xl md:text-4xl font-medium text-foreground leading-tight">
               Featured Plots &amp; Modern Communities
             </h2>
             <p className="text-muted-foreground text-sm max-w-2xl">
@@ -95,7 +95,7 @@ export function FeaturedProjects() {
         <div className="space-y-6">
           <div className="flex items-end justify-between">
             <div className="space-y-1">
-              <h3 className="font-serif text-2xl font-bold text-foreground">
+              <h3 className="text-2xl font-medium text-foreground">
                 Residential &amp; Commercial Plots
               </h3>
               <p className="text-muted-foreground text-xs md:text-sm">
@@ -143,7 +143,7 @@ export function FeaturedProjects() {
         <div className="space-y-6">
           <div className="flex items-end justify-between">
             <div className="space-y-1">
-              <h3 className="font-serif text-2xl font-bold text-foreground">
+              <h3 className="text-2xl font-medium text-foreground">
                 Ready Flats &amp; Residences
               </h3>
               <p className="text-muted-foreground text-xs md:text-sm">
@@ -240,7 +240,7 @@ function PropertySliderCard({ property, isPlot }: PropertySliderCardProps) {
         {/* Card Body */}
         <div className="p-5 flex flex-col flex-grow">
           {/* Title */}
-          <h4 className="font-serif font-bold text-foreground text-[1.1rem] leading-snug line-clamp-1 group-hover:text-primary transition-colors mb-2">
+          <h4 className="font-medium text-foreground text-[1.1rem] leading-snug line-clamp-1 group-hover:text-primary transition-colors mb-2">
             {property.title}
           </h4>
 

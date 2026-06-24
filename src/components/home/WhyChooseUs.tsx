@@ -31,7 +31,7 @@ export function WhyChooseUs() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.08 }}
-            className="font-serif text-display-md font-bold text-foreground"
+            className="text-display-md font-medium text-foreground"
           >
             Why Investors{" "}
             <span className="text-gold">Choose Us</span>
@@ -64,7 +64,7 @@ export function WhyChooseUs() {
               <div className="w-12 h-12 rounded-xl bg-primary/8 flex items-center justify-center mb-6 group-hover:bg-accent/15 transition-colors duration-500">
                 <Shield className="h-5 w-5 text-primary group-hover:text-accent transition-colors duration-500" />
               </div>
-              <h3 className="font-serif font-bold text-lg text-foreground mb-3">
+              <h3 className="font-medium text-lg text-foreground mb-3">
                 Legal Security &amp; Verification
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed font-light max-w-xl">
@@ -103,7 +103,7 @@ export function WhyChooseUs() {
               <div className="w-12 h-12 rounded-xl bg-primary/8 flex items-center justify-center mb-6 group-hover:bg-accent/15 transition-colors duration-500">
                 <MapPin className="h-5 w-5 text-primary group-hover:text-accent transition-colors duration-500" />
               </div>
-              <h3 className="font-serif font-bold text-lg text-foreground mb-3">
+              <h3 className="font-medium text-lg text-foreground mb-3">
                 Prime Locations
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed font-light">
@@ -137,7 +137,7 @@ export function WhyChooseUs() {
               <div className="w-12 h-12 rounded-xl bg-primary/8 flex items-center justify-center mb-6 group-hover:bg-accent/15 transition-colors duration-500">
                 <CreditCard className="h-5 w-5 text-primary group-hover:text-accent transition-colors duration-500" />
               </div>
-              <h3 className="font-serif font-bold text-lg text-foreground mb-3">
+              <h3 className="font-medium text-lg text-foreground mb-3">
                 Flexible Payment
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed font-light">
@@ -173,7 +173,7 @@ export function WhyChooseUs() {
               <div className="w-12 h-12 rounded-xl bg-primary/8 flex items-center justify-center mb-6 group-hover:bg-accent/15 transition-colors duration-500">
                 <UserCheck className="h-5 w-5 text-primary group-hover:text-accent transition-colors duration-500" />
               </div>
-              <h3 className="font-serif font-bold text-lg text-foreground mb-3">
+              <h3 className="font-medium text-lg text-foreground mb-3">
                 Expert Guidance &amp; Support
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed font-light max-w-xl">

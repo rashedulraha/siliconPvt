@@ -25,7 +25,7 @@ export function LatestInsights() {
               </div>
               <span className="text-label text-accent">Press & Insights</span>
             </div>
-            <h2 className="font-serif text-display-md font-bold text-foreground leading-[1.12]">
+            <h2 className="text-display-md font-medium text-foreground leading-[1.12]">
               Latest{" "}
               <span className="text-gold">Insights</span> & News
             </h2>
@@ -64,7 +64,7 @@ export function LatestInsights() {
 
                     {/* Date pill */}
                     <div className="absolute top-4 left-4 bg-card/95 backdrop-blur-sm rounded-lg px-3 py-2 text-center min-w-[52px] shadow-luxury border border-border/50">
-                      <div className="font-serif text-lg font-bold text-primary leading-none">
+                      <div className="text-lg font-medium text-primary leading-none">
                         {new Date(post.publishedAt).getDate()}
                       </div>
                       <div className="text-[9px] font-bold uppercase tracking-[0.12em] text-accent mt-0.5">
@@ -75,7 +75,7 @@ export function LatestInsights() {
 
                   {/* Body */}
                   <div className="p-5 flex flex-col flex-grow">
-                    <h3 className="font-serif font-bold text-base text-foreground group-hover:text-accent transition-colors duration-300 line-clamp-2 leading-snug mb-2">
+                    <h3 className="font-medium text-base text-foreground group-hover:text-accent transition-colors duration-300 line-clamp-2 leading-snug mb-2">
                       {post.title}
                     </h3>
                     <p className="text-sm text-muted-foreground line-clamp-2 font-light leading-relaxed mb-4 flex-grow">

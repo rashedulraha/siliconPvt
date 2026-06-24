@@ -115,7 +115,7 @@ export default function PropertyDetailsPage({
                 {/* Title + price */}
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                   <div className="flex-1">
-                    <h1 className="font-serif font-bold text-display-md text-foreground leading-[1.12]">
+                    <h1 className="font-medium text-display-md text-foreground leading-[1.12]">
                       {property.title}
                     </h1>
                     <div className="mt-2 flex items-center gap-1.5 text-muted-foreground">
@@ -124,7 +124,7 @@ export default function PropertyDetailsPage({
                     </div>
                   </div>
                   <div className="md:text-right flex-shrink-0">
-                    <div className="font-serif font-bold text-3xl md:text-4xl text-accent leading-none">
+                    <div className="font-medium text-3xl md:text-4xl text-accent leading-none">
                       {formatCurrency(property.price)}
                     </div>
                     {property.type === "rent" && <div className="text-sm text-muted-foreground mt-1">per month</div>}
@@ -144,7 +144,7 @@ export default function PropertyDetailsPage({
                   ].map(({ icon: Icon, label, value }) => (
                     <div key={label} className="rounded-xl border border-border bg-card p-4 text-center shadow-luxury">
                       <Icon className="h-4 w-4 mx-auto text-accent mb-2" />
-                      <div className="font-serif font-bold text-lg text-foreground">{value}</div>
+                      <div className="font-medium text-lg text-foreground">{value}</div>
                       <div className="text-xs text-muted-foreground mt-0.5">{label}</div>
                     </div>
                   ))}
@@ -153,14 +153,14 @@ export default function PropertyDetailsPage({
 
               {/* Description */}
               <div className="bg-card rounded-xl border border-border p-6 shadow-luxury">
-                <h2 className="font-serif font-bold text-xl text-foreground mb-4">About This Property</h2>
+                <h2 className="font-medium text-xl text-foreground mb-4">About This Property</h2>
                 <p className="text-muted-foreground leading-[1.8] text-sm whitespace-pre-line">{property.description}</p>
               </div>
 
               {/* Features */}
               {property.features.length > 0 && (
                 <div className="bg-card rounded-xl border border-border p-6 shadow-luxury">
-                  <h2 className="font-serif font-bold text-xl text-foreground mb-5">Features & Amenities</h2>
+                  <h2 className="font-medium text-xl text-foreground mb-5">Features & Amenities</h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {property.features.map((f, i) => (
                       <div key={i} className="flex items-center gap-3">
@@ -176,7 +176,7 @@ export default function PropertyDetailsPage({
 
               {/* Details */}
               <div className="bg-card rounded-xl border border-border p-6 shadow-luxury">
-                <h2 className="font-serif font-bold text-xl text-foreground mb-4">Property Details</h2>
+                <h2 className="font-medium text-xl text-foreground mb-4">Property Details</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-0">
                   {[
                     ["Property Type", property.category],
@@ -195,7 +195,7 @@ export default function PropertyDetailsPage({
               {/* Similar */}
               {similar.length > 0 && (
                 <div>
-                  <h2 className="font-serif font-bold text-xl text-foreground mb-6">Similar Properties</h2>
+                  <h2 className="font-medium text-xl text-foreground mb-6">Similar Properties</h2>
                   <PropertyGrid properties={similar} />
                 </div>
               )}
@@ -226,7 +226,7 @@ export default function PropertyDetailsPage({
                       <Image src={agent.image} alt={agent.name} fill className="object-cover" sizes="56px" />
                     </div>
                     <div className="min-w-0">
-                      <p className="font-serif font-bold text-foreground truncate">{agent.name}</p>
+                      <p className="font-medium text-foreground truncate">{agent.name}</p>
                       <p className="text-xs text-muted-foreground">{agent.role}</p>
                       <div className="flex items-center gap-0.5 mt-1">
                         {[...Array(5)].map((_, i) => <Star key={i} className="h-3 w-3 fill-accent text-accent" />)}
@@ -275,7 +275,7 @@ export default function PropertyDetailsPage({
 
               {/* Contact form */}
               <div className="bg-card rounded-xl border border-border p-5 shadow-luxury">
-                <p className="font-serif font-bold text-foreground mb-1">Enquire About This Property</p>
+                <p className="font-medium text-foreground mb-1">Enquire About This Property</p>
                 <p className="text-xs text-muted-foreground mb-4">We'll respond within 24 hours.</p>
                 <ContactForm propertyId={property.id} />
               </div>

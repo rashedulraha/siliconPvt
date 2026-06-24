@@ -1,11 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=JetBrains+Mono:wght@400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400..700&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
 /*
   Silicon Real Estate — Design System
-  Headings : Poppins (clean, modern, trustworthy)
-  Body     : Roboto (readable, neutral)
+  Headings : Inter (clean, modern, premium sans-serif)
+  Body     : Inter (readable, accessible geometric sans-serif)
   Mono     : JetBrains Mono (prices, data)
 */
 
@@ -36,19 +36,19 @@
   --input-surface:   #F4F7FB;
 
   --background:           #F4F7FB;   /* soft blue-gray */
-  --foreground:           #0D1B3E;   /* deep navy */
+  --foreground:           #18181B;   /* deep charcoal/almost black (zinc-900 style) */
   --card:                 #FFFFFF;
-  --card-foreground:      #0D1B3E;
+  --card-foreground:      #18181B;   /* deep charcoal */
   --popover:              #FFFFFF;
-  --popover-foreground:   #0D1B3E;
+  --popover-foreground:   #18181B;
   --primary:              #1A5FA8;   /* trust blue */
   --primary-foreground:   #FFFFFF;
   --secondary:            #EEF4FB;   /* light blue */
   --secondary-foreground: #1A5FA8;
   --muted:                #F0F4F8;
-  --muted-foreground:     #6B7A99;
+  --muted-foreground:     #4B5563;   /* Slate-600: High contrast, WCAG compliant for age 25-60 */
   --accent:               #C9911A;   /* gold */
-  --accent-foreground:    #0D1B3E;
+  --accent-foreground:    #18181B;
   --destructive:          #DC2626;
   --destructive-foreground: #FFFFFF;
   --border:               #DDE3EE;
@@ -73,35 +73,35 @@
   --sidebar:                    #0D1B3E;
   --sidebar-foreground:         #EEF4FB;
   --sidebar-primary:            #C9911A;
-  --sidebar-primary-foreground: #0D1B3E;
+  --sidebar-primary-foreground: #18181B;
   --sidebar-accent:             #1A2F52;
   --sidebar-accent-foreground:  #EEF4FB;
   --sidebar-border:             #1E2E50;
   --sidebar-ring:               #C9911A;
 
   /* Fonts */
-  --font-heading: "Poppins", sans-serif;
-  --font-body:    "Roboto", sans-serif;
+  --font-heading: var(--font-sans, "Inter", sans-serif);
+  --font-body:    var(--font-sans, "Inter", sans-serif);
   --font-mono:    "JetBrains Mono", monospace;
-  --font-sans:    "Roboto", sans-serif;
-  --font-serif:   "Poppins", sans-serif;
+  --font-sans:    var(--font-sans, "Inter", sans-serif);
+  --font-serif:   var(--font-sans, "Inter", sans-serif);
 }
 
 .dark {
   --background:           #0A1628;
-  --foreground:           #EEF4FB;
+  --foreground:           #F5F5F7;   /* crisp bone white */
   --card:                 #111E35;
-  --card-foreground:      #EEF4FB;
+  --card-foreground:      #F5F5F7;
   --popover:              #0F1D32;
-  --popover-foreground:   #EEF4FB;
+  --popover-foreground:   #F5F5F7;
   --primary:              #4A90D9;
-  --primary-foreground:   #0D1B3E;
+  --primary-foreground:   #0A1628;
   --secondary:            #1A2F52;
   --secondary-foreground: #A8C4E8;
   --muted:                #162338;
-  --muted-foreground:     #8899BB;
+  --muted-foreground:     #94A3B8;   /* Slate-400: High contrast, readable on dark blue */
   --accent:               #D4A030;
-  --accent-foreground:    #0D1B3E;
+  --accent-foreground:    #0A1628;
   --destructive:          #EF4444;
   --destructive-foreground: #FFFFFF;
   --border:               #1E2E50;
@@ -176,23 +176,56 @@
   --radius-xl: calc(var(--radius) + 8px);
 }
 
+@utility text-h1 {
+  @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal sm:font-medium tracking-tight;
+  line-height: 1.15;
+}
+@utility text-h2 {
+  @apply text-2xl sm:text-3xl md:text-4xl font-normal sm:font-medium tracking-tight;
+  line-height: 1.2;
+}
+@utility text-h3 {
+  @apply text-xl sm:text-2xl font-medium tracking-tight;
+  line-height: 1.25;
+}
+@utility text-h4 {
+  @apply text-sm sm:text-base font-medium;
+  line-height: 1.3;
+}
+@utility text-body {
+  @apply text-sm sm:text-base font-light sm:font-normal leading-relaxed;
+}
+@utility text-micro {
+  @apply text-[10px] sm:text-[11px] uppercase tracking-wider font-medium;
+}
+
 @layer base {
   * { @apply border-border outline-ring/50; }
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-body);
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
   }
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    letter-spacing: -0.02em;
+  h1 {
+    @apply text-h1;
+  }
+  h2 {
+    @apply text-h2;
+  }
+  h3 {
+    @apply text-h3;
+  }
+  h4, h5, h6 {
+    @apply text-h4;
+  }
+  p {
+    @apply text-body;
   }
   /* font-display is an alias for font-heading throughout the legacy components */
   .font-display {
-    font-family: var(--font-heading);
+    font-family: var(--font-sans);
   }
 }
 
@@ -364,26 +397,26 @@
   font-size: clamp(2.5rem, 6vw, 5rem);
   line-height: 1.08;
   letter-spacing: -0.03em;
-  font-family: var(--font-heading);
+  font-family: var(--font-sans);
 }
 .text-display-lg {
   font-size: clamp(2rem, 5vw, 3.75rem);
   line-height: 1.10;
   letter-spacing: -0.025em;
-  font-family: var(--font-heading);
+  font-family: var(--font-sans);
 }
 .text-display-md {
   font-size: clamp(1.5rem, 3vw, 2.5rem);
   line-height: 1.14;
   letter-spacing: -0.02em;
-  font-family: var(--font-heading);
+  font-family: var(--font-sans);
 }
 .text-label {
   font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.10em;
   text-transform: uppercase;
-  font-family: var(--font-heading);
+  font-family: var(--font-sans);
 }
 
 /* ── Text gradients ──────────────────────────── */

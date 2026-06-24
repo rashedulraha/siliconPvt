@@ -95,7 +95,7 @@ export default function PropertiesPage() {
               <div className="divider-gold" />
               <span className="text-label text-accent">Our Collection</span>
             </div>
-            <h1 className="font-serif font-bold text-white text-display-lg leading-[1.1] mb-3">
+            <h1 className="font-medium text-white text-display-lg leading-[1.1] mb-3">
               Premium{" "}
               <span className="text-gold">Property</span> Listings
             </h1>

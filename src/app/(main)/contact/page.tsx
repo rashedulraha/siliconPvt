@@ -43,7 +43,7 @@ export default function ContactPage() {
               <div className="divider-gold" />
               <span className="text-label text-accent">Contact Us</span>
             </div>
-            <h1 className="font-serif font-bold text-white text-display-lg leading-[1.08] mb-4">
+            <h1 className="font-medium text-white text-display-lg leading-[1.08] mb-4">
               Let's Start a{" "}
               <span className="text-gold">Conversation</span>
             </h1>
@@ -65,7 +65,7 @@ export default function ContactPage() {
               <div className="bg-card rounded-2xl border border-border shadow-luxury p-8">
                 {/* Form header */}
                 <div className="mb-6">
-                  <h2 className="font-serif font-bold text-2xl text-foreground mb-1">Send Us a Message</h2>
+                  <h2 className="font-medium text-2xl text-foreground mb-1">Send Us a Message</h2>
                   <p className="text-muted-foreground text-sm">Fill out the form and we'll get back to you within 24 hours.</p>
                 </div>
                 <ContactForm />
@@ -109,7 +109,7 @@ export default function ContactPage() {
 
               {/* Why Contact Us */}
               <div className="bg-card rounded-2xl border border-border shadow-luxury p-6">
-                <h3 className="font-serif font-bold text-foreground mb-4">Why Contact Us?</h3>
+                <h3 className="font-medium text-foreground mb-4">Why Contact Us?</h3>
                 <div className="grid grid-cols-2 gap-3">
                   {whyChoose.map((item, i) => (
                     <div key={i} className="p-3 rounded-lg bg-secondary/60 border border-border">
