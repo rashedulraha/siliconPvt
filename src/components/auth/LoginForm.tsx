@@ -7,6 +7,7 @@ import { Eye, EyeOff, Loader2, Lock, Mail, ArrowRight, UserCheck, ShieldCheck } 
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { UserRole } from "@/types/auth";
+import { FadeInSlideUp } from "@/components/ui/FramerWrappers";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -64,39 +65,7 @@ export default function LoginForm() {
     }
   };
 
-  const handleSimulateLogin = async (role: "user" | "admin") => {
-    setIsSubmitting(true);
-    setError("");
-
-    if (role === "admin") {
-      setEmail("admin@siliconrealestate.com");
-      setPassword("SiliconAdmin2026!");
-    } else {
-      setEmail("client@siliconrealestate.com");
-      setPassword("SiliconUser2026!");
-    }
-
-    await new Promise((resolve) => setTimeout(resolve, 800));
-
-    const mockUserData = {
-      uid: role === "admin" ? "admin-99" : "user-45",
-      name: role === "admin" ? "Silicon Administrator" : "Md Rashedul Islam",
-      email: role === "admin" ? "admin@siliconrealestate.com" : "client@siliconrealestate.com",
-      role: role,
-    };
-
-    try {
-      login(mockUserData);
-      toast.success(`Authenticated securely as ${role === "admin" ? "Administrator" : "Client"}`);
-      router.push(role === "admin" ? "/dashboard/admin" : "/dashboard/user");
-    } catch (err) {
-      setError("Failed to simulate session authorization.");
-      toast.error("Simulation failed.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
+ 
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center p-8 space-y-4">
@@ -118,14 +87,14 @@ export default function LoginForm() {
 
   return (
     <div className="w-full space-y-6">
-      <div className="space-y-2 text-center lg:text-left">
+      <FadeInSlideUp className="space-y-2 text-center lg:text-left">
         <h1 className="text-2xl font-normal tracking-tight text-neutral-900 dark:text-neutral-50">
           Sign In
         </h1>
         <p className="text-xs text-neutral-500 dark:text-neutral-400 font-light leading-relaxed">
           Access your verified assets portfolio dashboard using secure cryptographic identities.
         </p>
-      </div>
+      </FadeInSlideUp>
 
       <form onSubmit={handleSubmit} noValidate className="space-y-4">
         {/* Email Field */}

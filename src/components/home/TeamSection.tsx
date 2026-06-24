@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { UserCheck, Linkedin, Mail } from "lucide-react";
 import { Container } from "@/components/layout/Container";
 import { useTeam } from "@/hooks/useTeam";
+import Link from "next/link";
 
 export function TeamSection() {
   const { team } = useTeam();
@@ -66,10 +67,18 @@ export function TeamSection() {
                 {/* Hover overlay with social icons */}
                 <div className="absolute inset-0 bg-primary/70 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-white/15 border border-white/30 flex items-center justify-center hover:bg-accent/80 transition-colors duration-300 cursor-pointer">
-                    <Linkedin className="h-4 w-4 text-white" />
+            <a href="https://www.linkedin.com/in/rashedulraha/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Linkedin className="h-4 w-4 text-white" />
+                </a>
                   </div>
                   <div className="w-9 h-9 rounded-full bg-white/15 border border-white/30 flex items-center justify-center hover:bg-accent/80 transition-colors duration-300 cursor-pointer">
-                    <Mail className="h-4 w-4 text-white" />
+                   <a href="mailto:rashedulraha.bd@gmail.com?subject=Project Inquiry&body=Hello Rashedul,"
+                className="w-9 h-9 rounded-full bg-white/15 border border-white/30 flex items-center justify-center hover:bg-accent/80 transition-colors duration-300">
+                <Mail className="h-4 w-4 text-white" />
+              </a>
                   </div>
                 </div>
               </div>

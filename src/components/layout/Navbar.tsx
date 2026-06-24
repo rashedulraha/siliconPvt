@@ -93,11 +93,11 @@ export function Navbar() {
 
   <div className="hidden sm:flex flex-col">
     <span className="font-heading font-bold text-sm tracking-tight leading-tight text-foreground">
-      {state.siteSettings.siteName}
+Silicon
     </span>
 
     <span className="text-[10px] tracking-[0.2em] uppercase font-medium leading-none text-muted-foreground">
-      Real Estate
+      Real Estate Pvt. Ltd..
     </span>
   </div>
       </Link>
@@ -126,18 +126,7 @@ export function Navbar() {
                   { label: "Completed Projects", href: "/projects?status=completed" },
                 ],
               },
-              {
-                label: "About",
-                href: "/about",
-                links: [
-                  { label: "Company Overview", href: "/about" },
-                  { label: "Mission & Vision", href: "/about#mission" },
-                  { label: "Chairman Message", href: "/about#chairman" },
-                  { label: "Our Team", href: "/about#team" },
-                  { label: "Achievements", href: "/about#achievements" },
-                  { label: "Client Trust", href: "/about#trust" },
-                ],
-              },
+              
               {
                 label: "Investment",
                 href: "/investment",
@@ -157,6 +146,17 @@ export function Navbar() {
                   { label: "Plot Sales", href: "/services#plot-sales" },
                   { label: "Property Consultation", href: "/services#consultation" },
                   { label: "Legal Support", href: "/services#legal" },
+                ],
+              },{
+                label: "About",
+                href: "/about",
+                links: [
+                  { label: "Company Overview", href: "/about" },
+                  { label: "Mission & Vision", href: "/about#mission" },
+                  { label: "Chairman Message", href: "/about#chairman" },
+                  { label: "Our Team", href: "/about#team" },
+                  { label: "Achievements", href: "/about#achievements" },
+                  { label: "Client Trust", href: "/about#trust" },
                 ],
               },
               {
@@ -210,12 +210,9 @@ export function Navbar() {
             {state.siteSettings.contactPhone && (
               <a
                 href={`tel:${state.siteSettings.contactPhone}`}
-                className="flex items-center gap-2 text-xs font-medium transition-all duration-300 px-3 py-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/[0.06]"
+                className="flex items-center gap-2 text-xs font-medium transition-all duration-300 px-3 py-3 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/[0.06]"
               >
-                <Phone className="w-3.5 h-3.5" />
-                <span className="hidden xl:inline font-medium">
-                  {state.siteSettings.contactPhone}
-                </span>
+                <Phone className="w-3.5 h-3.5 text-green-500" />
               </a>
             )}
 

@@ -16,8 +16,19 @@ import {
 import { useUserAuth } from "@/context/UserAuthContext";
 
 export default function LoginPage() {
-  const { login } = useUserAuth();
+  const { login, isLoggedIn, user: currentUser, isLoading } = useUserAuth();
   const router = useRouter();
+
+  // If already logged in, redirect to appropriate dashboard immediately
+  useEffect(() => {
+    if (!isLoading && isLoggedIn && currentUser) {
+      if (currentUser.role === "admin") {
+        router.replace("/dashboard/admin");
+      } else {
+        router.replace("/dashboard/user");
+      }
+    }
+  }, [isLoggedIn, currentUser, isLoading, router]);
 
   const [email, setEmail] = useState("client@silicon.com");
   const [password, setPassword] = useState("••••••••");

@@ -17,6 +17,7 @@ import { useCMS } from "@/context/CMSContext";
 import { toast } from "sonner";
 import { formatCurrency } from "@/lib/utils";
 import { ModeToggle } from "@/components/theme-toggle";
+import { FadeInSlideUp, StaggerContainer, StaggerItem, PremiumHoverCard } from "@/components/ui/FramerWrappers";
 
 // Mock Pipeline States
 const PIPELINE_STATUSES = [
@@ -316,154 +317,166 @@ export default function AdminDashboard() {
           {activeTab === "overview" && (
             <div className="space-y-6">
               {/* Summary welcome header */}
-              <div>
+              <FadeInSlideUp>
                 <h2 className="text-xl font-heading font-bold text-foreground tracking-tight">Overview Dashboard</h2>
                 <p className="text-xs text-muted-foreground mt-0.5">Summary statistics of Silicon Real Estate.</p>
-              </div>
+              </FadeInSlideUp>
 
               {/* Stats Cards */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <Card className="border-border/50 shadow-xs rounded-xl bg-card">
-                  <CardHeader className="p-4 pb-1 flex flex-row items-center justify-between">
-                    <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Properties</span>
-                    <Building2 className="w-4 h-4 text-primary" />
-                  </CardHeader>
-                  <CardContent className="p-4 pt-1">
-                    <div className="text-2xl font-bold text-foreground">{state.properties.length}</div>
-                    <p className="text-[10px] text-muted-foreground mt-1">Ongoing, upcoming, sold</p>
-                  </CardContent>
-                </Card>
+              <StaggerContainer className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <StaggerItem>
+                  <PremiumHoverCard className="border border-border/50 shadow-xs rounded-xl bg-card">
+                    <CardHeader className="p-4 pb-1 flex flex-row items-center justify-between">
+                      <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Properties</span>
+                      <Building2 className="w-4 h-4 text-primary" />
+                    </CardHeader>
+                    <CardContent className="p-4 pt-1">
+                      <div className="text-2xl font-bold text-foreground">{state.properties.length}</div>
+                      <p className="text-[10px] text-muted-foreground mt-1">Ongoing, upcoming, sold</p>
+                    </CardContent>
+                  </PremiumHoverCard>
+                </StaggerItem>
 
-                <Card className="border-border/50 shadow-xs rounded-xl bg-card">
-                  <CardHeader className="p-4 pb-1 flex flex-row items-center justify-between">
-                    <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Active Pipelines</span>
-                    <Users className="w-4 h-4 text-emerald-500" />
-                  </CardHeader>
-                  <CardContent className="p-4 pt-1">
-                    <div className="text-2xl font-bold text-foreground">
-                      {leads.filter(l => l.status !== "won").length}
-                    </div>
-                    <p className="text-[10px] text-muted-foreground mt-1">Leads currently in process</p>
-                  </CardContent>
-                </Card>
+                <StaggerItem>
+                  <PremiumHoverCard className="border border-border/50 shadow-xs rounded-xl bg-card">
+                    <CardHeader className="p-4 pb-1 flex flex-row items-center justify-between">
+                      <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Active Pipelines</span>
+                      <Users className="w-4 h-4 text-emerald-500" />
+                    </CardHeader>
+                    <CardContent className="p-4 pt-1">
+                      <div className="text-2xl font-bold text-foreground">
+                        {leads.filter(l => l.status !== "won").length}
+                      </div>
+                      <p className="text-[10px] text-muted-foreground mt-1">Leads currently in process</p>
+                    </CardContent>
+                  </PremiumHoverCard>
+                </StaggerItem>
 
-                <Card className="border-border/50 shadow-xs rounded-xl bg-card">
-                  <CardHeader className="p-4 pb-1 flex flex-row items-center justify-between">
-                    <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Sales Won</span>
-                    <CheckCircle className="w-4 h-4 text-amber-500" />
-                  </CardHeader>
-                  <CardContent className="p-4 pt-1">
-                    <div className="text-2xl font-bold text-foreground">
-                      {leads.filter(l => l.status === "won").length}
-                    </div>
-                    <p className="text-[10px] text-muted-foreground mt-1">Closed deals</p>
-                  </CardContent>
-                </Card>
+                <StaggerItem>
+                  <PremiumHoverCard className="border border-border/50 shadow-xs rounded-xl bg-card">
+                    <CardHeader className="p-4 pb-1 flex flex-row items-center justify-between">
+                      <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Sales Won</span>
+                      <CheckCircle className="w-4 h-4 text-amber-500" />
+                    </CardHeader>
+                    <CardContent className="p-4 pt-1">
+                      <div className="text-2xl font-bold text-foreground">
+                        {leads.filter(l => l.status === "won").length}
+                      </div>
+                      <p className="text-[10px] text-muted-foreground mt-1">Closed deals</p>
+                    </CardContent>
+                  </PremiumHoverCard>
+                </StaggerItem>
 
-                <Card className="border-border/50 shadow-xs rounded-xl bg-card">
-                  <CardHeader className="p-4 pb-1 flex flex-row items-center justify-between">
-                    <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Total Sales Revenue</span>
-                    <DollarSign className="w-4 h-4 text-indigo-500" />
-                  </CardHeader>
-                  <CardContent className="p-4 pt-1">
-                    <div className="text-2xl font-bold text-foreground">
-                      ৳ {totalRevenue.toLocaleString("en-IN")}
-                    </div>
-                    <p className="text-[10px] text-muted-foreground mt-1">From closed leads</p>
-                  </CardContent>
-                </Card>
-              </div>
+                <StaggerItem>
+                  <PremiumHoverCard className="border border-border/50 shadow-xs rounded-xl bg-card">
+                    <CardHeader className="p-4 pb-1 flex flex-row items-center justify-between">
+                      <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Total Sales Revenue</span>
+                      <DollarSign className="w-4 h-4 text-indigo-500" />
+                    </CardHeader>
+                    <CardContent className="p-4 pt-1">
+                      <div className="text-2xl font-bold text-foreground">
+                        ৳ {totalRevenue.toLocaleString("en-IN")}
+                      </div>
+                      <p className="text-[10px] text-muted-foreground mt-1">From closed leads</p>
+                    </CardContent>
+                  </PremiumHoverCard>
+                </StaggerItem>
+              </StaggerContainer>
 
               {/* Recent Active Leads */}
-              <Card className="border-border/50 shadow-xs rounded-2xl bg-card overflow-hidden">
-                <CardHeader className="pb-3 border-b border-border/40">
-                  <CardTitle className="text-sm font-heading font-semibold text-foreground">
-                    Active Client Pipeline Summary
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs border-collapse">
-                      <thead>
-                        <tr className="bg-muted/30 border-b border-border/40 text-muted-foreground font-semibold uppercase tracking-wider">
-                          <th className="p-4">Client Name</th>
-                          <th className="p-4">Property</th>
-                          <th className="p-4">Value (BDT)</th>
-                          <th className="p-4">Stage</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {leads.map((lead) => (
-                          <tr key={lead.id} className="border-b border-border/30 last:border-0 hover:bg-muted/10 transition-colors">
-                            <td className="p-4 font-semibold text-foreground">{lead.name}</td>
-                            <td className="p-4 text-muted-foreground">{lead.property}</td>
-                            <td className="p-4 font-mono font-medium text-foreground">৳ {lead.value.toLocaleString("en-IN")}</td>
-                            <td className="p-4">
-                              <span className={`inline-flex items-center px-2 py-0.5 rounded-full font-semibold text-[10px] uppercase border ${
-                                lead.status === "won" 
-                                  ? "bg-emerald-500/10 text-emerald-700 border-emerald-500/20"
-                                  : lead.status === "agreement"
-                                    ? "bg-indigo-500/10 text-indigo-700 border-indigo-500/20"
-                                    : "bg-amber-500/10 text-amber-700 border-amber-100"
-                              }`}>
-                                {PIPELINE_STATUSES.find(s => s.key === lead.status)?.label || lead.status}
-                              </span>
-                            </td>
+              <FadeInSlideUp delay={0.15}>
+                <PremiumHoverCard className="border border-border/50 shadow-xs rounded-2xl bg-card overflow-hidden">
+                  <CardHeader className="pb-3 border-b border-border/40">
+                    <CardTitle className="text-sm font-heading font-semibold text-foreground">
+                      Active Client Pipeline Summary
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-0">
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left text-xs border-collapse">
+                        <thead>
+                          <tr className="bg-muted/30 border-b border-border/40 text-muted-foreground font-semibold uppercase tracking-wider">
+                            <th className="p-4">Client Name</th>
+                            <th className="p-4">Property</th>
+                            <th className="p-4">Value (BDT)</th>
+                            <th className="p-4">Stage</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </CardContent>
-              </Card>
+                        </thead>
+                        <tbody>
+                          {leads.map((lead) => (
+                            <tr key={lead.id} className="border-b border-border/30 last:border-0 hover:bg-muted/10 transition-colors">
+                              <td className="p-4 font-semibold text-foreground">{lead.name}</td>
+                              <td className="p-4 text-muted-foreground">{lead.property}</td>
+                              <td className="p-4 font-mono font-medium text-foreground">৳ {lead.value.toLocaleString("en-IN")}</td>
+                              <td className="p-4">
+                                <span className={`inline-flex items-center px-2 py-0.5 rounded-full font-semibold text-[10px] uppercase border ${
+                                  lead.status === "won" 
+                                    ? "bg-emerald-500/10 text-emerald-700 border-emerald-500/20"
+                                    : lead.status === "agreement"
+                                      ? "bg-indigo-500/10 text-indigo-700 border-indigo-500/20"
+                                      : "bg-amber-500/10 text-amber-700 border-amber-100"
+                                }`}>
+                                  {PIPELINE_STATUSES.find(s => s.key === lead.status)?.label || lead.status}
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </CardContent>
+                </PremiumHoverCard>
+              </FadeInSlideUp>
             </div>
           )}
 
           {/* TAB 2: LEADS PIPELINE */}
           {activeTab === "leads" && (
             <div className="space-y-6">
-              <div>
+              <FadeInSlideUp>
                 <h2 className="text-xl font-heading font-bold text-foreground tracking-tight">Active Client Pipelines</h2>
                 <p className="text-xs text-muted-foreground mt-0.5">Manage deals and update tracking status for Dhaka-based inquiries.</p>
-              </div>
+              </FadeInSlideUp>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {leads.map((lead) => (
-                  <Card key={lead.id} className="border-border/50 shadow-xs rounded-xl bg-card">
-                    <CardHeader className="pb-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono text-muted-foreground">ID: {lead.id}</span>
-                        <select 
-                          value={lead.status}
-                          onChange={(e) => handleUpdateLeadStatus(lead.id, e.target.value)}
-                          className="text-[10px] font-semibold border border-border rounded px-1.5 py-0.5 bg-background focus:outline-none"
-                        >
-                          {PIPELINE_STATUSES.map(s => (
-                            <option key={s.key} value={s.key}>{s.label}</option>
-                          ))}
-                        </select>
-                      </div>
-                      <CardTitle className="text-sm font-heading font-bold text-foreground mt-1">{lead.name}</CardTitle>
-                      <CardDescription className="text-xs text-primary font-medium">{lead.property}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-3 pt-2 text-xs">
-                      <div className="divider-gold opacity-30" />
-                      <div className="flex items-center justify-between">
-                        <span className="text-muted-foreground">Phone:</span>
-                        <span className="font-medium text-foreground">{lead.phone}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-muted-foreground">Email:</span>
-                        <span className="font-medium text-foreground truncate max-w-[150px]">{lead.email}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-muted-foreground">Contract Value:</span>
-                        <span className="font-semibold text-accent">৳ {lead.value.toLocaleString("en-IN")}</span>
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <StaggerItem key={lead.id}>
+                    <PremiumHoverCard className="border border-border/50 shadow-xs rounded-xl bg-card">
+                      <CardHeader className="pb-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] font-mono text-muted-foreground">ID: {lead.id}</span>
+                          <select 
+                            value={lead.status}
+                            onChange={(e) => handleUpdateLeadStatus(lead.id, e.target.value)}
+                            className="text-[10px] font-semibold border border-border rounded px-1.5 py-0.5 bg-background focus:outline-none"
+                          >
+                            {PIPELINE_STATUSES.map(s => (
+                              <option key={s.key} value={s.key}>{s.label}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <CardTitle className="text-sm font-heading font-bold text-foreground mt-1">{lead.name}</CardTitle>
+                        <CardDescription className="text-xs text-primary font-medium">{lead.property}</CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-3 pt-2 text-xs">
+                        <div className="divider-gold opacity-30" />
+                        <div className="flex items-center justify-between">
+                          <span className="text-muted-foreground">Phone:</span>
+                          <span className="font-medium text-foreground">{lead.phone}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-muted-foreground">Email:</span>
+                          <span className="font-medium text-foreground truncate max-w-[150px]">{lead.email}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-muted-foreground">Contract Value:</span>
+                          <span className="font-semibold text-accent">৳ {lead.value.toLocaleString("en-IN")}</span>
+                        </div>
+                      </CardContent>
+                    </PremiumHoverCard>
+                  </StaggerItem>
                 ))}
-              </div>
+              </StaggerContainer>
             </div>
           )}
 

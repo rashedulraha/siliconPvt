@@ -9,6 +9,7 @@ import {
 import { useCMS } from "@/context/CMSContext";
 import { useLeads } from "@/hooks/useLeads";
 import { Label } from "@/components/ui/label";
+import { PREMIUM_EASE } from "@/components/ui/FramerWrappers";
 
 const TIME_SLOTS = [
   "10:00 AM",
@@ -22,6 +23,7 @@ export function SiteVisitBookingForm() {
   const { addLead } = useLeads();
 
   const [step, setStep] = useState(1);
+  const [direction, setDirection] = useState(1); // 1 for next, -1 for back
   const [selectedPropertyId, setSelectedPropertyId] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [selectedTime, setSelectedTime] = useState<string>("");
@@ -31,6 +33,29 @@ export function SiteVisitBookingForm() {
   const [specialRequest, setSpecialRequest] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const slideVariants = {
+    initial: (dir: number) => ({
+      opacity: 0,
+      x: dir > 0 ? 30 : -30,
+    }),
+    animate: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        x: { ease: PREMIUM_EASE, duration: 0.5 },
+        opacity: { duration: 0.4 },
+      },
+    },
+    exit: (dir: number) => ({
+      opacity: 0,
+      x: dir > 0 ? -30 : 30,
+      transition: {
+        x: { ease: PREMIUM_EASE, duration: 0.4 },
+        opacity: { duration: 0.3 },
+      },
+    }),
+  };
 
   // Generate next 7 days for booking options
   const bookingDays = useMemo(() => {
@@ -71,11 +96,13 @@ export function SiteVisitBookingForm() {
     }
 
     setErrors({});
+    setDirection(1);
     setStep((prev) => prev + 1);
   };
 
   const handleBack = () => {
     setErrors({});
+    setDirection(-1);
     setStep((prev) => prev - 1);
   };
 
@@ -109,6 +136,7 @@ export function SiteVisitBookingForm() {
       propertyId: selectedPropertyId || undefined,
     });
 
+    setDirection(1);
     setIsSubmitting(false);
     setStep(4); // Success state
   };
@@ -143,16 +171,17 @@ export function SiteVisitBookingForm() {
       </div>
 
       <div className="p-6">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" custom={direction}>
           
           {/* STEP 1: Project Selection */}
           {step === 1 && (
             <motion.div
               key="step1"
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              transition={{ duration: 0.3 }}
+              custom={direction}
+              variants={slideVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
               className="space-y-4"
             >
               <div className="space-y-1">
@@ -220,10 +249,11 @@ export function SiteVisitBookingForm() {
           {step === 2 && (
             <motion.div
               key="step2"
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              transition={{ duration: 0.3 }}
+              custom={direction}
+              variants={slideVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
               className="space-y-5"
             >
               <div className="space-y-1">
@@ -308,10 +338,11 @@ export function SiteVisitBookingForm() {
           {step === 3 && (
             <motion.div
               key="step3"
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              transition={{ duration: 0.3 }}
+              custom={direction}
+              variants={slideVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
               className="space-y-4"
             >
               <div className="space-y-1">
@@ -431,9 +462,11 @@ export function SiteVisitBookingForm() {
           {step === 4 && (
             <motion.div
               key="success"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4 }}
+              custom={direction}
+              variants={slideVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
               className="text-center py-8 space-y-5"
             >
               <div className="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto shadow-[0_0_15px_rgba(16,185,129,0.1)]">
@@ -448,6 +481,7 @@ export function SiteVisitBookingForm() {
               <div className="pt-2">
                 <button
                   onClick={() => {
+                    setDirection(-1);
                     setStep(1);
                     setSelectedPropertyId("");
                     setSelectedDate("");

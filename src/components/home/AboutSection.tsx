@@ -38,6 +38,8 @@ export function AboutSection() {
               transition={{ duration: 0.4 }}
               className="flex items-center gap-2"
             >
+
+              {/*  about page  */}
               <div className="w-7 h-7 rounded-md bg-muted flex items-center justify-center border border-border">
                 <Building2 className="h-3.5 w-3.5 text-neutral-600 dark:text-neutral-400" />
               </div>
