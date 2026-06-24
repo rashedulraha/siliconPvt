@@ -148,7 +148,7 @@ Silicon
                   { label: "Legal Support", href: "/services#legal" },
                 ],
               },{
-                label: "About",
+                label: "About Silicon",
                 href: "/about",
                 links: [
                   { label: "Company Overview", href: "/about" },
