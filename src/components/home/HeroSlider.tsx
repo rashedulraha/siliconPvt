@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
@@ -17,9 +17,9 @@ import {
   Loader2,
 } from "lucide-react";
 import { toast } from "sonner";
-import { Container } from "@/components/layout/Container";
+import { Button } from "@/components/ui/button";
 
-/* ── Data ─────────────────────────────────────────────────────────────── */
+/* ── Asset Data Array ─────────────────────────────────────────────────── */
 const heroSlides = [
   {
     id: 1,
@@ -62,40 +62,39 @@ const heroStats = [
   { value: "800+", label: "Acres" },
 ];
 
-/* ── Animation variants ───────────────────────────────────────────────── */
+/* ── Fluid Semantic Motion Presets ────────────────────────────────────── */
 const imgVariants = {
-  enter: { opacity: 0, scale: 1.06 },
-  center: { opacity: 1, scale: 1, transition: { duration: 1.6, ease: [0.32, 0, 0.2, 1] as const } },
-  exit: { opacity: 0, scale: 0.97, transition: { duration: 0.9 } },
+  enter: { opacity: 0, scale: 1.04 },
+  center: { opacity: 1, scale: 1, transition: { duration: 1.4, ease: [0.25, 1, 0.5, 1] as [number, number, number, number] } },
+  exit: { opacity: 0, scale: 0.98, transition: { duration: 0.8 } },
 };
 
 const textVariants = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, delay: i * 0.11, ease: [0.22, 1, 0.36, 1] as const },
+    transition: { duration: 0.6, delay: i * 0.1, ease: [0.215, 0.61, 0.355, 1] as [number, number, number, number] },
   }),
 };
 
-/* ── Component ────────────────────────────────────────────────────────── */
 export function HeroSlider() {
   const [current, setCurrent] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({ name: "", phone: "", email: "" });
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const startTimer = () => {
+  const startTimer = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
       setCurrent((p) => (p + 1) % heroSlides.length);
-    }, 5500);
-  };
+    }, 6000);
+  }, []);
 
   useEffect(() => {
     startTimer();
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  }, []);
+  }, [startTimer]);
 
   const go = (idx: number) => { setCurrent(idx); startTimer(); };
   const prev = () => go((current - 1 + heroSlides.length) % heroSlides.length);
@@ -104,7 +103,7 @@ export function HeroSlider() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    await new Promise((r) => setTimeout(r, 1200));
+    await new Promise((r) => setTimeout(r, 1000));
     toast.success("Request received! Our team will contact you within 24 hours.");
     setFormData({ name: "", phone: "", email: "" });
     setIsSubmitting(false);
@@ -113,10 +112,10 @@ export function HeroSlider() {
   const slide = heroSlides[current];
 
   return (
-    <section className="relative w-full min-h-screen overflow-hidden bg-[#0D1B3E]">
-
-      {/* ── Cinematic background ───────────────────────────────────────── */}
-      <div className="absolute inset-0">
+    <section className="relative w-full min-h-screen overflow-hidden bg-background border-b border-border">
+      
+      {/* ── Background Media Canvas Layer ── */}
+      <div className="absolute inset-0 z-0">
         <AnimatePresence mode="wait">
           <motion.div
             key={current}
@@ -132,281 +131,214 @@ export function HeroSlider() {
               fill
               priority
               sizes="100vw"
-              className="object-cover"
+              className="object-cover opacity-85 dark:opacity-40 select-none pointer-events-none"
             />
           </motion.div>
         </AnimatePresence>
 
-        {/* Multi-layer cinematic gradient — dark left, fade right */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0D1B3E]/96 via-[#0D1B3E]/80 to-[#0D1B3E]/35" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0D1B3E]/60 via-transparent to-[#0D1B3E]/20" />
-
-        {/* Ambient gold orb — upper right */}
-        <div className="absolute -top-32 right-1/4 w-[600px] h-[600px] rounded-full bg-accent/8 blur-[120px] pointer-events-none" />
-        {/* Grid texture overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.03] pointer-events-none"
-          style={{
-            backgroundImage: "linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)",
-            backgroundSize: "64px 64px",
-          }}
-        />
+        {/* Unified Masking Overlays — Intercepting Light/Dark blending shifts flawlessly */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/20 lg:from-background lg:via-background/90 lg:to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/5" />
       </div>
 
-      {/* ── Content ───────────────────────────────────────────────────── */}
-      <Container className="relative z-10 min-h-screen flex items-center">
-        <div className="grid lg:grid-cols-[1fr_400px] gap-10 xl:gap-16 items-center w-full py-20 lg:py-24">
-
-          {/* LEFT — Headline + copy */}
-          <div className="space-y-7 max-w-2xl">
-
-            {/* Eyebrow pill */}
-            <motion.div
-              key={`eyebrow-${current}`}
-              variants={textVariants}
-              initial="hidden"
-              animate="visible"
-              custom={0}
-            >
-              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] font-bold tracking-[0.12em] uppercase bg-accent/15 text-accent border border-accent/25">
-                <Star className="w-3 h-3 fill-accent" />
+      {/* ── Core Layout Grid Interface ── */}
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 min-h-screen flex items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 xl:gap-12 items-center w-full pt-24 pb-16 md:pt-28 md:pb-20">
+          
+          {/* LEFT PANELS: Content Flow Engine */}
+          <div className="space-y-6 text-left">
+            
+            {/* Eyebrow Segment */}
+            <motion.div key={`eyebrow-${current}`} variants={textVariants} initial="hidden" animate="visible" custom={0}>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-[11px] font-medium tracking-wider uppercase bg-muted text-muted-foreground border border-border">
+                <Star className="w-3 h-3 text-primary fill-primary" />
                 {slide.eyebrow}
               </span>
             </motion.div>
 
-            {/* Heading */}
+            {/* Typography Header Stack */}
             <motion.h1
               key={`h1-${current}`}
               variants={textVariants}
               initial="hidden"
               animate="visible"
               custom={1}
-              className="font-serif text-[clamp(2.6rem,5.5vw,5rem)] leading-[1.06] tracking-[-0.03em] text-white"
+              className="text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-foreground leading-[1.1]"
             >
-              {slide.title}
-              <br />
-              <span className="text-gold">{slide.highlight}</span>
+              {slide.title} <br />
+              <span className="font-medium text-neutral-500 dark:text-neutral-400">{slide.highlight}</span>
             </motion.h1>
 
-            {/* Gold divider */}
-            <motion.div
-              key={`div-${current}`}
-              variants={textVariants}
-              initial="hidden"
-              animate="visible"
-              custom={2}
-            >
-              <div className="divider-gold" />
+            {/* Premium Soft Under-line Rule Alternative */}
+            <motion.div key={`div-${current}`} variants={textVariants} initial="hidden" animate="visible" custom={2}>
+              <div className="w-12 h-0.5 bg-neutral-300 dark:bg-neutral-700 rounded-full" />
             </motion.div>
 
-            {/* Description */}
+            {/* Description Subtext */}
             <motion.p
               key={`desc-${current}`}
               variants={textVariants}
               initial="hidden"
               animate="visible"
               custom={3}
-              className="text-white/70 text-base sm:text-lg max-w-lg leading-[1.75] font-light"
+              className="text-muted-foreground text-sm sm:text-base max-w-lg leading-relaxed font-light"
             >
               {slide.description}
             </motion.p>
 
-            {/* Trust badges */}
-            <motion.div
-              key={`trust-${current}`}
-              variants={textVariants}
-              initial="hidden"
-              animate="visible"
-              custom={4}
-              className="flex flex-wrap gap-3"
-            >
+            {/* Structural Contrast Trust Badges */}
+            <motion.div key={`trust-${current}`} variants={textVariants} initial="hidden" animate="visible" custom={4} className="flex flex-wrap gap-2">
               {trustBadges.map(({ icon: Icon, label }) => (
                 <span
                   key={label}
-                  className="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-white/8 border border-white/12 text-white/80 text-xs font-medium backdrop-blur-sm"
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-card border border-border text-neutral-600 dark:text-neutral-300 text-xs shadow-xs"
                 >
-                  <Icon className="w-3.5 h-3.5 text-accent" />
+                  <Icon className="w-3.5 h-3.5 text-neutral-400" />
                   {label}
                 </span>
               ))}
             </motion.div>
 
-            {/* Stats row */}
-            <motion.div
-              key={`stats-${current}`}
-              variants={textVariants}
-              initial="hidden"
-              animate="visible"
-              custom={5}
-              className="flex gap-8 pt-2"
-            >
+            {/* Statistical Matrix Components */}
+            <motion.div key={`stats-${current}`} variants={textVariants} initial="hidden" animate="visible" custom={5} className="flex gap-8 pt-1">
               {heroStats.map(({ value, label }) => (
                 <div key={label}>
-                  <div className="font-serif font-bold text-2xl sm:text-3xl text-white leading-none">
-                    {value}
-                  </div>
-                  <div className="text-[11px] font-semibold uppercase tracking-[0.1em] text-white/50 mt-1">
-                    {label}
-                  </div>
+                  <div className="font-medium text-2xl text-foreground tracking-tight">{value}</div>
+                  <div className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground mt-0.5">{label}</div>
                 </div>
               ))}
             </motion.div>
 
-            {/* CTA buttons */}
-            <motion.div
-              key={`cta-${current}`}
-              variants={textVariants}
-              initial="hidden"
-              animate="visible"
-              custom={6}
-              className="flex flex-wrap items-center gap-3 pt-1"
-            >
-              <Link
-                href="/projects"
-                className="inline-flex items-center gap-2 px-7 h-12 rounded-lg bg-accent text-accent-foreground font-semibold text-sm hover:brightness-110 hover:scale-[1.02] transition-all duration-300 shadow-luxury-gold"
-              >
-                Explore Properties <ArrowRight className="h-4 w-4" />
+            {/* Call To Actions Row */}
+            <motion.div key={`cta-${current}`} variants={textVariants} initial="hidden" animate="visible" custom={6} className="flex flex-wrap items-center gap-2.5 pt-2">
+              <Link href="/properties">
+                <Button className="h-11 px-5 rounded-lg text-xs bg-neutral-900 hover:bg-neutral-800 text-white dark:bg-neutral-100 dark:hover:bg-neutral-200 dark:text-neutral-900 gap-1.5 shadow-sm">
+                  Explore Properties <ArrowRight className="h-3.5 w-3.5" />
+                </Button>
               </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 px-6 h-12 rounded-lg border border-white/25 text-white/90 font-medium text-sm hover:bg-white/10 hover:border-white/40 transition-all duration-300 backdrop-blur-sm"
-              >
-                <Phone className="h-4 w-4" /> Contact Us
+              <Link href="/contact">
+                <Button variant="outline" className="h-11 px-5 rounded-lg text-xs border-border bg-transparent text-foreground hover:bg-muted">
+                  <Phone className="h-3.5 w-3.5 text-muted-foreground" /> Contact Us
+                </Button>
               </Link>
             </motion.div>
 
-            {/* Slide controls */}
-            <motion.div
-              variants={textVariants}
-              initial="hidden"
-              animate="visible"
-              custom={7}
-              className="flex items-center gap-4 pt-2"
-            >
-              <button
+            {/* Minimal Dynamic Sliding Controller Slats */}
+            <motion.div variants={textVariants} initial="hidden" animate="visible" custom={7} className="flex items-center gap-3 pt-4">
+              <Button
                 onClick={prev}
+                variant="outline"
+                size="icon"
+                className="w-8 h-8 rounded-md border-border bg-card hover:bg-muted text-muted-foreground"
                 aria-label="Previous slide"
-                className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:border-accent/60 hover:text-accent hover:bg-accent/10 transition-all duration-300"
               >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
+                <ChevronLeft className="w-3.5 h-3.5" />
+              </Button>
 
-              <div className="flex gap-2 items-center">
+              <div className="flex gap-1.5 items-center">
                 {heroSlides.map((_, idx) => (
                   <button
                     key={idx}
                     onClick={() => go(idx)}
                     aria-label={`Go to slide ${idx + 1}`}
-                    className="rounded-full transition-all duration-500 h-1.5"
+                    className="rounded-full transition-all duration-300 h-1"
                     style={{
-                      width: idx === current ? "28px" : "7px",
-                      backgroundColor: idx === current ? "var(--accent)" : "rgba(255,255,255,0.25)",
+                      width: idx === current ? "20px" : "5px",
+                      backgroundColor: idx === current ? "var(--fallback-p, currentColor)" : "rgba(128,128,128,0.2)",
                     }}
                   />
                 ))}
               </div>
 
-              <button
+              <Button
                 onClick={next}
+                variant="outline"
+                size="icon"
+                className="w-8 h-8 rounded-md border-border bg-card hover:bg-muted text-muted-foreground"
                 aria-label="Next slide"
-                className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:border-accent/60 hover:text-accent hover:bg-accent/10 transition-all duration-300"
               >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-
-              <span className="ml-1 text-xs text-white/35 font-mono tabular-nums">
-                {String(current + 1).padStart(2, "0")} / {String(heroSlides.length).padStart(2, "0")}
-              </span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </Button>
             </motion.div>
           </div>
 
-          {/* RIGHT — Lead capture form (glassmorphism) */}
+          {/* RIGHT PANEL: Pure Light/Dark Neutral Asset Form */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
             className="w-full"
           >
-            <div className="glass-dark rounded-2xl overflow-hidden shadow-luxury-gold">
-              {/* Form header */}
-              <div className="px-6 pt-6 pb-4 border-b border-white/8">
-                <div className="flex items-center gap-3 mb-1">
-                  <div className="w-8 h-8 rounded-lg bg-accent/20 flex items-center justify-center">
-                    <Star className="w-4 h-4 text-accent fill-accent" />
+            <div className="bg-card/75 backdrop-blur-md border border-border/50 rounded-2xl shadow-xl overflow-hidden">
+              <div className="px-5 py-4 border-b border-border/50 bg-muted/40">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-md bg-background flex items-center justify-center border border-border/50">
+                    <Star className="w-3.5 h-3.5 text-neutral-700 dark:text-neutral-300 fill-current" />
                   </div>
-                  <div>
-                    <h3 className="font-serif font-bold text-white text-base leading-tight">
-                      Book a Free Visit
-                    </h3>
-                    <p className="text-white/45 text-xs mt-0.5">
-                      Our expert will call you within 2 hours
-                    </p>
+                  <div className="text-left">
+                    <h3 className="font-medium text-foreground text-xs leading-tight">Book a Free Visit</h3>
+                    <p className="text-[11px] text-muted-foreground mt-0.5">Response protocol path within 2 hours</p>
                   </div>
                 </div>
               </div>
 
-              {/* Form body */}
-              <form onSubmit={handleSubmit} className="p-6 space-y-3.5">
-                {(
-                  [
-                    { type: "text",  placeholder: "Full Name *",     field: "name",  autoComplete: "name" },
-                    { type: "tel",   placeholder: "Phone Number *",  field: "phone", autoComplete: "tel" },
-                    { type: "email", placeholder: "Email Address",   field: "email", autoComplete: "email" },
-                  ] as const
-                ).map(({ type, placeholder, field, autoComplete }) => (
-                  <div key={field} className="relative">
-                    <input
-                      type={type}
-                      placeholder={placeholder}
-                      value={formData[field]}
-                      onChange={(e) => setFormData((p) => ({ ...p, [field]: e.target.value }))}
-                      autoComplete={autoComplete}
-                      required={field !== "email"}
-                      disabled={isSubmitting}
-                      className="w-full h-11 px-4 rounded-lg bg-white/6 border border-white/12 text-white placeholder:text-white/35 text-sm focus:outline-none focus:border-accent/60 focus:bg-white/10 transition-all duration-300 disabled:opacity-50"
-                    />
-                  </div>
+              <form onSubmit={handleSubmit} className="p-5 space-y-3 bg-transparent">
+                {[
+                  { type: "text",  placeholder: "Full Name *",     field: "name" },
+                  { type: "tel",   placeholder: "Phone Number *",  field: "phone" },
+                  { type: "email", placeholder: "Email Address",   field: "email" },
+                ].map(({ type, placeholder, field }) => (
+                  <input
+                    key={field}
+                    type={type}
+                    placeholder={placeholder}
+                    value={formData[field as keyof typeof formData]}
+                    onChange={(e) => setFormData((p) => ({ ...p, [field]: e.target.value }))}
+                    required={field !== "email"}
+                    disabled={isSubmitting}
+                    className="w-full h-10 px-3 rounded-lg bg-background/50 focus:bg-background border border-border/40 text-foreground placeholder:text-muted-foreground/50 text-xs focus:outline-none focus:ring-1 focus:ring-primary/40 transition-all disabled:opacity-50"
+                  />
                 ))}
 
-                <select
-                  className="w-full h-11 px-4 rounded-lg bg-white/6 border border-white/12 text-white/70 text-sm focus:outline-none focus:border-accent/60 transition-all duration-300 appearance-none"
-                  disabled={isSubmitting}
-                  defaultValue=""
-                >
-                  <option value="" disabled className="bg-[#0D1B3E]">Select Project Interest</option>
-                  {["Silicon Green City", "Silicon Village", "Silicon Smart City", "Residential Plot", "Commercial Plot"].map((p) => (
-                    <option key={p} value={p} className="bg-[#0D1B3E]">{p}</option>
-                  ))}
-                </select>
+                <div className="relative">
+                  <select
+                    className="w-full h-10 px-3 rounded-lg bg-background/50 border border-border/40 text-muted-foreground text-xs focus:outline-none focus:ring-1 focus:ring-primary/40 appearance-none cursor-pointer"
+                    disabled={isSubmitting}
+                    defaultValue=""
+                  >
+                    <option value="" disabled>Select Project Interest</option>
+                    {["Silicon Orchard", "Silicon Commercial Square", "Silicon Royal Heights"].map((p) => (
+                       <option key={p} value={p} className="bg-card text-foreground">{p}</option>
+                    ))}
+                  </select>
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground/60 text-[10px]">&darr;</div>
+                </div>
 
-                <button
+                <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full h-12 rounded-lg font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-300 hover:brightness-110 hover:scale-[1.01] disabled:opacity-70 disabled:cursor-not-allowed gold-shimmer text-accent-foreground shadow-luxury-gold"
+                  className="w-full h-10 rounded-lg bg-primary hover:bg-primary/95 text-primary-foreground text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-md shadow-primary/10"
                 >
                   {isSubmitting ? (
-                    <><Loader2 className="w-4 h-4 animate-spin" /> Submitting…</>
+                    <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Submitting…</>
                   ) : (
-                    <><Send className="w-4 h-4" /> Send My Request</>
+                    <><Send className="w-3.5 h-3.5" /> Send My Request</>
                   )}
-                </button>
+                </Button>
               </form>
 
-              {/* Trust footer */}
-              <div className="px-6 pb-5 flex items-center justify-center gap-5 text-[11px] text-white/35">
-                <span>🔒 Secure</span>
-                <span className="w-px h-3 bg-white/12" />
+              <div className="px-5 py-3.5 flex items-center justify-between text-[10px] text-muted-foreground bg-muted/20 border-t border-border">
+                <span>🔒 Secure Panel</span>
+                <span className="w-px h-2.5 bg-border" />
                 <span>🕐 24/7 Support</span>
-                <span className="w-px h-3 bg-white/12" />
-                <span>🆓 Free Site Visit</span>
+                <span className="w-px h-2.5 bg-border" />
+                <span>🆓 Free Visit</span>
               </div>
             </div>
           </motion.div>
-        </div>
-      </Container>
 
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+        </div>
+      </div>
     </section>
   );
 }

@@ -45,8 +45,8 @@ export function FloatingActions() {
                 className="h-12 w-12 rounded-full shadow-lg bg-background hover:bg-muted border"
                 aria-label="View favorites">
                 <Link href="/favorites">
-                  <Heart className="h-5 w-5 text-red-500 fill-red-500" />
-                  <Badge className="absolute -top-1 -right-1 h-5 min-w-5 px-1 text-xs bg-red-500 text-white border-0">
+                  <Heart className="h-5 w-5 text-destructive fill-destructive" />
+                  <Badge className="absolute -top-1 -right-1 h-5 min-w-5 px-1 text-xs bg-destructive text-destructive-foreground border-0">
                     {favCount}
                   </Badge>
                 </Link>
@@ -88,7 +88,7 @@ export function FloatingActions() {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="h-14 w-14 rounded-full bg-[#25D366] hover:bg-[#20BD5A] text-white shadow-xl hover:shadow-2xl transition-all flex items-center justify-center group"
+            className="h-14 w-14 rounded-full bg-whatsapp hover:bg-whatsapp/85 text-white shadow-xl hover:shadow-2xl transition-all flex items-center justify-center group"
             aria-label="Chat on WhatsApp">
             <MessageCircle className="h-6 w-6" />
             <span className="absolute right-full mr-3 whitespace-nowrap rounded-md bg-background px-3 py-1.5 text-sm font-medium shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">

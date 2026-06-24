@@ -3,21 +3,16 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import "@/styles/a11y.css";
 
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { FloatingActions } from "@/components/layout/FloatingActions";
-import { ScrollToTop } from "@/components/layout/ScrollToTop";
-
 import { CookieConsent } from "@/components/layout/CookieConsent";
 import { AnalyticsProvider } from "@/components/analytics/AnalyticsProvider";
 import { ToastProvider } from "@/components/feedback/ToastProvider";
 import { defaultMetadata } from "@/lib/metadata";
-import { SkipToContent } from "@/components/feedback/SkipToContent";
 import { CMSProvider } from "@/context/CMSContext";
 import { ThemeProvider } from "@/components/Providers/ThemeProvider";
+import { UserAuthProvider } from "@/context/UserAuthContext";
 
 const inter = Inter({
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "600", "700", "800"],
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
@@ -35,6 +30,17 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
+/**
+ * Root layout — HTML shell + global providers only.
+ *
+ * Navigation chrome (Navbar / Footer / FloatingActions) lives in the
+ * per-group layouts, not here, so admin and dashboard pages never
+ * inherit public-site chrome.
+ *
+ * Route groups:
+ *  (main)             → public website  → layout adds Navbar + Footer
+ *  admin/             → admin panel     → layout adds sidebar (already exists)
+ */
 export default function RootLayout({
   children,
 }: {
@@ -50,22 +56,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange>
           <CMSProvider>
-            <SkipToContent />
-            <AnalyticsProvider />
-            <ToastProvider />
-            <div className="relative flex min-h-screen flex-col">
-              <Navbar />
-              <main
-                id="main-content"
-                tabIndex={-1}
-                className="flex-1 outline-none">
-                {children}
-              </main>
-              <Footer />
-            </div>
-            <FloatingActions />
-            <ScrollToTop />
-            <CookieConsent />
+            <UserAuthProvider>
+              <AnalyticsProvider />
+              <ToastProvider />
+              {children}
+              <CookieConsent />
+            </UserAuthProvider>
           </CMSProvider>
         </ThemeProvider>
       </body>

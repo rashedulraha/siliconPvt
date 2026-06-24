@@ -80,13 +80,13 @@ export function EMICalculator({ initialPrice }: EMICalculatorProps) {
             value={[price]}
             onValueChange={([v]) => setPrice(v)}
             min={50000}
-            max={10000000}
-            step={10000}
+            max={100000000}
+            step={50000}
             className="py-2"
           />
           <div className="flex justify-between text-xs text-muted-foreground">
-            <span>$50K</span>
-            <span>$10M</span>
+            <span>৳ 50K</span>
+            <span>৳ 10 Crore</span>
           </div>
         </div>
 
@@ -210,7 +210,7 @@ export function EMICalculator({ initialPrice }: EMICalculatorProps) {
         </div>
 
         <Button onClick={handleCalculate} className="w-full">
-          <DollarSign className="h-4 w-4 mr-2" /> Calculate & Save
+          <Calculator className="h-4 w-4 mr-2" /> Calculate &amp; Save
         </Button>
       </CardContent>
     </Card>

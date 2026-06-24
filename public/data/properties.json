@@ -1,0 +1,156 @@
+[
+  {
+    "id": "prop-001",
+    "title": "Silicon Orchard - Premium Residential Plots",
+    "slug": "silicon-orchard-premium-residential-plots",
+    "description": "Premium ready-to-build residential plots in a master-planned community near Iqbal Road, Mohammadpur. Features RAJUK-approved boundaries, 30ft wide internal roads, and utilities ready for immediate connection.",
+    "price": 4800000,
+    "location": "Mohammadpur, Dhaka",
+    "address": "Block A, Iqbal Road, Mohammadpur, Dhaka-1207",
+    "bedrooms": 0,
+    "bathrooms": 0,
+    "area": 2160,
+    "type": "sale",
+    "category": "land",
+    "images": [
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80",
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&q=80"
+    ],
+    "features": [
+      "RAJUK Approved",
+      "Demarcated Boundary",
+      "30ft Access Road",
+      "Immediate Registration",
+      "High Land Zone"
+    ],
+    "agentId": "agent-1",
+    "status": "available",
+    "yearBuilt": 2025,
+    "garage": 0,
+    "createdAt": "2026-06-24T00:00:00.000Z",
+    "updatedAt": "2026-06-24T00:00:00.000Z"
+  },
+  {
+    "id": "prop-002",
+    "title": "Silicon Commercial Square - Commercial Plots",
+    "slug": "silicon-commercial-square-plots",
+    "description": "Prime commercial plot with high ROI potential located in Uttara Sector 18. Perfect for high-rise commercial complexes, corporate offices, or retail outlets with excellent transportation link.",
+    "price": 21000000,
+    "location": "Uttara, Dhaka",
+    "address": "Sector 18, Main Road, Uttara, Dhaka-1230",
+    "bedrooms": 0,
+    "bathrooms": 0,
+    "area": 3600,
+    "type": "sale",
+    "category": "commercial",
+    "images": [
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80"
+    ],
+    "features": [
+      "Corner Plot",
+      "Main Road Access",
+      "RAJUK Approved",
+      "Gas Connection Approved",
+      "High Foot Traffic Zone"
+    ],
+    "agentId": "agent-2",
+    "status": "available",
+    "yearBuilt": 2025,
+    "garage": 0,
+    "createdAt": "2026-06-24T00:00:00.000Z",
+    "updatedAt": "2026-06-24T00:00:00.000Z"
+  },
+  {
+    "id": "prop-003",
+    "title": "Silicon Royal Heights - Ready Flat",
+    "slug": "silicon-royal-heights-ready-flat",
+    "description": "Spacious and luxurious ready-to-move apartment in Mirpur DOHS. Designed with premium marble flooring, imported fittings, and a grand balcony with open views.",
+    "price": 13500000,
+    "location": "Mirpur DOHS, Dhaka",
+    "address": "Road 12, Mirpur DOHS, Dhaka-1216",
+    "bedrooms": 3,
+    "bathrooms": 3,
+    "area": 1850,
+    "type": "sale",
+    "category": "apartment",
+    "images": [
+      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80",
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80"
+    ],
+    "features": [
+      "CCTV Security",
+      "Generator Backup",
+      "Lift / Elevator",
+      "Intercom System",
+      "Rooftop Community Hall"
+    ],
+    "agentId": "agent-1",
+    "status": "available",
+    "yearBuilt": 2024,
+    "garage": 1,
+    "createdAt": "2026-06-24T00:00:00.000Z",
+    "updatedAt": "2026-06-24T00:00:00.000Z"
+  },
+  {
+    "id": "prop-004",
+    "title": "Silicon Green Valley - Land Investment",
+    "slug": "silicon-green-valley-land-investment",
+    "description": "Strategic land investment opportunity in Purbachal Bypass. High-appreciation zone with rapid infrastructure development. Secure ownership with transparent paperwork.",
+    "price": 3200000,
+    "location": "Purbachal, Dhaka",
+    "address": "Adjacent to 180ft Bypass Road, Purbachal, Dhaka",
+    "bedrooms": 0,
+    "bathrooms": 0,
+    "area": 2880,
+    "type": "sale",
+    "category": "land",
+    "images": [
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80"
+    ],
+    "features": [
+      "100% Legal Ownership",
+      "No Flooding Area",
+      "Next to Highway",
+      "High ROI Potential",
+      "Soil Testing Completed"
+    ],
+    "agentId": "agent-3",
+    "status": "available",
+    "yearBuilt": 2025,
+    "garage": 0,
+    "createdAt": "2026-06-24T00:00:00.000Z",
+    "updatedAt": "2026-06-24T00:00:00.000Z"
+  },
+  {
+    "id": "prop-005",
+    "title": "Silicon Vista - Exclusive Gulshan Penthouse",
+    "slug": "silicon-vista-exclusive-gulshan-penthouse",
+    "description": "An ultra-luxurious penthouse in Gulshan 2 offering unmatched city skyline views, private elevator access, private terrace garden, and smart automated security.",
+    "price": 42000000,
+    "location": "Gulshan, Dhaka",
+    "address": "Road 72, Gulshan 2, Dhaka-1212",
+    "bedrooms": 4,
+    "bathrooms": 4,
+    "area": 3400,
+    "type": "sale",
+    "category": "apartment",
+    "images": [
+      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80",
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80"
+    ],
+    "features": [
+      "Private Lift",
+      "Smart Automation",
+      "24/7 Concierge",
+      "Terrace Garden",
+      "VRF Air Conditioning"
+    ],
+    "agentId": "agent-2",
+    "status": "available",
+    "yearBuilt": 2025,
+    "garage": 2,
+    "createdAt": "2026-06-24T00:00:00.000Z",
+    "updatedAt": "2026-06-24T00:00:00.000Z"
+  }
+]

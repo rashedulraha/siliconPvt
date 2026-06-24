@@ -18,7 +18,7 @@ export function TestimonialCard({ testimonial }: TestimonialCardProps) {
             key={i}
             className={`h-4 w-4 ${
               i < testimonial.rating
-                ? "fill-secondary text-secondary"
+                ? "fill-accent text-accent"
                 : "text-muted-foreground/30"
             }`}
           />

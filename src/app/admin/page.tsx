@@ -67,7 +67,7 @@ export default function AdminDashboard() {
       <div className="rounded-xl bg-linear-to-br from-primary to-primary/80 p-6 md:p-8 text-primary-foreground">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h2 className="font-display text-2xl md:text-3xl font-bold">
+            <h2 className="font-heading text-2xl md:text-3xl font-bold">
               Welcome back, Admin 👋
             </h2>
             <p className="mt-1 text-primary-foreground/80">

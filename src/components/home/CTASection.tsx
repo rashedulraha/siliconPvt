@@ -67,7 +67,7 @@ export function CTASection() {
               transition={{ delay: 0.18 }}
               className="text-center space-y-6 max-w-3xl mx-auto"
             >
-              <h2 className="font-serif font-bold text-white leading-[1.08]"
+              <h2 className="font-medium text-white leading-[1.08]"
                 style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", letterSpacing: "-0.03em" }}
               >
                 Ready to Invest in Your{" "}

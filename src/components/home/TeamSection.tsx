@@ -36,7 +36,7 @@ export function TeamSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.08 }}
-            className="font-serif text-display-md font-bold text-foreground"
+            className="text-display-md font-medium text-foreground"
           >
             The Team Behind Every{" "}
             <span className="text-gold">Site Visit</span>
@@ -74,7 +74,7 @@ export function TeamSection() {
                 </div>
               </div>
 
-              <h3 className="font-serif font-bold text-foreground text-sm leading-snug">
+              <h3 className="font-medium text-foreground text-sm leading-snug">
                 {member.name}
               </h3>
               <p className="text-xs text-muted-foreground mt-1 font-medium">
