@@ -29,12 +29,12 @@ import {
  * ============================================================ */
 export const initialState: CMSState = {
   siteSettings: {
-    siteName: "EstateHub",
+    siteName: "Silicon Real Estate (Pvt.) Ltd.",
     logo: "",
-    contactEmail: "hello@estatehub.com",
-    contactPhone: "+1 (555) 123-4567",
-    address: "123 Real Estate Ave, Suite 100, New York, NY 10001",
-    businessHours: "Mon - Fri: 9:00 AM - 6:00 PM",
+    contactEmail: "info@siliconrealestate.com",
+    contactPhone: "+880 1712 345 678",
+    address: "2/3 (2nd Floor), Block A, Iqbal Road, Mohammadpur, Dhaka-1207",
+    businessHours: "Sun–Thu: 9:00 AM – 6:00 PM",
     social: {
       facebook: "https://facebook.com",
       twitter: "https://twitter.com",

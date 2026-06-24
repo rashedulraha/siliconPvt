@@ -57,7 +57,7 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ease-out",
+        "fixed top-0 left-0 right-0 z-50 w-full duration-500 ease-out",
         isTransparent
           ? "bg-transparent"
           : "bg-background/80 backdrop-blur-2xl border-b border-border/50 shadow-lg shadow-black/5"
@@ -115,38 +115,105 @@ export function Navbar() {
           </Link>
 
           {/* ─ Desktop Nav ──────────────────────────── */}
-          <nav className="hidden lg:flex items-center gap-1 flex-1 justify-center">
-            {menuItems.map((item) => {
-              const isActive =
-                item.href === "/"
-                  ? pathname === "/"
-                  : pathname === item.href || pathname?.startsWith(item.href + "/");
+          <nav className="hidden lg:flex items-center gap-2 flex-1 justify-center">
+            {[
+              {
+                label: "About",
+                href: "/about",
+                links: [
+                  { label: "Company Overview", href: "/about" },
+                  { label: "Mission & Vision", href: "/about#mission" },
+                  { label: "Chairman Message", href: "/about#chairman" },
+                  { label: "Our Team", href: "/about#team" },
+                  { label: "Achievements", href: "/about#achievements" },
+                  { label: "Client Trust", href: "/about#trust" },
+                ],
+              },
+              {
+                label: "Projects",
+                href: "/projects",
+                links: [
+                  { label: "All Projects", href: "/projects" },
+                  { label: "Ongoing Projects", href: "/projects?status=ongoing" },
+                  { label: "Upcoming Projects", href: "/projects?status=upcoming" },
+                  { label: "Completed Projects", href: "/projects?status=completed" },
+                ],
+              },
+              {
+                label: "Properties",
+                href: "/properties",
+                links: [
+                  { label: "All Properties", href: "/properties" },
+                  { label: "Residential Plots", href: "/properties?category=residential" },
+                  { label: "Commercial Plots", href: "/properties?category=commercial" },
+                  { label: "Ready Flat", href: "/properties?category=flat" },
+                  { label: "Land Investment", href: "/investment" },
+                ],
+              },
+              {
+                label: "Investment",
+                href: "/investment",
+                links: [
+                  { label: "Why Invest", href: "/investment" },
+                  { label: "Benefits", href: "/investment#benefits" },
+                  { label: "ROI & Growth", href: "/investment#roi" },
+                  { label: "Payment Plan", href: "/investment#payment" },
+                ],
+              },
+              {
+                label: "Services",
+                href: "/services",
+                links: [
+                  { label: "All Services", href: "/services" },
+                  { label: "Land Buying", href: "/services#land-buying" },
+                  { label: "Plot Sales", href: "/services#plot-sales" },
+                  { label: "Property Consultation", href: "/services#consultation" },
+                  { label: "Legal Support", href: "/services#legal" },
+                ],
+              },
+              {
+                label: "Resources",
+                href: "/blog",
+                links: [
+                  { label: "Blog / News", href: "/blog" },
+                  { label: "Careers", href: "/careers" },
+                  { label: "EMI Calculator", href: "/calculator" },
+                  { label: "Sitemap", href: "/sitemap" },
+                ],
+              },
+            ].map((group) => {
+              const isGroupActive = pathname === group.href || pathname?.startsWith(group.href + "/");
               return (
-                <Link
-                  key={item.id}
-                  href={item.href}
-                  className={cn(
-                    "relative px-4 py-2 text-[13px] font-medium rounded-lg transition-all duration-300",
-                    isActive && !isTransparent &&
-                      "bg-primary/[0.08] text-primary shadow-sm",
-                    isActive && isTransparent &&
-                      "bg-white/[0.15] text-white shadow-sm",
-                    !isActive && isTransparent &&
-                      "text-white/80 hover:text-white hover:bg-white/[0.08]",
-                    !isActive && !isTransparent &&
-                      "text-muted-foreground hover:text-foreground hover:bg-muted/60"
-                  )}
-                >
-                  {item.label}
-                  {isActive && (
-                    <span
-                      className={cn(
-                        "absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full",
-                        isTransparent ? "bg-white" : "bg-primary"
-                      )}
-                    />
-                  )}
-                </Link>
+                <div key={group.label} className="relative group/nav py-3 px-1">
+                  <Link
+                    href={group.href}
+                    className={cn(
+                      "flex items-center gap-1 px-3 py-1.5 text-[13px] font-medium rounded-lg transition-all duration-300 select-none",
+                      isGroupActive && !isTransparent && "bg-primary/[0.08] text-primary shadow-xs",
+                      isGroupActive && isTransparent && "bg-white/[0.15] text-white shadow-xs",
+                      !isGroupActive && isTransparent && "text-white/80 hover:text-white hover:bg-white/[0.08]",
+                      !isGroupActive && !isTransparent && "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+                    )}
+                  >
+                    {group.label}
+                    <ChevronDown className="w-3.5 h-3.5 opacity-60 transition-transform duration-300 group-hover/nav:rotate-180" />
+                  </Link>
+
+                  {/* Dropdown Box */}
+                  <div className="absolute left-1/2 -translate-x-1/2 top-full hidden group-hover/nav:block pt-1.5 w-52 z-50">
+                    <div className="bg-white border border-border/70 rounded-xl shadow-lg py-1.5 overflow-hidden">
+                      {group.links.map((link) => (
+                        <Link
+                          key={link.label}
+                          href={link.href}
+                          className="block px-4 py-2 text-[12px] text-foreground hover:bg-secondary/70 hover:text-primary transition-all font-medium"
+                        >
+                          {link.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               );
             })}
           </nav>
@@ -243,7 +310,7 @@ export function Navbar() {
                       </p>
                     </div>
                     <Link
-                      href="/dashboard"
+                      href={user?.role === "admin" ? "/dashboard/admin" : "/dashboard/user"}
                       className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-primary/[0.06] hover:text-primary transition-colors"
                     >
                       <LayoutDashboard className="w-4 h-4" /> My Dashboard
@@ -387,7 +454,7 @@ export function Navbar() {
                 </div>
               </div>
               <Link
-                href="/dashboard"
+                href={user?.role === "admin" ? "/dashboard/admin" : "/dashboard/user"}
                 onClick={() => setIsOpen(false)}
                 className="w-full btn-primary justify-center"
               >

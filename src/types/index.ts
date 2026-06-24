@@ -251,3 +251,15 @@ export interface EMIResult {
     balance: number;
   }[];
 }
+
+export interface Project {
+  id: string;
+  title: string;
+  slug: string;
+  location: string;
+  status: "ongoing" | "upcoming" | "completed";
+  price: string;
+  imageUrl: string;
+  description: string;
+}
+

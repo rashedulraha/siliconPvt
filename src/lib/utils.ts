@@ -28,14 +28,17 @@ export function cn(...inputs: ClassValue[]) {
  * ============================================================ */
 
 /**
- * Format a number as currency.
+ * Format a number as currency in BDT (৳) using the lakhs/crores system.
  *
  * @example
- * formatCurrency(2500000)        // "$2,500,000"
- * formatCurrency(3500, "EUR")    // "€3,500"
- * formatCurrency(1234.56)        // "$1,235" (rounded)
+ * formatCurrency(2500000)        // "৳ 25,00,000"
+ * formatCurrency(3500)           // "৳ 3,500"
  */
-export function formatCurrency(amount: number, currency = "USD"): string {
+export function formatCurrency(amount: number, currency = "BDT"): string {
+  if (currency === "BDT" || currency === "USD") {
+    // Default to BDT formatting for Silicon Real Estate localization
+    return "৳ " + Math.round(amount).toLocaleString("en-IN");
+  }
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency,
@@ -44,17 +47,24 @@ export function formatCurrency(amount: number, currency = "USD"): string {
 }
 
 /**
- * Format a number as compact currency (e.g. "$2.5M", "$850K").
+ * Format a number as compact currency (e.g. "৳ 2.5 Lakh", "৳ 4.8 Crore").
  *
  * @example
- * formatCompactCurrency(2500000) // "$2.5M"
- * formatCompactCurrency(850000)  // "$850K"
- * formatCompactCurrency(1500)    // "$1.5K"
+ * formatCompactCurrency(2500000) // "৳ 25.0 Lakh"
  */
 export function formatCompactCurrency(
   amount: number,
-  currency = "USD",
+  currency = "BDT",
 ): string {
+  if (currency === "BDT" || currency === "USD") {
+    if (amount >= 10000000) {
+      return `৳ ${(amount / 10000000).toFixed(1)} Crore`;
+    }
+    if (amount >= 100000) {
+      return `৳ ${(amount / 100000).toFixed(1)} Lakh`;
+    }
+    return "৳ " + Math.round(amount).toLocaleString("en-IN");
+  }
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency,

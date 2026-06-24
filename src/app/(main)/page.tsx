@@ -1,12 +1,4 @@
-import { HeroSlider } from "@/components/home/HeroSlider";
-import { StatsBar } from "@/components/home/StatsBar";
-import { AboutSection } from "@/components/home/AboutSection";
-import { InvestmentProcess } from "@/components/home/InvestmentProcess";
-import { FeaturedProjects } from "@/components/home/FeaturedProjects";
-import { WhyChooseUs } from "@/components/home/WhyChooseUs";
-import { TeamSection } from "@/components/home/TeamSection";
-import { LatestInsights } from "@/components/home/LatestInsights";
-import { CTASection } from "@/components/home/CTASection";
+import { HomePageClient } from "@/components/home/HomePageClient";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -25,17 +17,6 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return (
-    <div className="bg-background text-foreground min-h-screen overflow-x-hidden">
-      <HeroSlider />
-      <StatsBar />
-      <AboutSection />
-      <InvestmentProcess />
-      <FeaturedProjects />
-      <WhyChooseUs />
-      <TeamSection />
-      <LatestInsights />
-      <CTASection />
-    </div>
-  );
+  return <HomePageClient />;
 }
+

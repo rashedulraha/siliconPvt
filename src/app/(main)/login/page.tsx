@@ -8,7 +8,7 @@ import { useUserAuth } from "@/context/UserAuthContext";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { isLoggedIn, login } = useUserAuth();
+  const { isLoggedIn, user, login } = useUserAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,8 +17,46 @@ export default function LoginPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (isLoggedIn) router.replace("/dashboard");
-  }, [isLoggedIn, router]);
+    if (isLoggedIn && user) {
+      if (user.role === "admin") {
+        router.replace("/dashboard/admin");
+      } else {
+        router.replace("/dashboard/user");
+      }
+    }
+  }, [isLoggedIn, user, router]);
+
+  async function handleUserLogin() {
+    setIsSubmitting(true);
+    await new Promise((r) => setTimeout(r, 600));
+    login({
+      name: "Rashedul Raha",
+      email: "client@siliconrealestate.com",
+      role: "user",
+    });
+    router.push("/dashboard/user");
+    setIsSubmitting(false);
+  }
+
+  async function handleAdminLogin() {
+    setIsSubmitting(true);
+    await new Promise((r) => setTimeout(r, 600));
+    try {
+      localStorage.setItem("silicon_admin_session", JSON.stringify({
+        email: "admin@siliconrealestate.com",
+        loggedInAt: new Date().toISOString(),
+      }));
+    } catch {
+      /* ignore */
+    }
+    login({
+      name: "System Admin",
+      email: "admin@siliconrealestate.com",
+      role: "admin",
+    });
+    router.push("/dashboard/admin");
+    setIsSubmitting(false);
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -28,13 +66,30 @@ export default function LoginPage() {
       return;
     }
     setIsSubmitting(true);
-    await new Promise((r) => setTimeout(r, 1000));
-    // Demo: any credentials log you in
+    await new Promise((r) => setTimeout(r, 800));
+    
+    // Default standard credentials to user role
+    const isDemoAdmin = email.trim().toLowerCase().includes("admin");
+    const role = isDemoAdmin ? "admin" : "user";
+    
+    if (role === "admin") {
+      try {
+        localStorage.setItem("silicon_admin_session", JSON.stringify({
+          email: email.trim(),
+          loggedInAt: new Date().toISOString(),
+        }));
+      } catch {
+        /* ignore */
+      }
+    }
+    
     login({
       name: email.split("@")[0].replace(/\./g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
       email: email.trim(),
+      role,
     });
-    router.push("/dashboard");
+    
+    router.push(role === "admin" ? "/dashboard/admin" : "/dashboard/user");
     setIsSubmitting(false);
   }
 
@@ -137,6 +192,33 @@ export default function LoginPage() {
             </button>
           </form>
 
+          {/* Divider */}
+          <div className="relative flex py-4 items-center">
+            <div className="flex-grow border-t border-border/60"></div>
+            <span className="flex-shrink mx-3 text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Simulation Sandbox</span>
+            <div className="flex-grow border-t border-border/60"></div>
+          </div>
+
+          {/* Simulation Buttons */}
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={handleUserLogin}
+              disabled={isSubmitting}
+              className="h-10 rounded-xl border border-border bg-background hover:bg-secondary/40 hover:border-primary/20 text-foreground font-semibold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer active:scale-98"
+            >
+              User Login
+            </button>
+            <button
+              type="button"
+              onClick={handleAdminLogin}
+              disabled={isSubmitting}
+              className="h-10 rounded-xl border border-border bg-background hover:bg-secondary/40 hover:border-primary/20 text-foreground font-semibold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer active:scale-98"
+            >
+              Admin Login
+            </button>
+          </div>
+
           <div className="mt-5 text-center text-xs text-muted-foreground">
             Don't have an account?{" "}
             <Link href="/contact" className="text-primary font-medium hover:text-primary/70 transition-colors">
@@ -147,7 +229,7 @@ export default function LoginPage() {
 
         {/* Demo hint */}
         <p className="text-center text-[11px] text-muted-foreground">
-          Demo: enter any email &amp; password to sign in
+          Demo: Use simulation buttons above to test role redirections
         </p>
       </div>
     </div>
