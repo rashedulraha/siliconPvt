@@ -17,7 +17,6 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   
-  // মোবাইল মেনুর একর্ডিয়ন কন্ট্রোল করার স্টেট
   const [activeMobileGroup, setActiveMobileGroup] = useState<string | null>(null);
 
   const userMenuRef = useRef<HTMLDivElement>(null);
@@ -49,7 +48,6 @@ export function Navbar() {
     router.push("/");
   }
 
-  // আপনার দেওয়া সমস্ত ড্রপডাউন ডেটা স্ট্রাকচার অবিকল রাখা হয়েছে
   const navGroups = [
     {
       label: "Properties",
@@ -332,7 +330,6 @@ export function Navbar() {
             isOpen ? "max-h-[85vh] opacity-100 mt-2 pb-6 border-t border-border/40 pt-2" : "max-h-0 opacity-0 pointer-events-none"
           )}
         >
-          {/* সায়টম্যাপ গাইডলাইন অনুযায়ী সাব-আইটেমসহ মোবাইল একর্ডিয়ন */}
           <div className="flex flex-col gap-1 mb-4">
             {navGroups.map((group) => {
               const isGroupOpen = activeMobileGroup === group.label;
@@ -363,7 +360,7 @@ export function Navbar() {
             })}
           </div>
 
-          {/* মোবাইল ফুটারে সাইন ইন এবং ড্যাশবোর্ড বাটন অ্যাকশন */}
+          
           <div className="mt-4 pt-4 border-t border-border/60">
             {isLoggedIn && user ? (
               <div className="space-y-3">
