@@ -129,7 +129,7 @@ export function Navbar() {
                 relative
                 h-11 w-11
                 overflow-hidden
-                rounded-xl
+                rounded-full
                 border border-primary/15
                 bg-background/60
                 backdrop-blur-md
@@ -138,16 +138,17 @@ export function Navbar() {
                 group-hover:border-primary/30
                 flex items-center justify-center
                 shrink-0
-              "
-            >
-              <Image
-                src="/silicon.png"
-                alt={`${state.siteSettings.siteName} Logo`}
-                fill
-                priority
-                sizes="44px"
-                className="object-contain p-1 select-none"
-              />
+              ">
+
+            <Image
+            src="/silicon.png"
+            alt={`${state.siteSettings.siteName} Logo`}
+            width={44}
+            height={44}
+            priority
+            sizes="44px"
+            className="object-cover rounded-full overflow-hidden p-1 select-none"
+          />
             </div>
 
             <div className="hidden sm:flex flex-col text-left">
@@ -222,13 +223,16 @@ export function Navbar() {
                   aria-haspopup="true"
                 >
                   {user.avatar ? (
+                    <div className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-primary/20">
                     <Image
                       src={user.avatar}
                       alt={user.name}
                       width={32}
                       height={32}
-                      className="w-8 h-8 rounded-lg object-cover ring-2 ring-primary/20"
+                      sizes="32px"
+                      className="w-full h-full object-cover"
                     />
+                  </div>
                   ) : (
                     <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center ring-2 ring-primary/20">
                       <User className="w-4 h-4 text-primary" />
