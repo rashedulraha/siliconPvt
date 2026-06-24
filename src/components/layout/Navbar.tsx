@@ -1,7 +1,5 @@
 "use client";
 
-
-
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
@@ -17,8 +15,11 @@ import { useUserAuth } from "@/context/UserAuthContext";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  
+  // মোবাইল মেনুর একর্ডিয়ন কন্ট্রোল করার স্টেট
+  const [activeMobileGroup, setActiveMobileGroup] = useState<string | null>(null);
+
   const userMenuRef = useRef<HTMLDivElement>(null);
 
   const pathname = usePathname();
@@ -27,11 +28,10 @@ export function Navbar() {
   const { user, isLoggedIn, logout } = useUserAuth();
   const menuItems = [...state.menu].sort((a, b) => a.order - b.order);
 
-
-
   useEffect(() => {
     setIsOpen(false);
     setUserMenuOpen(false);
+    setActiveMobileGroup(null);
   }, [pathname]);
 
   useEffect(() => {
@@ -44,142 +44,137 @@ export function Navbar() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-
-
   function handleLogout() {
     logout();
     router.push("/");
   }
 
+  // আপনার দেওয়া সমস্ত ড্রপডাউন ডেটা স্ট্রাকচার অবিকল রাখা হয়েছে
+  const navGroups = [
+    {
+      label: "Properties",
+      href: "/properties",
+      links: [
+        { label: "All Properties", href: "/properties" },
+        { label: "Residential Plots", href: "/properties?category=residential" },
+        { label: "Commercial Plots", href: "/properties?category=commercial" },
+        { label: "Ready Flat", href: "/properties?category=flat" },
+        { label: "Land Investment", href: "/investment" },
+      ],
+    },
+    {
+      label: "Projects",
+      href: "/projects",
+      links: [
+        { label: "All Projects", href: "/projects" },
+        { label: "Ongoing Projects", href: "/projects?status=ongoing" },
+        { label: "Upcoming Projects", href: "/projects?status=upcoming" },
+        { label: "Completed Projects", href: "/projects?status=completed" },
+      ],
+    },
+    {
+      label: "Investment",
+      href: "/investment",
+      links: [
+        { label: "Why Invest", href: "/investment" },
+        { label: "Benefits", href: "/investment#benefits" },
+        { label: "ROI & Growth", href: "/investment#roi" },
+        { label: "Payment Plan", href: "/investment#payment" },
+      ],
+    },
+    {
+      label: "Services",
+      href: "/services",
+      links: [
+        { label: "All Services", href: "/services" },
+        { label: "Land Buying", href: "/services#land-buying" },
+        { label: "Plot Sales", href: "/services#plot-sales" },
+        { label: "Property Consultation", href: "/services#consultation" },
+        { label: "Legal Support", href: "/services#legal" },
+      ],
+    },
+    {
+      label: "About",
+      href: "/about",
+      links: [
+        { label: "Company Overview", href: "/about" },
+        { label: "Mission & Vision", href: "/about#mission" },
+        { label: "Chairman Message", href: "/about#chairman" },
+        { label: "Our Team", href: "/about#team" },
+        { label: "Achievements", href: "/about#achievements" },
+        { label: "Client Trust", href: "/about#trust" },
+      ],
+    },
+    {
+      label: "Resources",
+      href: "/blog",
+      links: [
+        { label: "Blog / News", href: "/blog" },
+        { label: "Careers", href: "/careers" },
+        { label: "EMI Calculator", href: "/calculator" },
+        { label: "Sitemap", href: "/sitemap" },
+      ],
+    },
+  ];
+
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 w-full duration-300 ease-out border-b shadow-xs bg-background border-border/40"
+      className="fixed top-0 left-0 right-0 z-50 w-full duration-300 ease-out border-b shadow-xs bg-background/80 backdrop-blur-md border-border/40"
     >
-      {/* ── Container (max-w-7xl = 1280px) ───────────── */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-6">
 
+          {/* ── Logo Section ───────────── */}
+          <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
+            <div
+              className="
+                relative
+                h-11 w-11
+                overflow-hidden
+                rounded-xl
+                border border-primary/15
+                bg-background/60
+                backdrop-blur-md
+                transition-all duration-300
+                group-hover:scale-[1.03]
+                group-hover:border-primary/30
+                flex items-center justify-center
+                shrink-0
+              "
+            >
+              <Image
+                src="/silicon.png"
+                alt={`${state.siteSettings.siteName} Logo`}
+                fill
+                priority
+                sizes="44px"
+                className="object-contain p-1 select-none"
+              />
+            </div>
 
-       <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
-                  <div
-          className="
-            relative
-            h-11 w-11
-            overflow-hidden
-            rounded-xl
-            border border-primary/15
-            bg-background/60
-            backdrop-blur-md
-            transition-all duration-300
-            group-hover:scale-[1.03]
-            group-hover:border-primary/30
-            flex items-center justify-center
-            shrink-0
-          "
-        >
-          <Image
-            src="/silicon.png"
-            alt={`${state.siteSettings.siteName} Logo`}
-            fill
-            priority
-            sizes="44px"
-            className="
-              object-contain
-              p-[px]
-              select-none
-            "
-          />
-        </div>
+            <div className="hidden sm:flex flex-col text-left">
+              <span className="font-heading font-bold text-sm tracking-tight leading-tight text-foreground">
+                Silicon
+              </span>
+              <span className="text-[10px] tracking-[0.2em] uppercase font-medium leading-none text-muted-foreground">
+                Real Estate Pvt. Ltd.
+              </span>
+            </div>
+          </Link>
 
-  <div className="hidden sm:flex flex-col">
-    <span className="font-heading font-bold text-sm tracking-tight leading-tight text-foreground">
-Silicon
-    </span>
-
-    <span className="text-[10px] tracking-[0.2em] uppercase font-medium leading-none text-muted-foreground">
-      Real Estate Pvt. Ltd..
-    </span>
-  </div>
-      </Link>
-
-          {/* ─ Desktop Nav ──────────────────────────── */}
-          <nav className="hidden lg:flex items-center flex-1 justify-center py-1 px-1   bg-blue-500/10 rounded-full border border/50">
-            {[
-              {
-                label: "Properties",
-                href: "/properties",
-                links: [
-                  { label: "All Properties", href: "/properties" },
-                  { label: "Residential Plots", href: "/properties?category=residential" },
-                  { label: "Commercial Plots", href: "/properties?category=commercial" },
-                  { label: "Ready Flat", href: "/properties?category=flat" },
-                  { label: "Land Investment", href: "/investment" },
-                ],
-              },
-              {
-                label: "Projects",
-                href: "/projects",
-                links: [
-                  { label: "All Projects", href: "/projects" },
-                  { label: "Ongoing Projects", href: "/projects?status=ongoing" },
-                  { label: "Upcoming Projects", href: "/projects?status=upcoming" },
-                  { label: "Completed Projects", href: "/projects?status=completed" },
-                ],
-              },
-              
-              {
-                label: "Investment",
-                href: "/investment",
-                links: [
-                  { label: "Why Invest", href: "/investment" },
-                  { label: "Benefits", href: "/investment#benefits" },
-                  { label: "ROI & Growth", href: "/investment#roi" },
-                  { label: "Payment Plan", href: "/investment#payment" },
-                ],
-              },
-              {
-                label: "Services",
-                href: "/services",
-                links: [
-                  { label: "All Services", href: "/services" },
-                  { label: "Land Buying", href: "/services#land-buying" },
-                  { label: "Plot Sales", href: "/services#plot-sales" },
-                  { label: "Property Consultation", href: "/services#consultation" },
-                  { label: "Legal Support", href: "/services#legal" },
-                ],
-              },{
-                label: "About Silicon",
-                href: "/about",
-                links: [
-                  { label: "Company Overview", href: "/about" },
-                  { label: "Mission & Vision", href: "/about#mission" },
-                  { label: "Chairman Message", href: "/about#chairman" },
-                  { label: "Our Team", href: "/about#team" },
-                  { label: "Achievements", href: "/about#achievements" },
-                  { label: "Client Trust", href: "/about#trust" },
-                ],
-              },
-              {
-                label: "Resources",
-                href: "/blog",
-                links: [
-                  { label: "Blog / News", href: "/blog" },
-                  { label: "Careers", href: "/careers" },
-                  { label: "EMI Calculator", href: "/calculator" },
-                  { label: "Sitemap", href: "/sitemap" },
-                ],
-              },
-            ].map((group) => {
+          {/* ── Desktop Nav (Premium Theme Matched) ──────────────────────────── */}
+          <nav className="hidden lg:flex items-center gap-1 px-3 py-1 bg-muted/40 backdrop-blur-xs rounded-full border border-border/50 w-fit">
+            {navGroups.map((group) => {
               const isGroupActive = pathname === group.href || pathname?.startsWith(group.href + "/");
               return (
                 <div key={group.label} className="relative group/nav">
                   <Link
                     href={group.href}
                     className={cn(
-                      "flex items-center gap-1 px-3 py-1.5 text-[13px] font-medium rounded-lg transition-all duration-300 select-none",
+                      "flex items-center gap-1 px-3 py-1.5 text-[13px] font-medium rounded-full transition-all duration-300 select-none",
                       isGroupActive
-                        ? "bg-primary/[0.08] text-primary shadow-xs"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+                        ? "bg-background text-primary border border-border/60 shadow-xs"
+                        : "text-muted-foreground hover:text-foreground hover:bg-background/50"
                     )}
                   >
                     {group.label}
@@ -187,13 +182,13 @@ Silicon
                   </Link>
 
                   {/* Dropdown Box */}
-                  <div className="absolute left-1/2 -translate-x-1/2 top-full hidden group-hover/nav:block pt-1.5 w-52 z-50">
-                    <div className="bg-background border border-border rounded-md shadow-lg py-1.5 overflow-hidden">
+                  <div className="absolute left-1/2 -translate-x-1/2 top-full hidden group-hover/nav:block pt-2 w-52 z-50">
+                    <div className="bg-background/95 backdrop-blur-xl border border-border/60 rounded-xl shadow-lg py-1.5 overflow-hidden">
                       {group.links.map((link) => (
                         <Link
                           key={link.label}
                           href={link.href}
-                          className="block px-4 py-2 text-[12px] text-popover-foreground hover:bg-primary/10 hover:text-blue-500 transition-all font-medium"
+                          className="block px-4 py-2 text-[12px] text-foreground/80 hover:bg-primary/[0.06] hover:text-primary transition-all font-medium text-left"
                         >
                           {link.label}
                         </Link>
@@ -210,9 +205,9 @@ Silicon
             {state.siteSettings.contactPhone && (
               <a
                 href={`tel:${state.siteSettings.contactPhone}`}
-                className="flex items-center gap-2 text-xs font-medium transition-all duration-300 px-3 py-3 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/[0.06]"
+                className="flex items-center justify-center w-9 h-9 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/[0.06] transition-all"
               >
-                <Phone className="w-3.5 h-3.5 text-green-500" />
+                <Phone className="w-4 h-4 text-emerald-500" />
               </a>
             )}
 
@@ -242,14 +237,10 @@ Silicon
                     </div>
                   )}
                   <div className="text-left hidden xl:block">
-                    <p
-                      className="text-xs font-semibold font-heading leading-tight text-foreground"
-                    >
+                    <p className="text-xs font-semibold font-heading leading-tight text-foreground">
                       {user.name}
                     </p>
-                    <p
-                      className="text-[10px] leading-tight text-muted-foreground"
-                    >
+                    <p className="text-[10px] leading-tight text-muted-foreground">
                       {user.email}
                     </p>
                   </div>
@@ -264,7 +255,7 @@ Silicon
                 {userMenuOpen && (
                   <div className="absolute right-0 top-full mt-2 w-56 rounded-xl overflow-hidden shadow-2xl py-1.5 z-50 border border-border/60 bg-background/95 backdrop-blur-2xl">
                     <div className="px-4 py-3 border-b border-border/60">
-                      <p className="text-sm font-semibold text-foreground">
+                      <p className="text-sm font-semibold text-foreground truncate">
                         {user.name}
                       </p>
                       <p className="text-xs text-muted-foreground truncate">
@@ -286,7 +277,7 @@ Silicon
                     <div className="border-t border-border/60 my-1.5" />
                     <button
                       onClick={handleLogout}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-destructive hover:bg-destructive/[0.06] transition-colors"
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-destructive hover:bg-destructive/[0.06] transition-colors text-left"
                     >
                       <LogOut className="w-4 h-4" /> Sign Out
                     </button>
@@ -303,7 +294,7 @@ Silicon
                 </Link>
                 <Link
                   href="/contact"
-                  className="bg-primary text-primary-foreground h-9 px-4 rounded-lg text-sm font-medium font-heading inline-flex items-center gap-1.5 hover:bg-primary/90 transition-all duration-300 shadow-md shadow-primary/25 hover:shadow-lg hover:shadow-primary/30"
+                  className="bg-primary text-primary-foreground h-9 px-4 rounded-lg text-sm font-medium font-heading inline-flex items-center gap-1.5 hover:bg-primary/90 transition-all duration-300 shadow-md shadow-primary/25"
                 >
                   <CalendarCheck className="w-3.5 h-3.5" />
                   Book Visit
@@ -312,7 +303,7 @@ Silicon
             )}
           </div>
 
-          {/* ── Mobile controls ──────────────────────── */}
+          {/* ── Mobile Controls ──────────────────────── */}
           <div className="flex lg:hidden items-center gap-2 ml-auto">
             {isLoggedIn && (
               <Link
@@ -334,93 +325,95 @@ Silicon
           </div>
         </div>
 
-        {/* ── Mobile Menu ───────────────────────────── */}
+        {/* ── Fully Responsive Mobile Accordion Menu ───────────────────────────── */}
         <div
           className={cn(
-            "lg:hidden overflow-hidden transition-all duration-500 ease-out",
-            isOpen ? "max-h-[600px] opacity-100 mt-2 pb-4" : "max-h-0 opacity-0"
+            "lg:hidden overflow-y-auto transition-all duration-300 ease-in-out",
+            isOpen ? "max-h-[85vh] opacity-100 mt-2 pb-6 border-t border-border/40 pt-2" : "max-h-0 opacity-0 pointer-events-none"
           )}
         >
+          {/* সায়টম্যাপ গাইডলাইন অনুযায়ী সাব-আইটেমসহ মোবাইল একর্ডিয়ন */}
           <div className="flex flex-col gap-1 mb-4">
-            {menuItems.map((item) => {
-              const isActive =
-                item.href === "/"
-                  ? pathname === "/"
-                  : pathname === item.href || pathname?.startsWith(item.href + "/");
+            {navGroups.map((group) => {
+              const isGroupOpen = activeMobileGroup === group.label;
               return (
-                <Link
-                  key={item.id}
-                  href={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className={cn(
-                    "px-4 py-3 text-sm font-medium rounded-lg transition-all",
-                    isActive
-                      ? "bg-primary/[0.08] text-primary"
-                      : "text-foreground hover:bg-muted"
-                  )}
-                >
-                  {item.label}
-                </Link>
+                <div key={group.label} className="border-b border-border/10 last:border-0">
+                  <button
+                    onClick={() => setActiveMobileGroup(isGroupOpen ? null : group.label)}
+                    className="w-full flex items-center justify-between px-3 py-3 text-sm font-medium text-foreground rounded-lg hover:bg-muted/50 transition-all"
+                  >
+                    {group.label}
+                    <ChevronDown className={cn("w-4 h-4 transition-transform duration-200 opacity-60", isGroupOpen && "rotate-180")} />
+                  </button>
+                  
+                  <div className={cn("flex flex-col gap-0.5 pl-4 overflow-hidden transition-all duration-300", isGroupOpen ? "max-h-60 py-1" : "max-h-0")}>
+                    {group.links.map((link) => (
+                      <Link
+                        key={link.label}
+                        href={link.href}
+                        onClick={() => setIsOpen(false)}
+                        className="px-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary rounded-md transition-colors text-left block"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               );
             })}
           </div>
 
-          {isLoggedIn && user ? (
-            <div className="space-y-2">
-              <div
-                className="flex items-center gap-3 px-4 py-3 rounded-lg bg-muted"
-              >
-                <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
-                  <User className="w-4 h-4 text-primary" />
+          {/* মোবাইল ফুটারে সাইন ইন এবং ড্যাশবোর্ড বাটন অ্যাকশন */}
+          <div className="mt-4 pt-4 border-t border-border/60">
+            {isLoggedIn && user ? (
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 px-3 py-2 rounded-xl bg-muted/40 border border-border/30">
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
+                    <User className="w-4 h-4 text-primary" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-xs font-semibold text-foreground">{user.name}</p>
+                    <p className="text-[10px] text-muted-foreground truncate max-w-[180px]">{user.email}</p>
+                  </div>
                 </div>
-                <div>
-                  <p
-                    className="text-sm font-semibold text-foreground"
+                <div className="grid grid-cols-2 gap-2">
+                  <Link
+                    href={user?.role === "admin" ? "/dashboard/admin" : "/dashboard/user"}
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center justify-center gap-2 h-9 rounded-lg bg-muted text-foreground text-xs font-medium hover:bg-muted/80 transition-all"
                   >
-                    {user.name}
-                  </p>
-                  <p
-                    className="text-xs text-muted-foreground"
+                    <LayoutDashboard className="w-3.5 h-3.5" /> Dashboard
+                  </Link>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsOpen(false);
+                    }}
+                    className="flex items-center justify-center gap-2 h-9 rounded-lg border border-destructive/20 text-destructive text-xs font-medium hover:bg-destructive/[0.04] transition-all"
                   >
-                    {user.email}
-                  </p>
+                    <LogOut className="w-3.5 h-3.5" /> Sign Out
+                  </button>
                 </div>
               </div>
-              <Link
-                href={user?.role === "admin" ? "/dashboard/admin" : "/dashboard/user"}
-                onClick={() => setIsOpen(false)}
-                className="w-full btn-primary justify-center"
-              >
-                <LayoutDashboard className="w-4 h-4" /> Dashboard
-              </Link>
-              <button
-                onClick={() => {
-                  handleLogout();
-                  setIsOpen(false);
-                }}
-                className="w-full flex items-center justify-center gap-2 h-10 rounded-lg border border-destructive/30 text-destructive text-sm font-medium hover:bg-destructive/[0.08] transition-all"
-              >
-                <LogOut className="w-4 h-4" /> Sign Out
-              </button>
-            </div>
-          ) : (
-            <div className="flex flex-col gap-2">
-              <Link
-                href="/login"
-                onClick={() => setIsOpen(false)}
-                className="w-full h-10 rounded-lg border border-border text-foreground hover:bg-muted inline-flex items-center justify-center text-sm font-medium font-heading"
-              >
-                Sign In
-              </Link>
-              <Link
-                href="/contact"
-                onClick={() => setIsOpen(false)}
-                className="w-full btn-primary justify-center"
-              >
-                <CalendarCheck className="w-4 h-4" /> Book a Viewing
-              </Link>
-            </div>
-          )}
+            ) : (
+              <div className="grid grid-cols-2 gap-2.5 px-1">
+                <Link
+                  href="/auth/login"
+                  onClick={() => setIsOpen(false)}
+                  className="w-full h-10 rounded-xl border border-border text-foreground hover:bg-muted inline-flex items-center justify-center text-xs font-semibold"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/contact"
+                  onClick={() => setIsOpen(false)}
+                  className="w-full h-10 rounded-xl bg-primary text-primary-foreground inline-flex items-center justify-center text-xs font-semibold shadow-xs"
+                >
+                  <CalendarCheck className="w-3.5 h-3.5 mr-1.5" /> Book Visit
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </header>
