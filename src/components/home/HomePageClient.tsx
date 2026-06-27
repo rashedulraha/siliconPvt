@@ -1,9 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-import { HeroSlider } from "./HeroSlider";
-import { StatsBar } from "./StatsBar";
+import { HeroSection } from "./HeroSection";
 import { AboutSection } from "./AboutSection";
 import { InvestmentProcess } from "./InvestmentProcess";
 import { FeaturedProjects } from "./FeaturedProjects";
@@ -19,10 +17,16 @@ export function HomePageClient() {
     setMounted(true);
   }, []);
 
+  if (!mounted) {
+    return <div className="min-h-screen bg-secondary/40 dark:bg-neutral-950" />;
+  }
+
   return (
-    <div className="bg-background text-foreground min-h-screen overflow-x-hidden">
-      <HeroSlider />
-      <StatsBar />
+    <div className="bg-secondary/40 dark:bg-neutral-950 text-foreground min-h-screen overflow-x-hidden flex flex-col">
+      {/* ── Seamless Navbar to Hero Banner Transition ── */}
+      
+      <HeroSection />
+      {/* ── Homepage Spacing Sections ── */}
       <AboutSection />
       <InvestmentProcess />
       <FeaturedProjects />
@@ -33,4 +37,3 @@ export function HomePageClient() {
     </div>
   );
 }
-
