@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { UserCheck, Linkedin, Mail } from "lucide-react";
 import { Container } from "@/components/layout/Container";
 import { useTeam } from "@/hooks/useTeam";
-import Link from "next/link";
 
 export function TeamSection() {
   const { team } = useTeam();

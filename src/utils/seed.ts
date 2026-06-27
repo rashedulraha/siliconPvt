@@ -15,15 +15,15 @@ export const seedProperties: Property[] = propertiesData as Property[];
 export const seedTeam: TeamMember[] = [
   {
     id: "agent-1",
-    name: "Farhana Rahman",
+    name: "Mohammed Aziz Khan",
     role: "Founder & Managing Director",
-    bio: "With over 15 years of experience in prime Dhaka real estate, Farhana has guided over $150M in transactions across premium Gulshan and Banani corridors.",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400",
-    email: "farhana@siliconrealestate.com",
+    bio: "With over 15 years of experience in prime Dhaka real estate, Mohammed Aziz Khan has guided over $150M in transactions across premium Gulshan and Banani corridors.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/7/76/Muhammed_Aziz_Khan%2C_Chirman%2C_Summit_Group.jpg",
+    email: "[EMAIL_ADDRESS]",
     phone: "+880 1712 345 678",
     social: {
-      linkedin: "https://linkedin.com/in/farhanarahman",
-      email: "farhana@siliconrealestate.com",
+      linkedin: "https://linkedin.com/in/muhammedazizkhan",
+      email: "[EMAIL_ADDRESS]",
     },
   },
   {
@@ -31,7 +31,7 @@ export const seedTeam: TeamMember[] = [
     name: "Tanvir Ahmed",
     role: "Senior Land Advisory Consultant",
     bio: "Tanvir specializes in RAJUK approvals, boundary surveys, and high-ROI land plot layout investments across Purbachal and Uttara.",
-    image: "https://images.unsplash.com/photo-1507152832244-10d49c7dd8f9?w=400",
+    image: "https://blog.allbanglanewspaper.org/wp-content/uploads/Ahmed_Akbar_Sobhan-Wikipedia-e1691001503950.jpg",
     email: "tanvir@siliconrealestate.com",
     phone: "+880 1712 987 654",
     social: {

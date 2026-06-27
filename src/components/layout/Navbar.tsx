@@ -107,6 +107,7 @@ export function Navbar() {
       label: "Resources",
       href: "/blog",
       links: [
+        { label: "Gallery", href: "/gallery" },
         { label: "Blog / News", href: "/blog" },
         { label: "Careers", href: "/careers" },
         { label: "EMI Calculator", href: "/calculator" },
