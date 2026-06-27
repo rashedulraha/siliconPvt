@@ -70,8 +70,8 @@ export default function LoginPage() {
       email: email,
       role: role,
       avatar: role === "admin" 
-        ? "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100" 
-        : "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100",
+        ? "https://images.unsplash.com/photo-1507152832244-10d49c7dd8f9?w=100" 
+        : "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=100",
     });
 
     setIsSubmitting(false);

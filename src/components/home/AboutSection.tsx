@@ -203,8 +203,8 @@ export function AboutSection() {
                 className="relative aspect-[4/5] rounded-xl overflow-hidden border border-border bg-muted"
               >
                 <Image
-                  src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600"
-                  alt="Silicon Real Estate execution team asset"
+                  src="https://images.unsplash.com/photo-1606857521015-7f9fcf423740?w=600"
+                  alt="Silicon Real Estate advisory collaboration team"
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover opacity-90 dark:opacity-75 select-none pointer-events-none"

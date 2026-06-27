@@ -110,7 +110,7 @@ export default function AboutPage() {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-luxury-lg">
-              <Image src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200" alt="Silicon Real Estate office and team" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
+              <Image src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200" alt="Silicon Real Estate office and team" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-primary/50 via-transparent to-transparent" />
               {/* Floating stat card */}
               <div className="absolute bottom-6 left-6 right-6 glass-dark rounded-xl p-4">

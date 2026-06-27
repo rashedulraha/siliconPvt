@@ -442,7 +442,7 @@ export default function UserDashboard() {
                     <div className="relative">
                       <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 ring-2 ring-amber-500/10">
                         <Image
-                          src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=120"
+                          src="https://images.unsplash.com/photo-1507152832244-10d49c7dd8f9?w=120"
                           alt="Consultant Avatar"
                           fill
                           className="object-cover object-top"

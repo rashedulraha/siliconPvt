@@ -24,7 +24,7 @@ export function FeaturedProjects() {
   const featuredFlats = flats.slice(0, 3);
 
   return (
-    <section className="py-16 md:py-24 bg-neutral-50 dark:bg-neutral-950 border-t border-border/40">
+    <section className="py-16 md:py-24  bg-secondary/40 border-t border-border/40">
       <Container className="space-y-16">
         
         {/* ── Section Header ── */}

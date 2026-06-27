@@ -55,7 +55,7 @@ const investmentTypes = [
     badge: "Most Popular",
     features: ["Sizes from 3 to 10 katha", "RAJUK-approved layouts", "Road & utility access", "Gated community options"],
     href: "/properties?category=residential",
-    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800",
+    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800",
   },
   {
     tag: "Commercial",
@@ -64,7 +64,7 @@ const investmentTypes = [
     badge: "High ROI",
     features: ["Corner & main-road plots", "Commercial zoning approved", "Large-format plots available", "Investor consortium options"],
     href: "/properties?category=commercial",
-    image: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800",
   },
 ];
 
@@ -259,8 +259,8 @@ export default function InvestmentPage() {
             </div>
             <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-soft-lg">
               <Image
-                src="https://images.unsplash.com/photo-1559526324-593bc073d938?w=1200"
-                alt="Investment growth chart"
+                src="https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=1200"
+                alt="Investment growth model scale"
                 fill
                 className="object-cover"
                 sizes="(min-width: 1024px) 50vw, 100vw"
