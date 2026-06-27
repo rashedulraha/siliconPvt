@@ -14,7 +14,7 @@ export function TeamSection() {
   if (members.length === 0) return null;
 
   return (
-    <section className="section-y bg-background relative overflow-hidden">
+    <section className="section-y bg-transparent relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-secondary/40 to-transparent pointer-events-none" />
 
       <Container className="relative">

@@ -19,7 +19,7 @@ const trustBadges = [
 
 export function HeroSection() {
   return (
-    <section className="relative w-full text-foreground py-8 md:py-16 overflow-hidden bg-secondary/40">
+    <section className="relative w-full text-foreground py-8 md:py-16 overflow-hidden bg-transparent">
       
       {/* ── Outer Content Container ── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 ">

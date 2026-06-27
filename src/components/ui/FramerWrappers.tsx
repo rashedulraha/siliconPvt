@@ -143,7 +143,7 @@ export const PremiumHoverCard: React.FC<PremiumHoverCardProps> = ({
         ease: PREMIUM_EASE,
         duration: 0.4,
       }}
-      className={`transition-colors duration-300 ${className}`}
+      className={`transition-colors duration-300 [--card-spacing:1.5rem] ${className}`}
       {...props}
     >
       {children}

@@ -12,7 +12,7 @@ export function LatestInsights() {
   const recent = posts.slice(0, 3);
 
   return (
-    <section className="section-y bg-secondary/40 relative overflow-hidden">
+    <section className="section-y bg-transparent relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-accent/2 via-transparent to-primary/2 pointer-events-none" />
 
       <Container className="relative">

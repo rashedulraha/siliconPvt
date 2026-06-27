@@ -11,8 +11,9 @@ import {
   Home as HomeIcon,
   Mail,
   Calendar,
+  Sparkles,
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -62,19 +63,25 @@ export default function AdminDashboard() {
   const maxCategory = Math.max(...categoryData.map((d) => d.value), 1);
 
   return (
-    <div className="space-y-6">
-      {/* Welcome */}
-      <div className="rounded-xl bg-linear-to-br from-primary to-primary/80 p-6 md:p-8 text-primary-foreground">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h2 className="font-heading text-2xl md:text-3xl font-bold">
+    <div className="space-y-6 max-w-7xl mx-auto">
+      
+      {/* ── 1. Welcome Banner (Premium Control Plate) ── */}
+      <div className="relative overflow-hidden rounded-2xl bg-neutral-900 dark:bg-neutral-900/60 p-6 md:p-8 border border-neutral-800 dark:border-neutral-800/40 text-white shadow-xs">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[150px] bg-primary/10 blur-[80px] pointer-events-none" />
+        <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6 text-left">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2 text-primary text-[10px] font-semibold uppercase tracking-widest">
+              <Sparkles className="h-3.5 w-3.5 text-amber-400" />
+              Administrative Portal
+            </div>
+            <h2 className="font-heading text-2xl md:text-3xl font-bold tracking-tight text-white leading-tight">
               Welcome back, Admin 👋
             </h2>
-            <p className="mt-1 text-primary-foreground/80">
-              Here&apos;s what&apos;s happening with your business today.
+            <p className="text-neutral-300 text-sm font-light max-w-xl">
+              Inspect properties, manage client leads, and customize content dynamically.
             </p>
           </div>
-          <Button asChild variant="secondary" size="lg">
+          <Button asChild variant="default" className="bg-white text-neutral-950 hover:bg-neutral-100 border border-transparent shadow-xs transition-all duration-300 rounded-xl h-11 px-6 font-medium text-xs tracking-wider uppercase shrink-0 self-start sm:self-auto cursor-pointer">
             <Link href="/admin/inventory">
               <Building2 className="h-4 w-4 mr-2" /> Add Property
             </Link>
@@ -82,8 +89,8 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* ── 2. Stats Grid (Conforming Box Alignment) ── */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <StatCard
           label="Total Properties"
           value={propStats.total}
@@ -97,7 +104,7 @@ export default function AdminDashboard() {
           trend={{ value: `${leadStats.new} new`, positive: true }}
         />
         <StatCard
-          label="Available"
+          label="Available Units"
           value={propStats.available}
           icon={HomeIcon}
           trend={{
@@ -113,41 +120,35 @@ export default function AdminDashboard() {
         />
       </div>
 
-      {/* Charts + Recent Activity */}
+      {/* ── 3. Charts & Analytics Grid ── */}
       <div className="grid lg:grid-cols-3 gap-6">
-        {/* Bar Chart */}
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle>Properties by Category</CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Distribution of your listings
-                </p>
-              </div>
-              <TrendingUp className="h-5 w-5 text-muted-foreground" />
+        {/* Category bar chart */}
+        <Card className="lg:col-span-2 border border-neutral-200/60 dark:border-neutral-800/80 shadow-xs rounded-2xl bg-card overflow-hidden text-left">
+          <CardHeader className="pb-4 border-b border-neutral-100 dark:border-neutral-900/60 flex flex-row items-center justify-between">
+            <div className="space-y-1">
+              <CardTitle className="text-base font-bold text-foreground">Properties by Category</CardTitle>
+              <CardDescription className="text-xs text-muted-foreground font-light">
+                Distribution metrics of listings across Dhaka
+              </CardDescription>
             </div>
+            <TrendingUp className="h-4.5 w-4.5 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-6">
             {categoryData.length === 0 ? (
-              <div className="text-center py-12 text-muted-foreground">
-                <p>No properties yet</p>
+              <div className="text-center py-12 text-muted-foreground text-sm font-light">
+                No properties yet.
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-5">
                 {categoryData.map((d) => (
-                  <div key={d.name}>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-sm font-medium capitalize">
-                        {d.name}
-                      </span>
-                      <span className="text-sm text-muted-foreground">
-                        {d.value}
-                      </span>
+                  <div key={d.name} className="space-y-2">
+                    <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider">
+                      <span className="text-foreground/90">{d.name}</span>
+                      <span className="text-muted-foreground font-mono text-sm">{d.value}</span>
                     </div>
-                    <div className="h-2 rounded-full bg-muted overflow-hidden">
+                    <div className="h-2.5 rounded-full bg-muted overflow-hidden">
                       <div
-                        className="h-full bg-primary rounded-full transition-all"
+                        className="h-full bg-primary rounded-full transition-all duration-500"
                         style={{ width: `${(d.value / maxCategory) * 100}%` }}
                       />
                     </div>
@@ -158,78 +159,78 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
 
-        {/* Quick Stats */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Quick Stats</CardTitle>
+        {/* Quick Stats Panel */}
+        <Card className="border border-neutral-200/60 dark:border-neutral-800/80 shadow-xs rounded-2xl bg-card overflow-hidden text-left">
+          <CardHeader className="pb-4 border-b border-neutral-100 dark:border-neutral-900/60">
+            <CardTitle className="text-base font-bold text-foreground">Quick Stats</CardTitle>
+            <CardDescription className="text-xs text-muted-foreground font-light">System inventory totals</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between py-2 border-b">
-              <span className="text-sm text-muted-foreground">Blog Posts</span>
-              <span className="font-semibold">{posts.length}</span>
+          <CardContent className="p-6 space-y-4 text-xs font-medium">
+            <div className="flex items-center justify-between py-2 border-b border-border/40">
+              <span className="text-muted-foreground">Blog Posts</span>
+              <span className="font-bold text-foreground font-mono">{posts.length}</span>
             </div>
-            <div className="flex items-center justify-between py-2 border-b">
-              <span className="text-sm text-muted-foreground">
-                Team Members
-              </span>
-              <span className="font-semibold">{team.length}</span>
+            <div className="flex items-center justify-between py-2 border-b border-border/40">
+              <span className="text-muted-foreground">Team Members</span>
+              <span className="font-bold text-foreground font-mono">{team.length}</span>
             </div>
-            <div className="flex items-center justify-between py-2 border-b">
-              <span className="text-sm text-muted-foreground">New Leads</span>
-              <span className="font-semibold text-accent">{leadStats.new}</span>
+            <div className="flex items-center justify-between py-2 border-b border-border/40">
+              <span className="text-muted-foreground">New Leads</span>
+              <span className="font-bold text-accent font-mono">{leadStats.new}</span>
             </div>
-            <div className="flex items-center justify-between py-2 border-b">
-              <span className="text-sm text-muted-foreground">Qualified</span>
-              <span className="font-semibold text-primary">
-                {leadStats.qualified}
-              </span>
+            <div className="flex items-center justify-between py-2 border-b border-border/40">
+              <span className="text-muted-foreground">Qualified Leads</span>
+              <span className="font-bold text-primary font-mono">{leadStats.qualified}</span>
             </div>
             <div className="flex items-center justify-between py-2">
-              <span className="text-sm text-muted-foreground">Closed</span>
-              <span className="font-semibold text-accent">
-                {leadStats.closed}
-              </span>
+              <span className="text-muted-foreground">Closed Deals</span>
+              <span className="font-bold text-accent font-mono">{leadStats.closed}</span>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Recent Leads + Recent Properties */}
+      {/* ── 4. Recent Activity Lists ── */}
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Recent Leads */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="flex items-center gap-2">
-              <Mail className="h-5 w-5" /> Recent Leads
-            </CardTitle>
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/admin/leads">
-                View all <ArrowUpRight className="h-3 w-3 ml-1" />
+        <Card className="border border-neutral-200/60 dark:border-neutral-800/80 shadow-xs rounded-2xl bg-card overflow-hidden text-left">
+          <CardHeader className="flex flex-row items-center justify-between pb-4 border-b border-neutral-100 dark:border-neutral-900/60">
+            <div className="space-y-1">
+              <CardTitle className="text-base font-bold text-foreground flex items-center gap-2">
+                <Mail className="h-4.5 w-4.5 text-primary" />
+                Recent Inquiries
+              </CardTitle>
+              <CardDescription className="text-xs text-muted-foreground font-light">Client submissions</CardDescription>
+            </div>
+            <Button variant="ghost" size="sm" asChild className="hover:bg-muted text-xs cursor-pointer">
+              <Link href="/admin/leads" className="flex items-center gap-1">
+                View all <ArrowUpRight className="h-3 w-3" />
               </Link>
             </Button>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-6">
             {recentLeads.length === 0 ? (
-              <div className="text-center py-8 text-muted-foreground text-sm">
-                No leads yet. They&apos;ll appear here when clients submit
-                inquiries.
+              <div className="text-center py-8 text-muted-foreground text-sm font-light">
+                No inquiries submitted yet.
               </div>
             ) : (
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {recentLeads.map((lead) => (
-                  <div key={lead.id} className="flex items-center gap-3">
-                    <Avatar className="h-9 w-9">
-                      <AvatarFallback className="text-xs bg-primary/10 text-primary">
-                        {lead.name.charAt(0).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">
-                        {lead.name}
-                      </p>
-                      <p className="text-xs text-muted-foreground truncate">
-                        {lead.email}
-                      </p>
+                  <div key={lead.id} className="flex items-center justify-between gap-4 border-b border-border/20 last:border-0 pb-3 last:pb-0">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <Avatar className="h-9 w-9">
+                        <AvatarFallback className="text-xs font-semibold bg-primary/10 text-primary">
+                          {lead.name.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="min-w-0 text-left">
+                        <p className="text-sm font-semibold text-foreground truncate">
+                          {lead.name}
+                        </p>
+                        <p className="text-xs text-muted-foreground truncate">
+                          {lead.email}
+                        </p>
+                      </div>
                     </div>
                     <LeadStatusBadge status={lead.status} />
                   </div>
@@ -240,47 +241,53 @@ export default function AdminDashboard() {
         </Card>
 
         {/* Recent Properties */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="flex items-center gap-2">
-              <HomeIcon className="h-5 w-5" /> Recent Properties
-            </CardTitle>
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/admin/inventory">
-                View all <ArrowUpRight className="h-3 w-3 ml-1" />
+        <Card className="border border-neutral-200/60 dark:border-neutral-800/80 shadow-xs rounded-2xl bg-card overflow-hidden text-left">
+          <CardHeader className="flex flex-row items-center justify-between pb-4 border-b border-neutral-100 dark:border-neutral-900/60">
+            <div className="space-y-1">
+              <CardTitle className="text-base font-bold text-foreground flex items-center gap-2">
+                <HomeIcon className="h-4.5 w-4.5 text-primary" />
+                Recent Listings
+              </CardTitle>
+              <CardDescription className="text-xs text-muted-foreground font-light">Lately created plots &amp; flats</CardDescription>
+            </div>
+            <Button variant="ghost" size="sm" asChild className="hover:bg-muted text-xs cursor-pointer">
+              <Link href="/admin/inventory" className="flex items-center gap-1">
+                View all <ArrowUpRight className="h-3 w-3" />
               </Link>
             </Button>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-6">
             {recentProperties.length === 0 ? (
-              <div className="text-center py-8 text-muted-foreground text-sm">
-                No properties yet.
+              <div className="text-center py-8 text-muted-foreground text-sm font-light">
+                No properties in inventory.
               </div>
             ) : (
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {recentProperties.map((p) => (
-                  <div key={p.id} className="flex items-center gap-3">
-                    <div className="h-12 w-12 rounded-md overflow-hidden bg-muted flex-shrink-0">
-                      {p.images[0] ? (
-                        <img
-                          src={p.images[0]}
-                          alt=""
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <HomeIcon className="h-5 w-5 text-muted-foreground" />
-                        </div>
-                      )}
+                  <div key={p.id} className="flex items-center justify-between gap-4 border-b border-border/20 last:border-0 pb-3 last:pb-0">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="h-11 w-11 rounded-lg overflow-hidden bg-muted flex-shrink-0 border border-border/40">
+                        {p.images[0] ? (
+                          <img
+                            src={p.images[0]}
+                            alt=""
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <HomeIcon className="h-4.5 w-4.5 text-muted-foreground" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="min-w-0 text-left">
+                        <p className="text-sm font-semibold text-foreground truncate">{p.title}</p>
+                        <p className="text-[10px] text-muted-foreground flex items-center gap-1.5 mt-0.5">
+                          <Calendar className="h-3 w-3" />
+                          {formatDate(p.createdAt)}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">{p.title}</p>
-                      <p className="text-xs text-muted-foreground flex items-center gap-1">
-                        <Calendar className="h-3 w-3" />
-                        {formatDate(p.createdAt)}
-                      </p>
-                    </div>
-                    <Badge variant="outline" className="capitalize">
+                    <Badge variant="outline" className="capitalize text-[9px] font-semibold border-neutral-200 dark:border-neutral-800 px-2 py-0.5 rounded bg-muted/40 text-neutral-800 dark:text-neutral-200">
                       {p.type}
                     </Badge>
                   </div>
@@ -290,6 +297,7 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
       </div>
+
     </div>
   );
 }

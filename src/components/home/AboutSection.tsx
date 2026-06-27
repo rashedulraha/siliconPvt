@@ -22,7 +22,7 @@ const highlights = [
 
 export function AboutSection() {
   return (
-    <section className="relative w-full py-20  border-b border-border overflow-hidden bg-secondary/40">
+    <section className="relative w-full py-20  border-b border-border overflow-hidden bg-transparent">
        
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-12 xl:gap-16 items-center">

@@ -18,11 +18,11 @@ export function HomePageClient() {
   }, []);
 
   if (!mounted) {
-    return <div className="min-h-screen bg-secondary/40" />;
+    return <div className="min-h-screen bg-background" />;
   }
 
   return (
-    <div className="bg-secondary/40 text-foreground min-h-screen overflow-x-hidden flex flex-col">
+    <div className="bg-background text-foreground min-h-screen overflow-x-hidden flex flex-col">
       {/* ── Seamless Navbar to Hero Banner Transition ── */}
       
       <HeroSection />

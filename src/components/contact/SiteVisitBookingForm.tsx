@@ -144,7 +144,7 @@ export function SiteVisitBookingForm() {
   const selectedProperty = state.properties.find(p => p.id === selectedPropertyId);
 
   return (
-    <div className="w-full bg-white dark:bg-[#111E35] rounded-2xl border border-neutral-200/60 dark:border-neutral-800/60 shadow-xl overflow-hidden text-neutral-800 dark:text-neutral-200">
+    <div className="w-full bg-card rounded-2xl border border-neutral-200/60 dark:border-neutral-800/60 shadow-xl overflow-hidden text-neutral-800 dark:text-neutral-200">
       
       {/* Header and Step Indicators */}
       <div className="p-6 border-b border-neutral-100 dark:border-neutral-900/60 flex items-center justify-between">
@@ -364,7 +364,7 @@ export function SiteVisitBookingForm() {
                         value={clientName}
                         onChange={(e) => setClientName(e.target.value)}
                         placeholder="John Doe"
-                        className="w-full h-10 pl-9 pr-3 rounded-xl bg-white dark:bg-neutral-950/40 border border-neutral-200 dark:border-neutral-800 text-xs focus:outline-hidden focus:border-accent focus:ring-1 focus:ring-accent/10 transition-all"
+                        className="w-full h-10 pl-9 pr-3 rounded-xl bg-background border border-neutral-200 dark:border-neutral-800 text-xs focus:outline-hidden focus:border-accent focus:ring-1 focus:ring-accent/10 transition-all"
                       />
                     </div>
                     {errors.name && <p className="text-[9px] text-destructive mt-0.5">{errors.name}</p>}
@@ -382,7 +382,7 @@ export function SiteVisitBookingForm() {
                         value={clientEmail}
                         onChange={(e) => setClientEmail(e.target.value)}
                         placeholder="john@domain.com"
-                        className="w-full h-10 pl-9 pr-3 rounded-xl bg-white dark:bg-neutral-950/40 border border-neutral-200 dark:border-neutral-800 text-xs focus:outline-hidden focus:border-accent focus:ring-1 focus:ring-accent/10 transition-all"
+                        className="w-full h-10 pl-9 pr-3 rounded-xl bg-background border border-neutral-200 dark:border-neutral-800 text-xs focus:outline-hidden focus:border-accent focus:ring-1 focus:ring-accent/10 transition-all"
                       />
                     </div>
                     {errors.email && <p className="text-[9px] text-destructive mt-0.5">{errors.email}</p>}
@@ -402,7 +402,7 @@ export function SiteVisitBookingForm() {
                         value={clientPhone}
                         onChange={(e) => setClientPhone(e.target.value)}
                         placeholder="+880 17"
-                        className="w-full h-10 pl-9 pr-3 rounded-xl bg-white dark:bg-neutral-950/40 border border-neutral-200 dark:border-neutral-800 text-xs focus:outline-hidden focus:border-accent focus:ring-1 focus:ring-accent/10 transition-all"
+                        className="w-full h-10 pl-9 pr-3 rounded-xl bg-background border border-neutral-200 dark:border-neutral-800 text-xs focus:outline-hidden focus:border-accent focus:ring-1 focus:ring-accent/10 transition-all"
                       />
                     </div>
                     {errors.phone && <p className="text-[9px] text-destructive mt-0.5">{errors.phone}</p>}
@@ -416,13 +416,13 @@ export function SiteVisitBookingForm() {
                       value={specialRequest}
                       onChange={(e) => setSpecialRequest(e.target.value)}
                       placeholder="e.g. Uttara pickup requested"
-                      className="w-full h-10 px-3 rounded-xl bg-white dark:bg-neutral-950/40 border border-neutral-200 dark:border-neutral-800 text-xs focus:outline-hidden focus:border-accent focus:ring-1 focus:ring-accent/10 transition-all"
+                      className="w-full h-10 px-3 rounded-xl bg-background border border-neutral-200 dark:border-neutral-800 text-xs focus:outline-hidden focus:border-accent focus:ring-1 focus:ring-accent/10 transition-all"
                     />
                   </div>
                 </div>
 
                 {/* Direct Booking summary preview */}
-                <div className="p-3 bg-neutral-50 dark:bg-neutral-950/40 rounded-xl border border-neutral-100 dark:border-neutral-900/60 space-y-1 text-[10px] text-neutral-500 dark:text-neutral-400">
+                <div className="p-3 bg-muted/40 rounded-xl border border-neutral-100 dark:border-neutral-900/60 space-y-1 text-[10px] text-neutral-500 dark:text-neutral-400">
                   <p>Destination: <span className="font-semibold text-neutral-800 dark:text-neutral-200">{selectedProperty?.title}</span></p>
                   <p>Schedule: <span className="font-semibold text-neutral-800 dark:text-neutral-200">{selectedDate} at {selectedTime}</span></p>
                 </div>

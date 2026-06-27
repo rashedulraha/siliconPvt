@@ -14,7 +14,7 @@ const trustPoints = [
 
 export function CTASection() {
   return (
-    <section className="section-y bg-background">
+    <section className="section-y bg-transparent">
       <Container>
         <motion.div
           initial={{ opacity: 0, y: 32 }}

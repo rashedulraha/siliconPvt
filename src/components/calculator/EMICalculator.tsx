@@ -54,7 +54,7 @@ export function EMICalculator({ initialPrice }: { initialPrice?: number }) {
   const principalPercent = useMemo(() => 100 - interestPercent, [interestPercent]);
 
   return (
-    <Card className="border-neutral-200/60 dark:border-neutral-800/60 shadow-xl rounded-2xl bg-white dark:bg-[#111E35] overflow-hidden">
+    <Card className="border-neutral-200/60 dark:border-neutral-800/60 shadow-xl rounded-2xl bg-card overflow-hidden">
       <CardHeader className="pb-5 border-b border-neutral-100 dark:border-neutral-900/60">
         <div className="flex items-center gap-3">
           <div className="h-10 w-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500">
@@ -287,7 +287,7 @@ export function EMICalculator({ initialPrice }: { initialPrice?: number }) {
         </div>
 
         {/* Security / Regulation Note */}
-        <div className="flex items-start gap-2 text-[10px] text-neutral-400 dark:text-neutral-500 bg-neutral-50 dark:bg-neutral-950/20 p-3 rounded-xl border border-neutral-100 dark:border-neutral-900/40">
+        <div className="flex items-start gap-2 text-[10px] text-neutral-400 dark:text-neutral-500 bg-muted/40 p-3 rounded-xl border border-neutral-100 dark:border-neutral-900/40">
           <ShieldCheck className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
           <span className="leading-normal">
             Calculations are estimations. Installment schedules align with RAJUK guidelines and deeds registered with the Ministry of Land. Zero hidden fees guaranteed.
