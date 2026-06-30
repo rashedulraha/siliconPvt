@@ -1,41 +1,35 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+
 import {
   ArrowRight,
   Phone,
   Shield,
   Landmark,
   CheckCircle,
-  Loader2,
   ChevronLeft,
   ChevronRight,
+  Sparkles,
 } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { SectionContainer } from "../ui/section-container";
 
-/* ── Slide Data ──────────────────────────────── */
 const slides = [
-  {
-    id: 1,
-    videoSrc: "/siliconpvt2.mp4",
-  },
-  {
-    id: 2,
-    videoSrc: "/siliconpvt2.mp4",
-  },
-  {
-    id: 3,
-    videoSrc: "/siliconpvt2.mp4",
-  },
+  { id: 1, imageSrc: "/slide1.jpg" },
+  { id: 2, imageSrc: "/slide2.jpg" },
+  { id: 3, imageSrc: "/slide3.jpg" },
+  { id: 4, imageSrc: "/slide4.jpg" },
 ];
 
 const heroStats = [
-  { value: 25, suffix: "+", label: "Projects Delivered" },
-  { value: 1500, suffix: "+", label: "Happy Clients" },
-  { value: 800, suffix: "+", label: "Acres Developed" },
+  { value: "25+", label: "Projects Delivered" },
+  { value: "1500+", label: "Happy Clients" },
+  { value: "800+", label: "Acres Developed" },
 ];
 
 const trustBadges = [
@@ -44,373 +38,237 @@ const trustBadges = [
   { icon: CheckCircle, label: "Zero Hidden Costs" },
 ];
 
-/* ── Animated Counter ── */
-function AnimatedCounter({
-  target,
-  suffix,
-  duration = 2.2,
-}: {
-  target: number;
-  suffix: string;
-  duration?: number;
-}) {
-  const [count, setCount] = useState(0);
-  const [started, setStarted] = useState(false);
-  const ref = useRef<HTMLSpanElement>(null);
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+      delayChildren: 0.1,
+    },
+  },
+};
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting && !started) setStarted(true);
-      },
-      { threshold: 0.3 },
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [started]);
+const itemVariants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
 
-  useEffect(() => {
-    if (!started) return;
-    let t0: number | null = null;
-    let raf: number;
-    const tick = (ts: number) => {
-      if (t0 === null) t0 = ts;
-      const p = Math.min((ts - t0) / (duration * 1000), 1);
-      setCount(Math.floor((1 - Math.pow(1 - p, 3)) * target));
-      if (p < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [started, target, duration]);
-
-  return (
-    <span ref={ref}>
-      {count.toLocaleString()}
-      {suffix}
-    </span>
-  );
-}
-
-/* ── Hero Section ────────────────────────────── */
 export function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
-  const [videosReady, setVideosReady] = useState<boolean[]>(
-    new Array(slides.length).fill(false),
-  );
+  const [paused, setPaused] = useState(false);
 
-  const markVideoReady = useCallback((index: number) => {
-    setVideosReady((prev) => {
-      const newState = [...prev];
-      newState[index] = true;
-      return newState;
-    });
-  }, []);
-
-  // Auto-slide Timer
   useEffect(() => {
-    if (isPaused) return;
+    if (paused) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 6000);
+    }, 5000);
     return () => clearInterval(timer);
-  }, [isPaused, currentSlide]);
+  }, [paused]);
 
-  // Video Play/Pause Control
-  useEffect(() => {
-    videoRefs.current.forEach((v, i) => {
-      if (!v) return;
-      if (i === currentSlide) {
-        v.play().catch(() => {});
-      } else {
-        v.pause();
-      }
-    });
-  }, [currentSlide]);
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  };
 
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
-  const prevSlide = () =>
+  const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
 
   return (
-    <section className="relative w-full text-foreground py-6 md:py-12 lg:py-16 overflow-hidden">
-      <div className="relative z-10">
-        <SectionContainer>
-          {/* ── Outer Device Frame ── */}
-          <div
-            className="relative w-full rounded-[38px] p-0.75 border border-border/40 bg-background/50 backdrop-blur-3xl shadow-soft-lg"
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}>
-            {/* ── Inner Canvas ── */}
-            <div
-              className="relative w-full rounded-[35px] overflow-hidden flex items-center justify-center"
-              style={{ backgroundColor: "#0D1B3E", minHeight: "600px" }}>
-              <div className="sm:min-h-165! lg:min-h-180! xl:min-h-195! w-full h-full absolute inset-0" />
+    <SectionContainer as="section" className="relative w-full pb-12 pt-4 font-sans">
+      {/* ── Outer Container: Top Sharp, Bottom Rounded [60px] with Global Web BG ── */}
+      <div className="relative w-full rounded-t-none rounded-b-[60px] overflow-hidden border border-border bg-transparent">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 p-6 sm:p-10 lg:p-16 xl:p-20 items-center">
+          
+          {/* ── LEFT COLUMN: Apple Minimal Content ── */}
+          <motion.div
+            className="lg:col-span-7 flex flex-col items-start text-left space-y-6"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {/* Identity Brand Badge — Pure Border, Dynamic Text */}
+            <motion.div variants={itemVariants}>
+              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-border text-[10px] md:text-[11px] font-semibold tracking-[0.18em] text-foreground/90 uppercase bg-transparent">
+                <Sparkles className="w-3 h-3 text-amber-500" />
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+                </span>
+                Silicon Real Estate (Pvt.) Ltd.
+              </div>
+            </motion.div>
 
-              {/* 1 ── Video Layers (Crossfade) ── */}
-              {slides.map((slide, index) => (
+            {/* Apple High-Fidelity Responsive Headline */}
+            <motion.h1
+              className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold text-foreground tracking-tight leading-[1.05]"
+              variants={itemVariants}
+            >
+              Build Your{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-foreground/90 to-foreground/70">
+                Legacy
+              </span>{" "}
+              on{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-teal-500 to-amber-500 dark:from-blue-400 dark:via-teal-400 dark:to-amber-400">
+                Verified Land.
+              </span>
+            </motion.h1>
+
+            {/* Description — Adapts to Light/Dark automatically */}
+            <motion.p
+              className="max-w-xl text-muted-foreground text-sm sm:text-base md:text-lg font-light leading-relaxed tracking-wide"
+              variants={itemVariants}
+                >
+              Secure, fully-documented premium plots with 100% transparent
+              deeds in Dhaka's prime corridors. Plan your future in
+              master-planned communities.
+            </motion.p>
+
+            {/* Trust Badges — Transparent, Border Only */}
+            <motion.div
+              className="flex flex-wrap gap-2.5"
+              variants={itemVariants}
+            >
+              {trustBadges.map(({ icon: Icon, label }) => (
                 <div
-                  key={slide.id}
-                  className="absolute inset-0 w-full h-full z-0"
-                  style={{
-                    opacity: currentSlide === index ? 1 : 0,
-                    transition: "opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1)",
-                  }}>
-                  <video
-                    ref={(el) => {
-                      videoRefs.current[index] = el;
-                    }}
-                    src={slide.videoSrc}
-                    muted
-                    loop
-                    playsInline
-                    preload="auto"
-                    width={1920}
-                    height={1080}
-                    className="w-full h-full object-cover pointer-events-none select-none"
-                    onCanPlayThrough={() => markVideoReady(index)}
-                    onError={() => markVideoReady(index)}
-                  />
-                  {!videosReady[index] && currentSlide === index && (
-                    <div
-                      className="absolute inset-0 flex items-center justify-center"
-                      style={{ backgroundColor: "#0D1B3E" }}>
-                      <Loader2
-                        className="w-5 h-5 animate-spin"
-                        style={{ color: "rgba(255,255,255,0.3)" }}
-                      />
-                    </div>
-                  )}
+                  key={label}
+                  className="flex items-center gap-2 px-4 py-2 rounded-full border border-border text-muted-foreground text-xs font-medium bg-transparent transition-colors duration-300 hover:border-foreground/40 hover:text-foreground"
+                >
+                  <Icon className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
+                  <span>{label}</span>
                 </div>
               ))}
+            </motion.div>
 
-              {/* 2 ── Enhanced Gradient Overlay for Text Readability ── */}
-              <div
-                className="absolute inset-0 z-10 pointer-events-none"
-                style={{
-                  background: `linear-gradient(to bottom, 
-                  rgba(13, 27, 62, 0.70) 0%, 
-                  rgba(13, 27, 62, 0.20) 30%, 
-                  rgba(13, 27, 62, 0.20) 50%,
-                  rgba(13, 27, 62, 0.40) 70%,
-                  rgba(13, 27, 62, 0.85) 100%
-                )`,
-                }}
-              />
+            {/* CTA Buttons — No heavy background shadows, pure Apple design */}
+            <motion.div
+              className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto pt-2"
+              variants={itemVariants}
+            >
+              <Link href="/properties" className="w-full sm:w-auto">
+                <Button className="w-full sm:w-auto h-12 px-8 rounded-full bg-foreground text-background hover:bg-foreground/90 text-sm font-medium tracking-wide transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2">
+                  Explore Properties
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
 
-              {/* 3 ── Live Indicator ── */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{
-                  duration: 0.6,
-                  delay: 0.5,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                className="absolute top-5 right-5 sm:top-6 sm:right-6 z-20 px-3 py-1.5 rounded-full flex items-center gap-2 select-none"
-                style={{
-                  backgroundColor: "rgba(255, 255, 255, 0.12)",
-                  backdropFilter: "blur(20px)",
-                  WebkitBackdropFilter: "blur(20px)",
-                  border: "1px solid rgba(255, 255, 255, 0.15)",
-                }}>
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
-                </span>
-                <span className="text-[10px] sm:text-[11px] uppercase tracking-wider font-medium text-white/80">
-                  Live Drone Scan
-                </span>
-              </motion.div>
+              <Link href="/contact" className="w-full sm:w-auto">
+                <Button
+                  variant="outline"
+                  className="w-full sm:w-auto h-12 px-8 rounded-full border border-border text-foreground hover:bg-foreground/5 bg-transparent text-sm font-medium tracking-wide transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+                >
+                  <Phone className="w-4 h-4 text-muted-foreground" />
+                  Contact Sales
+                </Button>
+              </Link>
+            </motion.div>
 
-              {/* 4 ── Content (Text now more prominent) ── */}
-              <div className="relative z-20 w-full max-w-4xl px-6 sm:px-12 lg:px-16 py-12 sm:py-16 flex flex-col items-center text-center space-y-8 sm:space-y-10">
-                {/* Identity Tag */}
-                <motion.div
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
-                  <span
-                    className="inline-flex items-center px-4 py-1.5 rounded-full text-[11px] uppercase tracking-widest font-medium text-white/90"
-                    style={{
-                      backgroundColor: "rgba(255, 255, 255, 0.12)",
-                      backdropFilter: "blur(20px)",
-                      WebkitBackdropFilter: "blur(20px)",
-                      border: "1px solid rgba(255, 255, 255, 0.18)",
-                    }}>
-                    Silicon Real Estate (Pvt.) Ltd.
-                  </span>
-                </motion.div>
-
-                {/* Typography Block - Increased contrast and size for readability */}
-                <div className="space-y-6 max-w-3xl">
-                  <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.8,
-                      delay: 0.1,
-                      ease: [0.16, 1, 0.3, 1],
-                    }}
-                    className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-semibold tracking-tight leading-[1.05] text-white drop-shadow-xl">
-                    Build Your Legacy
-                    <br />
-                    <span className="font-normal text-white/80 drop-shadow-lg">
-                      on Verified Land.
-                    </span>
-                  </motion.h1>
-
-                  <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.8,
-                      delay: 0.2,
-                      ease: [0.16, 1, 0.3, 1],
-                    }}
-                    className="text-base sm:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed font-normal text-white/80 drop-shadow-md">
-                    Secure, fully-documented premium plots with 100% transparent
-                    deeds in prime Dhaka corridors. Plan your future in
-                    master-planned communities.
-                  </motion.p>
+            {/* Stats — Premium Minimal Separated Grid */}
+            <motion.div
+              className="grid grid-cols-3 gap-6 sm:gap-12 pt-6 w-full border-t border-border"
+              variants={itemVariants}
+            >
+              {heroStats.map((item) => (
+                <div key={item.label} className="space-y-1">
+                  <div className="text-foreground text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight">
+                    {item.value}
+                  </div>
+                  <div className="text-muted-foreground text-[10px] sm:text-xs uppercase tracking-wider font-medium">
+                    {item.label}
+                  </div>
                 </div>
+              ))}
+            </motion.div>
+          </motion.div>
 
-                {/* Trust Badges - Enhanced visibility */}
-                <motion.div
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.7,
-                    delay: 0.3,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
-                  className="flex flex-wrap justify-center gap-3">
-                  {trustBadges.map(({ icon: Icon, label }) => (
-                    <div
-                      key={label}
-                      className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-normal tracking-wide text-white/90 cursor-default transition-all duration-300"
-                      style={{
-                        backgroundColor: "rgba(255, 255, 255, 0.12)",
-                        backdropFilter: "blur(20px)",
-                        WebkitBackdropFilter: "blur(20px)",
-                        border: "1px solid rgba(255, 255, 255, 0.15)",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor =
-                          "rgba(255, 255, 255, 0.22)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor =
-                          "rgba(255, 255, 255, 0.12)";
-                      }}>
-                      <Icon className="w-3.5 h-3.5 text-white/70" />
-                      <span>{label}</span>
-                    </div>
-                  ))}
-                </motion.div>
+          {/* ── RIGHT COLUMN: Sharp Cornerless Image Slider ── */}
+          <div className="lg:col-span-5 w-full relative">
+            <div
+              className="relative w-full aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5] rounded-[32px] overflow-hidden border border-border"
+              onMouseEnter={() => setPaused(true)}
+              onMouseLeave={() => setPaused(false)}
+            >
+              {/* Image Slides Stack */}
+              {slides.map((slide, index) => {
+                const isActive = currentSlide === index;
+                return (
+                  <div
+                    key={slide.id}
+                    className="absolute inset-0 w-full h-full"
+                    style={{
+                      opacity: isActive ? 1 : 0,
+                      transition: "opacity 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
+                    }}
+                  >
+                    <Image
+                      src={slide.imageSrc}
+                      alt={`Slide ${slide.id}`}
+                      fill
+                      priority={index === 0}
+                      sizes="(max-width: 1024px) 100vw, 45vw"
+                      className={`object-cover pointer-events-none select-none transition-transform duration-[6000ms] ease-out ${
+                        isActive ? "scale-100" : "scale-105"
+                      }`}
+                    />
+                  </div>
+                );
+              })}
 
-                {/* CTA Buttons */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.7,
-                    delay: 0.4,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
-                  className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto pt-2">
-                  <Link href="/properties" className="w-full sm:w-auto">
-                    <Button
-                      size="lg"
-                      className="w-full sm:w-auto h-12 px-8 rounded-full font-medium text-sm tracking-wide transition-all duration-300 ease-out cursor-pointer group hover:scale-105 shadow-xl"
-                      style={{
-                        backgroundColor: "#FFFFFF",
-                        color: "#0D1B3E",
-                        boxShadow: "0 8px 24px rgba(0, 0, 0, 0.4)",
-                      }}>
-                      Explore Plots
-                      <ArrowRight className="h-4 w-4 ml-2 transition-transform duration-300 group-hover:translate-x-0.5" />
-                    </Button>
-                  </Link>
-                  <Link href="/contact" className="w-full sm:w-auto">
-                    <Button
-                      variant="outline"
-                      size="lg"
-                      className="w-full sm:w-auto h-12 px-8 rounded-full font-medium text-sm tracking-wide transition-all duration-300 ease-out cursor-pointer hover:scale-105"
-                      style={{
-                        backgroundColor: "rgba(255, 255, 255, 0.15)",
-                        backdropFilter: "blur(20px)",
-                        WebkitBackdropFilter: "blur(20px)",
-                        border: "1px solid rgba(255, 255, 255, 0.3)",
-                        color: "#FFFFFF",
-                        boxShadow: "0 8px 24px rgba(0, 0, 0, 0.3)",
-                      }}>
-                      <Phone className="h-4 w-4 mr-2" />
-                      Contact Advisors
-                    </Button>
-                  </Link>
-                </motion.div>
+              {/* Minimal Bottom Edge Shadow just for Text/Icon Contrast inside image */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
 
-                {/* Stats - Increased contrast */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 1, delay: 0.5 }}
-                  className="grid grid-cols-3 gap-8 sm:gap-16 pt-10 w-full max-w-2xl mt-4"
-                  style={{ borderTop: "1px solid rgba(255, 255, 255, 0.15)" }}>
-                  {heroStats.map(({ value, suffix, label }) => (
-                    <div key={label} className="space-y-2">
-                      <span className="block text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-white drop-shadow-lg">
-                        <AnimatedCounter target={value} suffix={suffix} />
-                      </span>
-                      <span className="block text-[11px] uppercase tracking-widest font-medium text-white/60 leading-none">
-                        {label}
-                      </span>
-                    </div>
-                  ))}
-                </motion.div>
+              {/* Live Badge Inside Image (No blur background, clean standard border) */}
+              <div className="absolute top-4 left-4 z-20 flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/20 bg-black/40 text-[9px] uppercase tracking-wider font-semibold text-white">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-500" />
+                </span>
+                Live Drone Scan
               </div>
 
-              {/* 5 ── Sleek Carousel Controls ── */}
-              <div className="absolute bottom-6 right-6 z-30 flex items-center gap-2">
-                {/* Dots */}
-                <div className="flex items-center gap-1.5 mr-2">
-                  {slides.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentSlide(index)}
-                      className="transition-all duration-300 rounded-full cursor-pointer"
-                      style={{
-                        height: "6px",
-                        width: currentSlide === index ? "20px" : "6px",
-                        backgroundColor:
-                          currentSlide === index
-                            ? "#FFFFFF"
-                            : "rgba(255, 255, 255, 0.4)",
-                      }}
-                    />
-                  ))}
-                </div>
-
-                {/* Arrows */}
+              {/* Slider Arrows (Clean Border Layer over Image) */}
+              <div className="absolute z-20 bottom-4 right-4 flex gap-2">
                 <button
                   onClick={prevSlide}
-                  className="p-2 rounded-full bg-white/15 border border-white/25 text-white/80 hover:bg-white/25 hover:text-white transition-all duration-200 backdrop-blur-md cursor-pointer">
+                  className="p-2.5 rounded-full border border-white/20 bg-black/30 hover:bg-black/50 text-white transition-all duration-300 hover:scale-105 active:scale-95"
+                  aria-label="Previous slide"
+                >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
                 <button
                   onClick={nextSlide}
-                  className="p-2 rounded-full bg-white/15 border border-white/25 text-white/80 hover:bg-white/25 hover:text-white transition-all duration-200 backdrop-blur-md cursor-pointer">
+                  className="p-2.5 rounded-full border border-white/20 bg-black/30 hover:bg-black/50 text-white transition-all duration-300 hover:scale-105 active:scale-95"
+                  aria-label="Next slide"
+                >
                   <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
+
+              {/* Slide Timeline Indicators */}
+              <div className="absolute z-20 bottom-5 left-1/2 -translate-x-1/2 flex gap-1.5">
+                {slides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentSlide(index)}
+                    className={`transition-all duration-500 rounded-full h-1 ${
+                      currentSlide === index ? "w-6 bg-white" : "w-1.5 bg-white/40"
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
-        </SectionContainer>
+
+        </div>
       </div>
-    </section>
+    </SectionContainer>
   );
 }
