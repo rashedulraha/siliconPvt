@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Phone, Star, Sparkles } from "lucide-react";
+import { ArrowRight, Phone } from "lucide-react";
 import { SectionContainer } from "../ui/section-container";
 
 const trustPoints = [
-  { icon: Star, label: "RAJUK Approved" },
-  { icon: Sparkles, label: "Bank Partnered" },
-  { icon: Star, label: "1,500+ Happy Clients" },
-  { icon: Sparkles, label: "10+ Years Experience" },
+  { label: "RAJUK Approved" },
+  { label: "Bank Partnered" },
+  { label: "1,500+ Happy Clients" },
+  { label: "10+ Years Experience" },
 ];
 
 export function CTASection() {
@@ -47,11 +47,10 @@ export function CTASection() {
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
               className="flex flex-wrap justify-center gap-3 mb-10">
-              {trustPoints.map(({ icon: Icon, label }, i) => (
+              {trustPoints.map(({ label }, i) => (
                 <span
                   key={i}
                   className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/8 border border-white/12 text-white/70 text-xs font-medium">
-                  <Icon className="w-3 h-3 text-accent" />
                   {label}
                 </span>
               ))}

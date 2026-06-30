@@ -19,24 +19,13 @@ export function TeamSection() {
       <SectionContainer className="relative">
         {/* Header */}
         <div className="text-center max-w-xl mx-auto mb-14 space-y-5">
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="flex items-center justify-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-primary/8 flex items-center justify-center">
-              <UserCheck className="h-4 w-4 text-primary" />
-            </div>
-            <span className="text-label text-primary/70">Our People</span>
-          </motion.div>
-
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.08 }}
             className="text-display-md font-medium text-foreground">
-            The Team Behind Every <span className="text-gold">Site Visit</span>
+            Team Behind Every <span className="text-gold">Site Visit</span>
           </motion.h2>
         </div>
 

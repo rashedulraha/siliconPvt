@@ -23,10 +23,7 @@ export function HomePageClient() {
 
   return (
     <div className="bg-background text-foreground min-h-screen overflow-x-hidden flex flex-col">
-      {/* ── Seamless Navbar to Hero Banner Transition ── */}
-
       <HeroSection />
-      {/* ── Homepage Spacing Sections ── */}
       <AboutSection />
       <InvestmentProcess />
       <FeaturedProjects />

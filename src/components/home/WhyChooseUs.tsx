@@ -12,17 +12,6 @@ export function WhyChooseUs() {
       <SectionContainer className="relative">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-5">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="flex items-center justify-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-accent/12 flex items-center justify-center">
-              <Star className="h-4 w-4 text-accent fill-accent/60" />
-            </div>
-            <span className="text-label text-accent">Core Advantages</span>
-          </motion.div>
-
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 import {
   ArrowRight,
@@ -38,7 +38,7 @@ const trustBadges = [
   { icon: CheckCircle, label: "Zero Hidden Costs" },
 ];
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -49,7 +49,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 12 },
   visible: {
     opacity: 1,
@@ -82,22 +82,21 @@ export function HeroSection() {
   };
 
   return (
-    <SectionContainer as="section" className="relative w-full pb-12 pt-4 font-sans">
+    <SectionContainer
+      as="section"
+      className="relative w-full pb-12 pt-4 font-sans">
       {/* ── Outer Container: Top Sharp, Bottom Rounded [60px] with Global Web BG ── */}
       <div className="relative w-full rounded-t-none rounded-b-[60px] overflow-hidden border border-border bg-transparent">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 p-6 sm:p-10 lg:p-16 xl:p-20 items-center">
-          
           {/* ── LEFT COLUMN: Apple Minimal Content ── */}
           <motion.div
             className="lg:col-span-7 flex flex-col items-start text-left space-y-6"
             variants={containerVariants}
             initial="hidden"
-            animate="visible"
-          >
+            animate="visible">
             {/* Identity Brand Badge — Pure Border, Dynamic Text */}
             <motion.div variants={itemVariants}>
               <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-border text-[10px] md:text-[11px] font-semibold tracking-[0.18em] text-foreground/90 uppercase bg-transparent">
-                <Sparkles className="w-3 h-3 text-amber-500" />
                 <span className="relative flex h-1.5 w-1.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
                   <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
@@ -109,8 +108,7 @@ export function HeroSection() {
             {/* Apple High-Fidelity Responsive Headline */}
             <motion.h1
               className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold text-foreground tracking-tight leading-[1.05]"
-              variants={itemVariants}
-            >
+              variants={itemVariants}>
               Build Your{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-foreground/90 to-foreground/70">
                 Legacy
@@ -124,23 +122,20 @@ export function HeroSection() {
             {/* Description — Adapts to Light/Dark automatically */}
             <motion.p
               className="max-w-xl text-muted-foreground text-sm sm:text-base md:text-lg font-light leading-relaxed tracking-wide"
-              variants={itemVariants}
-                >
-              Secure, fully-documented premium plots with 100% transparent
-              deeds in Dhaka's prime corridors. Plan your future in
-              master-planned communities.
+              variants={itemVariants}>
+              Secure, fully-documented premium plots with 100% transparent deeds
+              in Dhaka's prime corridors. Plan your future in master-planned
+              communities.
             </motion.p>
 
             {/* Trust Badges — Transparent, Border Only */}
             <motion.div
               className="flex flex-wrap gap-2.5"
-              variants={itemVariants}
-            >
+              variants={itemVariants}>
               {trustBadges.map(({ icon: Icon, label }) => (
                 <div
                   key={label}
-                  className="flex items-center gap-2 px-4 py-2 rounded-full border border-border text-muted-foreground text-xs font-medium bg-transparent transition-colors duration-300 hover:border-foreground/40 hover:text-foreground"
-                >
+                  className="flex items-center gap-2 px-4 py-2 rounded-full border border-border text-muted-foreground text-xs font-medium bg-transparent transition-colors duration-300 hover:border-foreground/40 hover:text-foreground">
                   <Icon className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
                   <span>{label}</span>
                 </div>
@@ -150,8 +145,7 @@ export function HeroSection() {
             {/* CTA Buttons — No heavy background shadows, pure Apple design */}
             <motion.div
               className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto pt-2"
-              variants={itemVariants}
-            >
+              variants={itemVariants}>
               <Link href="/properties" className="w-full sm:w-auto">
                 <Button className="w-full sm:w-auto h-12 px-8 rounded-full bg-foreground text-background hover:bg-foreground/90 text-sm font-medium tracking-wide transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2">
                   Explore Properties
@@ -162,8 +156,7 @@ export function HeroSection() {
               <Link href="/contact" className="w-full sm:w-auto">
                 <Button
                   variant="outline"
-                  className="w-full sm:w-auto h-12 px-8 rounded-full border border-border text-foreground hover:bg-foreground/5 bg-transparent text-sm font-medium tracking-wide transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
-                >
+                  className="w-full sm:w-auto h-12 px-8 rounded-full border border-border text-foreground hover:bg-foreground/5 bg-transparent text-sm font-medium tracking-wide transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2">
                   <Phone className="w-4 h-4 text-muted-foreground" />
                   Contact Sales
                 </Button>
@@ -173,8 +166,7 @@ export function HeroSection() {
             {/* Stats — Premium Minimal Separated Grid */}
             <motion.div
               className="grid grid-cols-3 gap-6 sm:gap-12 pt-6 w-full border-t border-border"
-              variants={itemVariants}
-            >
+              variants={itemVariants}>
               {heroStats.map((item) => (
                 <div key={item.label} className="space-y-1">
                   <div className="text-foreground text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight">
@@ -193,8 +185,7 @@ export function HeroSection() {
             <div
               className="relative w-full aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5] rounded-[32px] overflow-hidden border border-border"
               onMouseEnter={() => setPaused(true)}
-              onMouseLeave={() => setPaused(false)}
-            >
+              onMouseLeave={() => setPaused(false)}>
               {/* Image Slides Stack */}
               {slides.map((slide, index) => {
                 const isActive = currentSlide === index;
@@ -204,9 +195,9 @@ export function HeroSection() {
                     className="absolute inset-0 w-full h-full"
                     style={{
                       opacity: isActive ? 1 : 0,
-                      transition: "opacity 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
-                    }}
-                  >
+                      transition:
+                        "opacity 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
+                    }}>
                     <Image
                       src={slide.imageSrc}
                       alt={`Slide ${slide.id}`}
@@ -238,15 +229,13 @@ export function HeroSection() {
                 <button
                   onClick={prevSlide}
                   className="p-2.5 rounded-full border border-white/20 bg-black/30 hover:bg-black/50 text-white transition-all duration-300 hover:scale-105 active:scale-95"
-                  aria-label="Previous slide"
-                >
+                  aria-label="Previous slide">
                   <ChevronLeft className="w-4 h-4" />
                 </button>
                 <button
                   onClick={nextSlide}
                   className="p-2.5 rounded-full border border-white/20 bg-black/30 hover:bg-black/50 text-white transition-all duration-300 hover:scale-105 active:scale-95"
-                  aria-label="Next slide"
-                >
+                  aria-label="Next slide">
                   <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
@@ -258,7 +247,9 @@ export function HeroSection() {
                     key={index}
                     onClick={() => setCurrentSlide(index)}
                     className={`transition-all duration-500 rounded-full h-1 ${
-                      currentSlide === index ? "w-6 bg-white" : "w-1.5 bg-white/40"
+                      currentSlide === index
+                        ? "w-6 bg-white"
+                        : "w-1.5 bg-white/40"
                     }`}
                     aria-label={`Go to slide ${index + 1}`}
                   />
@@ -266,7 +257,6 @@ export function HeroSection() {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </SectionContainer>

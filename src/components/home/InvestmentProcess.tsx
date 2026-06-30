@@ -43,17 +43,6 @@ export function InvestmentProcess() {
       <SectionContainer className="relative">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-5">
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="flex items-center justify-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-primary/8 flex items-center justify-center">
-              <Briefcase className="h-4 w-4 text-primary" />
-            </div>
-            <span className="text-label text-primary/70">How It Works</span>
-          </motion.div>
-
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

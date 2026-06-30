@@ -39,7 +39,6 @@ export function FeaturedProjects() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-border/40 pb-8">
           <div className="space-y-3 text-left">
             <div className="flex items-center gap-2 text-primary font-semibold tracking-wider text-xs uppercase">
-              <Sparkles className="h-4 w-4" />
               Featured Showcase
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight leading-tight">

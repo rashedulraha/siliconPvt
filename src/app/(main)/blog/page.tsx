@@ -151,9 +151,6 @@ export default function BlogPage() {
           {featured && !hasFilters && (
             <div>
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-8 h-8 rounded-lg bg-accent/12 flex items-center justify-center">
-                  <BookOpen className="h-4 w-4 text-accent" />
-                </div>
                 <h2 className="font-heading font-semibold text-xl text-foreground">
                   Featured Story
                 </h2>
@@ -211,9 +208,6 @@ export default function BlogPage() {
           {/* Blog Grid */}
           <div className="space-y-8">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-accent/12 flex items-center justify-center">
-                <LayoutGrid className="h-4 w-4 text-accent" />
-              </div>
               <h2 className="font-heading font-semibold text-xl text-foreground">
                 {activeCategory
                   ? `${activeCategory} Articles`

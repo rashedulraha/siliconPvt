@@ -21,9 +21,6 @@ export function LatestInsights() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-14 gap-6">
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-accent/12 flex items-center justify-center">
-                <Sparkles className="h-4 w-4 text-accent" />
-              </div>
               <span className="text-label text-accent">Press & Insights</span>
             </div>
             <h2 className="text-display-md font-medium text-foreground leading-[1.12]">

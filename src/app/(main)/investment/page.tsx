@@ -180,7 +180,7 @@ export default function InvestmentPage() {
                 <div className="font-heading font-bold text-3xl text-accent">
                   {s.value}
                 </div>
-                <div className="text-xs text-muted-foreground font-medium uppercase tracking-[0.1em] mt-1">
+                <div className="text-xs text-muted-foreground font-medium uppercase tracking-widest mt-1">
                   {s.label}
                 </div>
               </div>
@@ -193,12 +193,6 @@ export default function InvestmentPage() {
       <section className="section-y bg-background" id="why">
         <SectionContainer>
           <div className="text-center max-w-2xl mx-auto mb-14 space-y-4">
-            <div className="flex items-center justify-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-accent/12 flex items-center justify-center">
-                <Star className="h-4 w-4 text-accent" />
-              </div>
-              <span className="text-label text-accent">Why Choose Us</span>
-            </div>
             <h2 className="font-heading font-bold text-display-md text-foreground">
               Why Invest in <span className="text-gold">Land</span>?
             </h2>
@@ -233,9 +227,6 @@ export default function InvestmentPage() {
         <SectionContainer>
           <div className="text-center max-w-2xl mx-auto mb-14 space-y-4">
             <div className="flex items-center justify-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Building2 className="h-4 w-4 text-primary" />
-              </div>
               <span className="text-label text-primary/70">Our Portfolio</span>
             </div>
             <h2 className="font-heading font-bold text-display-md text-foreground">
@@ -303,9 +294,6 @@ export default function InvestmentPage() {
           <div className="grid lg:grid-cols-2 gap-14 xl:gap-20 items-center">
             <div className="space-y-7">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-accent/12 flex items-center justify-center">
-                  <BarChart3 className="h-4 w-4 text-accent" />
-                </div>
                 <span className="text-label text-accent">ROI & Growth</span>
               </div>
               <h2 className="font-heading font-bold text-display-md text-foreground leading-[1.12]">
