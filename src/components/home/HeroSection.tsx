@@ -24,15 +24,11 @@ const slides = [
   },
   {
     id: 2,
-    videoSrc: "/slide2.mp4",
+    videoSrc: "/siliconpvt2.mp4",
   },
   {
     id: 3,
-    videoSrc: "/slide3.mp4",
-  },
-  {
-    id: 4,
-    videoSrc: "/slide4.mp4",
+    videoSrc: "/siliconpvt2.mp4",
   },
 ];
 
