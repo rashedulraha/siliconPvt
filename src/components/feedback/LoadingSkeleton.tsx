@@ -15,7 +15,7 @@ export function PageSkeleton() {
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {Array.from({ length: 6 }).map((_, i) => (
           <div key={i} className="space-y-3">
-            <Skeleton className="aspect-[4/3] w-full rounded-lg" />
+            <Skeleton className="aspect-4/3 w-full rounded-lg" />
             <Skeleton className="h-5 w-3/4" />
             <Skeleton className="h-4 w-1/2" />
             <div className="flex gap-2">
@@ -33,7 +33,7 @@ export function PageSkeleton() {
 export function PropertyCardSkeleton() {
   return (
     <div className="space-y-3">
-      <Skeleton className="aspect-[4/3] w-full rounded-lg" />
+      <Skeleton className="aspect-4/3 w-full rounded-lg" />
       <Skeleton className="h-5 w-3/4" />
       <Skeleton className="h-4 w-1/2" />
       <div className="flex gap-2 pt-2">
