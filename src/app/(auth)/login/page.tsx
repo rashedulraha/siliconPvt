@@ -14,6 +14,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { useUserAuth } from "@/context/UserAuthContext";
+import { apiFetch } from "@/lib/api-client";
 
 export default function LoginPage() {
   const { login, isLoggedIn, user: currentUser, isLoading } = useUserAuth();
@@ -35,7 +36,9 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [warmupMessage, setWarmupMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState("");
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {},
   );
@@ -55,36 +58,81 @@ export default function LoginPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Perform mock auth login and route to user or admin dashboard
+  // Perform auth login and route to user or admin dashboard
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+    setWarmupMessage("");
     if (!validateForm()) return;
 
     setIsSubmitting(true);
 
-    // Simulate elegant connection verification
-    await new Promise((resolve) => setTimeout(resolve, 1400));
+    // Dynamic Render free-tier cold start detection timers
+    const timer1 = setTimeout(() => {
+      setWarmupMessage("Connecting to server. Please wait...");
+    }, 4000);
 
-    const role = email.includes("admin") ? "admin" : "user";
-    login({
-      uid: role === "admin" ? "admin-1" : "user-1",
-      name: role === "admin" ? "S. M. Ahsan" : "Al-Amin Rahman",
-      email: email,
-      role: role,
-      avatar:
-        role === "admin"
-          ? "https://images.unsplash.com/photo-1507152832244-10d49c7dd8f9?w=100"
-          : "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=100",
-    });
+    const timer2 = setTimeout(() => {
+      setWarmupMessage("Server is waking up (Render free tier cold start)... Please wait.");
+    }, 15000);
 
-    setIsSubmitting(false);
-    setIsSuccess(true);
+    try {
+      const response = await apiFetch<{
+        success: boolean;
+        message: string;
+        user: {
+          id: string;
+          name: string;
+          email: string;
+          role: string;
+          phoneNumber?: string;
+          avatar?: string;
+        };
+        token?: string;
+      }>("/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+      });
+
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      setWarmupMessage("");
+
+      if (response.success && response.user) {
+        const sessionUser = {
+          uid: response.user.id,
+          name: response.user.name,
+          email: response.user.email,
+          role: response.user.role as any,
+          phoneNumber: response.user.phoneNumber,
+          avatar: response.user.avatar,
+        };
+        login(sessionUser, response.token);
+        setIsSuccess(true);
+      } else {
+        setError(response.message || "Invalid credentials.");
+      }
+    } catch (err: any) {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      setWarmupMessage("");
+      
+      if (err.status === 0) {
+        setError(
+          "Network error. The server may be waking up from inactivity (Render free tier can take up to 50 seconds to boot). Please try again in a moment."
+        );
+      } else {
+        setError(err.message || "Failed to authenticate. Please check your credentials.");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Redirect client side after success state renders
   useEffect(() => {
-    if (isSuccess) {
-      const targetRoute = email.includes("admin")
+    if (isSuccess && currentUser) {
+      const targetRoute = currentUser.role === "admin"
         ? "/dashboard/admin"
         : "/dashboard/user";
       const timer = setTimeout(() => {
@@ -92,7 +140,7 @@ export default function LoginPage() {
       }, 1000);
       return () => clearTimeout(timer);
     }
-  }, [isSuccess, email, router]);
+  }, [isSuccess, currentUser, router]);
 
   if (isSuccess) {
     return (
@@ -132,7 +180,7 @@ export default function LoginPage() {
         </h1>
         <p className="text-xs text-neutral-400 dark:text-neutral-500 font-light leading-relaxed">
           Access your land investment portfolios, statements, and site visit
-          schedules.
+          schedules. Or <Link href="/register" className="text-accent font-medium hover:underline">create an account</Link> if you are new.
         </p>
       </div>
 
@@ -242,6 +290,20 @@ export default function LoginPage() {
             </span>
           </label>
         </div>
+
+        {/* Error Banner */}
+        {error && (
+          <div className="text-[11px] text-destructive bg-destructive/5 dark:bg-destructive/10 border border-destructive/20 px-3 py-2 rounded-xl animate-in fade-in slide-in-from-top-2 duration-200">
+            {error}
+          </div>
+        )}
+
+        {/* Warmup Warning Banner */}
+        {warmupMessage && (
+          <div className="text-[11px] text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/20 border border-amber-200/40 dark:border-amber-900/30 px-3 py-2 rounded-xl animate-pulse">
+            ⏳ {warmupMessage}
+          </div>
+        )}
 
         {/* Submit Button */}
         <button

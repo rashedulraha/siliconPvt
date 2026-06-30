@@ -16,7 +16,7 @@ export default function DashboardRedirectPage() {
   useEffect(() => {
     if (mounted && !isLoading) {
       if (!isLoggedIn || !user) {
-        router.replace("/auth/login");
+        router.replace("/login");
       } else if (user.role === "admin") {
         router.replace("/dashboard/admin");
       } else {

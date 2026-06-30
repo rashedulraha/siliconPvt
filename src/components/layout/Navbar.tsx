@@ -303,7 +303,7 @@ export function Navbar() {
             ) : (
               <div className="flex items-center gap-2">
                 <Link
-                  href="/auth/login"
+                  href="/login"
                   className="px-4 h-9 rounded-lg text-sm font-medium font-heading border border-border text-foreground hover:bg-muted transition-all duration-300 inline-flex items-center">
                   Sign In
                 </Link>
@@ -430,7 +430,7 @@ export function Navbar() {
             ) : (
               <div className="grid grid-cols-2 gap-2.5 px-1">
                 <Link
-                  href="/auth/login"
+                  href="/login"
                   onClick={() => setIsOpen(false)}
                   className="w-full h-10 rounded-xl border border-border text-foreground hover:bg-muted inline-flex items-center justify-center text-xs font-semibold">
                   Sign In

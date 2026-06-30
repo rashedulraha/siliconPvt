@@ -155,7 +155,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     if (mounted && !isLoading) {
       if (!isLoggedIn || user?.role !== "admin") {
-        router.replace("/auth/login");
+        router.replace("/login");
       }
     }
   }, [mounted, isLoading, isLoggedIn, user, router]);

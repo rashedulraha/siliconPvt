@@ -59,16 +59,40 @@ export async function apiFetch<T>(
   path: string,
   options?: RequestInit,
 ): Promise<T> {
-  // Read the env var inside the function body — never at module level.
-  // process.env.NEXT_PUBLIC_API_URL is statically inlined by Next.js at
-  // build time when referenced as a literal property access like this.
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-  const url = baseUrl ? `${baseUrl}${path}` : path;
+  // Fallback to the production server if NEXT_PUBLIC_API_URL is not configured
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://silicon-pvt-server.onrender.com/api/v1";
+  
+  // Ensure the path is properly appended
+  const url = path.startsWith("http") ? path : `${baseUrl}${path}`;
+
+  // Prepare headers
+  const headers = new Headers(options?.headers);
+  if (options?.body && !headers.has("Content-Type")) {
+    headers.set("Content-Type", "application/json");
+  }
+
+  // Fallback: Attach JWT if present in localStorage (in case cookies are blocked/fail)
+  if (typeof window !== "undefined") {
+    try {
+      const token = localStorage.getItem("silicon_jwt_token");
+      if (token && !headers.has("Authorization")) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+    } catch (error) {
+      console.error("Failed to read token from localStorage:", error);
+    }
+  }
+
+  const fetchOptions: RequestInit = {
+    credentials: "include", // Enable cross-origin HTTP-only cookies
+    ...options,
+    headers,
+  };
 
   let response: Response;
 
   try {
-    response = await fetch(url, options);
+    response = await fetch(url, fetchOptions);
   } catch (networkErr: unknown) {
     // fetch() itself rejected — no HTTP response was received.
     const error: ApiError = {
@@ -108,6 +132,19 @@ export async function apiFetch<T>(
     throw error;
   }
 
-  // 2xx — parse and return the JSON body.
-  return response.json() as Promise<T>;
+  // 2xx — parse the JSON body.
+  const data = await response.json() as T;
+
+  // Fallback: If response contains a token, save it to localStorage for cross-origin cookie fallback
+  if (data && typeof data === "object" && "token" in data && typeof (data as any).token === "string") {
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem("silicon_jwt_token", (data as any).token);
+      } catch (error) {
+        console.error("Failed to write token to localStorage:", error);
+      }
+    }
+  }
+
+  return data;
 }

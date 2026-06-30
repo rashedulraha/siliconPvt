@@ -6,6 +6,7 @@ import { useUserAuth } from "@/context/UserAuthContext";
 import { Eye, EyeOff, Loader2, Lock, Mail, User, Phone, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { apiFetch } from "@/lib/api-client";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -20,6 +21,7 @@ export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [warmupMessage, setWarmupMessage] = useState("");
   const [error, setError] = useState("");
 
   // Handle post-auth redirect if already logged in
@@ -36,6 +38,7 @@ export default function RegisterForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
+    setWarmupMessage("");
 
     // Field validations
     if (!name.trim()) {
@@ -50,8 +53,8 @@ export default function RegisterForm() {
       setError("Please enter your email address.");
       return;
     }
-    if (password.length < 8) {
-      setError("Password must be at least 8 characters long.");
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.");
       return;
     }
     if (password !== confirmPassword) {
@@ -60,23 +63,78 @@ export default function RegisterForm() {
     }
 
     setIsSubmitting(true);
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    const mockUserData = {
-      uid: "user-" + Math.floor(Math.random() * 1000),
-      name: name.trim(),
-      email: email.trim(),
-      phoneNumber: phone.trim(),
-      role: "user" as const,
-    };
+    // Dynamic Render free-tier cold start detection timers
+    const timer1 = setTimeout(() => {
+      setWarmupMessage("Connecting to server. Please wait...");
+    }, 4000);
+
+    const timer2 = setTimeout(() => {
+      setWarmupMessage("Server is waking up (Render free tier cold start)... Please wait.");
+    }, 15000);
 
     try {
-      login(mockUserData);
-      toast.success("Account created and authenticated successfully!");
-      router.push("/dashboard/user");
-    } catch (err) {
-      setError("Failed to route session credentials securely.");
+      const response = await apiFetch<{
+        success: boolean;
+        message: string;
+        user: {
+          id: string;
+          name: string;
+          email: string;
+          role: string;
+          phoneNumber?: string;
+          avatar?: string;
+        };
+        token?: string;
+      }>("/auth/register", {
+        method: "POST",
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          password: password,
+        }),
+      });
+
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      setWarmupMessage("");
+
+      if (response.success && response.user) {
+        const sessionUser = {
+          uid: response.user.id,
+          name: response.user.name,
+          email: response.user.email,
+          role: response.user.role as any,
+          phoneNumber: response.user.phoneNumber || phone.trim(),
+          avatar: response.user.avatar,
+        };
+        
+        // Cache registration details temporarily for the email verification step
+        if (typeof window !== "undefined") {
+          sessionStorage.setItem("silicon_temp_register_user", JSON.stringify({
+            user: sessionUser,
+            token: response.token,
+          }));
+        }
+
+        toast.success(response.message || "Account created! Please verify your email.");
+        router.push("/verify-email");
+      } else {
+        setError(response.message || "Registration failed. Invalid response from server.");
+        toast.error("Registration failed.");
+      }
+    } catch (err: any) {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      setWarmupMessage("");
+      
+      if (err.status === 0) {
+        setError(
+          "Network error. The server may be waking up from inactivity (Render free tier can take up to 50 seconds to boot). Please try again in a moment."
+        );
+      } else {
+        setError(err.message || "Registration failed. Please check your details and try again.");
+      }
       toast.error("Registration failed.");
     } finally {
       setIsSubmitting(false);
@@ -253,10 +311,16 @@ export default function RegisterForm() {
 
         {error && (
           <div
-            className="text-[11px] text-destructive bg-destructive/5 dark:bg-destructive/10 border border-destructive/20 px-3 py-2 rounded-md"
+            className="text-[11px] text-destructive bg-destructive/5 dark:bg-destructive/10 border border-destructive/20 px-3 py-2 rounded-md animate-in fade-in slide-in-from-top-2 duration-200"
             role="alert"
           >
             {error}
+          </div>
+        )}
+
+        {warmupMessage && (
+          <div className="text-[11px] text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/20 border border-amber-200/40 dark:border-amber-900/30 px-3 py-2 rounded-md animate-pulse">
+            ⏳ {warmupMessage}
           </div>
         )}
 

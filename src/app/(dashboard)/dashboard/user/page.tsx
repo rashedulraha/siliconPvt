@@ -130,7 +130,7 @@ export default function UserDashboard() {
   useEffect(() => {
     if (mounted && !isLoading) {
       if (!isLoggedIn || user?.role !== "user") {
-        router.replace("/auth/login");
+        router.replace("/login");
       }
     }
   }, [mounted, isLoading, isLoggedIn, user, router]);

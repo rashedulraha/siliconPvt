@@ -19,7 +19,7 @@ export interface UserAuthContextType {
   user: UserSession | null;
   isLoggedIn: boolean;
   isLoading: boolean;
-  login: (userData: UserSession) => void;
-  logout: () => void;
-  checkAuthStatus: () => void;
+  login: (userData: UserSession, token?: string) => void;
+  logout: () => Promise<void> | void;
+  checkAuthStatus: () => Promise<void> | void;
 }
