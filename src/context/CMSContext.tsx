@@ -103,8 +103,11 @@ interface CMSContextType {
   state: CMSState;
   dispatch: (action: CMSAction) => void;
   isHydrated: boolean;
+  isLoading: boolean;
+  error: string | null;
   persistNow: () => void;
   resetAll: () => void;
+  refetchProperties: () => Promise<void>;
 }
 
 export const CMSContext = createContext<CMSContextType | undefined>(undefined);
@@ -112,6 +115,8 @@ export const CMSContext = createContext<CMSContextType | undefined>(undefined);
 export function CMSProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(cmsReducer, initialState);
   const [isHydrated, setIsHydrated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Hydration: load from localStorage on mount, then sync properties via API
@@ -125,6 +130,8 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
     setIsHydrated(true);
 
     async function syncData() {
+      setIsLoading(true);
+      setError(null);
       try {
         const syncedProps = await fetchProperties();
         dispatch({
@@ -134,8 +141,12 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
             properties: syncedProps,
           },
         });
-      } catch (err) {
+      } catch (err: any) {
+        const errMsg = err?.message || "Failed to sync properties from API";
         console.error("[CMSProvider] Failed to sync properties from API:", err);
+        setError(errMsg);
+      } finally {
+        setIsLoading(false);
       }
     }
     syncData();
@@ -163,9 +174,39 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
     dispatch({ type: "SET_STATE", payload: initialState });
   }, []);
 
+  const refetchProperties = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const syncedProps = await fetchProperties();
+      dispatch({
+        type: "SET_STATE",
+        payload: {
+          ...state,
+          properties: syncedProps,
+        },
+      });
+    } catch (err: any) {
+      const errMsg = err?.message || "Failed to sync properties from API";
+      console.error("[CMSProvider] Refetch failed:", err);
+      setError(errMsg);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [state]);
+
   const value = useMemo(
-    () => ({ state, dispatch, isHydrated, persistNow, resetAll }),
-    [state, isHydrated, persistNow, resetAll],
+    () => ({
+      state,
+      dispatch,
+      isHydrated,
+      isLoading,
+      error,
+      persistNow,
+      resetAll,
+      refetchProperties,
+    }),
+    [state, isHydrated, isLoading, error, persistNow, resetAll, refetchProperties],
   );
 
   return <CMSContext.Provider value={value}>{children}</CMSContext.Provider>;

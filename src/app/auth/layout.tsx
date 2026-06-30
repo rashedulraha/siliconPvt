@@ -9,7 +9,7 @@ import { Footer } from "@/components/layout/Footer";
 import { FloatingActions } from "@/components/layout/FloatingActions";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { SkipToContent } from "@/components/feedback/SkipToContent";
-import { FloatingSimulator } from "@/components/layout/FloatingSimulator";
+// import { FloatingSimulator } from "@/components/layout/FloatingSimulator";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -138,7 +138,7 @@ export default function MainLayout({
         </main>
       </div>
       <FloatingActions />
-      <FloatingSimulator />
+      {/* <FloatingSimulator /> */}
       <ScrollToTop />
     </>
   );

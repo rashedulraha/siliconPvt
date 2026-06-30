@@ -3,7 +3,7 @@ import { Footer } from "@/components/layout/Footer";
 import { FloatingActions } from "@/components/layout/FloatingActions";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { SkipToContent } from "@/components/feedback/SkipToContent";
-import { FloatingSimulator } from "@/components/layout/FloatingSimulator";
+// import { FloatingSimulator } from "@/components/layout/FloatingSimulator";
 
 /**
  * (main) layout — public website chrome.
@@ -27,7 +27,7 @@ export default function MainLayout({
         <Footer />
       </div>
       <FloatingActions />
-      <FloatingSimulator />
+      {/* <FloatingSimulator /> */}
       <ScrollToTop />
     </>
   );
