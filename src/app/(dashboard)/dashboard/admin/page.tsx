@@ -26,7 +26,13 @@ import {
   FileText,
   LayoutGrid,
   CheckCircle,
+  Menu,
 } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { useUserAuth } from "@/context/UserAuthContext";
 import { Button } from "@/components/ui/button";
 import {
@@ -74,6 +80,7 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<
     "overview" | "leads" | "properties" | "cms"
   >("overview");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // CMS Settings States
   const [siteName, setSiteName] = useState(state.siteSettings.siteName);
@@ -285,6 +292,99 @@ export default function AdminDashboard() {
       {/* Top Header */}
       <header className="sticky top-0 z-40 bg-card border-b border-border/60 shadow-xs h-14 flex items-center px-4 sm:px-6 md:px-8 justify-between shrink-0">
         <div className="flex items-center gap-3">
+          {/* Mobile Sidebar Trigger */}
+          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="md:hidden">
+                <Menu className="h-4.5 w-4.5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-60 p-4 pt-10 bg-card border-r border-border/50 flex flex-col justify-between">
+              <div className="space-y-6">
+                <div>
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider px-2 mb-3">
+                    Management
+                  </p>
+                  <nav className="space-y-1">
+                    <button
+                      onClick={() => {
+                        setActiveTab("overview");
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className={`w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold rounded-lg transition-all ${
+                        activeTab === "overview"
+                          ? "bg-primary/8 text-primary shadow-xs"
+                          : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      }`}>
+                      <LayoutGrid className="w-4 h-4" /> Overview Dashboard
+                    </button>
+                    <button
+                      onClick={() => {
+                        setActiveTab("leads");
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className={`w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold rounded-lg transition-all ${
+                        activeTab === "leads"
+                          ? "bg-primary/8 text-primary shadow-xs"
+                          : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      }`}>
+                      <Users className="w-4 h-4" /> Client Pipelines ({leads.length})
+                    </button>
+                    <button
+                      onClick={() => {
+                        setActiveTab("properties");
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className={`w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold rounded-lg transition-all ${
+                        activeTab === "properties"
+                          ? "bg-primary/8 text-primary shadow-xs"
+                          : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      }`}>
+                      <Building2 className="w-4 h-4" /> Land &amp; Flat Inventory ({state.properties.length})
+                    </button>
+                    <button
+                      onClick={() => {
+                        setActiveTab("cms");
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className={`w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold rounded-lg transition-all ${
+                        activeTab === "cms"
+                          ? "bg-primary/8 text-primary shadow-xs"
+                          : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      }`}>
+                      <Settings className="w-4 h-4" /> Visual CMS Settings
+                    </button>
+                  </nav>
+                </div>
+
+                <div className="border-t border-border/60 pt-4">
+                  <Link
+                    href="/"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground">
+                    <Eye className="w-4 h-4" /> View Public Site
+                  </Link>
+                </div>
+              </div>
+
+              <div className="border-t border-border/60 pt-4 space-y-2">
+                <span className="text-[10px] text-muted-foreground block px-2">
+                  Session: {user.name}
+                </span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    handleLogout();
+                  }}
+                  className="w-full justify-start text-xs gap-3 text-destructive hover:bg-destructive/10 hover:text-destructive h-9 px-3">
+                  <LogOut className="w-4 h-4" /> Sign Out
+                </Button>
+              </div>
+            </SheetContent>
+          </Sheet>
+
           <Link
             href="/"
             className="flex items-center gap-3 flex-shrink-0 group">
@@ -348,9 +448,9 @@ export default function AdminDashboard() {
       </header>
 
       {/* Admin Panel Main SectionContainer */}
-      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden max-w-8xl mx-auto w-full">
+      <div className="flex-1 flex flex-col md:flex-row overflow-hidden max-w-8xl mx-auto w-full">
         {/* Left Side Navigation (Tabs) */}
-        <aside className="w-full lg:w-60 bg-card border-r border-border/50 p-4 space-y-2 flex-shrink-0">
+        <aside className="hidden md:flex md:w-60 bg-card border-r border-border/50 p-4 space-y-2 flex-shrink-0 flex-col">
           <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider px-2 mb-3">
             Management
           </p>
@@ -418,7 +518,7 @@ export default function AdminDashboard() {
               </FadeInSlideUp>
 
               {/* Stats Cards */}
-              <StaggerSectionContainer className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <StaggerSectionContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <StaggerItem>
                   <PremiumHoverCard className="border border-border/50 shadow-xs rounded-xl bg-card">
                     <CardHeader className="p-4 pb-1 flex flex-row items-center justify-between">

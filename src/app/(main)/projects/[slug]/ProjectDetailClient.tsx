@@ -177,7 +177,7 @@ export function ProjectDetailClient({ slug }: ProjectDetailClientProps) {
                   </div>
                 </div>
                 
-                <div className="md:text-right bg-zinc-50 dark:bg-[#0D1B3E]/40 border border-zinc-200/50 dark:border-white/10 rounded-2xl p-4 min-w-[200px] flex-shrink-0">
+                <div className="w-full md:w-auto md:text-right bg-zinc-50 dark:bg-[#0D1B3E]/40 border border-zinc-200/50 dark:border-white/10 rounded-2xl p-4 min-w-[200px] flex-shrink-0">
                   <span className="text-[9px] text-zinc-400 dark:text-zinc-500 uppercase tracking-widest font-bold block mb-1">Starting Price</span>
                   <span className="font-heading font-bold text-2xl sm:text-3xl text-[#D4A030] block leading-none">
                     {formatCurrency(project.price)}

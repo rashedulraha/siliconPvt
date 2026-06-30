@@ -84,7 +84,7 @@ export function HeroSection() {
   return (
     <SectionContainer
       as="section"
-      className="relative w-full pb-12 pt-4 font-sans">
+      className="relative w-full pb-12 pt-14 md:pt-10 font-sans">
       {/* ── Outer Container: Top Sharp, Bottom Rounded [60px] with Global Web BG ── */}
       <div className="relative w-full rounded-t-none rounded-b-[60px] overflow-hidden border border-border bg-transparent">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 p-6 sm:p-10 lg:p-16 xl:p-20 items-center">
@@ -241,7 +241,7 @@ export function HeroSection() {
               </div>
 
               {/* Slide Timeline Indicators */}
-              <div className="absolute z-20 bottom-5 left-1/2 -translate-x-1/2 flex gap-1.5">
+              <div className=" hidden md:flex absolute z-20 bottom-5 left-1/2 -translate-x-1/2 flex gap-1.5">
                 {slides.map((_, index) => (
                   <button
                     key={index}
