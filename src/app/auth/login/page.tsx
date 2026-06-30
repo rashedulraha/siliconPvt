@@ -3,15 +3,15 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { 
-  Eye, 
-  EyeOff, 
-  Loader2, 
-  ArrowRight, 
-  Mail, 
-  Lock, 
-  Check, 
-  AlertCircle
+import {
+  Eye,
+  EyeOff,
+  Loader2,
+  ArrowRight,
+  Mail,
+  Lock,
+  Check,
+  AlertCircle,
 } from "lucide-react";
 import { useUserAuth } from "@/context/UserAuthContext";
 
@@ -36,7 +36,9 @@ export default function LoginPage() {
   const [rememberMe, setRememberMe] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
+    {},
+  );
 
   // Form validator
   const validateForm = () => {
@@ -59,19 +61,20 @@ export default function LoginPage() {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
-    
+
     // Simulate elegant connection verification
     await new Promise((resolve) => setTimeout(resolve, 1400));
-    
+
     const role = email.includes("admin") ? "admin" : "user";
     login({
       uid: role === "admin" ? "admin-1" : "user-1",
       name: role === "admin" ? "S. M. Ahsan" : "Al-Amin Rahman",
       email: email,
       role: role,
-      avatar: role === "admin" 
-        ? "https://images.unsplash.com/photo-1507152832244-10d49c7dd8f9?w=100" 
-        : "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=100",
+      avatar:
+        role === "admin"
+          ? "https://images.unsplash.com/photo-1507152832244-10d49c7dd8f9?w=100"
+          : "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=100",
     });
 
     setIsSubmitting(false);
@@ -81,7 +84,9 @@ export default function LoginPage() {
   // Redirect client side after success state renders
   useEffect(() => {
     if (isSuccess) {
-      const targetRoute = email.includes("admin") ? "/dashboard/admin" : "/dashboard/user";
+      const targetRoute = email.includes("admin")
+        ? "/dashboard/admin"
+        : "/dashboard/user";
       const timer = setTimeout(() => {
         router.replace(targetRoute);
       }, 1000);
@@ -100,7 +105,8 @@ export default function LoginPage() {
             Access Authorized
           </h2>
           <p className="text-[11px] text-neutral-400 dark:text-neutral-500 max-w-[260px] mx-auto font-light leading-relaxed">
-            Establishing secure encrypted session. Redirecting you to the private portfolio...
+            Establishing secure encrypted session. Redirecting you to the
+            private portfolio...
           </p>
         </div>
         <div className="w-6 h-1 bg-emerald-500/30 rounded-full overflow-hidden">
@@ -119,10 +125,14 @@ export default function LoginPage() {
           VIP Portfolio Access
         </div>
         <h1 className="text-3xl font-light tracking-tight text-neutral-900 dark:text-neutral-50">
-          Client <span className="font-semibold text-neutral-800 dark:text-neutral-200">Sign In</span>
+          Client{" "}
+          <span className="font-semibold text-neutral-800 dark:text-neutral-200">
+            Sign In
+          </span>
         </h1>
         <p className="text-xs text-neutral-400 dark:text-neutral-500 font-light leading-relaxed">
-          Access your land investment portfolios, statements, and site visit schedules.
+          Access your land investment portfolios, statements, and site visit
+          schedules.
         </p>
       </div>
 
@@ -134,7 +144,9 @@ export default function LoginPage() {
             <label className="text-[10px] font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider block">
               Registered Email
             </label>
-            <span className="text-[9px] text-neutral-400/80 dark:text-neutral-600 hover:text-accent cursor-pointer transition-colors" onClick={() => setEmail("admin@silicon.com")}>
+            <span
+              className="text-[9px] text-neutral-400/80 dark:text-neutral-600 hover:text-accent cursor-pointer transition-colors"
+              onClick={() => setEmail("admin@silicon.com")}>
               (Use admin credentials)
             </span>
           </div>
@@ -152,8 +164,8 @@ export default function LoginPage() {
               }}
               disabled={isSubmitting}
               className={`w-full h-11 pl-10 pr-4 rounded-xl bg-white dark:bg-neutral-950/40 border transition-all duration-300 text-xs focus:outline-hidden text-neutral-900 dark:text-neutral-50 placeholder:text-neutral-400 dark:placeholder:text-neutral-600 ${
-                errors.email 
-                  ? "border-destructive/60 focus:border-destructive focus:ring-1 focus:ring-destructive/20" 
+                errors.email
+                  ? "border-destructive/60 focus:border-destructive focus:ring-1 focus:ring-destructive/20"
                   : "border-neutral-200 dark:border-neutral-800 focus:border-accent dark:focus:border-accent focus:ring-2 focus:ring-accent/10 dark:focus:ring-accent/5 shadow-xs"
               }`}
             />
@@ -174,8 +186,7 @@ export default function LoginPage() {
             </label>
             <Link
               href="/forgot-password"
-              className="text-[10px] text-neutral-400 dark:text-neutral-500 hover:text-accent transition-colors"
-            >
+              className="text-[10px] text-neutral-400 dark:text-neutral-500 hover:text-accent transition-colors">
               Recover?
             </Link>
           </div>
@@ -189,12 +200,13 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
-                if (errors.password) setErrors({ ...errors, password: undefined });
+                if (errors.password)
+                  setErrors({ ...errors, password: undefined });
               }}
               disabled={isSubmitting}
               className={`w-full h-11 pl-10 pr-10 rounded-xl bg-white dark:bg-neutral-950/40 border transition-all duration-300 text-xs focus:outline-hidden text-neutral-900 dark:text-neutral-50 placeholder:text-neutral-400 dark:placeholder:text-neutral-600 ${
-                errors.password 
-                  ? "border-destructive/60 focus:border-destructive focus:ring-1 focus:ring-destructive/20" 
+                errors.password
+                  ? "border-destructive/60 focus:border-destructive focus:ring-1 focus:ring-destructive/20"
                   : "border-neutral-200 dark:border-neutral-800 focus:border-accent dark:focus:border-accent focus:ring-2 focus:ring-accent/10 dark:focus:ring-accent/5 shadow-xs"
               }`}
             />
@@ -202,9 +214,12 @@ export default function LoginPage() {
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               disabled={isSubmitting}
-              className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 transition-colors cursor-pointer"
-            >
-              {showPassword ? <EyeOff className="w-4.5 h-4.5 stroke-[1.5]" /> : <Eye className="w-4.5 h-4.5 stroke-[1.5]" />}
+              className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 transition-colors cursor-pointer">
+              {showPassword ? (
+                <EyeOff className="w-4.5 h-4.5 stroke-[1.5]" />
+              ) : (
+                <Eye className="w-4.5 h-4.5 stroke-[1.5]" />
+              )}
             </button>
           </div>
         </div>
@@ -232,8 +247,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full h-11 rounded-xl text-xs font-medium bg-neutral-950 dark:bg-white text-white dark:text-neutral-950 flex items-center justify-center gap-2 transition-all duration-300 border border-neutral-800 dark:border-white/90 hover:brightness-110 active:scale-[0.99] disabled:opacity-50 cursor-pointer shadow-[0_4px_12px_rgba(0,0,0,0.05)] dark:shadow-none"
-        >
+          className="w-full h-11 rounded-xl text-xs font-medium bg-neutral-950 dark:bg-white text-white dark:text-neutral-950 flex items-center justify-center gap-2 transition-all duration-300 border border-neutral-800 dark:border-white/90 hover:brightness-110 active:scale-[0.99] disabled:opacity-50 cursor-pointer shadow-[0_4px_12px_rgba(0,0,0,0.05)] dark:shadow-none">
           {isSubmitting ? (
             <>
               <Loader2 className="w-3.5 h-3.5 animate-spin" />

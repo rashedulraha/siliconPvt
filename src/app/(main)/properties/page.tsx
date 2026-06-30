@@ -109,7 +109,7 @@ export default function PropertiesPage() {
       {/* ── Page Hero ──────────────────────────────────────── */}
       <section className="relative pt-28 pb-16 bg-dark-hero overflow-hidden">
         {/* Background ambience */}
-        <div className="absolute top-0 right-0 w-[600px] h-[400px] bg-accent/6 blur-[100px] pointer-events-none" />
+        <div className="absolute top-0 right-0 w-150 h-100 bg-accent/6 blur-[100px] pointer-events-none" />
         <div
           className="absolute inset-0 opacity-[0.04] pointer-events-none"
           style={{
