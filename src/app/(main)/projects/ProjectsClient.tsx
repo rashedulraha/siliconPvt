@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MapPin, Tag } from "lucide-react";
 import { motion } from "framer-motion";
-import { Container } from "@/components/layout/Container";
+import { SectionContainer } from "@/components/layout/SectionContainer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useCMS } from "@/context/CMSContext";
@@ -17,11 +17,11 @@ import type { Property } from "@/types";
 type StatusFilter = "all" | Property["status"];
 
 const STATUS_FILTERS: { value: StatusFilter; label: string }[] = [
-  { value: "all",       label: "All" },
+  { value: "all", label: "All" },
   { value: "available", label: "Ongoing" },
-  { value: "pending",   label: "Upcoming" },
-  { value: "sold",      label: "Completed" },
-  { value: "rented",    label: "Rented" },
+  { value: "pending", label: "Upcoming" },
+  { value: "sold", label: "Completed" },
+  { value: "rented", label: "Rented" },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -29,22 +29,26 @@ const STATUS_FILTERS: { value: StatusFilter; label: string }[] = [
 /* ------------------------------------------------------------------ */
 function formatPrice(price: number): string {
   if (price >= 10_000_000) return `৳ ${(price / 10_000_000).toFixed(1)} Cr`;
-  if (price >= 100_000)    return `৳ ${(price / 100_000).toFixed(1)} Lac`;
-  return new Intl.NumberFormat("en-BD", { style: "currency", currency: "BDT", maximumFractionDigits: 0 }).format(price);
+  if (price >= 100_000) return `৳ ${(price / 100_000).toFixed(1)} Lac`;
+  return new Intl.NumberFormat("en-BD", {
+    style: "currency",
+    currency: "BDT",
+    maximumFractionDigits: 0,
+  }).format(price);
 }
 
 const STATUS_STYLES: Record<Property["status"], string> = {
   available: "bg-emerald-500/15 text-emerald-700 border-emerald-500/20",
-  sold:      "bg-muted text-muted-foreground border-border",
-  rented:    "bg-primary/10 text-primary border-primary/20",
-  pending:   "bg-accent/15 text-accent border-accent/20",
+  sold: "bg-muted text-muted-foreground border-border",
+  rented: "bg-primary/10 text-primary border-primary/20",
+  pending: "bg-accent/15 text-accent border-accent/20",
 };
 
 const STATUS_LABELS: Record<Property["status"], string> = {
   available: "Ongoing",
-  pending:   "Upcoming",
-  sold:      "Completed",
-  rented:    "Rented",
+  pending: "Upcoming",
+  sold: "Completed",
+  rented: "Rented",
 };
 
 /* ------------------------------------------------------------------ */
@@ -58,8 +62,7 @@ function ProjectCard({ property }: { property: Property }) {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25 }}
-      className="group rounded-2xl border border-border bg-card overflow-hidden shadow-soft hover:shadow-soft-md transition-all duration-300 card-lift"
-    >
+      className="group rounded-2xl border border-border bg-card overflow-hidden shadow-soft hover:shadow-soft-md transition-all duration-300 card-lift">
       {/* Image */}
       <div className="relative aspect-[16/9] bg-muted overflow-hidden">
         {hasImage ? (
@@ -78,7 +81,8 @@ function ProjectCard({ property }: { property: Property }) {
         {/* Overlay gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-foreground/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         {/* Status badge */}
-        <span className={`absolute top-3 right-3 text-xs font-semibold px-2.5 py-0.5 rounded-full border ${STATUS_STYLES[property.status]}`}>
+        <span
+          className={`absolute top-3 right-3 text-xs font-semibold px-2.5 py-0.5 rounded-full border ${STATUS_STYLES[property.status]}`}>
           {STATUS_LABELS[property.status]}
         </span>
       </div>
@@ -100,8 +104,7 @@ function ProjectCard({ property }: { property: Property }) {
           </span>
           <Link
             href={`/projects/${property.slug}`}
-            className="text-sm font-semibold text-primary hover:text-accent transition-colors"
-          >
+            className="text-sm font-semibold text-primary hover:text-accent transition-colors">
             View details →
           </Link>
         </div>
@@ -130,10 +133,17 @@ export function ProjectsClient() {
         <div
           className="absolute inset-0 opacity-[0.04] pointer-events-none"
           aria-hidden="true"
-          style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }}
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
         />
-        <Container className="relative">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+        <SectionContainer className="relative">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}>
             <div className="flex items-center gap-3 mb-4">
               <div className="divider-gold" />
               <span className="text-label text-accent">Our Portfolio</span>
@@ -142,29 +152,33 @@ export function ProjectsClient() {
               Explore All <span className="text-gold">Projects</span>
             </h1>
             <p className="text-white/60 text-lg max-w-xl font-light">
-              Browse our portfolio of RAJUK-approved residential and commercial projects
-              across Dhaka's prime locations.
+              Browse our portfolio of RAJUK-approved residential and commercial
+              projects across Dhaka's prime locations.
             </p>
           </motion.div>
-        </Container>
+        </SectionContainer>
       </section>
 
       {/* ── Filters + Grid ────────────────────────── */}
       <section className="py-10 bg-background">
-        <Container className="space-y-8">
+        <SectionContainer className="space-y-8">
           {/* Filter buttons */}
-          <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by status">
+          <div
+            className="flex flex-wrap gap-2"
+            role="group"
+            aria-label="Filter by status">
             {STATUS_FILTERS.map(({ value, label }) => (
               <Button
                 key={value}
                 variant={activeStatus === value ? "default" : "outline"}
                 size="sm"
                 onClick={() => setActiveStatus(value)}
-                aria-pressed={activeStatus === value}
-              >
+                aria-pressed={activeStatus === value}>
                 {label}
                 {value !== "all" && (
-                  <Badge variant="secondary" className="ml-2 text-xs px-1.5 py-0">
+                  <Badge
+                    variant="secondary"
+                    className="ml-2 text-xs px-1.5 py-0">
                     {state.properties.filter((p) => p.status === value).length}
                   </Badge>
                 )}
@@ -175,10 +189,19 @@ export function ProjectsClient() {
           {/* Results summary */}
           <p className="text-sm text-muted-foreground">
             Showing{" "}
-            <span className="font-semibold text-foreground">{filtered.length}</span>{" "}
+            <span className="font-semibold text-foreground">
+              {filtered.length}
+            </span>{" "}
             project{filtered.length !== 1 ? "s" : ""}
             {activeStatus !== "all" && (
-              <> with status <span className="font-semibold capitalize">{STATUS_LABELS[activeStatus as Property["status"]] ?? activeStatus}</span></>
+              <>
+                {" "}
+                with status{" "}
+                <span className="font-semibold capitalize">
+                  {STATUS_LABELS[activeStatus as Property["status"]] ??
+                    activeStatus}
+                </span>
+              </>
             )}
           </p>
 
@@ -198,14 +221,15 @@ export function ProjectsClient() {
                 No projects found
               </h2>
               <p className="text-muted-foreground max-w-sm">
-                There are no projects with this status at the moment. Try selecting a different filter.
+                There are no projects with this status at the moment. Try
+                selecting a different filter.
               </p>
               <Button variant="outline" onClick={() => setActiveStatus("all")}>
                 Show all projects
               </Button>
             </div>
           )}
-        </Container>
+        </SectionContainer>
       </section>
     </>
   );

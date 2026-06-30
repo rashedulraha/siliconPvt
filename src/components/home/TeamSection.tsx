@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { UserCheck, Linkedin, Mail } from "lucide-react";
-import { Container } from "@/components/layout/Container";
 import { useTeam } from "@/hooks/useTeam";
 import { SectionContainer } from "../ui/section-container";
 

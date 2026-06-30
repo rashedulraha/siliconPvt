@@ -2,11 +2,20 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  TrendingUp, ShieldCheck, Banknote, MapPin, BarChart3,
-  CheckCircle, ArrowRight, Star, Building2, Clock,
-  CalendarCheck, ChevronRight,
+  TrendingUp,
+  ShieldCheck,
+  Banknote,
+  MapPin,
+  BarChart3,
+  CheckCircle,
+  ArrowRight,
+  Star,
+  Building2,
+  Clock,
+  CalendarCheck,
+  ChevronRight,
 } from "lucide-react";
-import { Container } from "@/components/layout/Container";
+import { SectionContainer } from "@/components/layout/SectionContainer";
 
 export const metadata: Metadata = {
   title: "Investment Opportunities | Silicon Real Estate (Pvt.) Ltd.",
@@ -53,7 +62,12 @@ const investmentTypes = [
     title: "Residential Plots",
     desc: "Secure a piece of Dhaka's most sought-after residential neighbourhoods. Choose your plot size, customise your payment timeline, and watch your asset appreciate.",
     badge: "Most Popular",
-    features: ["Sizes from 3 to 10 katha", "RAJUK-approved layouts", "Road & utility access", "Gated community options"],
+    features: [
+      "Sizes from 3 to 10 katha",
+      "RAJUK-approved layouts",
+      "Road & utility access",
+      "Gated community options",
+    ],
     href: "/properties?category=residential",
     image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800",
   },
@@ -62,24 +76,49 @@ const investmentTypes = [
     title: "Commercial Plots",
     desc: "Position yourself in high-footfall commercial corridors. Ideal for retail, office buildings, or mixed-use developments with strong capital upside.",
     badge: "High ROI",
-    features: ["Corner & main-road plots", "Commercial zoning approved", "Large-format plots available", "Investor consortium options"],
+    features: [
+      "Corner & main-road plots",
+      "Commercial zoning approved",
+      "Large-format plots available",
+      "Investor consortium options",
+    ],
     href: "/properties?category=commercial",
     image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800",
   },
 ];
 
 const process = [
-  { step: "01", title: "Consultation", desc: "Schedule a free consultation with our investment advisors to understand your goals." },
-  { step: "02", title: "Site Visit",   desc: "Visit the project site with our team and explore the location firsthand." },
-  { step: "03", title: "Booking",      desc: "Reserve your plot with a token payment and lock in the current price." },
-  { step: "04", title: "Agreement",    desc: "Sign the sale agreement and begin your flexible installment payment journey." },
-  { step: "05", title: "Deed",         desc: "Receive your registered deed upon full payment — full legal ownership transferred." },
+  {
+    step: "01",
+    title: "Consultation",
+    desc: "Schedule a free consultation with our investment advisors to understand your goals.",
+  },
+  {
+    step: "02",
+    title: "Site Visit",
+    desc: "Visit the project site with our team and explore the location firsthand.",
+  },
+  {
+    step: "03",
+    title: "Booking",
+    desc: "Reserve your plot with a token payment and lock in the current price.",
+  },
+  {
+    step: "04",
+    title: "Agreement",
+    desc: "Sign the sale agreement and begin your flexible installment payment journey.",
+  },
+  {
+    step: "05",
+    title: "Deed",
+    desc: "Receive your registered deed upon full payment — full legal ownership transferred.",
+  },
 ];
 
 const stats = [
   { value: "12–18%", label: "Annual Appreciation" },
-  { value: "6–10%",  label: "Rental Yield" },
-  { value: "25+",    label: "Delivered Projects" },
+  { value: "6–10%", label: "Rental Yield" },
+  { value: "25+", label: "Delivered Projects" },
   { value: "1,500+", label: "Happy Investors" },
 ];
 
@@ -93,51 +132,66 @@ export default function InvestmentPage() {
         <div
           className="absolute inset-0 opacity-[0.04] pointer-events-none"
           aria-hidden="true"
-          style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }}
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
         />
-        <Container className="relative">
+        <SectionContainer className="relative">
           <div className="max-w-3xl">
             <div className="flex items-center gap-3 mb-5">
               <div className="divider-gold" />
-              <span className="text-label text-accent">Real Estate Investment</span>
+              <span className="text-label text-accent">
+                Real Estate Investment
+              </span>
             </div>
             <h1 className="font-heading font-bold text-display-lg text-white leading-[1.08] mb-5">
-              Invest in <span className="text-gold">Dhaka&apos;s</span> Fastest-<br className="hidden sm:block" />Growing Corridors
+              Invest in <span className="text-gold">Dhaka&apos;s</span> Fastest-
+              <br className="hidden sm:block" />
+              Growing Corridors
             </h1>
             <p className="text-white/65 text-lg font-light leading-relaxed max-w-2xl mb-8">
-              Silicon Real Estate connects discerning investors with RAJUK-approved, legally
-              verified land assets delivering consistent capital appreciation and strong rental yields.
+              Silicon Real Estate connects discerning investors with
+              RAJUK-approved, legally verified land assets delivering consistent
+              capital appreciation and strong rental yields.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link href="/contact" className="btn-gold">
                 <CalendarCheck className="w-4 h-4" />
                 Book Free Consultation
               </Link>
-              <Link href="/properties" className="inline-flex items-center gap-2 px-6 h-11 rounded-xl border border-white/20 text-white hover:bg-white/10 text-sm font-heading font-medium transition-all">
+              <Link
+                href="/properties"
+                className="inline-flex items-center gap-2 px-6 h-11 rounded-xl border border-white/20 text-white hover:bg-white/10 text-sm font-heading font-medium transition-all">
                 Browse Plots <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </div>
-        </Container>
+        </SectionContainer>
       </section>
 
       {/* ── Stats Bar ─────────────────────────────────── */}
       <section className="py-10 bg-accent/5 border-y border-accent/10">
-        <Container>
+        <SectionContainer>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {stats.map((s, i) => (
               <div key={i} className="text-center">
-                <div className="font-heading font-bold text-3xl text-accent">{s.value}</div>
-                <div className="text-xs text-muted-foreground font-medium uppercase tracking-[0.1em] mt-1">{s.label}</div>
+                <div className="font-heading font-bold text-3xl text-accent">
+                  {s.value}
+                </div>
+                <div className="text-xs text-muted-foreground font-medium uppercase tracking-[0.1em] mt-1">
+                  {s.label}
+                </div>
               </div>
             ))}
           </div>
-        </Container>
+        </SectionContainer>
       </section>
 
       {/* ── Why Invest ─────────────────────────────────── */}
       <section className="section-y bg-background" id="why">
-        <Container>
+        <SectionContainer>
           <div className="text-center max-w-2xl mx-auto mb-14 space-y-4">
             <div className="flex items-center justify-center gap-3">
               <div className="w-8 h-8 rounded-lg bg-accent/12 flex items-center justify-center">
@@ -149,27 +203,34 @@ export default function InvestmentPage() {
               Why Invest in <span className="text-gold">Land</span>?
             </h2>
             <p className="text-muted-foreground text-lg font-light">
-              Land remains Bangladesh's most reliable wealth-building asset — and Silicon Real Estate
-              makes accessing it simple, legal, and transparent.
+              Land remains Bangladesh's most reliable wealth-building asset —
+              and Silicon Real Estate makes accessing it simple, legal, and
+              transparent.
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {whyPoints.map((p, i) => (
-              <div key={i} className="group glass-card rounded-2xl p-7 border border-border card-lift">
+              <div
+                key={i}
+                className="group glass-card rounded-2xl p-7 border border-border card-lift">
                 <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-5 group-hover:bg-accent/20 transition-colors">
                   <p.icon className="h-5 w-5 text-accent" />
                 </div>
-                <h3 className="font-heading font-semibold text-foreground mb-2 text-lg">{p.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed font-light">{p.desc}</p>
+                <h3 className="font-heading font-semibold text-foreground mb-2 text-lg">
+                  {p.title}
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed font-light">
+                  {p.desc}
+                </p>
               </div>
             ))}
           </div>
-        </Container>
+        </SectionContainer>
       </section>
 
       {/* ── Investment Types ────────────────────────────── */}
       <section className="section-y bg-secondary/30" id="benefits">
-        <Container>
+        <SectionContainer>
           <div className="text-center max-w-2xl mx-auto mb-14 space-y-4">
             <div className="flex items-center justify-center gap-3">
               <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -183,41 +244,62 @@ export default function InvestmentPage() {
           </div>
           <div className="grid lg:grid-cols-2 gap-8">
             {investmentTypes.map((t, i) => (
-              <div key={i} className="glass-card rounded-3xl overflow-hidden border border-border shadow-soft-md card-lift">
+              <div
+                key={i}
+                className="glass-card rounded-3xl overflow-hidden border border-border shadow-soft-md card-lift">
                 <div className="relative aspect-[16/9] overflow-hidden">
-                  <Image src={t.image} alt={t.title} fill className="object-cover" sizes="(min-width: 1024px) 50vw, 100vw" />
+                  <Image
+                    src={t.image}
+                    alt={t.title}
+                    fill
+                    className="object-cover"
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                  />
                   <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
                   <div className="absolute top-4 left-4 flex gap-2">
-                    <span className="px-3 py-1 rounded-full bg-accent text-accent-foreground text-xs font-bold">{t.tag}</span>
-                    <span className="px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-bold">{t.badge}</span>
+                    <span className="px-3 py-1 rounded-full bg-accent text-accent-foreground text-xs font-bold">
+                      {t.tag}
+                    </span>
+                    <span className="px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-bold">
+                      {t.badge}
+                    </span>
                   </div>
                 </div>
                 <div className="p-7 space-y-5">
                   <div>
-                    <h3 className="font-heading font-bold text-2xl text-foreground mb-2">{t.title}</h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{t.desc}</p>
+                    <h3 className="font-heading font-bold text-2xl text-foreground mb-2">
+                      {t.title}
+                    </h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed">
+                      {t.desc}
+                    </p>
                   </div>
                   <ul className="space-y-2">
                     {t.features.map((f) => (
-                      <li key={f} className="flex items-center gap-2.5 text-sm text-foreground">
+                      <li
+                        key={f}
+                        className="flex items-center gap-2.5 text-sm text-foreground">
                         <CheckCircle className="h-4 w-4 text-accent flex-shrink-0" />
                         {f}
                       </li>
                     ))}
                   </ul>
-                  <Link href={t.href} className="group inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-accent transition-colors">
-                    View Available Plots <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  <Link
+                    href={t.href}
+                    className="group inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-accent transition-colors">
+                    View Available Plots{" "}
+                    <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </div>
               </div>
             ))}
           </div>
-        </Container>
+        </SectionContainer>
       </section>
 
       {/* ── ROI Section ────────────────────────────────── */}
       <section className="section-y bg-background" id="roi">
-        <Container>
+        <SectionContainer>
           <div className="grid lg:grid-cols-2 gap-14 xl:gap-20 items-center">
             <div className="space-y-7">
               <div className="flex items-center gap-3">
@@ -232,15 +314,17 @@ export default function InvestmentPage() {
               <div className="divider-gold" />
               <div className="space-y-4 text-muted-foreground leading-[1.8] font-light text-base">
                 <p>
-                  Bangladesh&apos;s macroeconomic fundamentals — a growing GDP, rising FDI, and
-                  government initiatives such as the Special Economic Zone programme — create a
-                  structural tailwind for real estate values. Prime Dhaka locations have consistently
+                  Bangladesh&apos;s macroeconomic fundamentals — a growing GDP,
+                  rising FDI, and government initiatives such as the Special
+                  Economic Zone programme — create a structural tailwind for
+                  real estate values. Prime Dhaka locations have consistently
                   appreciated 12–18% per year over the last decade.
                 </p>
                 <p>
-                  Our residential properties deliver rental yields of 6–10% annually — among the
-                  highest in the region. Commercial assets in mixed-use developments offer rental
-                  premiums and capital appreciation that outpace inflation.
+                  Our residential properties deliver rental yields of 6–10%
+                  annually — among the highest in the region. Commercial assets
+                  in mixed-use developments offer rental premiums and capital
+                  appreciation that outpace inflation.
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -248,11 +332,17 @@ export default function InvestmentPage() {
                   { label: "Min. Down Payment", value: "20%" },
                   { label: "Installment Period", value: "Up to 5 yrs" },
                   { label: "Avg. Capital Growth", value: "15% / yr" },
-                  { label: "Avg. Rental Yield",   value: "8% / yr" },
+                  { label: "Avg. Rental Yield", value: "8% / yr" },
                 ].map((item) => (
-                  <div key={item.label} className="p-4 rounded-xl border border-border bg-card shadow-soft">
-                    <div className="font-heading font-bold text-2xl text-accent">{item.value}</div>
-                    <div className="text-xs text-muted-foreground mt-0.5">{item.label}</div>
+                  <div
+                    key={item.label}
+                    className="p-4 rounded-xl border border-border bg-card shadow-soft">
+                    <div className="font-heading font-bold text-2xl text-accent">
+                      {item.value}
+                    </div>
+                    <div className="text-xs text-muted-foreground mt-0.5">
+                      {item.label}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -267,19 +357,27 @@ export default function InvestmentPage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-dark-hero/70 via-transparent to-transparent" />
               <div className="absolute bottom-6 left-6 right-6 glass-dark rounded-xl p-5">
-                <p className="text-white/60 text-xs font-heading mb-1">Average 5-Year Return</p>
-                <p className="text-white font-heading font-bold text-3xl">87%</p>
-                <p className="text-accent text-xs mt-1">Based on completed project data</p>
+                <p className="text-white/60 text-xs font-heading mb-1">
+                  Average 5-Year Return
+                </p>
+                <p className="text-white font-heading font-bold text-3xl">
+                  87%
+                </p>
+                <p className="text-accent text-xs mt-1">
+                  Based on completed project data
+                </p>
               </div>
             </div>
           </div>
-        </Container>
+        </SectionContainer>
       </section>
 
       {/* ── Investment Process ──────────────────────────── */}
-      <section className="section-y bg-dark-hero relative overflow-hidden" id="payment">
+      <section
+        className="section-y bg-dark-hero relative overflow-hidden"
+        id="payment">
         <div className="absolute inset-0 bg-gradient-to-r from-accent/5 via-transparent to-accent/5 pointer-events-none" />
-        <Container className="relative">
+        <SectionContainer className="relative">
           <div className="text-center max-w-2xl mx-auto mb-14 space-y-4">
             <div className="flex items-center justify-center gap-3">
               <div className="w-8 h-8 rounded-lg bg-accent/15 flex items-center justify-center">
@@ -290,47 +388,61 @@ export default function InvestmentPage() {
             <h2 className="font-heading font-bold text-display-md text-white">
               How to <span className="text-gold">Invest</span>
             </h2>
-            <p className="text-white/60 font-light text-lg">Five simple steps from enquiry to full ownership.</p>
+            <p className="text-white/60 font-light text-lg">
+              Five simple steps from enquiry to full ownership.
+            </p>
           </div>
           <div className="grid sm:grid-cols-3 lg:grid-cols-5 gap-5">
             {process.map((p, i) => (
               <div key={i} className="relative text-center">
                 {i < process.length - 1 && (
-                  <div className="hidden lg:block absolute top-8 left-[60%] w-full h-px bg-white/10" aria-hidden="true" />
+                  <div
+                    className="hidden lg:block absolute top-8 left-[60%] w-full h-px bg-white/10"
+                    aria-hidden="true"
+                  />
                 )}
                 <div className="w-16 h-16 rounded-2xl bg-accent/15 border border-accent/25 flex items-center justify-center mx-auto mb-4">
-                  <span className="font-heading font-bold text-accent text-lg">{p.step}</span>
+                  <span className="font-heading font-bold text-accent text-lg">
+                    {p.step}
+                  </span>
                 </div>
-                <h3 className="font-heading font-semibold text-white mb-2">{p.title}</h3>
-                <p className="text-sm text-white/45 leading-relaxed font-light">{p.desc}</p>
+                <h3 className="font-heading font-semibold text-white mb-2">
+                  {p.title}
+                </h3>
+                <p className="text-sm text-white/45 leading-relaxed font-light">
+                  {p.desc}
+                </p>
               </div>
             ))}
           </div>
-        </Container>
+        </SectionContainer>
       </section>
 
       {/* ── CTA ────────────────────────────────────────── */}
       <section className="section-y bg-background">
-        <Container>
+        <SectionContainer>
           <div className="max-w-3xl mx-auto text-center space-y-7">
             <h2 className="font-heading font-bold text-display-md text-foreground">
               Ready to Start <span className="text-gold">Investing</span>?
             </h2>
             <p className="text-muted-foreground text-lg font-light leading-relaxed">
-              Our investment advisory team is available Sat–Thu, 9AM–7PM. Schedule a free,
-              no-obligation consultation and let us match you with the right asset for your goals.
+              Our investment advisory team is available Sat–Thu, 9AM–7PM.
+              Schedule a free, no-obligation consultation and let us match you
+              with the right asset for your goals.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact" className="btn-gold">
                 <CalendarCheck className="w-4 h-4" />
                 Book Free Consultation
               </Link>
-              <Link href="/calculator" className="inline-flex items-center gap-2 px-6 h-11 rounded-xl border border-border text-foreground hover:bg-muted text-sm font-heading font-medium transition-all">
+              <Link
+                href="/calculator"
+                className="inline-flex items-center gap-2 px-6 h-11 rounded-xl border border-border text-foreground hover:bg-muted text-sm font-heading font-medium transition-all">
                 EMI Calculator <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </div>
-        </Container>
+        </SectionContainer>
       </section>
     </>
   );

@@ -12,7 +12,7 @@ import {
   Ruler,
   Sparkles,
 } from "lucide-react";
-import { Container } from "@/components/layout/Container";
+
 import { useProperties } from "@/hooks/useProperties";
 import { formatCompactCurrency } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -132,7 +132,7 @@ function PropertyGridCard({ property, isPlot }: PropertyGridCardProps) {
       href={`/properties/${property.slug}`}
       className="group block h-full select-none">
       <div className="bg-card dark:bg-neutral-900/60 text-card-foreground rounded-2xl border border-neutral-200/60 dark:border-neutral-800/80 shadow-xs shadow-neutral-200/45 dark:shadow-none hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col h-full">
-        {/* Aspect Ratio Image Container */}
+        {/* Aspect Ratio Image SectionContainer */}
         <div className="relative aspect-[4/3] w-full overflow-hidden bg-muted">
           <motion.div
             whileHover={{ scale: 1.04 }}

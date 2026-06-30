@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useComparison } from "@/hooks/useComparison";
 import { useProperties } from "@/hooks/useProperties";
-import { Container } from "@/components/layout/Container";
+import { SectionContainer } from "../ui/section-container";
 
 export function PropertyCompareBar() {
   const { items, count, limit, removeCompare, clearAll, isHydrated } =
@@ -27,7 +27,7 @@ export function PropertyCompareBar() {
         exit={{ y: 100, opacity: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
         className="fixed bottom-0 left-0 right-0 z-40 border-t bg-background/95 backdrop-blur-md shadow-2xl">
-        <Container className="py-3">
+        <SectionContainer className="py-3">
           <div className="flex items-center justify-between gap-4">
             {/* Selected items */}
             <div className="flex items-center gap-3 flex-1 min-w-0 overflow-x-auto">
@@ -84,7 +84,7 @@ export function PropertyCompareBar() {
               </Button>
             </div>
           </div>
-        </Container>
+        </SectionContainer>
       </motion.div>
     </AnimatePresence>
   );

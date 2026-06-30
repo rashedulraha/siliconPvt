@@ -4,7 +4,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  Menu, X, Phone, CalendarCheck, ChevronDown, LogOut, User, Heart,
+  Menu,
+  X,
+  Phone,
+  CalendarCheck,
+  ChevronDown,
+  LogOut,
+  User,
+  Heart,
   LayoutDashboard,
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
@@ -12,13 +19,15 @@ import { cn } from "@/lib/utils";
 import { ModeToggle } from "@/components/theme-toggle";
 import { useCMS } from "@/context/CMSContext";
 import { useUserAuth } from "@/context/UserAuthContext";
-import { SectionContainer } from "@/components/ui/section-container";
+import { SectionContainer } from "../ui/section-container";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  
-  const [activeMobileGroup, setActiveMobileGroup] = useState<string | null>(null);
+
+  const [activeMobileGroup, setActiveMobileGroup] = useState<string | null>(
+    null,
+  );
 
   const userMenuRef = useRef<HTMLDivElement>(null);
 
@@ -36,7 +45,10 @@ export function Navbar() {
 
   useEffect(() => {
     function handler(e: MouseEvent) {
-      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+      if (
+        userMenuRef.current &&
+        !userMenuRef.current.contains(e.target as Node)
+      ) {
         setUserMenuOpen(false);
       }
     }
@@ -55,7 +67,10 @@ export function Navbar() {
       href: "/properties",
       links: [
         { label: "All Properties", href: "/properties" },
-        { label: "Residential Plots", href: "/properties?category=residential" },
+        {
+          label: "Residential Plots",
+          href: "/properties?category=residential",
+        },
         { label: "Commercial Plots", href: "/properties?category=commercial" },
         { label: "Ready Flat", href: "/properties?category=flat" },
         { label: "Land Investment", href: "/investment" },
@@ -118,14 +133,13 @@ export function Navbar() {
   ];
 
   return (
-    <header
-      className="fixed top-0 left-0 right-0 z-50 w-full duration-300 ease-out border-b shadow-xs bg-background/80 backdrop-blur-md border-border/40"
-    >
+    <header className="fixed top-0 left-0 right-0 z-50 w-full duration-300 ease-out border-b shadow-xs bg-background/80 backdrop-blur-md border-border/40">
       <SectionContainer>
         <div className="flex h-16 items-center justify-between gap-6">
-
           {/* ── Logo Section ───────────── */}
-          <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
+          <Link
+            href="/"
+            className="flex items-center gap-3 flex-shrink-0 group">
             <div
               className="
                 relative
@@ -141,16 +155,15 @@ export function Navbar() {
                 flex items-center justify-center
                 shrink-0
               ">
-
-            <Image
-            src="/silicon.png"
-            alt={`${state.siteSettings.siteName} Logo`}
-            width={44}
-            height={44}
-            priority
-            sizes="44px"
-            className="object-cover rounded-full overflow-hidden p-1 select-none"
-          />
+              <Image
+                src="/silicon.png"
+                alt={`${state.siteSettings.siteName} Logo`}
+                width={44}
+                height={44}
+                priority
+                sizes="44px"
+                className="object-cover rounded-full overflow-hidden p-1 select-none"
+              />
             </div>
 
             <div className="hidden sm:flex flex-col text-left">
@@ -166,7 +179,9 @@ export function Navbar() {
           {/* ── Desktop Nav (Premium Theme Matched) ──────────────────────────── */}
           <nav className="hidden lg:flex items-center gap-1 px-3 py-1 bg-muted/40 backdrop-blur-xs rounded-full border border-border/50 w-fit">
             {navGroups.map((group) => {
-              const isGroupActive = pathname === group.href || pathname?.startsWith(group.href + "/");
+              const isGroupActive =
+                pathname === group.href ||
+                pathname?.startsWith(group.href + "/");
               return (
                 <div key={group.label} className="relative group/nav">
                   <Link
@@ -175,9 +190,8 @@ export function Navbar() {
                       "flex items-center gap-1 px-3 py-1.5 text-[13px] font-medium rounded-full transition-all duration-300 select-none",
                       isGroupActive
                         ? "bg-background text-primary border border-border/60 shadow-xs"
-                        : "text-muted-foreground hover:text-foreground hover:bg-background/50"
-                    )}
-                  >
+                        : "text-muted-foreground hover:text-foreground hover:bg-background/50",
+                    )}>
                     {group.label}
                     <ChevronDown className="w-3.5 h-3.5 opacity-60 transition-transform duration-300 group-hover/nav:rotate-180" />
                   </Link>
@@ -189,8 +203,7 @@ export function Navbar() {
                         <Link
                           key={link.label}
                           href={link.href}
-                          className="block px-4 py-2 text-[12px] text-foreground/80 hover:bg-primary/[0.06] hover:text-primary transition-all font-medium text-left"
-                        >
+                          className="block px-4 py-2 text-[12px] text-foreground/80 hover:bg-primary/[0.06] hover:text-primary transition-all font-medium text-left">
                           {link.label}
                         </Link>
                       ))}
@@ -206,8 +219,7 @@ export function Navbar() {
             {state.siteSettings.contactPhone && (
               <a
                 href={`tel:${state.siteSettings.contactPhone}`}
-                className="flex items-center justify-center w-9 h-9 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/[0.06] transition-all"
-              >
+                className="flex items-center justify-center w-9 h-9 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/[0.06] transition-all">
                 <Phone className="w-4 h-4 text-emerald-500" />
               </a>
             )}
@@ -222,19 +234,18 @@ export function Navbar() {
                   onClick={() => setUserMenuOpen((v) => !v)}
                   className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl border border-border bg-muted/50 hover:bg-muted shadow-xs transition-all duration-300"
                   aria-expanded={userMenuOpen}
-                  aria-haspopup="true"
-                >
+                  aria-haspopup="true">
                   {user.avatar ? (
                     <div className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-primary/20">
-                    <Image
-                      src={user.avatar}
-                      alt={user.name}
-                      width={32}
-                      height={32}
-                      sizes="32px"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+                      <Image
+                        src={user.avatar}
+                        alt={user.name}
+                        width={32}
+                        height={32}
+                        sizes="32px"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                   ) : (
                     <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center ring-2 ring-primary/20">
                       <User className="w-4 h-4 text-primary" />
@@ -251,7 +262,7 @@ export function Navbar() {
                   <ChevronDown
                     className={cn(
                       "w-3.5 h-3.5 transition-transform duration-300 hidden xl:block text-muted-foreground",
-                      userMenuOpen && "rotate-180"
+                      userMenuOpen && "rotate-180",
                     )}
                   />
                 </button>
@@ -267,22 +278,23 @@ export function Navbar() {
                       </p>
                     </div>
                     <Link
-                      href={user?.role === "admin" ? "/dashboard/admin" : "/dashboard/user"}
-                      className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-primary/[0.06] hover:text-primary transition-colors"
-                    >
+                      href={
+                        user?.role === "admin"
+                          ? "/dashboard/admin"
+                          : "/dashboard/user"
+                      }
+                      className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-primary/[0.06] hover:text-primary transition-colors">
                       <LayoutDashboard className="w-4 h-4" /> My Dashboard
                     </Link>
                     <Link
                       href="/favorites"
-                      className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-primary/[0.06] hover:text-primary transition-colors"
-                    >
+                      className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-primary/[0.06] hover:text-primary transition-colors">
                       <Heart className="w-4 h-4" /> Saved Properties
                     </Link>
                     <div className="border-t border-border/60 my-1.5" />
                     <button
                       onClick={handleLogout}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-destructive hover:bg-destructive/[0.06] transition-colors text-left"
-                    >
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-destructive hover:bg-destructive/[0.06] transition-colors text-left">
                       <LogOut className="w-4 h-4" /> Sign Out
                     </button>
                   </div>
@@ -292,14 +304,12 @@ export function Navbar() {
               <div className="flex items-center gap-2">
                 <Link
                   href="/auth/login"
-                  className="px-4 h-9 rounded-lg text-sm font-medium font-heading border border-border text-foreground hover:bg-muted transition-all duration-300 inline-flex items-center"
-                >
+                  className="px-4 h-9 rounded-lg text-sm font-medium font-heading border border-border text-foreground hover:bg-muted transition-all duration-300 inline-flex items-center">
                   Sign In
                 </Link>
                 <Link
                   href="/contact"
-                  className="bg-primary text-primary-foreground h-9 px-4 rounded-lg text-sm font-medium font-heading inline-flex items-center gap-1.5 hover:bg-primary/90 transition-all duration-300 shadow-md shadow-primary/25"
-                >
+                  className="bg-primary text-primary-foreground h-9 px-4 rounded-lg text-sm font-medium font-heading inline-flex items-center gap-1.5 hover:bg-primary/90 transition-all duration-300 shadow-md shadow-primary/25">
                   <CalendarCheck className="w-3.5 h-3.5" />
                   Book Visit
                 </Link>
@@ -313,8 +323,7 @@ export function Navbar() {
               <Link
                 href="/favorites"
                 aria-label="Favorites"
-                className="w-9 h-9 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-muted transition-all"
-              >
+                className="w-9 h-9 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-muted transition-all">
                 <Heart className="w-4 h-4" />
               </Link>
             )}
@@ -322,9 +331,12 @@ export function Navbar() {
             <button
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Toggle menu"
-              className="w-9 h-9 rounded-lg border border-border text-foreground hover:bg-muted flex items-center justify-center transition-all duration-300"
-            >
-              {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+              className="w-9 h-9 rounded-lg border border-border text-foreground hover:bg-muted flex items-center justify-center transition-all duration-300">
+              {isOpen ? (
+                <X className="h-4 w-4" />
+              ) : (
+                <Menu className="h-4 w-4" />
+              )}
             </button>
           </div>
         </div>
@@ -333,30 +345,42 @@ export function Navbar() {
         <div
           className={cn(
             "lg:hidden overflow-y-auto transition-all duration-300 ease-in-out",
-            isOpen ? "max-h-[85vh] opacity-100 mt-2 pb-6 border-t border-border/40 pt-2" : "max-h-0 opacity-0 pointer-events-none"
-          )}
-        >
+            isOpen
+              ? "max-h-[85vh] opacity-100 mt-2 pb-6 border-t border-border/40 pt-2"
+              : "max-h-0 opacity-0 pointer-events-none",
+          )}>
           <div className="flex flex-col gap-1 mb-4">
             {navGroups.map((group) => {
               const isGroupOpen = activeMobileGroup === group.label;
               return (
-                <div key={group.label} className="border-b border-border/10 last:border-0">
+                <div
+                  key={group.label}
+                  className="border-b border-border/10 last:border-0">
                   <button
-                    onClick={() => setActiveMobileGroup(isGroupOpen ? null : group.label)}
-                    className="w-full flex items-center justify-between px-3 py-3 text-sm font-medium text-foreground rounded-lg hover:bg-muted/50 transition-all"
-                  >
+                    onClick={() =>
+                      setActiveMobileGroup(isGroupOpen ? null : group.label)
+                    }
+                    className="w-full flex items-center justify-between px-3 py-3 text-sm font-medium text-foreground rounded-lg hover:bg-muted/50 transition-all">
                     {group.label}
-                    <ChevronDown className={cn("w-4 h-4 transition-transform duration-200 opacity-60", isGroupOpen && "rotate-180")} />
+                    <ChevronDown
+                      className={cn(
+                        "w-4 h-4 transition-transform duration-200 opacity-60",
+                        isGroupOpen && "rotate-180",
+                      )}
+                    />
                   </button>
-                  
-                  <div className={cn("flex flex-col gap-0.5 pl-4 overflow-hidden transition-all duration-300", isGroupOpen ? "max-h-60 py-1" : "max-h-0")}>
+
+                  <div
+                    className={cn(
+                      "flex flex-col gap-0.5 pl-4 overflow-hidden transition-all duration-300",
+                      isGroupOpen ? "max-h-60 py-1" : "max-h-0",
+                    )}>
                     {group.links.map((link) => (
                       <Link
                         key={link.label}
                         href={link.href}
                         onClick={() => setIsOpen(false)}
-                        className="px-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary rounded-md transition-colors text-left block"
-                      >
+                        className="px-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary rounded-md transition-colors text-left block">
                         {link.label}
                       </Link>
                     ))}
@@ -366,7 +390,6 @@ export function Navbar() {
             })}
           </div>
 
-          
           <div className="mt-4 pt-4 border-t border-border/60">
             {isLoggedIn && user ? (
               <div className="space-y-3">
@@ -375,16 +398,23 @@ export function Navbar() {
                     <User className="w-4 h-4 text-primary" />
                   </div>
                   <div className="text-left">
-                    <p className="text-xs font-semibold text-foreground">{user.name}</p>
-                    <p className="text-[10px] text-muted-foreground truncate max-w-[180px]">{user.email}</p>
+                    <p className="text-xs font-semibold text-foreground">
+                      {user.name}
+                    </p>
+                    <p className="text-[10px] text-muted-foreground truncate max-w-[180px]">
+                      {user.email}
+                    </p>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <Link
-                    href={user?.role === "admin" ? "/dashboard/admin" : "/dashboard/user"}
+                    href={
+                      user?.role === "admin"
+                        ? "/dashboard/admin"
+                        : "/dashboard/user"
+                    }
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-center gap-2 h-9 rounded-lg bg-muted text-foreground text-xs font-medium hover:bg-muted/80 transition-all"
-                  >
+                    className="flex items-center justify-center gap-2 h-9 rounded-lg bg-muted text-foreground text-xs font-medium hover:bg-muted/80 transition-all">
                     <LayoutDashboard className="w-3.5 h-3.5" /> Dashboard
                   </Link>
                   <button
@@ -392,8 +422,7 @@ export function Navbar() {
                       handleLogout();
                       setIsOpen(false);
                     }}
-                    className="flex items-center justify-center gap-2 h-9 rounded-lg border border-destructive/20 text-destructive text-xs font-medium hover:bg-destructive/[0.04] transition-all"
-                  >
+                    className="flex items-center justify-center gap-2 h-9 rounded-lg border border-destructive/20 text-destructive text-xs font-medium hover:bg-destructive/[0.04] transition-all">
                     <LogOut className="w-3.5 h-3.5" /> Sign Out
                   </button>
                 </div>
@@ -403,15 +432,13 @@ export function Navbar() {
                 <Link
                   href="/auth/login"
                   onClick={() => setIsOpen(false)}
-                  className="w-full h-10 rounded-xl border border-border text-foreground hover:bg-muted inline-flex items-center justify-center text-xs font-semibold"
-                >
+                  className="w-full h-10 rounded-xl border border-border text-foreground hover:bg-muted inline-flex items-center justify-center text-xs font-semibold">
                   Sign In
                 </Link>
                 <Link
                   href="/contact"
                   onClick={() => setIsOpen(false)}
-                  className="w-full h-10 rounded-xl bg-primary text-primary-foreground inline-flex items-center justify-center text-xs font-semibold shadow-xs"
-                >
+                  className="w-full h-10 rounded-xl bg-primary text-primary-foreground inline-flex items-center justify-center text-xs font-semibold shadow-xs">
                   <CalendarCheck className="w-3.5 h-3.5 mr-1.5" /> Book Visit
                 </Link>
               </div>

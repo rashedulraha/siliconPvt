@@ -1,9 +1,9 @@
-import { Container } from "@/components/layout/Container";
+import { SectionContainer } from "@/components/layout/SectionContainer";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Loading() {
   return (
-    <Container className="py-8">
+    <SectionContainer className="py-8">
       <Skeleton className="h-4 w-40 mb-6" />
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
@@ -22,6 +22,6 @@ export default function Loading() {
           <Skeleton className="h-64" />
         </div>
       </div>
-    </Container>
+    </SectionContainer>
   );
 }

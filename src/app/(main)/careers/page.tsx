@@ -24,7 +24,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Container } from "@/components/layout/Container";
+import { SectionContainer } from "@/components/layout/SectionContainer";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { useCMS } from "@/context/CMSContext";
 import { useJobs } from "@/hooks/useJobs";
@@ -85,9 +85,13 @@ export default function CareersPage() {
         <div className="absolute bottom-0 left-0 w-[400px] h-[300px] bg-accent/4 blur-[100px] pointer-events-none" />
         <div
           className="absolute inset-0 opacity-[0.04] pointer-events-none"
-          style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }}
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
         />
-        <Container className="relative">
+        <SectionContainer className="relative">
           <div className="max-w-3xl">
             <div className="flex items-center gap-3 mb-5">
               <div className="divider-gold" />
@@ -113,12 +117,12 @@ export default function CareersPage() {
               ))}
             </div>
           </div>
-        </Container>
+        </SectionContainer>
       </section>
 
       {/* Jobs List */}
       <section className="section-y bg-background">
-        <Container>
+        <SectionContainer>
           <div className="mb-10">
             <h2 className="font-heading text-3xl md:text-4xl font-bold">
               Open Positions
@@ -179,12 +183,12 @@ export default function CareersPage() {
               ))}
             </div>
           )}
-        </Container>
+        </SectionContainer>
       </section>
 
       {/* Culture */}
       <section className="section-y bg-muted/40">
-        <Container>
+        <SectionContainer>
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <p className="text-sm font-medium text-muted-foreground mb-3 uppercase tracking-wide">
@@ -194,9 +198,9 @@ export default function CareersPage() {
                 Where Great Work Happens
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                At Silicon Real Estate, we believe the best results come from empowered
-                teams. We foster a culture of collaboration, continuous
-                learning, and celebration of wins — big and small.
+                At Silicon Real Estate, we believe the best results come from
+                empowered teams. We foster a culture of collaboration,
+                continuous learning, and celebration of wins — big and small.
               </p>
               <div className="grid sm:grid-cols-2 gap-3">
                 {perks.map((perk) => (
@@ -226,7 +230,7 @@ export default function CareersPage() {
               </div>
             </div>
           </div>
-        </Container>
+        </SectionContainer>
       </section>
 
       {/* Apply Dialog */}

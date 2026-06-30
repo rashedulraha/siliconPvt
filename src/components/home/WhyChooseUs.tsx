@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Shield, MapPin, CreditCard, UserCheck, Star } from "lucide-react";
-import { Container } from "@/components/layout/Container";
 import { SectionContainer } from "../ui/section-container";
 
 export function WhyChooseUs() {

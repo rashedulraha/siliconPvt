@@ -26,7 +26,6 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { useCMS } from "@/context/CMSContext";
-import { Container } from "./Container";
 import { SectionContainer } from "../ui/section-container";
 
 /* ── Full sitemap data ─────────────────────────────────────────────── */
@@ -387,7 +386,7 @@ export function Footer() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-11 h-11 rounded-xl bg-primary text-primary-foreground flex items-center justify-center flex-shrink-0 hover:bg-primary/85 transition-all disabled:opacity-50 shadow-blue">
+                  className="w-11 h-11 rounded-xl bg-primary text-primary-foreground flex items-center justify-center shrink-0 hover:bg-primary/85 transition-all disabled:opacity-50 shadow-blue">
                   <Send className="h-4 w-4" />
                 </button>
               </div>

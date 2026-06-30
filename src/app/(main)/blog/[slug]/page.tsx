@@ -8,7 +8,7 @@ import { ArrowLeft, Calendar, User, Tag, Clock, Bookmark } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Container } from "@/components/layout/Container";
+import { SectionContainer } from "@/components/layout/SectionContainer";
 import { BlogCard } from "@/components/blog/BlogCard";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { RelatedPropertiesCarousel } from "@/components/blog/RelatedPropertiesCarousel";
@@ -47,9 +47,13 @@ export default function BlogPostPage({
         ogImage={post.coverImage}
       />
 
-      <Container className="py-24 max-w-4xl space-y-10">
+      <SectionContainer className="py-24 max-w-4xl space-y-10">
         <div className="flex items-center justify-between">
-          <Button variant="ghost" size="sm" asChild className="hover:text-accent">
+          <Button
+            variant="ghost"
+            size="sm"
+            asChild
+            className="hover:text-accent">
             <Link href="/blog">
               <ArrowLeft className="h-4 w-4 mr-1.5" /> Back to Blog
             </Link>
@@ -61,9 +65,10 @@ export default function BlogPostPage({
             onClick={handleBookmarkToggle}
             className={`rounded-xl border-border hover:border-accent hover:text-accent gap-1.5 transition-all shadow-sm ${
               bookmarked ? "bg-accent/5 border-accent text-accent" : ""
-            }`}
-          >
-            <Bookmark className={`h-4 w-4 ${bookmarked ? "fill-accent" : ""}`} />
+            }`}>
+            <Bookmark
+              className={`h-4 w-4 ${bookmarked ? "fill-accent" : ""}`}
+            />
             {bookmarked ? "Saved" : "Save Article"}
           </Button>
         </div>
@@ -87,7 +92,10 @@ export default function BlogPostPage({
               <Tag className="h-3 w-3 mr-1" /> {post.category}
             </Badge>
             {post.tags.map((tag) => (
-              <Badge key={tag} variant="secondary" className="bg-muted text-muted-foreground">
+              <Badge
+                key={tag}
+                variant="secondary"
+                className="bg-muted text-muted-foreground">
                 {tag}
               </Badge>
             ))}
@@ -110,7 +118,10 @@ export default function BlogPostPage({
                   />
                 </div>
                 <span>
-                  By <strong className="text-foreground font-medium">{author.name}</strong>
+                  By{" "}
+                  <strong className="text-foreground font-medium">
+                    {author.name}
+                  </strong>
                 </span>
               </div>
             )}
@@ -131,9 +142,7 @@ export default function BlogPostPage({
             {post.excerpt}
           </p>
           <Separator className="my-8" />
-          <div className="space-y-6">
-            {post.content}
-          </div>
+          <div className="space-y-6">{post.content}</div>
         </article>
 
         {/* Linked Properties Carousel Section */}
@@ -196,7 +205,7 @@ export default function BlogPostPage({
         <div className="pt-10">
           <NewsletterSubscribe />
         </div>
-      </Container>
+      </SectionContainer>
     </>
   );
 }

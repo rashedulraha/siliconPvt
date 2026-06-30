@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Briefcase, Search, MapPinned, FileText, KeyRound } from "lucide-react";
-import { Container } from "@/components/layout/Container";
 import { SectionContainer } from "../ui/section-container";
 
 const steps = [

@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Phone, Star, Sparkles } from "lucide-react";
-import { Container } from "@/components/layout/Container";
 import { SectionContainer } from "../ui/section-container";
 
 const trustPoints = [

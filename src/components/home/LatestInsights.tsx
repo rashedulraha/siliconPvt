@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Sparkles, ArrowRight } from "lucide-react";
-import { Container } from "@/components/layout/Container";
+
 import { useBlog } from "@/hooks/useBlog";
 import { SectionContainer } from "../ui/section-container";
 

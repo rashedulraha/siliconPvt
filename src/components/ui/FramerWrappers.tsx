@@ -40,23 +40,25 @@ export const FadeInSlideUp: React.FC<FadeInSlideUpProps> = ({
   );
 };
 
-interface StaggerContainerProps extends HTMLMotionProps<"div"> {
+interface StaggerSectionContainerProps extends HTMLMotionProps<"div"> {
   children: React.ReactNode;
   staggerDelay?: number;
   delayChildren?: number;
 }
 
 /**
- * Container wrapper for Staggered animations
+ * SectionContainer wrapper for Staggered animations
  */
-export const StaggerContainer: React.FC<StaggerContainerProps> = ({
+export const StaggerSectionContainer: React.FC<
+  StaggerSectionContainerProps
+> = ({
   children,
   staggerDelay = 0.06,
   delayChildren = 0,
   className,
   ...props
 }) => {
-  const containerVariants = {
+  const SectionContainerVariants = {
     hidden: { opacity: 1 },
     visible: {
       opacity: 1,
@@ -69,7 +71,7 @@ export const StaggerContainer: React.FC<StaggerContainerProps> = ({
 
   return (
     <motion.div
-      variants={containerVariants}
+      variants={SectionContainerVariants}
       initial="hidden"
       animate="visible"
       className={className}
@@ -86,7 +88,7 @@ interface StaggerItemProps extends HTMLMotionProps<"div"> {
 }
 
 /**
- * Item wrapper for elements inside a StaggerContainer
+ * Item wrapper for elements inside a StaggerSectionContainer
  */
 export const StaggerItem: React.FC<StaggerItemProps> = ({
   children,

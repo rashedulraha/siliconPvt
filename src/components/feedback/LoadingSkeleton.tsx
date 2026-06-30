@@ -1,9 +1,9 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { Container } from "@/components/layout/Container";
+import { SectionContainer } from "../ui/section-container";
 
 export function PageSkeleton() {
   return (
-    <Container className="py-12 space-y-8">
+    <SectionContainer className="py-12 space-y-8">
       {/* Hero skeleton */}
       <div className="space-y-4">
         <Skeleton className="h-4 w-32" />
@@ -26,7 +26,7 @@ export function PageSkeleton() {
           </div>
         ))}
       </div>
-    </Container>
+    </SectionContainer>
   );
 }
 

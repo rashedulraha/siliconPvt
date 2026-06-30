@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { AlertTriangle, Home, RefreshCw, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Container } from "@/components/layout/Container";
+import { SectionContainer } from "../ui/section-container";
 
 interface ErrorFallbackProps {
   error?: Error;
@@ -19,7 +19,7 @@ export function ErrorFallback({
   description = "We're sorry, but an unexpected error occurred. Please try again.",
 }: ErrorFallbackProps) {
   return (
-    <Container className="py-20">
+    <SectionContainer className="py-20">
       <div className="max-w-md mx-auto text-center space-y-6">
         <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-destructive/10">
           <AlertTriangle className="h-8 w-8 text-destructive" />
@@ -64,6 +64,6 @@ export function ErrorFallback({
           </Button>
         </div>
       </div>
-    </Container>
+    </SectionContainer>
   );
 }

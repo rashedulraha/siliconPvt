@@ -34,7 +34,7 @@ export function BlogCard({ post, author, featured = false }: BlogCardProps) {
     return (
       <Link href={`/blog/${post.slug}`} className="group block">
         <Card className="overflow-hidden grid md:grid-cols-2 hover:shadow-2xl transition-all duration-500 border border-border/80 bg-card/60 backdrop-blur-md">
-          {/* Cover Image Container */}
+          {/* Cover Image SectionContainer */}
           <div className="relative aspect-[16/10] md:aspect-auto bg-muted min-h-[300px] overflow-hidden">
             <Image
               src={coverImg}
@@ -60,22 +60,23 @@ export function BlogCard({ post, author, featured = false }: BlogCardProps) {
             <button
               onClick={handleBookmarkClick}
               className="absolute top-4 right-4 z-10 w-9 h-9 rounded-xl bg-black/40 hover:bg-black/60 border border-white/10 text-white flex items-center justify-center backdrop-blur-md transition-all duration-300 active:scale-95 shadow-lg group/btn"
-              aria-label="Bookmark article"
-            >
+              aria-label="Bookmark article">
               <Bookmark
                 className={`h-4.5 w-4.5 transition-colors ${
-                  bookmarked ? "fill-accent text-accent" : "text-white group-hover/btn:text-accent"
+                  bookmarked
+                    ? "fill-accent text-accent"
+                    : "text-white group-hover/btn:text-accent"
                 }`}
               />
             </button>
           </div>
 
-          {/* Content Container */}
+          {/* Content SectionContainer */}
           <div className="p-6 md:p-10 flex flex-col justify-center space-y-4">
             <h2 className="font-heading text-2xl md:text-3xl lg:text-4xl font-bold leading-tight group-hover:text-accent transition-colors duration-300 line-clamp-2">
               {post.title}
             </h2>
-            
+
             <p className="text-muted-foreground line-clamp-3 text-sm md:text-base font-light leading-relaxed">
               {post.excerpt}
             </p>
@@ -130,7 +131,7 @@ export function BlogCard({ post, author, featured = false }: BlogCardProps) {
   return (
     <Link href={`/blog/${post.slug}`} className="group block h-full">
       <Card className="overflow-hidden hover:shadow-xl transition-all duration-500 border border-border/80 bg-card/60 backdrop-blur-md h-full flex flex-col">
-        {/* Cover Image Container */}
+        {/* Cover Image SectionContainer */}
         <div className="relative aspect-[16/10] bg-muted overflow-hidden">
           <Image
             src={coverImg}
@@ -153,17 +154,18 @@ export function BlogCard({ post, author, featured = false }: BlogCardProps) {
           <button
             onClick={handleBookmarkClick}
             className="absolute top-3 right-3 z-10 w-8.5 h-8.5 rounded-xl bg-black/40 hover:bg-black/60 border border-white/10 text-white flex items-center justify-center backdrop-blur-md transition-all duration-300 active:scale-95 shadow-lg group/btn"
-            aria-label="Bookmark article"
-          >
+            aria-label="Bookmark article">
             <Bookmark
               className={`h-4 w-4 transition-colors ${
-                bookmarked ? "fill-accent text-accent" : "text-white group-hover/btn:text-accent"
+                bookmarked
+                  ? "fill-accent text-accent"
+                  : "text-white group-hover/btn:text-accent"
               }`}
             />
           </button>
         </div>
 
-        {/* Content Container */}
+        {/* Content SectionContainer */}
         <div className="p-5 flex flex-col flex-1 justify-between space-y-4">
           <div className="space-y-2">
             <h3 className="font-heading text-lg font-bold leading-snug group-hover:text-accent transition-colors duration-300 line-clamp-2">

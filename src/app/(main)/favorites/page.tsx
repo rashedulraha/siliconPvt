@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Heart, Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Container } from "@/components/layout/Container";
+import { SectionContainer } from "@/components/layout/SectionContainer";
 import { PropertyGrid } from "@/components/property/PropertyGrid";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { useFavorites } from "@/hooks/useFavorites";
@@ -25,7 +25,7 @@ export default function FavoritesPage() {
         description="Properties you've saved for later."
       />
 
-      <Container className="py-12 space-y-8">
+      <SectionContainer className="py-12 space-y-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
@@ -76,7 +76,7 @@ export default function FavoritesPage() {
             <PropertyGrid properties={favoriteProperties} />
           </motion.div>
         )}
-      </Container>
+      </SectionContainer>
     </>
   );
 }

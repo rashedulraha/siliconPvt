@@ -19,10 +19,14 @@ export interface SectionContainerProps<T extends React.ElementType = "div"> {
 
 /**
  * SectionContainer
+ *
+ * The single source of truth for the website's global responsive width alignment.
  * 
- * A standardized, responsive layout container wrapper.
- * Enforces a unified horizontal width grid (`container mx-auto px-4 sm:px-6 lg:px-8`)
- * across the application to maintain perfect alignment.
+ * Responsive Matrix:
+ * - `w-full`: Fully fluid on mobile, preventing overflows.
+ * - `max-w-7xl`: Enforces a premium 1280px layout grid at high-res displays.
+ * - `mx-auto`: Centers the container.
+ * - `px-4 sm:px-6 lg:px-8`: Adaptive padding to ensure breathing room on all screens.
  */
 export function SectionContainer<T extends React.ElementType = "div">({
   as,
@@ -34,7 +38,7 @@ export function SectionContainer<T extends React.ElementType = "div">({
 
   return (
     <Component
-      className={cn("container mx-auto px-4 sm:px-6 lg:px-8", className)}
+      className={cn("w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8", className)}
       {...props}
     >
       {children}

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { GitCompare, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Container } from "@/components/layout/Container";
+import { SectionContainer } from "@/components/layout/SectionContainer";
 import { PropertyCompareModal } from "@/components/property/PropertyCompareModal";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { useComparison } from "@/hooks/useComparison";
@@ -21,7 +21,7 @@ export default function ComparePage() {
         description="Compare up to 3 properties side by side."
       />
 
-      <Container className="py-12">
+      <SectionContainer className="py-12">
         <Button variant="ghost" asChild className="mb-6">
           <Link href="/properties">
             <ArrowLeft className="h-4 w-4 mr-1" /> Back to Properties
@@ -74,7 +74,7 @@ export default function ComparePage() {
             </Button>
           </div>
         )}
-      </Container>
+      </SectionContainer>
 
       {count >= 2 && (
         <PropertyCompareModal open={modalOpen} onOpenChange={setModalOpen} />

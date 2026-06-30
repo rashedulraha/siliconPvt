@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Home, Search, ArrowLeft, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Container } from "@/components/layout/Container";
 import { generateMetadata } from "@/lib/metadata";
+import { SectionContainer } from "@/components/ui/section-container";
 
 export const metadata = generateMetadata({
   title: "Page Not Found",
@@ -13,7 +13,7 @@ export const metadata = generateMetadata({
 
 export default function NotFound() {
   return (
-    <Container className="py-20 md:py-32">
+    <SectionContainer className="py-20 md:py-32">
       <div className="max-w-2xl mx-auto text-center space-y-8">
         {/* 404 illustration */}
         <div className="relative">
@@ -79,6 +79,6 @@ export default function NotFound() {
           </div>
         </div>
       </div>
-    </Container>
+    </SectionContainer>
   );
 }
