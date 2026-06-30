@@ -3,19 +3,28 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowRight, MapPin, Bed, Bath, Maximize, Ruler, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  MapPin,
+  Bed,
+  Bath,
+  Maximize,
+  Ruler,
+  Sparkles,
+} from "lucide-react";
 import { Container } from "@/components/layout/Container";
 import { useProperties } from "@/hooks/useProperties";
 import { formatCompactCurrency } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import type { Property } from "@/types";
+import { SectionContainer } from "../ui/section-container";
 
 export function FeaturedProjects() {
   const { properties } = useProperties();
 
   // Filter properties into Plots and Flats
   const plots = properties.filter(
-    (p) => p.category === "land" || p.category === "commercial"
+    (p) => p.category === "land" || p.category === "commercial",
   );
   const flats = properties.filter((p) => p.category === "apartment");
 
@@ -25,8 +34,7 @@ export function FeaturedProjects() {
 
   return (
     <section className="py-16 md:py-24  bg-transparent border-t border-border/40">
-      <Container className="space-y-16">
-        
+      <SectionContainer className="space-y-16">
         {/* ── Section Header ── */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-border/40 pb-8">
           <div className="space-y-3 text-left">
@@ -38,11 +46,17 @@ export function FeaturedProjects() {
               Featured Plots &amp; Luxury Flats
             </h2>
             <p className="text-muted-foreground text-sm max-w-2xl font-light">
-              Inspect RAJUK-approved land plots and premium apartments situated across Dhaka's key growth corridors.
+              Inspect RAJUK-approved land plots and premium apartments situated
+              across Dhaka's key growth corridors.
             </p>
           </div>
-          <Button asChild variant="outline" className="border-border hover:bg-muted text-foreground self-start md:self-auto h-11 px-6 rounded-xl cursor-pointer">
-            <Link href="/properties" className="flex items-center gap-2 font-medium">
+          <Button
+            asChild
+            variant="outline"
+            className="border-border hover:bg-muted text-foreground self-start md:self-auto h-11 px-6 rounded-xl cursor-pointer">
+            <Link
+              href="/properties"
+              className="flex items-center gap-2 font-medium">
               View All Properties
               <ArrowRight className="h-4 w-4" />
             </Link>
@@ -56,13 +70,18 @@ export function FeaturedProjects() {
               Residential &amp; Commercial Plots
             </h3>
             <p className="text-muted-foreground text-xs md:text-sm font-light">
-              Master-planned properties with fully demarcated boundaries and clear chain of custody.
+              Master-planned properties with fully demarcated boundaries and
+              clear chain of custody.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredPlots.map((property) => (
-              <PropertyGridCard key={property.id} property={property} isPlot={true} />
+              <PropertyGridCard
+                key={property.id}
+                property={property}
+                isPlot={true}
+              />
             ))}
           </div>
         </div>
@@ -74,18 +93,22 @@ export function FeaturedProjects() {
               Ready Flats &amp; Luxury Residences
             </h3>
             <p className="text-muted-foreground text-xs md:text-sm font-light">
-              Turnkey premium apartments designed with luxury materials and modern layouts.
+              Turnkey premium apartments designed with luxury materials and
+              modern layouts.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredFlats.map((property) => (
-              <PropertyGridCard key={property.id} property={property} isPlot={false} />
+              <PropertyGridCard
+                key={property.id}
+                property={property}
+                isPlot={false}
+              />
             ))}
           </div>
         </div>
-
-      </Container>
+      </SectionContainer>
     </section>
   );
 }
@@ -105,16 +128,16 @@ function PropertyGridCard({ property, isPlot }: PropertyGridCardProps) {
   const kathaSize = isPlot ? Math.round((property.area / 720) * 10) / 10 : null;
 
   return (
-    <Link href={`/properties/${property.slug}`} className="group block h-full select-none">
+    <Link
+      href={`/properties/${property.slug}`}
+      className="group block h-full select-none">
       <div className="bg-card dark:bg-neutral-900/60 text-card-foreground rounded-2xl border border-neutral-200/60 dark:border-neutral-800/80 shadow-xs shadow-neutral-200/45 dark:shadow-none hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col h-full">
-        
         {/* Aspect Ratio Image Container */}
         <div className="relative aspect-[4/3] w-full overflow-hidden bg-muted">
           <motion.div
             whileHover={{ scale: 1.04 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full h-full"
-          >
+            className="relative w-full h-full">
             <Image
               src={imageUrl}
               alt={property.title}
@@ -125,7 +148,7 @@ function PropertyGridCard({ property, isPlot }: PropertyGridCardProps) {
             />
           </motion.div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
-          
+
           {/* Status Badge (Minimalist) */}
           <div className="absolute top-4 left-4 z-10">
             <span className="bg-background/95 dark:bg-neutral-950/90 text-foreground border border-border text-[9px] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-md shadow-xs backdrop-blur-xs select-none">
@@ -168,11 +191,15 @@ function PropertyGridCard({ property, isPlot }: PropertyGridCardProps) {
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-1">
                     <Bed className="h-3.5 w-3.5 text-muted-foreground/75" />
-                    <span className="font-semibold text-foreground/90">{property.bedrooms} Beds</span>
+                    <span className="font-semibold text-foreground/90">
+                      {property.bedrooms} Beds
+                    </span>
                   </div>
                   <div className="flex items-center gap-1">
                     <Bath className="h-3.5 w-3.5 text-muted-foreground/75" />
-                    <span className="font-semibold text-foreground/90">{property.bathrooms} Baths</span>
+                    <span className="font-semibold text-foreground/90">
+                      {property.bathrooms} Baths
+                    </span>
                   </div>
                 </div>
               )}
@@ -184,14 +211,15 @@ function PropertyGridCard({ property, isPlot }: PropertyGridCardProps) {
 
             {/* BDT Pricing Readout (clean and localized) */}
             <div className="flex flex-col items-end shrink-0">
-              <span className="text-[9px] text-muted-foreground uppercase font-semibold tracking-wider">Price</span>
+              <span className="text-[9px] text-muted-foreground uppercase font-semibold tracking-wider">
+                Price
+              </span>
               <span className="font-mono font-bold text-foreground text-sm sm:text-base leading-none">
                 {formatCompactCurrency(property.price)}
               </span>
             </div>
           </div>
         </div>
-
       </div>
     </Link>
   );

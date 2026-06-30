@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { UserCheck, Linkedin, Mail } from "lucide-react";
 import { Container } from "@/components/layout/Container";
 import { useTeam } from "@/hooks/useTeam";
+import { SectionContainer } from "../ui/section-container";
 
 export function TeamSection() {
   const { team } = useTeam();
@@ -14,17 +15,16 @@ export function TeamSection() {
 
   return (
     <section className="section-y bg-transparent relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-secondary/40 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-br from-secondary/40 to-transparent pointer-events-none" />
 
-      <Container className="relative">
+      <SectionContainer className="relative">
         {/* Header */}
         <div className="text-center max-w-xl mx-auto mb-14 space-y-5">
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex items-center justify-center gap-3"
-          >
+            className="flex items-center justify-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-primary/8 flex items-center justify-center">
               <UserCheck className="h-4 w-4 text-primary" />
             </div>
@@ -36,10 +36,8 @@ export function TeamSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.08 }}
-            className="text-display-md font-medium text-foreground"
-          >
-            The Team Behind Every{" "}
-            <span className="text-gold">Site Visit</span>
+            className="text-display-md font-medium text-foreground">
+            The Team Behind Every <span className="text-gold">Site Visit</span>
           </motion.h2>
         </div>
 
@@ -52,12 +50,14 @@ export function TeamSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.55, delay: i * 0.1 }}
-              className="group text-center"
-            >
+              className="group text-center">
               {/* Photo */}
               <div className="relative w-full aspect-[4/5] rounded-xl overflow-hidden shadow-luxury border border-border mb-4 group-hover:shadow-luxury-lg transition-all duration-500">
                 <Image
-                  src={member.image || "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400"}
+                  src={
+                    member.image ||
+                    "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400"
+                  }
                   alt={member.name}
                   fill
                   sizes="(max-width: 640px) 50vw, 25vw"
@@ -66,18 +66,19 @@ export function TeamSection() {
                 {/* Hover overlay with social icons */}
                 <div className="absolute inset-0 bg-primary/70 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-white/15 border border-white/30 flex items-center justify-center hover:bg-accent/80 transition-colors duration-300 cursor-pointer">
-            <a href="https://www.linkedin.com/in/rashedulraha/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Linkedin className="h-4 w-4 text-white" />
-                </a>
+                    <a
+                      href="https://www.linkedin.com/in/rashedulraha/"
+                      target="_blank"
+                      rel="noopener noreferrer">
+                      <Linkedin className="h-4 w-4 text-white" />
+                    </a>
                   </div>
                   <div className="w-9 h-9 rounded-full bg-white/15 border border-white/30 flex items-center justify-center hover:bg-accent/80 transition-colors duration-300 cursor-pointer">
-                   <a href="mailto:rashedulraha.bd@gmail.com?subject=Project Inquiry&body=Hello Rashedul,"
-                className="w-9 h-9 rounded-full bg-white/15 border border-white/30 flex items-center justify-center hover:bg-accent/80 transition-colors duration-300">
-                <Mail className="h-4 w-4 text-white" />
-              </a>
+                    <a
+                      href="mailto:rashedulraha.bd@gmail.com?subject=Project Inquiry&body=Hello Rashedul,"
+                      className="w-9 h-9 rounded-full bg-white/15 border border-white/30 flex items-center justify-center hover:bg-accent/80 transition-colors duration-300">
+                      <Mail className="h-4 w-4 text-white" />
+                    </a>
                   </div>
                 </div>
               </div>
@@ -91,7 +92,7 @@ export function TeamSection() {
             </motion.div>
           ))}
         </div>
-      </Container>
+      </SectionContainer>
     </section>
   );
 }

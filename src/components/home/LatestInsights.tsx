@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Sparkles, ArrowRight } from "lucide-react";
 import { Container } from "@/components/layout/Container";
 import { useBlog } from "@/hooks/useBlog";
+import { SectionContainer } from "../ui/section-container";
 
 export function LatestInsights() {
   const { posts } = useBlog();
@@ -13,9 +14,9 @@ export function LatestInsights() {
 
   return (
     <section className="section-y bg-transparent relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-accent/2 via-transparent to-primary/2 pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-br from-accent/2 via-transparent to-primary/2 pointer-events-none" />
 
-      <Container className="relative">
+      <SectionContainer className="relative">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-14 gap-6">
           <div className="space-y-4">
@@ -26,15 +27,13 @@ export function LatestInsights() {
               <span className="text-label text-accent">Press & Insights</span>
             </div>
             <h2 className="text-display-md font-medium text-foreground leading-[1.12]">
-              Latest{" "}
-              <span className="text-gold">Insights</span> & News
+              Latest <span className="text-gold">Insights</span> & News
             </h2>
           </div>
 
           <Link
             href="/blog"
-            className="group inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-accent transition-colors duration-300 self-start sm:self-auto"
-          >
+            className="group inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-accent transition-colors duration-300 self-start sm:self-auto">
             All Articles
             <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </Link>
@@ -48,8 +47,7 @@ export function LatestInsights() {
               initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.55, delay: i * 0.13 }}
-            >
+              transition={{ duration: 0.55, delay: i * 0.13 }}>
               <Link href={`/blog/${post.slug}`} className="group block h-full">
                 <article className="bg-card rounded-xl overflow-hidden border border-border card-lift shadow-luxury flex flex-col h-full">
                   {/* Cover */}
@@ -68,7 +66,9 @@ export function LatestInsights() {
                         {new Date(post.publishedAt).getDate()}
                       </div>
                       <div className="text-[9px] font-bold uppercase tracking-[0.12em] text-accent mt-0.5">
-                        {new Date(post.publishedAt).toLocaleString("default", { month: "short" })}
+                        {new Date(post.publishedAt).toLocaleString("default", {
+                          month: "short",
+                        })}
                       </div>
                     </div>
                   </div>
@@ -90,7 +90,7 @@ export function LatestInsights() {
             </motion.div>
           ))}
         </div>
-      </Container>
+      </SectionContainer>
     </section>
   );
 }

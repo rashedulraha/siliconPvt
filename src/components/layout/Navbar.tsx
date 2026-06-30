@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { ModeToggle } from "@/components/theme-toggle";
 import { useCMS } from "@/context/CMSContext";
 import { useUserAuth } from "@/context/UserAuthContext";
+import { SectionContainer } from "@/components/ui/section-container";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -120,7 +121,7 @@ export function Navbar() {
     <header
       className="fixed top-0 left-0 right-0 z-50 w-full duration-300 ease-out border-b shadow-xs bg-background/80 backdrop-blur-md border-border/40"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <SectionContainer>
         <div className="flex h-16 items-center justify-between gap-6">
 
           {/* ── Logo Section ───────────── */}
@@ -417,7 +418,7 @@ export function Navbar() {
             )}
           </div>
         </div>
-      </div>
+      </SectionContainer>
     </header>
   );
 }

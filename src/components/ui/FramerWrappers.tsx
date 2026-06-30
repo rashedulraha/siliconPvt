@@ -34,8 +34,7 @@ export const FadeInSlideUp: React.FC<FadeInSlideUpProps> = ({
         delay: delay,
       }}
       className={className}
-      {...props}
-    >
+      {...props}>
       {children}
     </motion.div>
   );
@@ -74,8 +73,7 @@ export const StaggerContainer: React.FC<StaggerContainerProps> = ({
       initial="hidden"
       animate="visible"
       className={className}
-      {...props}
-    >
+      {...props}>
       {children}
     </motion.div>
   );
@@ -144,8 +142,7 @@ export const PremiumHoverCard: React.FC<PremiumHoverCardProps> = ({
         duration: 0.4,
       }}
       className={`transition-colors duration-300 [--card-spacing:1.5rem] ${className}`}
-      {...props}
-    >
+      {...props}>
       {children}
     </motion.div>
   );

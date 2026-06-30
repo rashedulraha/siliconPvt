@@ -3,31 +3,36 @@
 import { motion } from "framer-motion";
 import { Briefcase, Search, MapPinned, FileText, KeyRound } from "lucide-react";
 import { Container } from "@/components/layout/Container";
+import { SectionContainer } from "../ui/section-container";
 
 const steps = [
   {
     number: "01",
     icon: Search,
     title: "Discover & Shortlist",
-    description: "Browse verified plots across our projects and shortlist what fits your budget and goals.",
+    description:
+      "Browse verified plots across our projects and shortlist what fits your budget and goals.",
   },
   {
     number: "02",
     icon: MapPinned,
     title: "Site Visit & Verification",
-    description: "Walk the plot boundary with our team and review the RAJUK approval and deed in person.",
+    description:
+      "Walk the plot boundary with our team and review the RAJUK approval and deed in person.",
   },
   {
     number: "03",
     icon: FileText,
     title: "Booking & Documentation",
-    description: "Reserve your plot with a transparent agreement and a flexible installment plan.",
+    description:
+      "Reserve your plot with a transparent agreement and a flexible installment plan.",
   },
   {
     number: "04",
     icon: KeyRound,
     title: "Registration & Handover",
-    description: "Our legal team completes registration and hands over your deed with full support.",
+    description:
+      "Our legal team completes registration and hands over your deed with full support.",
   },
 ];
 
@@ -36,15 +41,14 @@ export function InvestmentProcess() {
     <section className="section-y  relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none" />
 
-      <Container className="relative">
+      <SectionContainer className="relative">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-5">
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex items-center justify-center gap-3"
-          >
+            className="flex items-center justify-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-primary/8 flex items-center justify-center">
               <Briefcase className="h-4 w-4 text-primary" />
             </div>
@@ -56,8 +60,7 @@ export function InvestmentProcess() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.08 }}
-            className="text-display-md font-medium text-foreground"
-          >
+            className="text-display-md font-medium text-foreground">
             From First Visit to{" "}
             <span className="text-gold">Registered Deed</span>
           </motion.h2>
@@ -67,8 +70,7 @@ export function InvestmentProcess() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.15 }}
-            className="text-muted-foreground text-lg font-light leading-relaxed"
-          >
+            className="text-muted-foreground text-lg font-light leading-relaxed">
             Four clear steps — the same transparent process for every client.
           </motion.p>
         </div>
@@ -86,8 +88,7 @@ export function InvestmentProcess() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.55, delay: i * 0.12 }}
-                className="relative group"
-              >
+                className="relative group">
                 {/* Step icon — sits on connector line */}
                 <div className="flex items-center gap-4 mb-5">
                   <div className="relative z-10 w-12 h-12 rounded-xl bg-primary flex items-center justify-center shadow-luxury group-hover:bg-accent transition-colors duration-500 flex-shrink-0">
@@ -111,7 +112,7 @@ export function InvestmentProcess() {
             ))}
           </div>
         </div>
-      </Container>
+      </SectionContainer>
     </section>
   );
 }
