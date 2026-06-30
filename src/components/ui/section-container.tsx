@@ -21,7 +21,7 @@ export interface SectionContainerProps<T extends React.ElementType = "div"> {
  * SectionContainer
  *
  * The single source of truth for the website's global responsive width alignment.
- * 
+ *
  * Responsive Matrix:
  * - `w-full`: Fully fluid on mobile, preventing overflows.
  * - `max-w-7xl`: Enforces a premium 1280px layout grid at high-res displays.
@@ -33,14 +33,14 @@ export function SectionContainer<T extends React.ElementType = "div">({
   children,
   className,
   ...props
-}: SectionContainerProps<T> & Omit<React.ComponentPropsWithoutRef<T>, keyof SectionContainerProps<T>>) {
+}: SectionContainerProps<T> &
+  Omit<React.ComponentPropsWithoutRef<T>, keyof SectionContainerProps<T>>) {
   const Component = as || "div";
 
   return (
     <Component
       className={cn("w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8", className)}
-      {...props}
-    >
+      {...props}>
       {children}
     </Component>
   );
