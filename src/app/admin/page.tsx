@@ -89,6 +89,33 @@ export default function AdminDashboard() {
         </div>
       </div>
 
+      {/* ── Admin Management Control Modules ── */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Link
+          href="/admin/manage-slides"
+          className="bg-card border border-border/60 rounded-2xl p-5 shadow-xs hover:border-primary/40 transition-all text-left space-y-1 block">
+          <span className="text-xs font-mono font-medium text-primary block">PAGE 13</span>
+          <h3 className="text-base font-semibold font-heading text-foreground">Slider & Banner Manager</h3>
+          <p className="text-xs text-muted-foreground font-light">Edit home hero carousel images & title headlines.</p>
+        </Link>
+
+        <Link
+          href="/admin/site-settings"
+          className="bg-card border border-border/60 rounded-2xl p-5 shadow-xs hover:border-primary/40 transition-all text-left space-y-1 block">
+          <span className="text-xs font-mono font-medium text-primary block">PAGE 14</span>
+          <h3 className="text-base font-semibold font-heading text-foreground">Site Content & Settings</h3>
+          <p className="text-xs text-muted-foreground font-light">Edit corporate address, hotlines, email, and weekend hours.</p>
+        </Link>
+
+        <Link
+          href="/admin/manage-content"
+          className="bg-card border border-border/60 rounded-2xl p-5 shadow-xs hover:border-primary/40 transition-all text-left space-y-1 block">
+          <span className="text-xs font-mono font-medium text-primary block">PAGE 15</span>
+          <h3 className="text-base font-semibold font-heading text-foreground">Team & Content Manager</h3>
+          <p className="text-xs text-muted-foreground font-light">Update Chairman/MD speeches and plot project blocks.</p>
+        </Link>
+      </div>
+
       {/* ── 2. Stats Grid (Conforming Box Alignment) ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <StatCard
