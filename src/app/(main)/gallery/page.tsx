@@ -5,732 +5,553 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Camera,
-  Play,
-  FileText,
   X,
   ChevronLeft,
   ChevronRight,
-  MapPin,
   Maximize2,
-  Download,
-  Send,
-  Loader2,
-  Search,
-  Compass,
-  Ruler,
-  Clock,
-  CheckCircle,
+  Phone,
+  ArrowRight,
+  Play,
+  MapPin,
+  Sparkles,
 } from "lucide-react";
-import { toast } from "sonner";
 import { SectionContainer } from "@/components/layout/SectionContainer";
-import { useCMS } from "@/context/CMSContext";
-import { Button } from "@/components/ui/button";
 
-/* ── Types ───────────────────────────────────────────────────────────── */
-interface GalleryItem {
+interface GalleryImageItem {
   id: string;
-  category: "drone" | "progress" | "blueprint";
+  category: "project" | "infrastructure" | "office" | "handovers";
+  categoryLabel: string;
   title: string;
-  description: string;
-  url: string;
-  thumbnail: string;
+  altText: string;
+  image: string;
   location: string;
-  dimensions?: string; // blueprints
-  duration?: string; // drone footage
-  date?: string;
 }
 
-/* ── Mock Portfolio Data (DHAKA Prime Zones) ─────────────────────────── */
-const MOCK_GALLERY: GalleryItem[] = [
+interface VideoItem {
+  id: string;
+  title: string;
+  description: string;
+  videoUrl: string;
+  thumbnail: string;
+}
+
+const GALLERY_IMAGES: GalleryImageItem[] = [
+  // Category 1: Silicon City Project
   {
-    id: "g-drone-1",
-    category: "drone",
-    title: "Purbachal Sector 17 Plot Development",
-    description:
-      "High-definition drone mapping of residential sectors, internal roadways leveling, and land boundaries demarcation.",
-    url: "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c054ba208d850d99efe29930f5313936&profile_id=165&oauth2_token_id=57447761",
-    thumbnail:
-      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80",
-    location: "Purbachal, Dhaka",
-    duration: "1:24",
-    date: "June 2026",
+    id: "img-1",
+    category: "project",
+    categoryLabel: "Silicon City Project",
+    title: "Aerial View of Silicon City Layout",
+    altText:
+      "Scenic drone view of the planned residential blocks of Silicon City next to the Turag River",
+    image:
+      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80",
+    location: "Bara Badeshi Mouza, Savar",
   },
   {
-    id: "g-drone-2",
-    category: "drone",
-    title: "Silicon Heights Architectural Site Flyover",
-    description:
-      "Cinematic aerial survey tracking progress on structural concrete pouring and core column reinforcements.",
-    url: "https://player.vimeo.com/external/434045526.sd.mp4?s=c27d2ab2d0d0f588c5efb0e356230abf62804d9c&profile_id=165&oauth2_token_id=57447761",
-    thumbnail:
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
-    location: "Mirpur, Dhaka",
-    duration: "0:48",
-    date: "May 2026",
+    id: "img-2",
+    category: "project",
+    categoryLabel: "Silicon City Project",
+    title: "Earth-Filling Work in Progress (Phase 2)",
+    altText:
+      "Heavy machinery conducting professional soil development up to 16–18 feet height",
+    image:
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80",
+    location: "Phase 2 Development Zone",
   },
   {
-    id: "g-drone-3",
-    category: "drone",
-    title: "Silicon Orchard Site Clearing & Access Roads",
-    description:
-      "Drone review showing the leveling of internal layout pathways and connection works with the bypass highway.",
-    url: "https://player.vimeo.com/external/409419143.sd.mp4?s=986f1e2908f51ef58f8b80b0fb595d2c206f698e&profile_id=165&oauth2_token_id=57447761",
-    thumbnail:
-      "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80",
-    location: "Mawa Corridor, Dhaka",
-    duration: "1:05",
-    date: "April 2026",
+    id: "img-3",
+    category: "project",
+    categoryLabel: "Silicon City Project",
+    title: "Natural Landscape of Bara Badeshi Mouza",
+    altText:
+      "Eco-friendly green surroundings near the Savar-Mohammadpur boundary",
+    image:
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+    location: "Turag Riverside Belt",
+  },
+
+  // Category 2: Infrastructure & Amenities
+  {
+    id: "img-4",
+    category: "infrastructure",
+    categoryLabel: "Infrastructure & Amenities",
+    title: "Proposed Bridge over Turag River",
+    altText:
+      "Architectural 3D design of the bridge under processing to connect Silicon City directly with Mohammadpur Beribadh",
+    image:
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+    location: "Turag River Bridge Point",
   },
   {
-    id: "g-progress-1",
-    category: "progress",
-    title: "Silicon Orchard Ready Plots",
-    description:
-      "Fully ready plots showing finished boundary brickwork, electric installation meters, and internal avenue saplings.",
-    url: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1600&q=80",
-    thumbnail:
-      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80",
-    location: "Mawa Corridor, Dhaka",
-    date: "March 2026",
+    id: "img-5",
+    category: "infrastructure",
+    categoryLabel: "Infrastructure & Amenities",
+    title: "Grand Central Mosque Architecture",
+    altText:
+      "Digital model of the beautifully planned grand central mosque inside Silicon City",
+    image:
+      "https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=1200&q=80",
+    location: "Central Civic Zone",
   },
   {
-    id: "g-progress-2",
-    category: "progress",
-    title: "Silicon Plaza Commercial Core",
-    description:
-      "Modern commercial building facade displaying insulated glass fixtures, entrance lobbies, and perimeter landscaping.",
-    url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80",
-    thumbnail:
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
-    location: "Tejgaon I/A, Dhaka",
-    date: "January 2026",
+    id: "img-6",
+    category: "infrastructure",
+    categoryLabel: "Infrastructure & Amenities",
+    title: "Youth Sports Fields & Playgrounds",
+    altText:
+      "Green fields designated for Football and Cricket tournaments within the residential area",
+    image:
+      "https://images.unsplash.com/photo-1508873696983-2df515122519?auto=format&fit=crop&w=1200&q=80",
+    location: "Community Sports Complex",
   },
   {
-    id: "g-progress-3",
-    category: "progress",
-    title: "Gulshan Head Office Advisory Lounge",
-    description:
-      "Pristine, Apple Minimalist client lounge at our headquarters, featuring micro-cement textures and premium oak accents.",
-    url: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80",
-    thumbnail:
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",
-    location: "Gulshan-2, Dhaka",
-    date: "February 2026",
+    id: "img-7",
+    category: "infrastructure",
+    categoryLabel: "Infrastructure & Amenities",
+    title: "40-Feet Wide Internal Road Network",
+    altText:
+      "Meticulously developed spacious internal concrete roads for easy vehicle movement",
+    image:
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    location: "Main Avenue Road",
+  },
+
+  // Category 3: Corporate Office (Mohammadpur)
+  {
+    id: "img-8",
+    category: "office",
+    categoryLabel: "Corporate Office",
+    title: "Silicon Real Estate Corporate Front Desk",
+    altText:
+      "Elegant reception area at our main branch in Iqbal Road, Mohammadpur, Dhaka-1207",
+    image:
+      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80",
+    location: "Iqbal Road, Mohammadpur",
   },
   {
-    id: "g-progress-4",
-    category: "progress",
-    title: "Bashundhara R/A Luxury Villa Completion",
-    description:
-      "Final site delivery detailing custom structural concrete features, exterior water elements, and automated safety gates.",
-    url: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1600&q=80",
-    thumbnail:
-      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80",
-    location: "Bashundhara R/A, Dhaka",
-    date: "April 2026",
+    id: "img-9",
+    category: "office",
+    categoryLabel: "Corporate Office",
+    title: "Executive Meeting Room & Advisory Board",
+    altText:
+      "The main discussion room where legal advisors and management verify client document titles",
+    image:
+      "https://images.unsplash.com/photo-1517502884422-41eaead166d4?auto=format&fit=crop&w=1200&q=80",
+    location: "Legal Verification Lounge",
+  },
+
+  // Category 4: Client Trust & Handovers
+  {
+    id: "img-10",
+    category: "handovers",
+    categoryLabel: "Client Handovers",
+    title: "Plot Demarcation and Handover Ceremony",
+    altText:
+      "Silicon Real Estate team executing hassle-free plot demarcation and physical handover to a happy investor",
+    image:
+      "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=80",
+    location: "Silicon City Site Handover",
   },
   {
-    id: "g-blue-1",
-    category: "blueprint",
-    title: "Silicon Orchard Master Layout Plan",
-    description:
-      "Approved engineering layout blueprint outlining zoning splits, residential sectors, internal paths, and utility networks.",
-    url: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1600&q=80",
-    thumbnail:
-      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80",
-    location: "Balu River Bank, Dhaka",
-    dimensions: "150-Acre Site Layout",
-    date: "December 2025",
-  },
-  {
-    id: "g-blue-2",
-    category: "blueprint",
-    title: "Silicon Heights Structural Section View",
-    description:
-      "Detailed foundation civil engineering plan mapping structural load bearings, shear wall calculations, and basement pillars.",
-    url: "https://images.unsplash.com/photo-1581094288338-2314dddb7eed?w=1600&q=80",
-    thumbnail:
-      "https://images.unsplash.com/photo-1581094288338-2314dddb7eed?w=800&q=80",
-    location: "Mirpur 12, Dhaka",
-    dimensions: "24-Storied Tower Plan",
-    date: "November 2025",
-  },
-  {
-    id: "g-blue-3",
-    category: "blueprint",
-    title: "Silicon Plaza Foundation Grid Blueprint",
-    description:
-      "Approved foundation concrete casting grid details highlighting primary columns and lift shaft elevator grids.",
-    url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=80",
-    thumbnail:
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
-    location: "Tejgaon, Dhaka",
-    dimensions: "3-Basement Grid Layout",
-    date: "February 2026",
+    id: "img-11",
+    category: "handovers",
+    categoryLabel: "Client Handovers",
+    title: "Legal Deed Registry and Signing",
+    altText:
+      "Landowners securely signing their official registration agreements and receiving mutations",
+    image:
+      "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=1200&q=80",
+    location: "Sub-Registry Office, Dhaka",
   },
 ];
 
-const CATEGORIES = [
-  { key: "all", label: "All Assets", icon: Compass },
-  { key: "drone", label: "Drone Footage", icon: Play },
-  { key: "progress", label: "Project Progress", icon: Camera },
-  { key: "blueprint", label: "Architectural Blueprints", icon: FileText },
+const VIDEOS: VideoItem[] = [
+  {
+    id: "vid-1",
+    title: '"Silicon City" 3D Animation Tour',
+    description:
+      "Watch the complete 3D animation video showing the 21st-century modern amenities, schools, parks, and hospitals planned inside the township.",
+    videoUrl:
+      "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c054ba208d850d99efe29930f5313936&profile_id=165&oauth2_token_id=57447761",
+    thumbnail:
+      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: "vid-2",
+    title: "On-Site Project Walkthrough",
+    description:
+      "A real-time walkthrough video of our earth-filling progress, developed roads, and active demarcated blocks.",
+    videoUrl:
+      "https://player.vimeo.com/external/434045526.sd.mp4?s=c27d2ab2d0d0f588c5efb0e356230abf62804d9c&profile_id=165&oauth2_token_id=57447761",
+    thumbnail:
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80",
+  },
+];
+
+const FILTER_TABS = [
+  { key: "all", label: "ALL PHOTOS" },
+  { key: "project", label: "SILICON CITY PROJECT" },
+  { key: "infrastructure", label: "INFRASTRUCTURE & AMENITIES" },
+  { key: "office", label: "CORPORATE OFFICE" },
+  { key: "handovers", label: "CLIENT HANDOVERS" },
 ];
 
 export default function GalleryPage() {
-  const { state } = useCMS();
-  const [activeCat, setActiveCat] = useState<string>("all");
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [lightbox, setLightbox] = useState<GalleryItem | null>(null);
-  const [lightboxIndex, setLightboxIndex] = useState<number>(-1);
+  const [activeTab, setActiveTab] = useState("all");
+  const [lightbox, setLightbox] = useState<GalleryImageItem | null>(null);
+  const [lightboxIdx, setLightboxIdx] = useState(-1);
+  const [videoModal, setVideoModal] = useState<VideoItem | null>(null);
 
-  const [isSubmittingInquiry, setIsSubmittingInquiry] = useState(false);
-  const [inquiryData, setInquiryData] = useState({
-    name: "",
-    phone: "",
-    message: "",
-  });
-  const [inquirySuccess, setInquirySuccess] = useState(false);
-
-  // Set document title for SEO
   useEffect(() => {
-    document.title = "Visual Gallery — Silicon Real Estate";
+    document.title = "Visual Gallery | Silicon Real Estate (Pvt.) Ltd.";
   }, []);
 
-  // Map CMS Media to our structured schema
-  const cmsItems: GalleryItem[] = (state.media || []).map((media) => {
-    let category: "drone" | "progress" | "blueprint" = "progress";
-    if (
-      media.type.includes("video") ||
-      media.url.endsWith(".mp4") ||
-      media.url.endsWith(".webm")
-    ) {
-      category = "drone";
-    } else if (
-      media.name.toLowerCase().includes("blueprint") ||
-      media.name.toLowerCase().includes("plan") ||
-      media.name.toLowerCase().includes("drawing")
-    ) {
-      category = "blueprint";
-    }
+  const filteredImages = GALLERY_IMAGES.filter((img) =>
+    activeTab === "all" ? true : img.category === activeTab
+  );
 
-    return {
-      id: media.id,
-      category,
-      title: media.name,
-      description: `Official portfolio media file details for ${media.name}.`,
-      url: media.url,
-      thumbnail: media.url,
-      location: "Silicon Project Area",
-      date: new Date(media.uploadedAt).toLocaleDateString("en-US", {
-        month: "short",
-        year: "numeric",
-      }),
-    };
-  });
-
-  const allItems = [...MOCK_GALLERY, ...cmsItems];
-
-  // Filtering
-  const filteredItems = allItems.filter((item) => {
-    const matchesCategory = activeCat === "all" || item.category === activeCat;
-    const matchesSearch =
-      item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
-
-  // Lightbox Indexing
-  const openLightbox = (item: GalleryItem) => {
-    const idx = filteredItems.findIndex((x) => x.id === item.id);
-    setLightbox(item);
-    setLightboxIndex(idx);
-    setInquirySuccess(false);
-    setInquiryData({
-      name: "",
-      phone: "",
-      message: `Interested in project details for: ${item.title}`,
-    });
+  const openLightbox = (img: GalleryImageItem) => {
+    const idx = filteredImages.findIndex((x) => x.id === img.id);
+    setLightbox(img);
+    setLightboxIdx(idx);
   };
 
-  const prevItem = () => {
-    if (filteredItems.length === 0) return;
-    const idx =
-      (lightboxIndex - 1 + filteredItems.length) % filteredItems.length;
-    setLightbox(filteredItems[idx]);
-    setLightboxIndex(idx);
-    setInquirySuccess(false);
+  const prevLightbox = () => {
+    if (filteredImages.length === 0) return;
+    const prevIdx = (lightboxIdx - 1 + filteredImages.length) % filteredImages.length;
+    setLightbox(filteredImages[prevIdx]);
+    setLightboxIdx(prevIdx);
   };
 
-  const nextItem = () => {
-    if (filteredItems.length === 0) return;
-    const idx = (lightboxIndex + 1) % filteredItems.length;
-    setLightbox(filteredItems[idx]);
-    setLightboxIndex(idx);
-    setInquirySuccess(false);
-  };
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeys = (e: KeyboardEvent) => {
-      if (!lightbox) return;
-      if (e.key === "ArrowLeft") prevItem();
-      if (e.key === "ArrowRight") nextItem();
-      if (e.key === "Escape") setLightbox(null);
-    };
-
-    window.addEventListener("keydown", handleKeys);
-    return () => window.removeEventListener("keydown", handleKeys);
-  }, [lightbox, lightboxIndex, filteredItems]);
-
-  // Prevent scroll when lightbox open
-  useEffect(() => {
-    if (lightbox) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [lightbox]);
-
-  const handleInquirySubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!lightbox) return;
-    setIsSubmittingInquiry(true);
-    await new Promise((r) => setTimeout(r, 1000));
-    setIsSubmittingInquiry(false);
-    setInquirySuccess(true);
-    toast.success(
-      `Inquiry sent for ${lightbox.title}. An advisor will contact you shortly.`,
-    );
+  const nextLightbox = () => {
+    if (filteredImages.length === 0) return;
+    const nextIdx = (lightboxIdx + 1) % filteredImages.length;
+    setLightbox(filteredImages[nextIdx]);
+    setLightboxIdx(nextIdx);
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* ── Page Header (Pristine Sitemap Style) ── */}
-      <div className="relative pt-28 pb-16 overflow-hidden bg-dark-hero">
-        <div className="absolute inset-0 bg-dot-pattern opacity-30 pointer-events-none" />
-        <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-accent/10 blur-3xl pointer-events-none" />
+    <div className="bg-background text-foreground min-h-screen pb-24 overflow-x-hidden">
+      
+      {/* ── 1. ARCHITECTURAL HERO HEADER (NO GAP UNDER NAVBAR) ── */}
+      <section className="relative pt-28 pb-20 sm:pb-24 bg-dark-hero text-white overflow-hidden">
+        {/* Subtle Dot Grid */}
+        <div
+          className="absolute inset-0 opacity-[0.08] pointer-events-none"
+          style={{
+            backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px)`,
+            backgroundSize: "24px 24px",
+          }}
+        />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <nav className="flex items-center gap-2 text-white/50 text-sm mb-6">
-            <Link href="/" className="hover:text-white transition-colors">
-              Home
-            </Link>
-            <span>/</span>
-            <span className="text-white">Gallery</span>
-          </nav>
-
-          <div className="flex items-start justify-between flex-wrap gap-6">
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-2xl bg-accent/20 border border-accent/30 flex items-center justify-center">
-                  <Camera className="w-5 h-5 text-accent" />
-                </div>
-                <span className="text-label text-accent text-[11px]">
-                  Silicon Real Estate
-                </span>
-              </div>
-              <h1 className="font-heading font-bold text-4xl sm:text-5xl text-white mb-3 tracking-tight">
-                Visual Showcase
-              </h1>
-              <p className="text-white/55 text-lg font-light max-w-xl">
-                Explore real estate development drone flyovers, project
-                milestones, and project blueprints.
-              </p>
+        <SectionContainer className="relative z-10">
+          <div className="max-w-3xl space-y-4">
+            {/* Breadcrumbs */}
+            <div className="flex items-center gap-2 text-xs font-mono font-medium text-white/60">
+              <Link href="/" className="hover:text-accent transition-colors">
+                Home
+              </Link>
+              <span>&gt;</span>
+              <span className="text-accent font-semibold">Gallery</span>
             </div>
-          </div>
-        </div>
-      </div>
 
-      {/* ── Filtering and Visual Asset Grid (Sitemap Spacing) ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
-        {/* Filter Controls Bar */}
-        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6 pb-6 border-b border-border">
-          {/* Category Pills */}
-          <div className="flex flex-wrap gap-2">
-            {CATEGORIES.map((cat) => {
-              const Icon = cat.icon;
-              const isActive = activeCat === cat.key;
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-medium font-heading text-white tracking-tight leading-tight">
+              Visualizing Your <span className="text-accent font-semibold">Dream Community</span>
+            </h1>
+
+            <p className="text-white/80 text-xs sm:text-sm md:text-base font-light leading-relaxed">
+              Take a visual tour of "Silicon City." Explore our high-resolution site photos, ongoing soil development works, planned amenities, and our corporate office environment.
+            </p>
+          </div>
+        </SectionContainer>
+      </section>
+
+      {/* ── 2. FILTER CATEGORY PILLS BAR ── */}
+      <section className="py-8 bg-muted/30 border-b border-border/50 sticky top-16 z-20 backdrop-blur-md">
+        <SectionContainer>
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            {FILTER_TABS.map((tab) => {
+              const count =
+                tab.key === "all"
+                  ? GALLERY_IMAGES.length
+                  : GALLERY_IMAGES.filter((i) => i.category === tab.key).length;
+              const isActive = activeTab === tab.key;
               return (
                 <button
-                  key={cat.key}
-                  onClick={() => setActiveCat(cat.key)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium border transition-all duration-200 cursor-pointer ${
+                  key={tab.key}
+                  onClick={() => setActiveTab(tab.key)}
+                  className={`h-10 px-5 rounded-xl text-xs font-medium font-heading transition-all flex items-center gap-2 ${
                     isActive
-                      ? "bg-foreground text-background border-foreground shadow-sm"
-                      : "border-border text-muted-foreground bg-card hover:bg-muted hover:text-foreground"
+                      ? "bg-primary text-primary-foreground shadow-xs"
+                      : "bg-card border border-border/60 text-muted-foreground hover:text-foreground hover:bg-card/80"
                   }`}>
-                  <Icon className="w-3.5 h-3.5" />
-                  <span>{cat.label}</span>
+                  <span>{tab.label}</span>
                   <span
-                    className={`text-[10px] px-1.5 py-0.5 rounded-full ${
+                    className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-medium ${
                       isActive
-                        ? "bg-background/20 text-background"
+                        ? "bg-white/20 text-white"
                         : "bg-muted text-muted-foreground"
                     }`}>
-                    {cat.key === "all"
-                      ? allItems.length
-                      : allItems.filter((i) => i.category === cat.key).length}
+                    {count}
                   </span>
                 </button>
               );
             })}
           </div>
+        </SectionContainer>
+      </section>
 
-          {/* Search bar */}
-          <div className="relative w-full lg:max-w-xs">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <input
-              type="text"
-              placeholder="Search projects, locations..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-9 pl-9 pr-8 rounded-xl border border-border bg-card text-xs sm:text-sm placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer">
-                <X className="w-3.5 h-3.5" />
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* ── Interactive Grid Layout ── */}
-        <AnimatePresence mode="popLayout">
-          {filteredItems.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className="text-center py-20 border border-dashed border-border rounded-2xl bg-card">
-              <Compass className="h-10 w-10 mx-auto text-muted-foreground/45 mb-4" />
-              <h3 className="font-semibold text-lg text-foreground">
-                No visual assets found
-              </h3>
-              <p className="text-muted-foreground text-sm mt-1 max-w-xs mx-auto">
-                No matching results were found. Try resetting filters or search
-                criteria.
-              </p>
-              <Button
-                onClick={() => {
-                  setActiveCat("all");
-                  setSearchQuery("");
-                }}
-                variant="outline"
-                className="mt-4 rounded-xl text-xs">
-                Reset Filters
-              </Button>
-            </motion.div>
-          ) : (
-            <motion.div
-              layout
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredItems.map((item) => (
+      {/* ── 3. HIGH-IMPACT ARCHITECTURAL IMAGE GRID ── */}
+      <section className="py-20 sm:py-24 bg-background border-b border-border/50">
+        <SectionContainer className="space-y-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <AnimatePresence mode="popLayout">
+              {filteredImages.map((item) => (
                 <motion.div
-                  layout
                   key={item.id}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
+                  layout
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
                   transition={{ duration: 0.3 }}
                   onClick={() => openLightbox(item)}
-                  className="group rounded-2xl overflow-hidden bg-card text-card-foreground border border-border shadow-xs hover:shadow-md cursor-pointer transition-all duration-300">
-                  {/* Fixed aspect-ratio bounds with hover scale-up inside */}
-                  <div className="relative aspect-video w-full overflow-hidden bg-muted border-b border-border">
-                    <motion.div
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                      className="relative w-full h-full">
-                      <Image
-                        src={item.thumbnail}
-                        alt={item.title}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover"
-                        priority={false}
-                      />
-                    </motion.div>
-
-                    {/* Dark gradient & Hover icon Overlay */}
-                    <div className="absolute inset-0 bg-neutral-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-[2]">
-                      <div className="w-12 h-12 rounded-xl bg-background/90 text-foreground border border-border flex items-center justify-center scale-90 group-hover:scale-100 transition-transform duration-300 shadow-sm">
-                        {item.category === "drone" ? (
-                          <Play className="w-5 h-5 fill-current text-primary" />
-                        ) : (
-                          <Maximize2 className="w-4 h-4 text-foreground" />
-                        )}
+                  className="group bg-card border border-border/60 rounded-3xl overflow-hidden shadow-xs hover:border-primary/40 transition-all cursor-pointer flex flex-col justify-between">
+                  
+                  <div className="relative aspect-[16/10] bg-muted overflow-hidden">
+                    <Image
+                      src={item.image}
+                      alt={item.altText}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <div className="w-11 h-11 rounded-full bg-white/95 text-foreground flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                        <Maximize2 className="w-4 h-4 text-primary" />
                       </div>
                     </div>
-
-                    {/* Category Label Tag */}
-                    <div className="absolute top-4 left-4 z-10">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-background/95 border border-border text-foreground shadow-xs">
-                        {item.category === "drone" && (
-                          <Play className="w-2 h-2 fill-current text-primary" />
-                        )}
-                        {item.category === "progress" && (
-                          <Camera className="w-2.5 h-2.5" />
-                        )}
-                        {item.category === "blueprint" && (
-                          <FileText className="w-2.5 h-2.5" />
-                        )}
-                        <span>{item.category}</span>
+                    <div className="absolute top-3 left-3">
+                      <span className="text-[10px] font-medium uppercase tracking-wider px-3 py-1 bg-black/60 backdrop-blur-md text-white rounded-full font-heading">
+                        {item.categoryLabel}
                       </span>
                     </div>
-
-                    {/* Meta info tags over frame */}
-                    {(item.duration || item.dimensions) && (
-                      <div className="absolute bottom-4 right-4 z-10">
-                        <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-neutral-950/75 text-white">
-                          {item.duration || item.dimensions}
-                        </span>
-                      </div>
-                    )}
                   </div>
 
-                  {/* Metadata display card section */}
-                  <div className="p-5 text-left space-y-2">
-                    <div className="flex items-center gap-1 text-muted-foreground text-xs font-medium">
-                      <MapPin className="w-3.5 h-3.5 text-primary" />
+                  <div className="p-6 space-y-2">
+                    <div className="flex items-center gap-1 text-[11px] text-primary font-medium">
+                      <MapPin className="w-3 h-3" />
                       <span>{item.location}</span>
                     </div>
-                    <h3 className="font-semibold text-base text-foreground leading-snug line-clamp-1 group-hover:text-primary transition-colors">
+                    <h3 className="text-base font-semibold font-heading text-foreground group-hover:text-primary transition-colors">
                       {item.title}
                     </h3>
-                    <p className="text-muted-foreground text-xs leading-relaxed line-clamp-2">
-                      {item.description}
+                    <p className="text-xs text-muted-foreground font-light leading-relaxed">
+                      {item.altText}
                     </p>
-
-                    <div className="pt-2 flex items-center justify-between text-[10px] text-muted-foreground border-t border-border">
-                      <span>Updated: {item.date || "2026"}</span>
-                      <span className="text-primary font-medium flex items-center gap-0.5">
-                        Inspect{" "}
-                        <span className="transition-transform group-hover:translate-x-0.5">
-                          →
-                        </span>
-                      </span>
-                    </div>
                   </div>
                 </motion.div>
               ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+            </AnimatePresence>
+          </div>
+        </SectionContainer>
+      </section>
 
-      {/* ── Lightbox Modal Overlay (Micro borders & semantic style) ── */}
+      {/* ── 4. FEATURED VIDEO SHOWCASE ── */}
+      <section className="py-20 sm:py-24 bg-muted/30 border-b border-border/50">
+        <SectionContainer className="space-y-12">
+          <div className="max-w-3xl text-left space-y-2">
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary font-heading">
+              VIDEO FOOTAGE & ANIMATIONS
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
+              Interactive Video Gallery
+            </h2>
+            <p className="text-muted-foreground text-xs sm:text-sm md:text-base font-light leading-relaxed">
+              Watch our 3D animation tours and real-time on-site development walkthroughs.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {VIDEOS.map((vid) => (
+              <div
+                key={vid.id}
+                onClick={() => setVideoModal(vid)}
+                className="group bg-card border border-border/60 rounded-3xl overflow-hidden shadow-xs hover:border-primary/40 transition-all cursor-pointer space-y-4 p-6 flex flex-col justify-between">
+                <div className="relative aspect-video rounded-2xl overflow-hidden bg-dark-hero">
+                  <Image
+                    src={vid.thumbnail}
+                    alt={vid.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
+                  />
+                  <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                    <div className="w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                      <Play className="w-6 h-6 fill-current ml-1" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <span className="text-[10px] font-mono font-medium text-accent uppercase tracking-wider block">
+                    FEATURED VIDEO STREAM
+                  </span>
+                  <h3 className="text-xl font-semibold font-heading text-foreground group-hover:text-primary transition-colors">
+                    {vid.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
+                    {vid.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </SectionContainer>
+      </section>
+
+      {/* ── 5. SITE VISIT BOOKING CTA BANNER ── */}
+      <section className="py-20 sm:py-24 bg-background">
+        <SectionContainer>
+          <div className="bg-dark-hero rounded-3xl p-8 sm:p-12 text-white shadow-xl space-y-8 relative overflow-hidden">
+            <div
+              className="absolute inset-0 opacity-[0.08] pointer-events-none"
+              style={{
+                backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px)`,
+                backgroundSize: "24px 24px",
+              }}
+            />
+
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border-b border-white/15 pb-8">
+              <div className="lg:col-span-8 space-y-3">
+                <span className="inline-block px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-medium uppercase tracking-widest text-accent font-heading">
+                  PHYSICAL SITE VISIT
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-semibold font-heading text-white tracking-tight">
+                  Experience Silicon City in Person
+                </h2>
+                <p className="text-white/80 text-xs sm:text-sm font-light leading-relaxed max-w-xl">
+                  Photos and videos only show half the beauty. Join our guided tour and experience the fresh air, open sky, and scenic riverside views of your future address.
+                </p>
+                <p className="text-xs text-white/60 font-light pt-1">
+                  Contact our corporate desk to schedule a physical site visit. Transportation from our Mohammadpur office to the project location is fully arranged by the company.
+                </p>
+              </div>
+
+              <div className="lg:col-span-4 flex flex-wrap items-center justify-start lg:justify-end gap-3">
+                <a
+                  href="tel:+88012345678"
+                  className="group bg-primary text-primary-foreground h-12 px-6 rounded-xl font-medium text-xs sm:text-sm font-heading inline-flex items-center justify-center hover:bg-primary/90 transition-all border border-white/10 shadow-md gap-2">
+                  CALL NOW
+                  <Phone className="w-4 h-4" />
+                </a>
+                <Link
+                  href="/contact"
+                  className="group bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 h-12 px-6 rounded-xl font-medium text-xs sm:text-sm font-heading inline-flex items-center justify-center transition-all gap-2">
+                  PLAN VISIT
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </div>
+
+            <div className="relative z-10 pt-2 text-xs text-white/70 font-heading">
+              Hotlines: <span className="text-accent font-semibold">+880 12 345 678 / +880 1712 345 678</span> | Corporate Office: 2/3 (2nd Floor), Block # A, Iqbal Road, Mohammadpur, Dhaka-1207
+            </div>
+          </div>
+        </SectionContainer>
+      </section>
+
+      {/* ── IMAGE LIGHTBOX MODAL ── */}
       <AnimatePresence>
         {lightbox && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 dark:bg-black/90 backdrop-blur-md p-4 md:p-6"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
             onClick={() => setLightbox(null)}>
-            {/* Close Button */}
             <button
               onClick={() => setLightbox(null)}
-              className="absolute top-6 right-6 z-50 w-10 h-10 rounded-full bg-background border border-border text-foreground flex items-center justify-center shadow-xs cursor-pointer hover:bg-muted"
-              aria-label="Close lightbox">
+              className="absolute top-6 right-6 z-50 w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20">
               <X className="w-5 h-5" />
             </button>
 
-            {/* Inner Modal SectionContainer */}
-            <motion.div
-              initial={{ scale: 0.98, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.98, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="relative w-full max-w-5xl bg-card border border-border rounded-2xl overflow-hidden shadow-2xl z-40 grid grid-cols-1 lg:grid-cols-[1fr_340px]"
+            <div
+              className="relative max-w-4xl w-full bg-card border border-border/60 rounded-3xl overflow-hidden shadow-2xl space-y-4 p-6"
               onClick={(e) => e.stopPropagation()}>
-              {/* Media viewer */}
-              <div className="relative aspect-video lg:aspect-auto lg:h-[550px] flex items-center justify-center bg-muted/30 overflow-hidden border-b lg:border-b-0 lg:border-r border-border">
-                {lightbox.category === "drone" ? (
-                  <video
-                    src={lightbox.url}
-                    controls
-                    autoPlay
-                    playsInline
-                    loop
-                    className="w-full h-full object-contain"
-                  />
-                ) : (
-                  <div className="relative w-full h-full min-h-[250px]">
-                    <Image
-                      src={lightbox.url}
-                      alt={lightbox.title}
-                      fill
-                      priority
-                      className="object-contain"
-                      sizes="(max-width: 1024px) 100vw, 700px"
-                    />
-                  </div>
-                )}
-
-                {/* Next/Prev Navigation */}
-                <button
-                  onClick={prevItem}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-lg bg-background/90 hover:bg-background border border-border text-foreground flex items-center justify-center cursor-pointer shadow-xs"
-                  aria-label="Previous">
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-
-                <button
-                  onClick={nextItem}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-lg bg-background/90 hover:bg-background border border-border text-foreground flex items-center justify-center cursor-pointer shadow-xs"
-                  aria-label="Next">
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-
-                {/* Download (non-video) */}
-                {lightbox.category !== "drone" && (
-                  <a
-                    href={lightbox.url}
-                    download={`${lightbox.title.replace(/\s+/g, "_")}.jpg`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="absolute bottom-4 left-4 z-20 flex items-center gap-1.5 px-3 py-1 rounded-lg bg-background/90 border border-border text-foreground text-xs font-semibold shadow-xs cursor-pointer">
-                    <Download className="w-3.5 h-3.5" />
-                    <span>Download Plan</span>
-                  </a>
-                )}
-
-                {/* Counter */}
-                <div className="absolute bottom-4 right-4 z-20 px-2.5 py-1 rounded-md bg-background/90 border border-border text-muted-foreground text-xs shadow-xs">
-                  {lightboxIndex + 1} / {filteredItems.length}
-                </div>
+              <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-muted">
+                <Image
+                  src={lightbox.image}
+                  alt={lightbox.altText}
+                  fill
+                  className="object-contain"
+                />
               </div>
 
-              {/* Side Info details */}
-              <div className="p-6 md:p-8 flex flex-col justify-between text-left bg-card overflow-y-auto lg:h-[550px]">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
-                      {lightbox.category}
+              <div className="flex items-center justify-between text-xs text-muted-foreground pt-2">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-medium font-heading">
+                      {lightbox.categoryLabel}
                     </span>
-                    {lightbox.date && (
-                      <span className="text-[10px] text-muted-foreground flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        {lightbox.date}
-                      </span>
-                    )}
+                    <span className="text-xs text-primary font-medium">{lightbox.location}</span>
                   </div>
-
-                  <h2 className="text-lg sm:text-xl font-bold text-foreground tracking-tight leading-snug">
-                    {lightbox.title}
-                  </h2>
-
-                  <div className="flex flex-wrap gap-y-1.5 gap-x-4 text-xs text-muted-foreground">
-                    <div className="flex items-center gap-1">
-                      <MapPin className="w-3.5 h-3.5 text-primary" />
-                      <span>{lightbox.location}</span>
-                    </div>
-                    {lightbox.dimensions && (
-                      <div className="flex items-center gap-1">
-                        <Ruler className="w-3.5 h-3.5 text-primary" />
-                        <span>{lightbox.dimensions}</span>
-                      </div>
-                    )}
-                  </div>
-
-                  <p className="text-muted-foreground text-xs leading-relaxed pt-3 border-t border-border">
-                    {lightbox.description}
-                  </p>
+                  <h3 className="text-base sm:text-lg font-semibold font-heading text-foreground">{lightbox.title}</h3>
+                  <p className="text-xs font-light text-muted-foreground">{lightbox.altText}</p>
                 </div>
-
-                {/* Inline inquiry section */}
-                <div className="mt-8 pt-6 border-t border-border">
-                  {inquirySuccess ? (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.98 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="p-4 rounded-xl bg-primary/5 border border-primary/20 text-center space-y-2">
-                      <CheckCircle className="w-6 h-6 text-primary mx-auto" />
-                      <h4 className="font-semibold text-foreground text-xs">
-                        Consultation Requested
-                      </h4>
-                      <p className="text-muted-foreground text-[11px] leading-normal">
-                        Our advisor for {lightbox.location} will contact you
-                        shortly.
-                      </p>
-                    </motion.div>
-                  ) : (
-                    <div className="space-y-3">
-                      <h4 className="text-xs font-semibold text-foreground">
-                        Request Asset Consultation
-                      </h4>
-                      <form
-                        onSubmit={handleInquirySubmit}
-                        className="space-y-2">
-                        <input
-                          type="text"
-                          placeholder="Your Name"
-                          value={inquiryData.name}
-                          onChange={(e) =>
-                            setInquiryData((p) => ({
-                              ...p,
-                              name: e.target.value,
-                            }))
-                          }
-                          required
-                          disabled={isSubmittingInquiry}
-                          className="w-full h-8 px-2.5 rounded-lg border border-border bg-background text-xs text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
-                        />
-                        <input
-                          type="tel"
-                          placeholder="Phone Number"
-                          value={inquiryData.phone}
-                          onChange={(e) =>
-                            setInquiryData((p) => ({
-                              ...p,
-                              phone: e.target.value,
-                            }))
-                          }
-                          required
-                          disabled={isSubmittingInquiry}
-                          className="w-full h-8 px-2.5 rounded-lg border border-border bg-background text-xs text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
-                        />
-                        <textarea
-                          placeholder="Message"
-                          value={inquiryData.message}
-                          onChange={(e) =>
-                            setInquiryData((p) => ({
-                              ...p,
-                              message: e.target.value,
-                            }))
-                          }
-                          disabled={isSubmittingInquiry}
-                          rows={2}
-                          className="w-full px-2.5 py-1.5 rounded-lg border border-border bg-background text-xs text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary resize-none"
-                        />
-                        <Button
-                          type="submit"
-                          disabled={isSubmittingInquiry}
-                          className="w-full h-8 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground text-xs font-medium flex items-center justify-center gap-1.5 transition-all">
-                          {isSubmittingInquiry ? (
-                            <>
-                              <Loader2 className="w-3 h-3 animate-spin" />{" "}
-                              Submitting...
-                            </>
-                          ) : (
-                            <>
-                              <Send className="w-3 h-3" /> Inquire About Project
-                            </>
-                          )}
-                        </Button>
-                      </form>
-                    </div>
-                  )}
-                </div>
+                <span className="text-xs font-mono font-medium text-muted-foreground">
+                  {lightboxIdx + 1} / {filteredImages.length}
+                </span>
               </div>
-            </motion.div>
+
+              {/* Prev / Next Navigation Controls */}
+              <button
+                onClick={prevLightbox}
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black/80">
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+
+              <button
+                onClick={nextLightbox}
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black/80">
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── VIDEO POPUP MODAL ── */}
+      <AnimatePresence>
+        {videoModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
+            onClick={() => setVideoModal(null)}>
+            <button
+              onClick={() => setVideoModal(null)}
+              className="absolute top-6 right-6 z-50 w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20">
+              <X className="w-5 h-5" />
+            </button>
+
+            <div
+              className="relative max-w-4xl w-full bg-card border border-border/60 rounded-3xl overflow-hidden shadow-2xl p-6 space-y-4"
+              onClick={(e) => e.stopPropagation()}>
+              <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-black">
+                <video
+                  src={videoModal.videoUrl}
+                  controls
+                  autoPlay
+                  className="w-full h-full object-contain"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <h3 className="text-lg font-semibold font-heading text-foreground">{videoModal.title}</h3>
+                <p className="text-xs text-muted-foreground font-light">{videoModal.description}</p>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

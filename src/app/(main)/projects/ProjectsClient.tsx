@@ -1,17 +1,14 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { MapPin, Search, SlidersHorizontal, ArrowUpDown, X, Ruler } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { SectionContainer } from "@/components/ui/section-container";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { SectionContainer } from "@/components/layout/SectionContainer";
 import { useCMS } from "@/context/CMSContext";
 import { formatCompactCurrency } from "@/lib/utils";
 import type { Property } from "@/types";
+import { ArrowRight, ArrowUpRight, CheckCircle2, Download, Search, X } from "lucide-react";
 
 type StatusFilter = "all" | Property["status"];
 type CategoryFilter = "all" | Property["category"];
@@ -26,18 +23,10 @@ const STATUS_FILTERS: { value: StatusFilter; label: string }[] = [
 
 const CATEGORY_FILTERS: { value: CategoryFilter; label: string }[] = [
   { value: "all", label: "All Types" },
-  { value: "land", label: "Plots" },
-  { value: "apartment", label: "Apartments" },
-  { value: "commercial", label: "Commercial" },
-  { value: "villa", label: "Villas" },
+  { value: "land", label: "Residential Plots" },
+  { value: "apartment", label: "Ready Flats" },
+  { value: "commercial", label: "Commercial Plots" },
 ];
-
-const STATUS_STYLES: Record<Property["status"], string> = {
-  available: "border-[#D4A030]/30 text-[#D4A030] bg-[#D4A030]/5",
-  pending: "border-amber-500/30 text-amber-600 dark:text-amber-400 bg-amber-500/5",
-  sold: "border-zinc-300 dark:border-white/10 text-zinc-500 bg-zinc-100 dark:bg-white/5",
-  rented: "border-blue-500/30 text-blue-600 dark:text-blue-400 bg-blue-500/5",
-};
 
 const STATUS_LABELS: Record<Property["status"], string> = {
   available: "Ongoing",
@@ -46,144 +35,68 @@ const STATUS_LABELS: Record<Property["status"], string> = {
   rented: "Rented",
 };
 
-function ProjectCard({ property }: { property: Property }) {
-  const hasImage = property.images.length > 0;
-
-  return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 20 }}
-      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      className="group flex flex-col h-full rounded-[28px] border border-zinc-200/50 dark:border-white/5 bg-white/60 dark:bg-[#0D1B3E]/30 backdrop-blur-md overflow-hidden hover:border-[#D4A030]/40 hover:shadow-2xl transition-all duration-500 card-lift"
-    >
-      {/* Image Banner */}
-      <div className="relative aspect-[16/10] w-full bg-zinc-100 dark:bg-white/5 overflow-hidden">
-        {hasImage ? (
-          <Image
-            src={property.images[0]}
-            alt={property.title}
-            fill
-            className="object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out"
-            sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-            priority
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-zinc-400 text-xs font-light">
-            Image Unavailable
-          </div>
-        )}
-        
-        {/* Apple-Style Soft Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
-        
-        {/* Status Badge */}
-        <div className="absolute top-5 left-5 right-5 flex justify-between items-center z-10">
-          <span className="text-[10px] font-bold tracking-widest uppercase px-3 py-1 bg-white/90 dark:bg-[#0D1B3E]/90 text-zinc-800 dark:text-white rounded-full border border-zinc-200/40 dark:border-white/10 shadow-xs">
-            {property.category}
-          </span>
-          <span className={`text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full border shadow-xs ${STATUS_STYLES[property.status]}`}>
-            {STATUS_LABELS[property.status]}
-          </span>
-        </div>
-      </div>
-
-      {/* Card Details */}
-      <div className="p-6 flex flex-col flex-grow justify-between gap-6">
-        <div className="space-y-3.5">
-          <h3 className="font-heading text-lg font-semibold tracking-tight text-zinc-950 dark:text-white group-hover:text-[#D4A030] transition-colors line-clamp-1">
-            {property.title}
-          </h3>
-
-          <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-            <MapPin className="h-4 w-4 shrink-0 text-[#D4A030]" />
-            <span className="font-light truncate">{property.location}</span>
-          </div>
-
-          <div className="flex items-center gap-4 pt-3 text-xs text-zinc-500 dark:text-zinc-400 border-t border-zinc-100 dark:border-white/5">
-            <div className="flex items-center gap-1.5 font-light">
-              <Ruler className="h-3.5 w-3.5 text-zinc-400" />
-              <span>{property.area.toLocaleString()} sqft</span>
-            </div>
-            {property.bedrooms > 0 && (
-              <div className="flex items-center gap-1.5 font-light">
-                <span>{property.bedrooms} Bedrooms</span>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between pt-4 border-t border-zinc-100 dark:border-white/5">
-          <div className="flex flex-col">
-            <span className="text-[9px] text-zinc-400 dark:text-zinc-500 uppercase tracking-widest font-semibold">Starting Price</span>
-            <span className="font-heading text-lg font-bold text-[#D4A030]">
-              {formatCompactCurrency(property.price)}
-            </span>
-          </div>
-          <Link
-            href={`/projects/${property.slug}`}
-            className="inline-flex items-center justify-center h-10 px-6 rounded-full border border-zinc-200 dark:border-white/10 hover:border-[#D4A030] text-zinc-800 dark:text-zinc-200 hover:text-white hover:bg-[#D4A030] text-xs font-semibold transition-all duration-300"
-          >
-            View Details
-          </Link>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
+// 4 Portfolio Projects for Interactive Tabbed Showcase
+const PORTFOLIO_PROJECTS = [
+  {
+    id: "proj-1",
+    num: "01",
+    title: "Silicon City (Phase 1 & 2)",
+    type: "Ongoing Flagship Township",
+    status: "Ongoing",
+    location: "Bara Badeshi Mouza, Savar, Dhaka (Mohammadpur Adjacent)",
+    desc: "High-value residential township along the scenic Turag River with ready civic infrastructure, 30ft & 40ft wide internal roads, grand central mosque, and community parks.",
+    highlights: ["30ft & 40ft Wide Roads", "Turag River Bridge Link", "16–18ft Soil Earthwork", "100% Legal Ownership"],
+    link: "/properties?search=Silicon+City",
+  },
+  {
+    id: "proj-2",
+    num: "02",
+    title: "Silicon Heights",
+    type: "Upcoming Eco-Friendly Apartments",
+    status: "Upcoming",
+    location: "Mohammadpur Waterfront Zone, Dhaka",
+    desc: "Premium eco-friendly ready apartment buildings featuring modern security systems, high-speed elevators, backup power, and scenic river-facing balconies.",
+    highlights: ["Eco-Friendly Architecture", "River-Facing Balconies", "24/7 Elevator & Security", "Modern Community Amenities"],
+    link: "/properties?category=apartment",
+  },
+  {
+    id: "proj-3",
+    num: "03",
+    title: "Silicon Commercial Center",
+    type: "Upcoming Business Complex",
+    status: "Upcoming",
+    location: "Mohammadpur Beribadh Main Road, Dhaka",
+    desc: "Dedicated business complex featuring retail shops, diagnostic centers, corporate office floors, and commercial banking outlets for high ROI investments.",
+    highlights: ["Corporate Banking Outlets", "Retail Shopping Hub", "Diagnostic & Healthcare Floors", "High Commercial Footfall"],
+    link: "/properties?category=commercial",
+  },
+  {
+    id: "proj-4",
+    num: "04",
+    title: "Silicon Green Valley",
+    type: "Completed Residential Block",
+    status: "Completed",
+    location: "Mohammadpur Extension Zone, Dhaka",
+    desc: "Completely developed and successfully handed over residential block, with 100% plot boundary demarcations, electricity connections, and deed registrations completed.",
+    highlights: ["100% Handed Over", "Deed Registrations Done", "Boundary Demarcated", "Ready Utility Grid"],
+    link: "/properties?status=sold",
+  },
+];
 
 export function ProjectsClient() {
   const { state } = useCMS();
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const pathname = usePathname();
 
-  // Filters State
+  // Inventory Filters State
   const [searchQuery, setSearchQuery] = useState("");
   const [activeStatus, setActiveStatus] = useState<StatusFilter>("all");
   const [activeCategory, setActiveCategory] = useState<CategoryFilter>("all");
   const [sortBy, setSortBy] = useState<SortOption>("newest");
+  const [activePortfolioTab, setActivePortfolioTab] = useState(0);
 
-  // Sync with URL query parameters on mount
-  useEffect(() => {
-    const status = searchParams.get("status");
-    const category = searchParams.get("category");
-    const search = searchParams.get("search");
-
-    if (status) {
-      if (status === "ongoing") setActiveStatus("available");
-      else if (status === "upcoming") setActiveStatus("pending");
-      else if (status === "completed") setActiveStatus("sold");
-      else if (status === "rented") setActiveStatus("rented");
-      else if (["available", "pending", "sold", "rented"].includes(status)) {
-        setActiveStatus(status as StatusFilter);
-      }
-    }
-    if (category && ["land", "apartment", "commercial", "villa"].includes(category)) {
-      setActiveCategory(category as CategoryFilter);
-    }
-    if (search) {
-      setSearchQuery(search);
-    }
-  }, [searchParams]);
-
-  // Update query params when filters change
-  const updateUrlParams = (key: string, value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (value === "all" || !value) {
-      params.delete(key);
-    } else {
-      params.set(key, value);
-    }
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
-  };
-
-  // Filtered and Sorted list
+  // Filtered Inventory
   const filteredProjects = useMemo(() => {
     let result = [...state.properties];
 
-    // Filter by Search Query
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       result = result.filter(
@@ -194,17 +107,14 @@ export function ProjectsClient() {
       );
     }
 
-    // Filter by Status
     if (activeStatus !== "all") {
       result = result.filter((p) => p.status === activeStatus);
     }
 
-    // Filter by Category
     if (activeCategory !== "all") {
       result = result.filter((p) => p.category === activeCategory);
     }
 
-    // Sort
     if (sortBy === "price-asc") {
       result.sort((a, b) => a.price - b.price);
     } else if (sortBy === "price-desc") {
@@ -212,220 +122,775 @@ export function ProjectsClient() {
     } else if (sortBy === "area-desc") {
       result.sort((a, b) => b.area - a.area);
     } else {
-      // newest/default
       result.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     }
 
     return result;
   }, [state.properties, searchQuery, activeStatus, activeCategory, sortBy]);
 
-  const handleResetFilters = () => {
-    setSearchQuery("");
-    setActiveStatus("all");
-    setActiveCategory("all");
-    setSortBy("newest");
-    router.push(pathname, { scroll: false });
-  };
-
   return (
-    <div className="bg-[#FFFFFF] dark:bg-[#0D1B3E] min-h-screen pb-24 transition-colors duration-300">
+    <div className="bg-background text-foreground min-h-screen pb-24 overflow-x-hidden">
       
-      {/* ── Hero Section ──────────────────────────── */}
-      <section className="relative pt-36 pb-20 overflow-hidden bg-gradient-to-b from-[#0D1B3E]/95 to-[#0D1B3E] text-white">
-        <div className="absolute top-0 right-0 w-[500px] h-[400px] bg-[#D4A030]/5 blur-[120px] pointer-events-none rounded-full" />
-        <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
-             style={{
-               backgroundImage: "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
-               backgroundSize: "60px 60px"
-             }}
+      {/* ── 1. ARCHITECTURAL HERO SECTION WITH TOP INVENTORY NAVIGATION ── */}
+      <section className="relative pt-28 pb-20 sm:pb-24 bg-dark-hero text-white overflow-hidden">
+        {/* Subtle Dot Grid */}
+        <div
+          className="absolute inset-0 opacity-[0.08] pointer-events-none"
+          style={{
+            backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px)`,
+            backgroundSize: "24px 24px",
+          }}
         />
-        
-        <SectionContainer>
+
+        <SectionContainer className="relative z-10">
           <div className="max-w-3xl space-y-5">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="flex items-center gap-3"
-            >
-              <div className="w-8 h-[2px] bg-gradient-to-r from-[#D4A030] to-transparent" />
-              <span className="text-[#D4A030] text-xs font-semibold uppercase tracking-[0.2em]">Our Portfolio</span>
-            </motion.div>
-            
-            <motion.h1
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="font-heading font-light text-4xl sm:text-5xl lg:text-6xl text-white leading-tight tracking-tight"
-            >
-              Explore All <span className="font-semibold bg-clip-text text-transparent bg-gradient-to-r from-[#D4A030] to-[#F3C65F]">Projects</span>
-            </motion.h1>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-zinc-400 text-base sm:text-lg font-light max-w-xl leading-relaxed"
-            >
-              Browse our portfolio of RAJUK-approved land developments and premium residential layouts across prime Dhaka zones.
-            </motion.p>
+            {/* Breadcrumbs */}
+            <div className="flex items-center gap-2 text-xs font-mono font-medium text-white/60">
+              <Link href="/" className="hover:text-accent transition-colors">
+                Home
+              </Link>
+              <span>&gt;</span>
+              <span className="text-accent font-semibold">Projects</span>
+            </div>
+
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium font-heading text-white tracking-tight leading-tight">
+              Our Premier Property <span className="text-accent font-semibold">Developments</span>
+            </h1>
+
+            <p className="text-white/80 text-xs sm:text-sm md:text-base font-light leading-relaxed">
+              Explore our meticulously planned, eco-friendly, and legally secure residential housing projects designed to offer a peaceful living environment and high-yielding asset value in Dhaka.
+            </p>
+
+            {/* TOP ACTION BUTTON: Quick Link to Live Searchable Inventory Page */}
+            <div className="pt-2 flex flex-wrap items-center gap-4">
+              <Link
+                href="/properties"
+                className="group bg-primary text-primary-foreground h-12 px-7 rounded-xl font-medium font-heading text-xs sm:text-sm inline-flex items-center justify-center hover:bg-primary/90 transition-all border border-white/20 shadow-lg gap-2">
+                EXPLORE LIVE AVAILABLE PROPERTIES
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link
+                href="/membership"
+                className="group bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/25 hover:border-accent h-12 px-7 rounded-xl font-medium font-heading text-xs sm:text-sm inline-flex items-center justify-center transition-all gap-2">
+                DOWNLOAD APPLICATION FORM
+                <Download className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
+              </Link>
+            </div>
           </div>
         </SectionContainer>
       </section>
 
-      {/* ── Filters & Search Control Bar ─────────── */}
-      <SectionContainer className="relative z-20 -mt-6">
-        <div className="p-6 rounded-[24px] border border-zinc-200/50 dark:border-white/10 bg-white/85 dark:bg-[#0D1B3E]/80 backdrop-blur-2xl shadow-xl space-y-6">
-          
-          {/* Search & Sort */}
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_220px] gap-4">
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
-              <input
-                type="text"
-                placeholder="Search by project title, sector, road, or location..."
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  updateUrlParams("search", e.target.value);
+      {/* ── 2. FLAGSHIP PROJECT SPOTLIGHT - SILICON CITY ── */}
+      <section className="py-20 sm:py-24 bg-background overflow-hidden border-b border-border/50">
+        <div
+          className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          style={{
+            backgroundImage: `radial-gradient(rgba(26, 95, 168, 0.8) 1px, transparent 1px)`,
+            backgroundSize: "28px 28px",
+          }}
+        />
+
+        <SectionContainer className="relative z-10 space-y-14">
+          <div className="max-w-3xl text-left space-y-3">
+            <span className="inline-block px-3.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium uppercase tracking-widest text-primary font-heading">
+              FLAGSHIP DEVELOPMENT
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
+              Silicon City – Planned Residential Township
+            </h2>
+            <p className="text-muted-foreground text-xs sm:text-sm md:text-base font-light leading-relaxed">
+              Located in Bara Badeshi Mouza, Savar, Dhaka — strategically positioned adjacent to Mohammadpur Beribadh along the scenic Turag River.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            {/* Left Main Overview Box */}
+            <div className="lg:col-span-5 bg-dark-hero rounded-3xl p-8 text-white flex flex-col justify-between relative overflow-hidden shadow-xl">
+              <div
+                className="absolute inset-0 opacity-[0.08] pointer-events-none"
+                style={{
+                  backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px)`,
+                  backgroundSize: "20px 20px",
                 }}
-                className="w-full h-11 pl-11 pr-10 rounded-xl border border-zinc-200/60 dark:border-white/10 bg-zinc-50/40 dark:bg-[#0D1B3E]/40 focus:bg-white dark:focus:bg-[#0D1B3E] focus:border-[#D4A030]/50 focus:ring-2 focus:ring-[#D4A030]/10 transition-all duration-300 text-sm placeholder:text-zinc-400 dark:placeholder:text-zinc-500 text-zinc-800 dark:text-white"
               />
-              {searchQuery && (
-                <button
-                  onClick={() => {
-                    setSearchQuery("");
-                    updateUrlParams("search", "");
-                  }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-zinc-400 hover:text-zinc-600 dark:hover:text-white rounded-full transition-all"
-                >
-                  <X className="h-3.5 w-3.5" />
-                </button>
-              )}
+              <div className="relative z-10 space-y-4">
+                <span className="inline-block px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-[11px] font-medium text-accent font-heading uppercase tracking-wider">
+                  Ongoing Status
+                </span>
+                <h3 className="text-2xl font-semibold font-heading text-white">
+                  RAJUK Extended Masterplan & Embankment Protected
+                </h3>
+                <p className="text-white/80 text-xs sm:text-sm font-light leading-relaxed">
+                  Falling under the proposed extended urban master plan of RAJUK and fully secured within the proposed Dhaka Flood Protection Embankment for complete legal and environmental security.
+                </p>
+              </div>
+
+              <div className="relative z-10 pt-6 border-t border-white/15 flex items-center justify-between text-xs font-heading">
+                <span className="text-white/60">Location: Savar (Bara Badeshi)</span>
+                <span className="text-accent font-semibold">100% Ready Mutation</span>
+              </div>
             </div>
 
-            <div className="relative">
-              <ArrowUpDown className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400 pointer-events-none" />
+            {/* Right 4 Engineering Highlights Grid */}
+            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {[
+                {
+                  num: "01",
+                  title: "16 to 18 Feet Elevation",
+                  desc: "High-quality earth-filling and soil development carried out up to a safe height of 16 to 18 feet.",
+                },
+                {
+                  num: "02",
+                  title: "30ft & 40ft Internal Roads",
+                  desc: "Meticulously designed wide internal road networks to ensure zero traffic congestion within the township.",
+                },
+                {
+                  num: "03",
+                  title: "Turag River Bridge Link",
+                  desc: "A dedicated bridge is under processing over the Turag River to establish direct connectivity to Mohammadpur.",
+                },
+                {
+                  num: "04",
+                  title: "100% Legal Ownership",
+                  desc: "Legally verified ownership history with completely hassle-free, secure, and ready-to-register plot handovers.",
+                },
+              ].map((spec) => (
+                <div
+                  key={spec.title}
+                  className="bg-card border border-border/60 rounded-3xl p-6 shadow-xs flex flex-col justify-between space-y-3">
+                  <div className="space-y-2">
+                    <span className="text-xs font-mono font-medium text-primary block">{spec.num}</span>
+                    <h4 className="text-base font-semibold font-heading text-foreground">{spec.title}</h4>
+                    <p className="text-xs text-muted-foreground font-light leading-relaxed">{spec.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </SectionContainer>
+      </section>
+
+      {/* ── 3. PROPERTY CATEGORIES OFFERED ── */}
+      <section className="py-20 sm:py-24 bg-muted/30 border-b border-border/50">
+        <SectionContainer className="space-y-12">
+          <div className="max-w-3xl text-left space-y-2">
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary font-heading">
+              OFFERED CATEGORIES
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
+              Property Types Available
+            </h2>
+            <p className="text-muted-foreground text-xs sm:text-sm md:text-base font-light leading-relaxed">
+              Explore property categories tailored to residential living, commercial ventures, and apartment investments.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                title: "Residential Plots",
+                desc: "Secure and ready-to-register plots of various sizes (3, 5, or more decimals) inside highly planned blocks.",
+                tag: "Plots",
+              },
+              {
+                title: "Commercial Plots",
+                desc: "Separate designated plots for commercial buildings, retail spaces, and corporate office developments.",
+                tag: "Commercial",
+              },
+              {
+                title: "Ready Flats",
+                desc: "Planned modern apartment spaces featuring contemporary architectural designs, elevators, and river views.",
+                tag: "Apartments",
+              },
+            ].map((cat) => (
+              <motion.div
+                key={cat.title}
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                className="bg-card border border-border/60 rounded-3xl p-8 shadow-xs hover:border-primary/40 transition-all flex flex-col justify-between space-y-4">
+                <div className="space-y-2">
+                  <span className="text-xs font-medium uppercase tracking-wider text-accent font-heading block">
+                    {cat.tag}
+                  </span>
+                  <h3 className="text-xl font-semibold font-heading text-foreground">
+                    {cat.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
+                    {cat.desc}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </SectionContainer>
+      </section>
+
+      {/* ── 4. DEVELOPMENT PORTFOLIO CLASSIFICATION SHOWCASE ── */}
+      <section className="py-20 sm:py-24 bg-background border-b border-border/50 overflow-hidden">
+        {/* Subtle Dot Grid */}
+        <div
+          className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          style={{
+            backgroundImage: `radial-gradient(rgba(26, 95, 168, 0.8) 1px, transparent 1px)`,
+            backgroundSize: "24px 24px",
+          }}
+        />
+
+        <SectionContainer className="relative z-10 space-y-12">
+          {/* Header */}
+          <div className="max-w-3xl text-left space-y-2">
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary font-heading">
+              PORTFOLIO CLASSIFICATION
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
+              Project Portfolio Groups
+            </h2>
+            <p className="text-muted-foreground text-xs sm:text-sm md:text-base font-light leading-relaxed">
+              Explore our ongoing, upcoming, and successfully completed real estate ventures.
+            </p>
+          </div>
+
+          {/* 2-Column Showcase Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            
+            {/* Left Column: Interactive Vertical Project Tabs */}
+            <div className="lg:col-span-5 space-y-3">
+              {PORTFOLIO_PROJECTS.map((proj, idx) => {
+                const isActive = activePortfolioTab === idx;
+                return (
+                  <div
+                    key={proj.id}
+                    onClick={() => setActivePortfolioTab(idx)}
+                    className={`p-4 sm:p-5 rounded-2xl border transition-all duration-300 cursor-pointer ${
+                      isActive
+                        ? "bg-card border-primary/50 shadow-md pl-6 border-l-4 border-l-primary"
+                        : "bg-card/60 border-border/50 hover:bg-card hover:border-border"
+                    }`}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <span className="text-xs font-mono font-medium text-primary">
+                          {proj.num}
+                        </span>
+                        <h3 className="text-sm sm:text-base font-semibold font-heading text-foreground">
+                          {proj.title}
+                        </h3>
+                      </div>
+                      <ArrowUpRight
+                        className={`w-4 h-4 transition-transform ${
+                          isActive ? "text-primary rotate-45" : "text-muted-foreground opacity-50"
+                        }`}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Right Column: Dynamic Project Feature Showcase Panel */}
+            <div className="lg:col-span-7 bg-card border border-border/60 rounded-3xl p-8 sm:p-10 shadow-sm flex flex-col justify-between relative overflow-hidden space-y-6">
+              <div
+                className="absolute inset-0 opacity-[0.03] pointer-events-none"
+                style={{
+                  backgroundImage: `radial-gradient(rgba(26, 95, 168, 0.8) 1px, transparent 1px)`,
+                  backgroundSize: "24px 24px",
+                }}
+              />
+
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activePortfolioTab}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
+                  className="space-y-6 relative z-10">
+                  
+                  {/* Top Header Row */}
+                  <div className="flex items-center justify-between border-b border-border/40 pb-4">
+                    <span className="text-xs font-mono font-medium text-primary uppercase tracking-widest">
+                      PROJECT 0{activePortfolioTab + 1} OF 04
+                    </span>
+                    <span className="text-xs font-medium font-heading text-accent">
+                      Silicon Portfolio Verified
+                    </span>
+                  </div>
+
+                  {/* Title & Description */}
+                  <div className="space-y-3">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium font-heading text-primary">
+                        {PORTFOLIO_PROJECTS[activePortfolioTab].status}
+                      </span>
+                      <span className="text-xs text-muted-foreground font-medium">
+                        Location: {PORTFOLIO_PROJECTS[activePortfolioTab].location}
+                      </span>
+                    </div>
+
+                    <h3 className="text-2xl sm:text-3xl font-semibold font-heading text-foreground">
+                      {PORTFOLIO_PROJECTS[activePortfolioTab].title}
+                    </h3>
+                    <p className="text-muted-foreground text-xs sm:text-sm md:text-base font-light leading-relaxed">
+                      {PORTFOLIO_PROJECTS[activePortfolioTab].desc}
+                    </p>
+                  </div>
+
+                  {/* Key Highlights & Specifications Badges */}
+                  <div className="space-y-2 pt-2">
+                    <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground font-heading block">
+                      KEY HIGHLIGHTS & SPECIFICATIONS:
+                    </span>
+                    <div className="flex flex-wrap gap-2">
+                      {PORTFOLIO_PROJECTS[activePortfolioTab].highlights.map((tag) => (
+                        <span
+                          key={tag}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium font-heading text-primary">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-primary" />
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Action Button */}
+                  <div className="pt-4 border-t border-border/40">
+                    <Link
+                      href={PORTFOLIO_PROJECTS[activePortfolioTab].link}
+                      className="group bg-primary text-primary-foreground h-11 px-6 rounded-xl font-medium font-heading text-xs sm:text-sm inline-flex items-center justify-center hover:bg-primary/90 transition-all border border-white/10 shadow-xs gap-2">
+                      EXPLORE PROJECT DETAILS
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+        </SectionContainer>
+      </section>
+
+      {/* ── 5. SILICON CITY CIVIC AMENITIES ── */}
+      <section className="py-20 sm:py-24 bg-muted/30 border-b border-border/50">
+        <SectionContainer className="space-y-12">
+          <div className="max-w-3xl text-left space-y-2">
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary font-heading">
+              COMMUNITY INFRASTRUCTURE
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
+              Silicon City Amenities & Civic Infrastructure
+            </h2>
+            <p className="text-muted-foreground text-xs sm:text-sm md:text-base font-light leading-relaxed">
+              Planned social and civic facilities designed for comfortable living and healthy community growth.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                title: "Grand Central Mosque",
+                desc: "Beautifully constructed central grand mosque along with block-based mosques for daily prayers.",
+                tag: "Religious Center",
+              },
+              {
+                title: "Sports & Athletics Fields",
+                desc: "Standard Football Field and Cricket Field designed for an active lifestyle and community sports.",
+                tag: "Sports Grounds",
+              },
+              {
+                title: "Green Parks & Playgrounds",
+                desc: "Dedicated open green spaces, children's play zones, and riverfront walkways.",
+                tag: "Eco Parks",
+              },
+              {
+                title: "Proposed Education Centers",
+                desc: "Planned top-tier School & College campuses reserved inside the township boundaries.",
+                tag: "Schools & College",
+              },
+              {
+                title: "Healthcare Facilities",
+                desc: "Modern Hospital & Medical Center space reserved for instant medical emergency support.",
+                tag: "Medical Center",
+              },
+              {
+                title: "Commercial Zones & Markets",
+                desc: "Dedicated shopping hubs, grocery markets, and corporate retail spaces for everyday needs.",
+                tag: "Shopping Market",
+              },
+            ].map((am, idx) => (
+              <div
+                key={am.title}
+                className="bg-card border border-border/60 rounded-3xl p-7 shadow-xs flex flex-col justify-between space-y-4">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-mono font-medium text-primary">0{idx + 1}</span>
+                    <span className="text-[11px] font-medium font-heading text-accent px-2.5 py-0.5 rounded-full bg-accent/10 border border-accent/20">
+                      {am.tag}
+                    </span>
+                  </div>
+                  <h3 className="text-base sm:text-lg font-semibold font-heading text-foreground">
+                    {am.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
+                    {am.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </SectionContainer>
+      </section>
+
+      {/* ── 6. STRATEGIC LOCATION PROXIMITY ── */}
+      <section className="py-20 sm:py-24 bg-background border-b border-border/50">
+        <SectionContainer className="space-y-12">
+          <div className="max-w-3xl text-left space-y-2">
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary font-heading">
+              STRATEGIC LOCATION
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
+              Proximity to Key Administrative & Cultural Hubs
+            </h2>
+            <p className="text-muted-foreground text-xs sm:text-sm md:text-base font-light leading-relaxed">
+              Located just 2 to 3 Kilometers from Mohammadpur and key national administrative centers.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-card border border-border/60 rounded-3xl p-7 space-y-4">
+              <span className="text-xs font-semibold font-heading uppercase tracking-wider text-primary block">
+                Administrative & Commercial Hubs
+              </span>
+              <ul className="space-y-2.5 text-xs sm:text-sm text-muted-foreground font-light">
+                <li className="flex items-center justify-between border-b border-border/40 pb-2">
+                  <span>National Parliament House</span>
+                  <span className="text-foreground font-medium">3.0 km</span>
+                </li>
+                <li className="flex items-center justify-between border-b border-border/40 pb-2">
+                  <span>Agargaon Administrative Area</span>
+                  <span className="text-foreground font-medium">3.5 km</span>
+                </li>
+                <li className="flex items-center justify-between border-b border-border/40 pb-2">
+                  <span>Japan Garden City</span>
+                  <span className="text-foreground font-medium">2.0 km</span>
+                </li>
+                <li className="flex items-center justify-between border-b border-border/40 pb-2">
+                  <span>Mohammadpur Town Hall</span>
+                  <span className="text-foreground font-medium">2.2 km</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span>Historic Shia Mosque</span>
+                  <span className="text-foreground font-medium">2.5 km</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-card border border-border/60 rounded-3xl p-7 space-y-4">
+              <span className="text-xs font-semibold font-heading uppercase tracking-wider text-primary block">
+                Educational Institutions
+              </span>
+              <ul className="space-y-2.5 text-xs sm:text-sm text-muted-foreground font-light">
+                <li className="flex items-center justify-between border-b border-border/40 pb-2">
+                  <span>Mohammadpur Model College</span>
+                  <span className="text-foreground font-medium">2.5 km</span>
+                </li>
+                <li className="flex items-center justify-between border-b border-border/40 pb-2">
+                  <span>St. Joseph Higher Secondary School</span>
+                  <span className="text-foreground font-medium">2.8 km</span>
+                </li>
+                <li className="flex items-center justify-between border-b border-border/40 pb-2">
+                  <span>Mohammadpur Preparatory School</span>
+                  <span className="text-foreground font-medium">2.3 km</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span>Green Herald School</span>
+                  <span className="text-foreground font-medium">3.1 km</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-card border border-border/60 rounded-3xl p-7 space-y-4">
+              <span className="text-xs font-semibold font-heading uppercase tracking-wider text-primary block">
+                Healthcare Institutes
+              </span>
+              <ul className="space-y-2.5 text-xs sm:text-sm text-muted-foreground font-light">
+                <li className="flex items-center justify-between border-b border-border/40 pb-2">
+                  <span>Cardiovascular Diseases Institute</span>
+                  <span className="text-foreground font-medium">3.2 km</span>
+                </li>
+                <li className="flex items-center justify-between border-b border-border/40 pb-2">
+                  <span>National Eye Science Hospital</span>
+                  <span className="text-foreground font-medium">3.0 km</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span>NITOR / Pongu Hospital</span>
+                  <span className="text-foreground font-medium">3.3 km</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </SectionContainer>
+      </section>
+
+      {/* ── 7. WHY INVEST IN OUR PROJECTS? ── */}
+      <section className="py-20 sm:py-24 bg-muted/30 border-b border-border/50">
+        <SectionContainer className="space-y-12">
+          <div className="max-w-3xl text-left space-y-2">
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary font-heading">
+              INVESTMENT ADVANTAGE
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
+              Why Invest in Silicon Real Estate Projects?
+            </h2>
+            <p className="text-muted-foreground text-xs sm:text-sm md:text-base font-light leading-relaxed">
+              Three core pillars that guarantee complete legal security and long-term asset value growth.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-card border border-border/60 rounded-3xl p-8 space-y-3">
+              <span className="text-xs font-mono font-medium text-primary block">Pillar 01</span>
+              <h3 className="text-lg font-semibold font-heading text-foreground">Perfect RAJUK Alternative</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
+                For those who did not receive plot allotments in government RAJUK projects, Silicon City stands as the most secure, well-planned, and promising residential alternative.
+              </p>
+            </div>
+
+            <div className="bg-card border border-border/60 rounded-3xl p-8 space-y-3">
+              <span className="text-xs font-mono font-medium text-primary block">Pillar 02</span>
+              <h3 className="text-lg font-semibold font-heading text-foreground">Protected Embankment</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
+                Fully protected by the Dhaka Flood Protection Embankment, ensuring 100% safety from seasonal flooding and soil erosion.
+              </p>
+            </div>
+
+            <div className="bg-card border border-border/60 rounded-3xl p-8 space-y-3">
+              <span className="text-xs font-mono font-medium text-primary block">Pillar 03</span>
+              <h3 className="text-lg font-semibold font-heading text-foreground">Guaranteed Asset Growth</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
+                Highly appreciating land value driven by rapid urban expansion in Mohammadpur and upcoming Turag River bridge infrastructure.
+              </p>
+            </div>
+          </div>
+        </SectionContainer>
+      </section>
+
+      {/* ── 8. LIVE SEARCHABLE INVENTORY SECTION WITH DIRECT QUICK LINK ── */}
+      <section id="inventory-search" className="py-20 sm:py-24 bg-background border-b border-border/50">
+        <SectionContainer className="space-y-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="max-w-2xl text-left space-y-2">
+              <span className="text-xs font-semibold uppercase tracking-widest text-primary font-heading">
+                SEARCHABLE INVENTORY
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
+                Explore Live Available Properties
+              </h2>
+              <p className="text-muted-foreground text-xs sm:text-sm font-light">
+                Search by title, location, category, or status.
+              </p>
+            </div>
+
+            <Link
+              href="/properties"
+              className="group bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 h-11 px-5 rounded-xl text-xs font-medium font-heading inline-flex items-center gap-2 shrink-0 transition-all">
+              VIEW DEDICATED PROPERTIES PAGE
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+
+          {/* Search Controls Bar */}
+          <div className="p-6 rounded-3xl border border-border/60 bg-card shadow-xs space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_200px] gap-4">
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <input
+                  type="text"
+                  placeholder="Search by title, sector, or location..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full h-11 pl-11 pr-10 rounded-xl border border-border/60 bg-background text-sm font-light placeholder:text-muted-foreground focus:outline-none focus:border-primary"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-foreground">
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                )}
+              </div>
+
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as SortOption)}
-                className="w-full h-11 pl-10 pr-4 rounded-xl border border-zinc-200/60 dark:border-white/10 bg-zinc-50/40 dark:bg-[#0D1B3E]/40 focus:bg-white dark:focus:bg-[#0D1B3E] focus:border-[#D4A030]/50 focus:ring-2 focus:ring-[#D4A030]/10 transition-all duration-300 text-sm font-medium text-zinc-700 dark:text-zinc-200 appearance-none cursor-pointer"
-              >
+                className="w-full h-11 px-4 rounded-xl border border-border/60 bg-background text-xs font-medium text-foreground cursor-pointer">
                 <option value="newest">Sort: Newest</option>
                 <option value="price-asc">Price: Low to High</option>
                 <option value="price-desc">Price: High to Low</option>
                 <option value="area-desc">Area: Largest Size</option>
               </select>
             </div>
-          </div>
 
-          <div className="h-px bg-zinc-200/50 dark:bg-white/10" />
-
-          {/* Category & Status Segmented Controls */}
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
-            
-            {/* Category Control */}
-            <div className="flex flex-wrap items-center gap-1.5">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mr-2">
-                Type
-              </span>
+            <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-border/40">
               <div className="flex flex-wrap gap-1.5">
                 {CATEGORY_FILTERS.map(({ value, label }) => (
                   <button
                     key={value}
-                    onClick={() => {
-                      setActiveCategory(value);
-                      updateUrlParams("category", value);
-                    }}
-                    className={`h-8 px-4 rounded-full text-xs font-medium transition-all duration-300 border ${
+                    onClick={() => setActiveCategory(value)}
+                    className={`h-8 px-4 rounded-full text-xs font-medium transition-all ${
                       activeCategory === value
-                        ? "bg-[#0D1B3E] dark:bg-white border-[#0D1B3E] dark:border-white text-white dark:text-[#0D1B3E] shadow-sm"
-                        : "bg-transparent hover:bg-zinc-100 dark:hover:bg-white/5 border-zinc-200/60 dark:border-white/10 text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white"
-                    }`}
-                  >
+                        ? "bg-primary text-primary-foreground shadow-xs"
+                        : "bg-background border border-border/60 text-muted-foreground hover:text-foreground"
+                    }`}>
                     {label}
                   </button>
                 ))}
               </div>
-            </div>
 
-            {/* Status Control */}
-            <div className="flex flex-wrap items-center gap-1.5">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mr-2">
-                Status
-              </span>
               <div className="flex flex-wrap gap-1.5">
                 {STATUS_FILTERS.map(({ value, label }) => (
                   <button
                     key={value}
-                    onClick={() => {
-                      setActiveStatus(value);
-                      updateUrlParams("status", value === "available" ? "ongoing" : value === "pending" ? "upcoming" : value === "sold" ? "completed" : value);
-                    }}
-                    className={`h-8 px-4 rounded-full text-xs font-medium transition-all duration-300 border ${
+                    onClick={() => setActiveStatus(value)}
+                    className={`h-8 px-4 rounded-full text-xs font-medium transition-all ${
                       activeStatus === value
-                        ? "bg-[#D4A030] border-[#D4A030] text-[#0D1B3E] font-semibold shadow-sm"
-                        : "bg-transparent hover:bg-zinc-100 dark:hover:bg-white/5 border-zinc-200/60 dark:border-white/10 text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white"
-                    }`}
-                  >
+                        ? "bg-accent text-dark-hero font-semibold shadow-xs"
+                        : "bg-background border border-border/60 text-muted-foreground hover:text-foreground"
+                    }`}>
                     {label}
                   </button>
                 ))}
               </div>
             </div>
           </div>
-        </div>
-      </SectionContainer>
 
-      {/* ── Active Filters Summary ───────────────── */}
-      <SectionContainer className="pt-6">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <p className="text-sm text-zinc-500 dark:text-zinc-400 font-light">
-            Found <span className="font-semibold text-zinc-800 dark:text-white">{filteredProjects.length}</span> premium properties
-          </p>
-          {(searchQuery || activeStatus !== "all" || activeCategory !== "all") && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleResetFilters}
-              className="h-8 text-xs font-semibold text-red-500 hover:text-red-600 hover:bg-red-500/5 rounded-full transition-all"
-            >
-              <X className="h-3.5 w-3.5 mr-1.5" /> Reset Filters
-            </Button>
-          )}
-        </div>
-      </SectionContainer>
-
-      {/* ── Projects Grid ────────────────────────── */}
-      <section className="pt-6">
-        <SectionContainer>
-          <motion.div layout className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Properties Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <AnimatePresence mode="popLayout">
               {filteredProjects.map((property) => (
-                <ProjectCard key={property.id} property={property} />
+                <motion.div
+                  key={property.id}
+                  layout
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 16 }}
+                  className="bg-card border border-border/60 rounded-3xl p-6 shadow-xs flex flex-col justify-between space-y-4 group hover:border-primary/40 transition-all">
+                  <div className="space-y-3">
+                    <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-muted">
+                      {property.images.length > 0 ? (
+                        <Image
+                          src={property.images[0]}
+                          alt={property.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center text-xs text-muted-foreground">
+                          Image Unavailable
+                        </div>
+                      )}
+                      <div className="absolute top-3 left-3">
+                        <span className="text-[10px] font-semibold uppercase tracking-wider px-3 py-1 bg-black/60 backdrop-blur-md text-white rounded-full">
+                          {STATUS_LABELS[property.status]}
+                        </span>
+                      </div>
+                    </div>
+
+                    <h3 className="text-base font-semibold font-heading text-foreground group-hover:text-primary transition-colors">
+                      {property.title}
+                    </h3>
+                    <p className="text-xs text-muted-foreground font-light">
+                      Location: {property.location}
+                    </p>
+                  </div>
+
+                  <div className="pt-3 border-t border-border/40 flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] text-muted-foreground uppercase font-medium block">Starting Price</span>
+                      <span className="text-sm font-semibold font-heading text-primary">
+                        {formatCompactCurrency(property.price)}
+                      </span>
+                    </div>
+                    <Link
+                      href={`/projects/${property.slug}`}
+                      className="bg-primary text-primary-foreground h-9 px-4 rounded-xl text-xs font-medium font-heading inline-flex items-center justify-center hover:bg-primary/90 transition-all">
+                      View Details
+                    </Link>
+                  </div>
+                </motion.div>
               ))}
             </AnimatePresence>
-          </motion.div>
+          </div>
+        </SectionContainer>
+      </section>
 
-          {/* Empty State */}
-          {filteredProjects.length === 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex flex-col items-center justify-center py-24 text-center rounded-[28px] border border-dashed border-zinc-200 dark:border-white/10 bg-zinc-50/30 dark:bg-white/[0.01]"
-            >
-              <div className="h-14 w-14 rounded-2xl bg-zinc-100 dark:bg-white/5 flex items-center justify-center mb-5 border border-zinc-200/50 dark:border-white/10 shadow-xs">
-                <Search className="h-6 w-6 text-zinc-400" />
+      {/* ── 9. OFFLINE BOOKING CTA BANNER ── */}
+      <section className="py-20 sm:py-24 bg-background">
+        <SectionContainer>
+          <div className="bg-dark-hero rounded-3xl p-8 sm:p-12 text-white shadow-xl space-y-10 relative overflow-hidden">
+            <div
+              className="absolute inset-0 opacity-[0.08] pointer-events-none"
+              style={{
+                backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px)`,
+                backgroundSize: "24px 24px",
+              }}
+            />
+
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border-b border-white/15 pb-8">
+              <div className="lg:col-span-8 space-y-3">
+                <span className="inline-block px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-medium uppercase tracking-widest text-accent font-heading">
+                  OFFLINE BOOKING GUIDE
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-semibold font-heading text-white tracking-tight">
+                  Secure Your Dream Plot in Silicon City
+                </h2>
+                <p className="text-white/80 text-xs sm:text-sm font-light leading-relaxed max-w-xl">
+                  Follow our simple office booking guideline to secure your plot allotment.
+                </p>
               </div>
-              <h3 className="font-heading text-lg font-semibold text-zinc-850 dark:text-white mb-2">No matching projects found</h3>
-              <p className="text-zinc-500 dark:text-zinc-400 max-w-sm text-sm font-light mb-6">
-                Try adjusting your filters, clearing your search query, or checking other categories.
-              </p>
-              <Button onClick={handleResetFilters} className="rounded-full h-10 px-6 font-semibold bg-[#0D1B3E] dark:bg-white text-white dark:text-[#0D1B3E] hover:bg-[#0D1B3E]/90 dark:hover:bg-white/90">
-                Reset All Filters
-              </Button>
-            </motion.div>
-          )}
+
+              <div className="lg:col-span-4 flex flex-wrap items-center justify-start lg:justify-end gap-3">
+                <Link
+                  href="/membership"
+                  className="group bg-primary text-primary-foreground h-12 px-6 rounded-xl font-medium text-xs sm:text-sm font-heading inline-flex items-center justify-center hover:bg-primary/90 transition-all border border-white/10 shadow-md gap-2">
+                  DOWNLOAD FORM
+                  <Download className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
+                </Link>
+                <Link
+                  href="/contact"
+                  className="group bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 h-12 px-6 rounded-xl font-medium text-xs sm:text-sm font-heading inline-flex items-center justify-center transition-all gap-2">
+                  SITE VISIT PLAN
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </div>
+
+            <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-6 space-y-2">
+                <span className="text-xs font-mono font-medium text-accent block">Step 01</span>
+                <h4 className="text-sm font-semibold font-heading text-white">Choose Desired Plot</h4>
+                <p className="text-xs text-white/70 font-light leading-relaxed">
+                  Check out our project layout and choose your desired plot size (3, 5, or 10 Kathas).
+                </p>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-6 space-y-2">
+                <span className="text-xs font-mono font-medium text-accent block">Step 02</span>
+                <h4 className="text-sm font-semibold font-heading text-white">Download Application</h4>
+                <p className="text-xs text-white/70 font-light leading-relaxed">
+                  Download the official Membership Application Form from our Membership page.
+                </p>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-6 space-y-2">
+                <span className="text-xs font-mono font-medium text-accent block">Step 03</span>
+                <h4 className="text-sm font-semibold font-heading text-white">Office Submission</h4>
+                <p className="text-xs text-white/70 font-light leading-relaxed">
+                  Visit our Corporate Office in Mohammadpur with NID copies, 2 photos, and BDT 1,000 application fee.
+                </p>
+              </div>
+            </div>
+
+            <div className="relative z-10 pt-4 text-xs text-white/70 font-heading">
+              Hotlines: <span className="text-accent font-semibold">+880 12 345 678 / +880 1712 345 678</span> | Corporate Office: 2/3 (2nd Floor), Block # A, Iqbal Road, Mohammadpur, Dhaka-1207
+            </div>
+          </div>
         </SectionContainer>
       </section>
     </div>
