@@ -2,413 +2,252 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
-  FacebookIcon,
-  InstagramIcon,
-  LinkedinIcon,
-  YoutubeIcon,
-  TwitterIcon,
   Mail,
   Phone,
   MapPin,
+  MessageSquare,
   ChevronRight,
   Send,
-  Shield,
-  Award,
-  Users,
-  TrendingUp,
+  ShieldCheck,
   Building2,
   FileText,
-  Briefcase,
-  Camera,
-  BookOpen,
-  Link2,
+  Sparkles,
 } from "lucide-react";
 import { toast } from "sonner";
-import { useCMS } from "@/context/CMSContext";
 import { SectionContainer } from "../ui/section-container";
 
-/* ── Full sitemap data ─────────────────────────────────────────────── */
-const sitemapColumns = [
-  {
-    title: "Company",
-    icon: Building2,
-    links: [
-      { label: "About Us", href: "/about" },
-      { label: "Our Team", href: "/about#team" },
-      { label: "Mission & Vision", href: "/about#mission" },
-      { label: "Achievements", href: "/about#achievements" },
-      { label: "Careers", href: "/careers" },
-      { label: "Contact Us", href: "/contact" },
-    ],
-  },
-  {
-    title: "Projects",
-    icon: Briefcase,
-    links: [
-      { label: "Ongoing Projects", href: "/projects?status=ongoing" },
-      { label: "Upcoming Projects", href: "/projects?status=upcoming" },
-      { label: "Completed Projects", href: "/projects?status=completed" },
-      { label: "Project Details", href: "/projects" },
-    ],
-  },
-  {
-    title: "Properties",
-    icon: Building2,
-    links: [
-      { label: "Residential Plots", href: "/properties?category=residential" },
-      { label: "Commercial Plots", href: "/properties?category=commercial" },
-      { label: "Ready Flat", href: "/properties?category=flat" },
-      { label: "Land Investment", href: "/investment" },
-      { label: "Investment Guide", href: "/investment#guide" },
-      { label: "Consultancy", href: "/services#consultancy" },
-    ],
-  },
-  {
-    title: "Investment",
-    icon: TrendingUp,
-    links: [
-      { label: "Why Invest", href: "/investment#why" },
-      { label: "Benefits", href: "/investment#benefits" },
-      { label: "ROI & Growth", href: "/investment#roi" },
-      { label: "Payment Plan", href: "/investment#payment" },
-      { label: "Investment Consultancy", href: "/services#investment" },
-    ],
-  },
-  {
-    title: "Services",
-    icon: Shield,
-    links: [
-      { label: "Land Buying", href: "/services#land-buying" },
-      { label: "Plot Sales", href: "/services#plot-sales" },
-      { label: "Property Consultation", href: "/services#consultation" },
-      { label: "Legal Support", href: "/services#legal" },
-      { label: "Real Estate Marketing", href: "/services#marketing" },
-    ],
-  },
-  {
-    title: "Gallery",
-    icon: Camera,
-    links: [
-      { label: "Project Gallery", href: "/gallery?cat=project" },
-      { label: "Construction Gallery", href: "/gallery?cat=construction" },
-      { label: "Event Gallery", href: "/gallery?cat=event" },
-      { label: "Office Gallery", href: "/gallery?cat=office" },
-      { label: "Video Gallery", href: "/gallery?cat=video" },
-    ],
-  },
-  {
-    title: "Resources",
-    icon: BookOpen,
-    links: [
-      { label: "Blog / News", href: "/blog" },
-      { label: "Real Estate Tips", href: "/blog?cat=tips" },
-      { label: "Investment Guides", href: "/blog?cat=guides" },
-      { label: "Legal Information", href: "/blog?cat=legal" },
-      { label: "Awareness Articles", href: "/blog?cat=awareness" },
-    ],
-  },
+const QUICK_LINKS = [
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/about" },
+  { label: "Projects", href: "/projects" },
+  { label: "Services", href: "/services" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Membership", href: "/membership" },
+  { label: "Contact Us", href: "/contact" },
 ];
 
-const trustBadges = [
-  { icon: Shield, label: "RAJUK Approved" },
-  { icon: Award, label: "Bank Partnered" },
-  { icon: Users, label: "1,500+ Clients" },
-  { icon: TrendingUp, label: "High ROI" },
+const USEFUL_LINKS = [
+  { label: "Terms & Conditions", href: "/terms" },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Refund Policy", href: "/refund-policy" },
+  { label: "Digital Application Form", href: "/dashboard/user/membership-form" },
+  { label: "Member Resources", href: "/dashboard/user/resources" },
 ];
 
 export function Footer() {
-  const { state } = useCMS();
-  const { siteSettings } = state;
   const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  const handleNewsletter = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleNewsletter = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      setEmailError("Please enter a valid email address.");
+      toast.error("Please enter a valid email address.");
       return;
     }
     setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 900));
-    toast.success("Subscribed! You'll receive our latest updates.");
-    setEmail("");
-    setEmailError("");
-    setSubmitting(false);
+    setTimeout(() => {
+      toast.success("Thank you for subscribing to Silicon Real Estate updates!");
+      setEmail("");
+      setSubmitting(false);
+    }, 800);
   };
 
-  const socialLinks = [
-    { icon: FacebookIcon, key: "facebook", url: siteSettings.social.facebook },
-    { icon: TwitterIcon, key: "twitter", url: siteSettings.social.twitter },
-    {
-      icon: InstagramIcon,
-      key: "instagram",
-      url: siteSettings.social.instagram,
-    },
-    { icon: LinkedinIcon, key: "linkedin", url: siteSettings.social.linkedin },
-    { icon: YoutubeIcon, key: "youtube", url: siteSettings.social.youtube },
-  ].filter((s) => s.url);
-
   return (
-    <footer className="bg-footer-bg text-white">
-      {/* ── Trust Strip ───────────────────────────── */}
-      <div className="border-b border-white/8">
+    <footer className="bg-dark-hero text-white border-t border-white/10 font-sans relative overflow-hidden">
+      {/* Subtle Background Glows */}
+      <div className="absolute top-0 left-1/4 w-[500px] h-[300px] bg-accent/5 blur-[120px] pointer-events-none" />
+
+      {/* ── 1. TRUST STRIP BAR ── */}
+      <div className="border-b border-white/10 py-6 bg-white/[0.02]">
         <SectionContainer>
-          <div className="py-5 flex flex-wrap items-center justify-center gap-6 sm:gap-10">
-            {trustBadges.map(({ icon: Icon, label }) => (
-              <div
-                key={label}
-                className="flex items-center gap-2.5 text-white/60 text-sm">
-                <div className="w-7 h-7 rounded-xl bg-accent/15 flex items-center justify-center">
-                  <Icon className="h-3.5 w-3.5 text-accent" />
-                </div>
-                <span className="font-heading font-medium">{label}</span>
+          <div className="flex flex-wrap items-center justify-between gap-6 text-xs sm:text-sm font-heading font-medium text-white/80">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-xl bg-accent/20 border border-accent/30 flex items-center justify-center shrink-0">
+                <ShieldCheck className="w-4 h-4 text-accent" />
               </div>
-            ))}
-          </div>
-        </SectionContainer>
-      </div>
+              <span>RAJUK Compliant Housing Township</span>
+            </div>
 
-      {/* ── Full Sitemap Section ──────────────────── */}
-      <div className="border-b border-white/8">
-        <SectionContainer className="py-10">
-          <div className="flex items-center gap-3 mb-7">
-            <Link2 className="h-4 w-4 text-accent" />
-            <h3 className="text-label text-white/50">
-              Footer Sitemap — All Links
-            </h3>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-6">
-            {sitemapColumns.map((col) => (
-              <div key={col.title} className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <col.icon className="h-3.5 w-3.5 text-accent/70" />
-                  <h4 className="text-label text-white/45 text-[10px]">
-                    {col.title}
-                  </h4>
-                </div>
-                <ul className="space-y-2">
-                  {col.links.map((link) => (
-                    <li key={link.label}>
-                      <Link
-                        href={link.href}
-                        className="text-xs text-white/45 hover:text-accent transition-colors duration-200 leading-snug block">
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-xl bg-accent/20 border border-accent/30 flex items-center justify-center shrink-0">
+                <Building2 className="w-4 h-4 text-accent" />
               </div>
-            ))}
-          </div>
+              <span>Mohammadpur Riverside Location</span>
+            </div>
 
-          {/* View full sitemap page link */}
-          <div className="mt-7 pt-5 border-t border-white/8 flex items-center justify-between flex-wrap gap-4">
-            <Link
-              href="/sitemap"
-              className="inline-flex items-center gap-2 px-4 h-9 rounded-xl bg-white/8 border border-white/12 text-xs text-white/60 hover:text-white hover:bg-white/12 transition-all font-heading">
-              <FileText className="w-3.5 h-3.5" />
-              View Full Sitemap Page
-            </Link>
-            <div className="flex flex-wrap gap-x-5 gap-y-1.5">
-              {[
-                { label: "Privacy Policy", href: "/privacy-policy" },
-                { label: "Terms & Conditions", href: "/terms" },
-                { label: "Refund Policy", href: "/refund-policy" },
-                { label: "Cookie Policy", href: "/cookie-policy" },
-              ].map(({ label, href }) => (
-                <Link
-                  key={label}
-                  href={href}
-                  className="text-xs text-white/35 hover:text-accent transition-colors">
-                  {label}
-                </Link>
-              ))}
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-xl bg-accent/20 border border-accent/30 flex items-center justify-center shrink-0">
+                <FileText className="w-4 h-4 text-accent" />
+              </div>
+              <span>100% Legal Title Verification</span>
             </div>
           </div>
         </SectionContainer>
       </div>
 
-      {/* ── Main Footer Grid ──────────────────────── */}
-      <SectionContainer className="py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10">
-          {/* Brand column */}
-          <div className="lg:col-span-4 space-y-5">
+      {/* ── 2. MAIN FOOTER CONTENT GRID ── */}
+      <SectionContainer className="py-14 sm:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 text-left">
+          
+          {/* COLUMN 1: BRANDING & CONTACT INFO WITH IMAGE (lg:col-span-4) */}
+          <div className="lg:col-span-4 space-y-6">
+            {/* Logo Image Header */}
             <Link href="/" className="flex items-center gap-3 w-fit group">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/20 border border-accent/30">
-                <span className="font-heading font-bold text-accent text-lg leading-none">
-                  S
-                </span>
+              <div className="relative w-11 h-11 rounded-xl overflow-hidden bg-white p-1 flex items-center justify-center shrink-0 border border-white/20 shadow-md">
+                <Image
+                  src="/silicon.png"
+                  alt="Silicon Real Estate Logo"
+                  width={36}
+                  height={36}
+                  className="object-contain"
+                />
               </div>
               <div>
-                <span className="font-heading font-semibold text-white text-lg tracking-tight block leading-tight">
-                  {siteSettings.siteName}
+                <span className="font-heading font-semibold text-white text-base sm:text-lg tracking-tight block leading-tight">
+                  Silicon Real Estate (Pvt.) Ltd.
                 </span>
-                <span className="text-white/35 text-[10px] tracking-widest uppercase">
-                  Real Estate
+                <span className="text-accent text-[10px] tracking-widest uppercase font-mono font-medium">
+                  Official Land Development Company
                 </span>
               </div>
             </Link>
 
-            <p className="text-white/50 text-sm leading-[1.8] font-light max-w-xs">
-              A trusted name in land development across Dhaka. RAJUK-approved
-              plots backed by legal verification and full transparency.
+            <p className="text-white/70 text-xs sm:text-sm leading-relaxed font-light">
+              A trusted pioneer in modern land development across Dhaka. RAJUK-approved planned residential township in Silicon City with legal deed transparency.
             </p>
 
-            {socialLinks.length > 0 && (
-              <div className="flex gap-2.5">
-                {socialLinks.map(({ icon: Icon, key, url }) => (
-                  <a
-                    key={key}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={key}
-                    className="w-9 h-9 rounded-xl border border-white/10 flex items-center justify-center text-white/45 hover:text-accent hover:border-accent/40 hover:bg-accent/10 transition-all duration-250">
-                    <Icon className="h-4 w-4" />
-                  </a>
-                ))}
+            {/* Corporate Address & Hotlines */}
+            <div className="space-y-3 pt-2 text-xs font-light text-white/80">
+              <div className="flex items-start gap-3">
+                <MapPin className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+                <span>2/3 (2nd Floor), Block # A, Iqbal Road, Mohammadpur, Dhaka-1207</span>
               </div>
-            )}
 
-            <div className="space-y-2.5 pt-1">
-              {siteSettings.contactPhone && (
-                <a
-                  href={`tel:${siteSettings.contactPhone}`}
-                  className="flex items-center gap-2.5 text-sm text-white/45 hover:text-accent transition-colors">
-                  <Phone className="h-3.5 w-3.5 text-accent/60 flex-shrink-0" />
-                  {siteSettings.contactPhone}
-                </a>
-              )}
-              {siteSettings.contactEmail && (
-                <a
-                  href={`mailto:${siteSettings.contactEmail}`}
-                  className="flex items-center gap-2.5 text-sm text-white/45 hover:text-accent transition-colors">
-                  <Mail className="h-3.5 w-3.5 text-accent/60 flex-shrink-0" />
-                  {siteSettings.contactEmail}
-                </a>
-              )}
-              {siteSettings.address && (
-                <div className="flex items-start gap-2.5 text-sm text-white/45">
-                  <MapPin className="h-3.5 w-3.5 text-accent/60 flex-shrink-0 mt-0.5" />
-                  <span className="leading-snug">{siteSettings.address}</span>
-                </div>
-              )}
+              <div className="flex items-center gap-3">
+                <Phone className="w-4 h-4 text-accent shrink-0" />
+                <span>+880 12 345 678 / +880 1712 345 678</span>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <MessageSquare className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>WhatsApp: +880 1712 345 678</span>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Mail className="w-4 h-4 text-accent shrink-0" />
+                <span>info@siliconrealestatepvtltd.com</span>
+              </div>
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="lg:col-span-2 space-y-4">
-            <h3 className="text-label text-white/45 text-[11px]">
-              Quick Links
+          {/* COLUMN 2: QUICK LINKS (lg:col-span-3) */}
+          <div className="lg:col-span-3 space-y-4">
+            <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-accent border-b border-white/10 pb-2">
+              QUICK NAVIGATION
             </h3>
             <ul className="space-y-2.5">
-              {[
-                { label: "Home", href: "/" },
-                { label: "About Us", href: "/about" },
-                { label: "Projects", href: "/projects" },
-                { label: "Properties", href: "/properties" },
-                { label: "Services", href: "/services" },
-                { label: "Gallery", href: "/gallery" },
-                { label: "Blog & News", href: "/blog" },
-                { label: "Contact Us", href: "/contact" },
-              ].map((link) => (
+              {QUICK_LINKS.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="flex items-center gap-1.5 text-sm text-white/45 hover:text-accent transition-colors group">
-                    <ChevronRight className="h-3 w-3 text-accent/35 group-hover:text-accent transition-colors" />
-                    {link.label}
+                    className="text-xs sm:text-sm text-white/70 hover:text-accent transition-colors flex items-center gap-2 group">
+                    <ChevronRight className="w-3.5 h-3.5 text-accent/60 group-hover:translate-x-1 transition-transform" />
+                    <span>{link.label}</span>
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Services */}
+          {/* COLUMN 3: USEFUL LINKS & LEGAL POLICIES (lg:col-span-2) */}
           <div className="lg:col-span-2 space-y-4">
-            <h3 className="text-label text-white/45 text-[11px]">Services</h3>
+            <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-accent border-b border-white/10 pb-2">
+              USEFUL POLICIES
+            </h3>
             <ul className="space-y-2.5">
-              {[
-                {
-                  label: "Residential Plots",
-                  href: "/properties?category=residential",
-                },
-                {
-                  label: "Commercial Plots",
-                  href: "/properties?category=commercial",
-                },
-                { label: "Investment Guide", href: "/investment" },
-                { label: "Calculator", href: "/calculator" },
-                { label: "Compare Properties", href: "/compare" },
-                { label: "Careers", href: "/careers" },
-              ].map((link) => (
+              {USEFUL_LINKS.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="flex items-center gap-1.5 text-sm text-white/45 hover:text-accent transition-colors group">
-                    <ChevronRight className="h-3 w-3 text-accent/35 group-hover:text-accent transition-colors" />
-                    {link.label}
+                    className="text-xs sm:text-sm text-white/70 hover:text-accent transition-colors flex items-center gap-2 group">
+                    <ChevronRight className="w-3.5 h-3.5 text-accent/60 group-hover:translate-x-1 transition-transform" />
+                    <span>{link.label}</span>
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Newsletter */}
-          <div className="lg:col-span-4 space-y-5">
-            <div>
-              <h3 className="text-label text-white/45 text-[11px] mb-2">
-                Stay Updated
-              </h3>
-              <p className="text-sm text-white/40 font-light leading-relaxed">
-                Subscribe for the latest property listings, investment tips and
-                updates.
-              </p>
-            </div>
-            <form
-              onSubmit={handleNewsletter}
-              noValidate
-              className="space-y-2.5">
-              <div className="flex gap-2">
+          {/* COLUMN 4: NEWSLETTER & PROJECT THUMBNAIL (lg:col-span-3) */}
+          <div className="lg:col-span-3 space-y-4">
+            <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-accent border-b border-white/10 pb-2">
+              STAY UPDATED
+            </h3>
+            <p className="text-xs text-white/70 font-light leading-relaxed">
+              Subscribe for official project updates, plot availability notices, and site visit schedules.
+            </p>
+
+            <form onSubmit={handleNewsletter} className="space-y-2">
+              <div className="relative flex items-center">
                 <input
                   type="email"
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                    setEmailError("");
-                  }}
                   placeholder="Enter your email"
-                  disabled={submitting}
-                  className="flex-1 h-11 px-4 rounded-xl bg-white/6 border border-white/10 text-white placeholder:text-white/28 text-sm focus:outline-none focus:border-primary/60 focus:bg-white/10 transition-all disabled:opacity-50"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full h-11 pl-4 pr-12 rounded-xl bg-white/10 border border-white/15 text-xs text-white placeholder:text-white/40 focus:outline-none focus:border-accent"
                 />
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-11 h-11 rounded-xl bg-primary text-primary-foreground flex items-center justify-center shrink-0 hover:bg-primary/85 transition-all disabled:opacity-50 shadow-blue">
-                  <Send className="h-4 w-4" />
+                  className="absolute right-1.5 w-8 h-8 rounded-lg bg-accent text-accent-foreground flex items-center justify-center hover:opacity-90 transition-opacity">
+                  <Send className="w-3.5 h-3.5" />
                 </button>
               </div>
-              {emailError && (
-                <p className="text-xs text-destructive">{emailError}</p>
-              )}
             </form>
-          </div>
-        </div>
 
-        {/* ── Bottom Bar ──────────────────────────── */}
-        <div className="mt-10 pt-6 border-t border-white/8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/30">
-          <p>
-            © {new Date().getFullYear()} {siteSettings.siteName} (Pvt.) Ltd. All
-            Rights Reserved.
-          </p>
-          <p>
-            Your Trusted Partner in{" "}
-            <span className="text-accent font-medium">Land Investment</span>
-          </p>
+            {/* Corporate Office Badge Card with Image Accent */}
+            <div className="pt-2">
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-3 backdrop-blur-md">
+                <div className="relative w-12 h-12 rounded-xl overflow-hidden shrink-0 border border-white/20 bg-white/10">
+                  <Image
+                    src="/silicon.png"
+                    alt="Silicon City Thumbnail"
+                    fill
+                    className="object-contain p-1"
+                  />
+                </div>
+                <div className="space-y-0.5 text-left">
+                  <span className="text-[10px] font-mono text-accent font-semibold block">SILICON CITY TOWNSHIP</span>
+                  <span className="text-xs font-heading text-white font-medium block">Corporate Head Office</span>
+                  <span className="text-[10px] text-white/60 font-light block">Mohammadpur, Dhaka</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
         </div>
       </SectionContainer>
+
+      {/* ── 3. BOTTOM COPYRIGHT BAR ── */}
+      <div className="border-t border-white/10 py-6 bg-black/30">
+        <SectionContainer>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-white/50">
+            <span>© 2026 Silicon Real Estate (Pvt.) Ltd. All Rights Reserved.</span>
+            <div className="flex items-center gap-4">
+              <Link href="/terms" className="hover:text-accent transition-colors">
+                Terms of Governance
+              </Link>
+              <span>•</span>
+              <Link href="/privacy" className="hover:text-accent transition-colors">
+                Privacy Protection
+              </Link>
+            </div>
+          </div>
+        </SectionContainer>
+      </div>
     </footer>
   );
 }

@@ -272,13 +272,13 @@ export default function UserDashboard() {
               variant="outline"
               size="sm"
               className="rounded-lg text-xs h-9">
-              <Link href="/properties">Browse Collection</Link>
+              <Link href="/dashboard/user/membership-form">Form Preview (Page 10)</Link>
             </Button>
             <Button
               asChild
               size="sm"
-              className="rounded-lg text-xs h-9 bg-neutral-950 dark:bg-white text-white dark:text-neutral-950 hover:opacity-90">
-              <Link href="/contact">Request VIP Tour</Link>
+              className="rounded-lg text-xs h-9 bg-primary text-primary-foreground hover:opacity-90">
+              <Link href="/dashboard/user/resources">Downloads (Page 11)</Link>
             </Button>
           </div>
         </FadeInSlideUp>
