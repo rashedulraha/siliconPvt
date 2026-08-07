@@ -125,46 +125,48 @@ const stats = [
 export default function InvestmentPage() {
   return (
     <>
-      {/* ── Hero ──────────────────────────────────────── */}
-      <section className="relative pt-28 pb-20 bg-dark-hero overflow-hidden">
-        <div className="absolute top-0 right-0 w-[700px] h-[500px] bg-accent/5 blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[300px] bg-primary/10 blur-[100px] pointer-events-none" />
+      {/* ── 1. CLEAN ARCHITECTURAL HERO HEADER (NO GAP UNDER NAVBAR) ── */}
+      <section className="relative pt-28 pb-20 sm:pb-24 bg-dark-hero text-white overflow-hidden">
+        {/* Subtle Dot Grid */}
         <div
-          className="absolute inset-0 opacity-[0.04] pointer-events-none"
-          aria-hidden="true"
+          className="absolute inset-0 opacity-[0.08] pointer-events-none"
           style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
+            backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px)`,
+            backgroundSize: "24px 24px",
           }}
         />
-        <SectionContainer className="relative">
-          <div className="max-w-3xl">
-            <div className="flex items-center gap-3 mb-5">
-              <div className="divider-gold" />
-              <span className="text-label text-accent">
-                Real Estate Investment
-              </span>
+
+        <SectionContainer className="relative z-10">
+          <div className="max-w-3xl space-y-4">
+            {/* Breadcrumbs */}
+            <div className="flex items-center gap-2 text-xs font-mono font-medium text-white/60">
+              <Link href="/" className="hover:text-accent transition-colors">
+                Home
+              </Link>
+              <span>&gt;</span>
+              <span className="text-accent font-semibold">Investment</span>
             </div>
-            <h1 className="font-heading font-bold text-display-lg text-white leading-[1.08] mb-5">
-              Invest in <span className="text-gold">Dhaka&apos;s</span> Fastest-
-              <br className="hidden sm:block" />
-              Growing Corridors
+
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-medium font-heading text-white tracking-tight leading-tight">
+              Invest in <span className="text-accent font-semibold">Dhaka's Growth Corridors</span>
             </h1>
-            <p className="text-white/65 text-lg font-light leading-relaxed max-w-2xl mb-8">
-              Silicon Real Estate connects discerning investors with
-              RAJUK-approved, legally verified land assets delivering consistent
-              capital appreciation and strong rental yields.
+
+            <p className="text-white/80 text-xs sm:text-sm md:text-base font-light leading-relaxed">
+              Silicon Real Estate connects discerning investors with legally verified, high-yielding land assets delivering consistent capital appreciation and secure long-term value.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Link href="/contact" className="btn-gold">
+
+            <div className="pt-2 flex flex-wrap items-center gap-4">
+              <Link
+                href="/contact"
+                className="group bg-primary text-primary-foreground h-12 px-7 rounded-xl font-medium font-heading text-xs sm:text-sm inline-flex items-center justify-center hover:bg-primary/90 transition-all border border-white/20 shadow-lg gap-2">
+                BOOK FREE CONSULTATION
                 <CalendarCheck className="w-4 h-4" />
-                Book Free Consultation
               </Link>
               <Link
                 href="/properties"
-                className="inline-flex items-center gap-2 px-6 h-11 rounded-xl border border-white/20 text-white hover:bg-white/10 text-sm font-heading font-medium transition-all">
-                Browse Plots <ArrowRight className="w-4 h-4" />
+                className="group bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/25 hover:border-accent h-12 px-7 rounded-xl font-medium font-heading text-xs sm:text-sm inline-flex items-center justify-center transition-all gap-2">
+                BROWSE LIVE INVENTORY
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </div>
