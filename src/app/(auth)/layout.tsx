@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
-import { Star } from "lucide-react";
+import { ShieldCheck, CheckCircle2, ArrowLeft, Lock } from "lucide-react";
 import { SkipToContent } from "@/components/feedback/SkipToContent";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,98 +14,102 @@ export default function AuthLayout({
   return (
     <>
       <SkipToContent />
-      <div className="min-h-screen bg-background grid grid-cols-1 lg:grid-cols-[1fr_450px] xl:grid-cols-[1fr_520px] font-sans antialiased selection:bg-neutral-100 text-foreground">
-        {/* LEFT SIDE PANEL: Luxury Brand Context Panel (Visible on Desktop) */}
-        <div className="relative hidden lg:flex flex-col justify-between p-12 overflow-hidden bg-neutral-50 dark:bg-neutral-900 border-r border-border">
-          {/* Soft grid overlay texture line work */}
+      <div className="h-screen max-h-screen overflow-hidden bg-background grid grid-cols-1 lg:grid-cols-12 font-sans antialiased text-foreground">
+        
+        {/* ── LEFT SIDE: CLEAN EXECUTIVE BRAND SHOWCASE (NO SCROLL, NO LOGO OVERFLOW) ── */}
+        <div className="relative hidden lg:flex lg:col-span-6 xl:col-span-7 flex-col justify-between p-8 sm:p-10 xl:p-12 overflow-hidden bg-dark-hero text-white">
+          {/* Subtle Dot Grid */}
           <div
-            className="absolute inset-0 opacity-[0.015] dark:opacity-[0.03] pointer-events-none"
+            className="absolute inset-0 opacity-[0.06] pointer-events-none"
             style={{
-              backgroundImage:
-                "linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)",
-              backgroundSize: "48px 48px",
+              backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px)`,
+              backgroundSize: "24px 24px",
             }}
           />
 
-          {/* Micro Header Branding Token */}
-          <div className="relative z-10 flex items-center justify-between gap-2">
-            <div className="flex items-center gap-5">
-              {/* logo */}
-              <Link
-                href="/"
-                className="
-                 relative
-                 h-11 w-11
-                 overflow-hidden
-                 rounded-xl
-                 border border-primary/15
-                 bg-background/60
-                 backdrop-blur-md
-                 transition-all duration-300
-                 hover:scale-[1.03]
-                 hover:border-primary/30
-                 flex items-center justify-center
-                 shrink-0
-               ">
+          {/* Header Branding Row */}
+          <div className="relative z-10 flex items-center justify-between gap-4">
+            <Link href="/" className="flex items-center gap-3 group">
+              {/* Perfectly Contained Logo Box (NO OVERFLOW) */}
+              <div className="relative w-10 h-10 rounded-xl overflow-hidden bg-white p-1 flex items-center justify-center shrink-0 border border-white/20 shadow-xs">
                 <Image
                   src="/silicon.png"
                   alt="Silicon Logo"
-                  fill
-                  priority
-                  sizes="44px"
-                  className="object-contain p-1 select-none"
+                  width={32}
+                  height={32}
+                  className="object-contain"
                 />
-              </Link>
-              <span className="text-xs font-medium tracking-wider uppercase text-muted-foreground">
-                Silicon Corporate Network
-              </span>
-            </div>
+              </div>
+              <div>
+                <span className="text-sm font-medium font-heading text-white block tracking-tight">
+                  Silicon Real Estate
+                </span>
+                <span className="text-[10px] font-mono text-white/60 uppercase tracking-widest block">
+                  Corporate Portal
+                </span>
+              </div>
+            </Link>
 
-            <div className="text-xs font-medium tracking-wider uppercase text-muted-foreground">
-              <Link href="/">Back Home</Link>
-            </div>
+            <Link
+              href="/"
+              className="px-3.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 text-white backdrop-blur-md border border-white/15 text-xs font-medium font-heading inline-flex items-center gap-1.5 transition-all">
+              <ArrowLeft className="w-3.5 h-3.5" />
+              Back to Home
+            </Link>
           </div>
 
-          {/* Middle Typographic Context Array */}
-          <div className="relative z-10 max-w-md space-y-4 my-auto text-left">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-medium tracking-wider uppercase bg-muted text-muted-foreground border border-border">
-              <Star className="w-3 h-3 text-primary fill-primary" />
-              Trusted Real Estate Infrastructure
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-normal tracking-tight text-foreground leading-[1.15]">
-              Manage Your Investments <br />
-              <span className="font-medium text-neutral-400 dark:text-neutral-500">
-                with Absolute Legality.
-              </span>
-            </h2>
-            <div className="w-10 h-0.5 bg-neutral-300 dark:bg-neutral-700 rounded-full" />
-            <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed font-light">
-              Log in or register your verified dynamic credentials to bypass
-              public tracking schemas and jump straight into secure asset
-              inquiry pipelines.
+          {/* Center Brand Context */}
+          <div className="relative z-10 max-w-lg space-y-5 my-auto">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-medium font-heading text-accent">
+              <ShieldCheck className="w-3.5 h-3.5 text-accent" />
+              100% REGULATORY & LEGAL PROTECTION
+            </div>
+
+            <h1 className="text-3xl sm:text-4xl xl:text-5xl font-medium font-heading text-white tracking-tight leading-tight">
+              Secure Gateway to Your <br />
+              <span className="text-accent font-medium">Property Investments</span>
+            </h1>
+
+            <p className="text-white/75 text-xs sm:text-sm font-light leading-relaxed">
+              Log in to manage plot allocations, view real-time site development milestones, and access 100% verified legal land documentation.
             </p>
+
+            {/* Feature Highlights */}
+            <div className="space-y-2.5 pt-1">
+              <div className="flex items-center gap-3 text-xs sm:text-sm text-white/90 font-light">
+                <CheckCircle2 className="w-4 h-4 text-accent shrink-0" />
+                <span>Instant access to live verified plot inventories</span>
+              </div>
+
+              <div className="flex items-center gap-3 text-xs sm:text-sm text-white/90 font-light">
+                <CheckCircle2 className="w-4 h-4 text-accent shrink-0" />
+                <span>Real-time soil filling & milestone tracking</span>
+              </div>
+
+              <div className="flex items-center gap-3 text-xs sm:text-sm text-white/90 font-light">
+                <CheckCircle2 className="w-4 h-4 text-accent shrink-0" />
+                <span>Direct relationship manager communication desk</span>
+              </div>
+            </div>
           </div>
 
-          {/* Bottom Footer Regulatory Subtext */}
-          <div className="relative z-10 text-[10px] text-muted-foreground/60 font-light">
-            &copy; 2026 Silicon Real Estate (Pvt.) Ltd. All registry paths
-            secured.
+          {/* Footer Subtext */}
+          <div className="relative z-10 flex items-center justify-between text-xs text-white/50 font-heading border-t border-white/10 pt-4">
+            <span>&copy; {new Date().getFullYear()} Silicon Real Estate (Pvt.) Ltd.</span>
+            <span className="flex items-center gap-1 text-white/60">
+              <Lock className="w-3 h-3" /> SSL 256-Bit Encrypted
+            </span>
           </div>
         </div>
 
-        {/* RIGHT SIDE PANEL: Core Dynamic Form Execution Canvas */}
+        {/* ── RIGHT SIDE: FORM EXECUTION CANVAS (NO SCROLLING) ── */}
         <main
           id="main-content"
           tabIndex={-1}
-          className="flex flex-col justify-center items-center bg-background px-6 py-12 outline-none w-full">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
-            className="w-full max-w-sm"
-          >
+          className="lg:col-span-6 xl:col-span-5 h-full overflow-hidden flex flex-col justify-center items-center p-6 sm:p-10 bg-background relative focus:outline-hidden">
+          <div className="w-full max-w-md mx-auto">
             {children}
-          </motion.div>
+          </div>
         </main>
       </div>
     </>

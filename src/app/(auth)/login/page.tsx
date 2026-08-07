@@ -10,8 +10,10 @@ import {
   ArrowRight,
   Mail,
   Lock,
-  Check,
+  CheckCircle2,
   AlertCircle,
+  ShieldCheck,
+  UserCheck,
 } from "lucide-react";
 import { useUserAuth } from "@/context/UserAuthContext";
 import { apiFetch } from "@/lib/api-client";
@@ -32,18 +34,25 @@ export default function LoginPage() {
   }, [isLoggedIn, currentUser, isLoading, router]);
 
   const [email, setEmail] = useState("client@silicon.com");
-  const [password, setPassword] = useState("••••••••");
+  const [password, setPassword] = useState("123456");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [warmupMessage, setWarmupMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
-    {},
-  );
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
 
-  // Form validator
+  const fillDemoAccount = (role: "client" | "admin") => {
+    if (role === "client") {
+      setEmail("client@silicon.com");
+      setPassword("123456");
+    } else {
+      setEmail("admin@silicon.com");
+      setPassword("123456");
+    }
+  };
+
   const validateForm = () => {
     const newErrors: { email?: string; password?: string } = {};
     if (!email) {
@@ -58,7 +67,6 @@ export default function LoginPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Perform auth login and route to user or admin dashboard
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -67,13 +75,12 @@ export default function LoginPage() {
 
     setIsSubmitting(true);
 
-    // Dynamic Render free-tier cold start detection timers
     const timer1 = setTimeout(() => {
-      setWarmupMessage("Connecting to server. Please wait...");
+      setWarmupMessage("Connecting to server...");
     }, 4000);
 
     const timer2 = setTimeout(() => {
-      setWarmupMessage("Server is waking up (Render free tier cold start)... Please wait.");
+      setWarmupMessage("Server is waking up (Render free tier)... Please wait.");
     }, 15000);
 
     try {
@@ -110,26 +117,18 @@ export default function LoginPage() {
         login(sessionUser, response.token);
         setIsSuccess(true);
       } else {
-        setError(response.message || "Invalid credentials.");
+        setError(response.message || "Invalid email or password.");
       }
     } catch (err: any) {
       clearTimeout(timer1);
       clearTimeout(timer2);
       setWarmupMessage("");
-      
-      if (err.status === 0) {
-        setError(
-          "Network error. The server may be waking up from inactivity (Render free tier can take up to 50 seconds to boot). Please try again in a moment."
-        );
-      } else {
-        setError(err.message || "Failed to authenticate. Please check your credentials.");
-      }
+      setError(err.message || "Failed to authenticate. Please check your credentials.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Redirect client side after success state renders
   useEffect(() => {
     if (isSuccess && currentUser) {
       const targetRoute = currentUser.role === "admin"
@@ -144,190 +143,178 @@ export default function LoginPage() {
 
   if (isSuccess) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 px-4 text-center space-y-6 animate-in fade-in zoom-in-95 duration-500">
-        <div className="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.1)]">
-          <Check className="w-6 h-6 text-emerald-500 stroke-[2.5]" />
+      <div className="flex flex-col items-center justify-center py-10 px-4 text-center space-y-4 bg-card border border-border/60 rounded-3xl p-6 shadow-md">
+        <div className="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 shadow-xs">
+          <CheckCircle2 className="w-7 h-7" />
         </div>
-        <div className="space-y-2">
-          <h2 className="text-xl font-medium tracking-tight text-neutral-900 dark:text-neutral-50">
-            Access Authorized
+        <div className="space-y-1">
+          <h2 className="text-xl font-medium font-heading text-foreground">
+            Authentication Successful
           </h2>
-          <p className="text-[11px] text-neutral-400 dark:text-neutral-500 max-w-[260px] mx-auto font-light leading-relaxed">
-            Establishing secure encrypted session. Redirecting you to the
-            private portfolio...
+          <p className="text-xs text-muted-foreground font-light">
+            Redirecting you to your portal dashboard...
           </p>
         </div>
-        <div className="w-6 h-1 bg-emerald-500/30 rounded-full overflow-hidden">
-          <div className="h-full bg-emerald-500 w-1/2 animate-[shimmer_1.5s_infinite_linear] rounded-full" />
+        <div className="pt-1 flex items-center gap-2 text-xs font-mono text-primary">
+          <Loader2 className="w-4 h-4 animate-spin" />
+          <span>Opening Dashboard</span>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="w-full space-y-8 animate-in fade-in slide-in-from-bottom-3 duration-500">
-      {/* Brand & Introduction */}
-      <div className="space-y-2 text-center lg:text-left">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-semibold tracking-wider uppercase bg-amber-50 dark:bg-amber-950/20 text-amber-600 dark:text-amber-400 border border-amber-200/40 dark:border-amber-900/30 mb-1 shadow-xs">
-          <span className="w-1 h-1 rounded-full bg-amber-500 animate-pulse" />
-          VIP Portfolio Access
-        </div>
-        <h1 className="text-3xl font-light tracking-tight text-neutral-900 dark:text-neutral-50">
-          Client{" "}
-          <span className="font-semibold text-neutral-800 dark:text-neutral-200">
-            Sign In
-          </span>
-        </h1>
-        <p className="text-xs text-neutral-400 dark:text-neutral-500 font-light leading-relaxed">
-          Access your land investment portfolios, statements, and site visit
-          schedules. Or <Link href="/register" className="text-accent font-medium hover:underline">create an account</Link> if you are new.
+    <div className="space-y-6">
+      {/* Header Badge & Title (No Heavy Bold Fonts) */}
+      <div className="space-y-1.5 text-left">
+        <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium font-heading text-primary">
+          <ShieldCheck className="w-3.5 h-3.5" />
+          CLIENT PORTAL SIGN IN
+        </span>
+        <h2 className="text-2xl sm:text-3xl font-medium font-heading text-foreground tracking-tight">
+          Welcome Back
+        </h2>
+        <p className="text-xs text-muted-foreground font-light">
+          Sign in to access your saved plots, dashboard, and portfolio.
         </p>
       </div>
 
-      {/* Main Login Form */}
-      <form onSubmit={handleSubmit} className="space-y-5">
-        {/* Email Field */}
-        <div className="space-y-1.5">
-          <div className="flex justify-between items-center">
-            <label className="text-[10px] font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider block">
-              Registered Email
-            </label>
-            <span
-              className="text-[9px] text-neutral-400/80 dark:text-neutral-600 hover:text-accent cursor-pointer transition-colors"
-              onClick={() => setEmail("admin@silicon.com")}>
-              (Use admin credentials)
-            </span>
-          </div>
-          <div className="relative group">
-            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-neutral-400 dark:text-neutral-500 transition-colors group-focus-within:text-accent">
-              <Mail className="w-4 h-4 stroke-[1.5]" />
-            </div>
+      {/* Quick Demo Fill Pills */}
+      <div className="bg-muted/40 border border-border/60 rounded-2xl p-3.5 space-y-2">
+        <span className="text-[10px] font-mono font-medium text-muted-foreground uppercase tracking-wider block">
+          TEST DEMO CREDENTIALS (CLICK TO AUTO-FILL):
+        </span>
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => fillDemoAccount("client")}
+            className="px-3 py-1 rounded-xl bg-card border border-border/60 hover:border-primary/40 text-xs font-medium font-heading text-foreground flex items-center gap-1.5 transition-all shadow-xs cursor-pointer">
+            <UserCheck className="w-3.5 h-3.5 text-primary" />
+            Client Account
+          </button>
+          <button
+            type="button"
+            onClick={() => fillDemoAccount("admin")}
+            className="px-3 py-1 rounded-xl bg-card border border-border/60 hover:border-accent/40 text-xs font-medium font-heading text-foreground flex items-center gap-1.5 transition-all shadow-xs cursor-pointer">
+            <ShieldCheck className="w-3.5 h-3.5 text-accent" />
+            Admin Account
+          </button>
+        </div>
+      </div>
+
+      {/* Error Alert */}
+      {error && (
+        <div className="p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-xs font-light flex items-start gap-2">
+          <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+          <span>{error}</span>
+        </div>
+      )}
+
+      {/* Warmup Message */}
+      {warmupMessage && (
+        <div className="p-3 rounded-xl bg-primary/10 border border-primary/20 text-primary text-xs font-light flex items-center gap-2">
+          <Loader2 className="w-4 h-4 animate-spin shrink-0" />
+          <span>{warmupMessage}</span>
+        </div>
+      )}
+
+      {/* Login Form */}
+      <form onSubmit={handleSubmit} className="space-y-4">
+        
+        {/* Email Address */}
+        <div className="space-y-1 text-left">
+          <label className="text-xs font-medium font-heading text-foreground block">
+            Email Address
+          </label>
+          <div className="relative">
+            <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <input
               type="email"
-              placeholder="name@domain.com"
               value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                if (errors.email) setErrors({ ...errors, email: undefined });
-              }}
-              disabled={isSubmitting}
-              className={`w-full h-11 pl-10 pr-4 rounded-xl bg-white dark:bg-neutral-950/40 border transition-all duration-300 text-xs focus:outline-hidden text-neutral-900 dark:text-neutral-50 placeholder:text-neutral-400 dark:placeholder:text-neutral-600 ${
-                errors.email
-                  ? "border-destructive/60 focus:border-destructive focus:ring-1 focus:ring-destructive/20"
-                  : "border-neutral-200 dark:border-neutral-800 focus:border-accent dark:focus:border-accent focus:ring-2 focus:ring-accent/10 dark:focus:ring-accent/5 shadow-xs"
-              }`}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="name@company.com"
+              className="w-full h-11 pl-10 pr-4 rounded-xl bg-card border border-border/60 text-foreground text-xs sm:text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-light"
             />
           </div>
           {errors.email && (
-            <div className="flex items-center gap-1 text-[10px] text-destructive mt-1 animate-in fade-in slide-in-from-top-1 duration-200">
-              <AlertCircle className="w-3.5 h-3.5" />
-              <span>{errors.email}</span>
-            </div>
+            <p className="text-[11px] text-destructive">{errors.email}</p>
           )}
         </div>
 
-        {/* Password Field */}
-        <div className="space-y-1.5">
-          <div className="flex justify-between items-center">
-            <label className="text-[10px] font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider block">
-              Passcode
+        {/* Password */}
+        <div className="space-y-1 text-left">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-medium font-heading text-foreground">
+              Password
             </label>
             <Link
               href="/forgot-password"
-              className="text-[10px] text-neutral-400 dark:text-neutral-500 hover:text-accent transition-colors">
-              Recover?
+              className="text-xs text-primary hover:underline font-heading font-medium">
+              Forgot password?
             </Link>
           </div>
-          <div className="relative group">
-            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-neutral-400 dark:text-neutral-500 transition-colors group-focus-within:text-accent">
-              <Lock className="w-4 h-4 stroke-[1.5]" />
-            </div>
+          <div className="relative">
+            <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <input
               type={showPassword ? "text" : "password"}
-              placeholder="••••••••"
               value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-                if (errors.password)
-                  setErrors({ ...errors, password: undefined });
-              }}
-              disabled={isSubmitting}
-              className={`w-full h-11 pl-10 pr-10 rounded-xl bg-white dark:bg-neutral-950/40 border transition-all duration-300 text-xs focus:outline-hidden text-neutral-900 dark:text-neutral-50 placeholder:text-neutral-400 dark:placeholder:text-neutral-600 ${
-                errors.password
-                  ? "border-destructive/60 focus:border-destructive focus:ring-1 focus:ring-destructive/20"
-                  : "border-neutral-200 dark:border-neutral-800 focus:border-accent dark:focus:border-accent focus:ring-2 focus:ring-accent/10 dark:focus:ring-accent/5 shadow-xs"
-              }`}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              className="w-full h-11 pl-10 pr-10 rounded-xl bg-card border border-border/60 text-foreground text-xs sm:text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-light"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              disabled={isSubmitting}
-              className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 transition-colors cursor-pointer">
-              {showPassword ? (
-                <EyeOff className="w-4.5 h-4.5 stroke-[1.5]" />
-              ) : (
-                <Eye className="w-4.5 h-4.5 stroke-[1.5]" />
-              )}
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+              {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
           </div>
+          {errors.password && (
+            <p className="text-[11px] text-destructive">{errors.password}</p>
+          )}
         </div>
 
-        {/* Remember Me Checkbox */}
-        <div className="flex items-center">
-          <label className="relative flex items-center gap-2 cursor-pointer select-none">
-            <input
-              type="checkbox"
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
-              disabled={isSubmitting}
-              className="sr-only peer"
-            />
-            <div className="w-4 h-4 rounded bg-white dark:bg-neutral-950/40 border border-neutral-200 dark:border-neutral-800 peer-checked:bg-accent peer-checked:border-accent flex items-center justify-center transition-all duration-200">
-              <Check className="w-3 h-3 text-white dark:text-neutral-950 opacity-0 peer-checked:opacity-100 scale-50 peer-checked:scale-100 transition-all duration-200 stroke-[3]" />
-            </div>
-            <span className="text-[11px] text-neutral-400 dark:text-neutral-500 font-light hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors">
-              Trust this device for secure access
-            </span>
+        {/* Remember Me */}
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            id="remember"
+            checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)}
+            className="w-3.5 h-3.5 rounded-md border-border text-primary focus:ring-primary/20"
+          />
+          <label htmlFor="remember" className="text-xs text-muted-foreground font-light select-none">
+            Keep me signed in on this device
           </label>
         </div>
-
-        {/* Error Banner */}
-        {error && (
-          <div className="text-[11px] text-destructive bg-destructive/5 dark:bg-destructive/10 border border-destructive/20 px-3 py-2 rounded-xl animate-in fade-in slide-in-from-top-2 duration-200">
-            {error}
-          </div>
-        )}
-
-        {/* Warmup Warning Banner */}
-        {warmupMessage && (
-          <div className="text-[11px] text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/20 border border-amber-200/40 dark:border-amber-900/30 px-3 py-2 rounded-xl animate-pulse">
-            ⏳ {warmupMessage}
-          </div>
-        )}
 
         {/* Submit Button */}
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full h-11 rounded-xl text-xs font-medium bg-neutral-950 dark:bg-white text-white dark:text-neutral-950 flex items-center justify-center gap-2 transition-all duration-300 border border-neutral-800 dark:border-white/90 hover:brightness-110 active:scale-[0.99] disabled:opacity-50 cursor-pointer shadow-[0_4px_12px_rgba(0,0,0,0.05)] dark:shadow-none">
+          className="group w-full h-11 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-medium font-heading text-xs sm:text-sm inline-flex items-center justify-center transition-all border border-white/10 shadow-xs gap-2 disabled:opacity-50 cursor-pointer">
           {isSubmitting ? (
             <>
-              <Loader2 className="w-3.5 h-3.5 animate-spin" />
-              Verifying Credentials...
+              <Loader2 className="w-4 h-4 animate-spin" />
+              <span>Authenticating...</span>
             </>
           ) : (
             <>
-              Authorize Secure Connection
-              <ArrowRight className="w-3.5 h-3.5" />
+              SIGN IN TO PORTAL
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </>
           )}
         </button>
       </form>
 
-      {/* Access matrix rule indicator */}
-      <div className="pt-6 border-t border-neutral-100 dark:border-neutral-900/60 flex justify-between items-center text-[9px] text-neutral-400 dark:text-neutral-600 select-none font-mono tracking-tight">
-        <span>🔐 SSL ENCRYPTED AES-256</span>
-        <span>SECURITY LEVEL: VIP v3.0</span>
+      {/* Footer Register Prompt */}
+      <div className="pt-3 border-t border-border/50 text-center text-xs text-muted-foreground font-light">
+        Don't have an account yet?{" "}
+        <Link
+          href="/register"
+          className="font-medium text-primary hover:underline font-heading">
+          Create Account
+        </Link>
       </div>
     </div>
   );
