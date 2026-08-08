@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "format:check": "npx @biomejs/biome format ./src",
+    "format:fix": "npx @biomejs/biome format --write ./src"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
@@ -22,7 +24,6 @@
     "@radix-ui/react-switch": "^1.3.1",
     "@radix-ui/react-tabs": "^1.1.15",
     "@radix-ui/react-tooltip": "^1.2.10",
-    "radix-ui": "^1.1.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -34,6 +35,7 @@
     "lucide-react": "^0.562.0",
     "next": "16.2.9",
     "next-themes": "^0.4.6",
+    "radix-ui": "^1.1.2",
     "react": "^19.2.0",
     "react-day-picker": "^9.14.0",
     "react-dom": "^19.2.0",
@@ -45,6 +47,7 @@
     "vaul": "^1.1.2"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.5.7",
     "@tailwindcss/postcss": "^4.3.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",

@@ -5,13 +5,9 @@
  * Mirrors the EstateEase-style property search UI.
  */
 export default function DashboardLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  return (
-    <div className="min-h-screen bg-background">
-      {children}
-    </div>
-  );
+	return <div className="min-h-screen bg-background">{children}</div>;
 }

@@ -25,17 +25,32 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/auth/login",
-        destination: "/login",
+        destination: "/admin/login",
+        permanent: true,
+      },
+      {
+        source: "/login",
+        destination: "/admin/login",
         permanent: true,
       },
       {
         source: "/auth/register",
-        destination: "/register",
+        destination: "/admin/login",
+        permanent: true,
+      },
+      {
+        source: "/register",
+        destination: "/admin/login",
+        permanent: true,
+      },
+      {
+        source: "/forgot-password",
+        destination: "/admin/login",
         permanent: true,
       },
       {
         source: "/auth",
-        destination: "/login",
+        destination: "/admin/login",
         permanent: true,
       },
     ];

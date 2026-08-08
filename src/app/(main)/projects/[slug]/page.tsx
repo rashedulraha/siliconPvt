@@ -4,10 +4,10 @@ import { use } from "react";
 import { ProjectDetailClient } from "./ProjectDetailClient";
 
 export default function ProjectDetailPage({
-  params,
+	params,
 }: {
-  params: Promise<{ slug: string }>;
+	params: Promise<{ slug: string }>;
 }) {
-  const { slug } = use(params);
-  return <ProjectDetailClient slug={slug} />;
+	const { slug } = use(params);
+	return <ProjectDetailClient slug={slug} />;
 }

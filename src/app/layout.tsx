@@ -12,22 +12,22 @@ import { ThemeProvider } from "@/components/Providers/ThemeProvider";
 import { UserAuthProvider } from "@/context/UserAuthContext";
 
 const inter = Inter({
-  weight: ["300", "400", "500", "600", "700", "800"],
-  subsets: ["latin"],
-  variable: "--font-sans",
-  display: "swap",
+	weight: ["300", "400", "500", "600", "700", "800"],
+	subsets: ["latin"],
+	variable: "--font-sans",
+	display: "swap",
 });
 
 export const metadata: Metadata = defaultMetadata;
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "hsl(221, 83%, 24%)" },
-    { media: "(prefers-color-scheme: dark)", color: "hsl(222, 47%, 6%)" },
-  ],
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 5,
+	themeColor: [
+		{ media: "(prefers-color-scheme: light)", color: "hsl(221, 83%, 24%)" },
+		{ media: "(prefers-color-scheme: dark)", color: "hsl(222, 47%, 6%)" },
+	],
+	width: "device-width",
+	initialScale: 1,
+	maximumScale: 5,
 };
 
 /**
@@ -42,29 +42,31 @@ export const viewport: Viewport = {
  *  admin/             → admin panel     → layout adds sidebar (already exists)
  */
 export default function RootLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${inter.variable} font-sans antialiased min-h-screen bg-background text-foreground`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange>
-          <CMSProvider>
-            <UserAuthProvider>
-              <AnalyticsProvider />
-              <ToastProvider />
-              {children}
-              <CookieConsent />
-            </UserAuthProvider>
-          </CMSProvider>
-        </ThemeProvider>
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en" suppressHydrationWarning>
+			<body
+				className={`${inter.variable} font-sans antialiased min-h-screen bg-background text-foreground`}
+			>
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="light"
+					enableSystem
+					disableTransitionOnChange
+				>
+					<CMSProvider>
+						<UserAuthProvider>
+							<AnalyticsProvider />
+							<ToastProvider />
+							{children}
+							<CookieConsent />
+						</UserAuthProvider>
+					</CMSProvider>
+				</ThemeProvider>
+			</body>
+		</html>
+	);
 }

@@ -6,22 +6,22 @@ import Script from "next/script";
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "";
 
 export function AnalyticsProvider() {
-  useEffect(() => {
-    if (GA_ID && typeof window !== "undefined") {
-      (window as any).__GA_ID__ = GA_ID;
-    }
-  }, []);
+	useEffect(() => {
+		if (GA_ID && typeof window !== "undefined") {
+			(window as any).__GA_ID__ = GA_ID;
+		}
+	}, []);
 
-  if (!GA_ID) return null;
+	if (!GA_ID) return null;
 
-  return (
-    <>
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-        strategy="afterInteractive"
-      />
-      <Script id="ga4-init" strategy="afterInteractive">
-        {`
+	return (
+		<>
+			<Script
+				src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+				strategy="afterInteractive"
+			/>
+			<Script id="ga4-init" strategy="afterInteractive">
+				{`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
@@ -29,7 +29,7 @@ export function AnalyticsProvider() {
             page_path: window.location.pathname,
           });
         `}
-      </Script>
-    </>
-  );
+			</Script>
+		</>
+	);
 }
