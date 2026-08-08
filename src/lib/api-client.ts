@@ -17,12 +17,12 @@
  * - status === N   → HTTP error (server returned a non-2xx status code N)
  */
 export interface ApiError {
-  /** 0 for network errors, HTTP status code otherwise */
-  status: number;
-  /** Human-readable description of the failure */
-  message: string;
-  /** The path that was requested, for diagnostics / error boundary display */
-  path: string;
+	/** 0 for network errors, HTTP status code otherwise */
+	status: number;
+	/** Human-readable description of the failure */
+	message: string;
+	/** The path that was requested, for diagnostics / error boundary display */
+	path: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -30,9 +30,9 @@ export interface ApiError {
 // ---------------------------------------------------------------------------
 
 function toMessage(err: unknown): string {
-  if (err instanceof Error) return err.message;
-  if (typeof err === "string") return err;
-  return "An unexpected error occurred";
+	if (err instanceof Error) return err.message;
+	if (typeof err === "string") return err;
+	return "An unexpected error occurred";
 }
 
 // ---------------------------------------------------------------------------
@@ -56,95 +56,102 @@ function toMessage(err: unknown): string {
  * const data = await apiFetch<Project[]>("/projects");
  */
 export async function apiFetch<T>(
-  path: string,
-  options?: RequestInit,
+	path: string,
+	options?: RequestInit,
 ): Promise<T> {
-  // Fallback to the production server if NEXT_PUBLIC_API_URL is not configured
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://silicon-pvt-server.onrender.com/api/v1";
-  
-  // Ensure the path is properly appended
-  const url = path.startsWith("http") ? path : `${baseUrl}${path}`;
+	// Fallback to the production server if NEXT_PUBLIC_API_URL is not configured
+	const baseUrl =
+		process.env.NEXT_PUBLIC_API_URL ||
+		"https://silicon-pvt-server.onrender.com/api/v1";
 
-  // Prepare headers
-  const headers = new Headers(options?.headers);
-  if (options?.body && !headers.has("Content-Type")) {
-    headers.set("Content-Type", "application/json");
-  }
+	// Ensure the path is properly appended
+	const url = path.startsWith("http") ? path : `${baseUrl}${path}`;
 
-  // Fallback: Attach JWT if present in localStorage (in case cookies are blocked/fail)
-  if (typeof window !== "undefined") {
-    try {
-      const token = localStorage.getItem("silicon_jwt_token");
-      if (token && !headers.has("Authorization")) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-    } catch (error) {
-      console.error("Failed to read token from localStorage:", error);
-    }
-  }
+	// Prepare headers
+	const headers = new Headers(options?.headers);
+	if (options?.body && !headers.has("Content-Type")) {
+		headers.set("Content-Type", "application/json");
+	}
 
-  const fetchOptions: RequestInit = {
-    credentials: "include", // Enable cross-origin HTTP-only cookies
-    ...options,
-    headers,
-  };
+	// Fallback: Attach JWT if present in localStorage (in case cookies are blocked/fail)
+	if (typeof window !== "undefined") {
+		try {
+			const token = localStorage.getItem("silicon_jwt_token");
+			if (token && !headers.has("Authorization")) {
+				headers.set("Authorization", `Bearer ${token}`);
+			}
+		} catch (error) {
+			console.error("Failed to read token from localStorage:", error);
+		}
+	}
 
-  let response: Response;
+	const fetchOptions: RequestInit = {
+		credentials: "include", // Enable cross-origin HTTP-only cookies
+		...options,
+		headers,
+	};
 
-  try {
-    response = await fetch(url, fetchOptions);
-  } catch (networkErr: unknown) {
-    // fetch() itself rejected — no HTTP response was received.
-    const error: ApiError = {
-      status: 0,
-      message: toMessage(networkErr),
-      path,
-    };
-    throw error;
-  }
+	let response: Response;
 
-  if (!response.ok) {
-    // Server responded with a non-2xx status code.
-    let message: string;
-    try {
-      // Attempt to extract a message from the response body (text or JSON).
-      const text = await response.text();
-      try {
-        const json = JSON.parse(text) as Record<string, unknown>;
-        message =
-          typeof json["message"] === "string"
-            ? json["message"]
-            : typeof json["error"] === "string"
-              ? json["error"]
-              : text || response.statusText;
-      } catch {
-        message = text || response.statusText;
-      }
-    } catch {
-      message = response.statusText;
-    }
+	try {
+		response = await fetch(url, fetchOptions);
+	} catch (networkErr: unknown) {
+		// fetch() itself rejected — no HTTP response was received.
+		const error: ApiError = {
+			status: 0,
+			message: toMessage(networkErr),
+			path,
+		};
+		throw error;
+	}
 
-    const error: ApiError = {
-      status: response.status,
-      message,
-      path,
-    };
-    throw error;
-  }
+	if (!response.ok) {
+		// Server responded with a non-2xx status code.
+		let message: string;
+		try {
+			// Attempt to extract a message from the response body (text or JSON).
+			const text = await response.text();
+			try {
+				const json = JSON.parse(text) as Record<string, unknown>;
+				message =
+					typeof json["message"] === "string"
+						? json["message"]
+						: typeof json["error"] === "string"
+							? json["error"]
+							: text || response.statusText;
+			} catch {
+				message = text || response.statusText;
+			}
+		} catch {
+			message = response.statusText;
+		}
 
-  // 2xx — parse the JSON body.
-  const data = await response.json() as T;
+		const error: ApiError = {
+			status: response.status,
+			message,
+			path,
+		};
+		throw error;
+	}
 
-  // Fallback: If response contains a token, save it to localStorage for cross-origin cookie fallback
-  if (data && typeof data === "object" && "token" in data && typeof (data as any).token === "string") {
-    if (typeof window !== "undefined") {
-      try {
-        localStorage.setItem("silicon_jwt_token", (data as any).token);
-      } catch (error) {
-        console.error("Failed to write token to localStorage:", error);
-      }
-    }
-  }
+	// 2xx — parse the JSON body.
+	const data = (await response.json()) as T;
 
-  return data;
+	// Fallback: If response contains a token, save it to localStorage for cross-origin cookie fallback
+	if (
+		data &&
+		typeof data === "object" &&
+		"token" in data &&
+		typeof (data as any).token === "string"
+	) {
+		if (typeof window !== "undefined") {
+			try {
+				localStorage.setItem("silicon_jwt_token", (data as any).token);
+			} catch (error) {
+				console.error("Failed to write token to localStorage:", error);
+			}
+		}
+	}
+
+	return data;
 }
