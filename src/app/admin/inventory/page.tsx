@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { toast } from "sonner";
-import { Plus, Edit, Trash2, Search, Filter } from "lucide-react";
+import { Plus, Edit, Trash2, Search, Filter, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -33,8 +33,10 @@ import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import { useProperties } from "@/hooks/useProperties";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import type { Property } from "@/types";
+import { useAdminEditor } from "@/context/AdminEditorContext";
 
 export default function InventoryPage() {
+  const { isEditorUnlocked, unlockEditorMode } = useAdminEditor();
   const { properties, addProperty, updateProperty, deleteProperty } =
     useProperties();
   const [search, setSearch] = useState("");
@@ -62,6 +64,10 @@ export default function InventoryPage() {
   }, [properties, search, typeFilter, statusFilter]);
 
   const handleSave = (data: any) => {
+    if (!isEditorUnlocked) {
+      unlockEditorMode();
+      return;
+    }
     try {
       if (editingProperty) {
         updateProperty(editingProperty.id, data);
@@ -77,32 +83,77 @@ export default function InventoryPage() {
   };
 
   const openEdit = (p: Property) => {
+    if (!isEditorUnlocked) {
+      unlockEditorMode();
+      return;
+    }
     setEditingProperty(p);
     setFormOpen(true);
   };
 
   const openCreate = () => {
+    if (!isEditorUnlocked) {
+      unlockEditorMode();
+      return;
+    }
     setEditingProperty(null);
     setFormOpen(true);
   };
 
+  const handleDeleteClick = (id: string) => {
+    if (!isEditorUnlocked) {
+      unlockEditorMode();
+      return;
+    }
+    setDeleteId(id);
+  };
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-left">
+      {/* Lock Notice Banner */}
+      {!isEditorUnlocked && (
+        <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-500 text-xs font-medium flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <Lock className="w-4 h-4 shrink-0" />
+            <span>
+              <strong>Read-Only Mode Active:</strong> Adding, editing, and
+              deleting properties is disabled until Editor Mode is unlocked.
+            </span>
+          </div>
+          <button
+            onClick={unlockEditorMode}
+            className="px-3 py-1.5 rounded-lg bg-amber-500 text-black text-[11px] font-bold uppercase tracking-wider hover:bg-amber-400 shrink-0 cursor-pointer"
+          >
+            Unlock Editor
+          </button>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold">Property Inventory</h2>
-          <p className="text-sm text-muted-foreground">
+          <h2 className="text-2xl font-bold font-heading text-foreground">
+            Property Inventory
+          </h2>
+          <p className="text-sm text-muted-foreground font-light">
             {properties.length} total • {filtered.length} shown
           </p>
         </div>
-        <Button onClick={openCreate}>
-          <Plus className="h-4 w-4 mr-2" /> Add Property
+        <Button
+          onClick={openCreate}
+          className={!isEditorUnlocked ? "opacity-75" : ""}
+        >
+          {!isEditorUnlocked ? (
+            <Lock className="h-4 w-4 mr-2" />
+          ) : (
+            <Plus className="h-4 w-4 mr-2" />
+          )}
+          {isEditorUnlocked ? "Add Property" : "Unlock to Add Property"}
         </Button>
       </div>
 
       {/* Filters */}
-      <Card>
+      <Card className="border border-border/80 shadow-none">
         <CardContent className="p-4">
           <div className="grid sm:grid-cols-3 gap-3">
             <div className="relative">
@@ -116,7 +167,8 @@ export default function InventoryPage() {
             </div>
             <Select
               value={typeFilter}
-              onValueChange={(v) => setTypeFilter(v as any)}>
+              onValueChange={(v) => setTypeFilter(v as any)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Type" />
               </SelectTrigger>
@@ -143,7 +195,7 @@ export default function InventoryPage() {
       </Card>
 
       {/* Table */}
-      <Card>
+      <Card className="border border-border/80 shadow-none">
         <CardContent className="p-0">
           {filtered.length === 0 ? (
             <div className="text-center py-16">
@@ -171,7 +223,7 @@ export default function InventoryPage() {
                   <TableRow key={p.id}>
                     <TableCell>
                       <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-md overflow-hidden bg-muted flex-shrink-0">
+                        <div className="h-10 w-10 rounded-md overflow-hidden bg-muted flex-shrink-0 border border-border/40">
                           {p.images[0] ? (
                             <img
                               src={p.images[0]}
@@ -219,7 +271,8 @@ export default function InventoryPage() {
                             : p.status === "sold" || p.status === "rented"
                               ? "bg-blue-500/10 text-blue-600 border-blue-500/20"
                               : "bg-amber-500/10 text-amber-600 border-amber-500/20"
-                        }>
+                        }
+                      >
                         {p.status}
                       </Badge>
                     </TableCell>
@@ -228,15 +281,44 @@ export default function InventoryPage() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          onClick={() => openEdit(p)}>
-                          <Edit className="h-4 w-4" />
+                          onClick={() => openEdit(p)}
+                          title={
+                            isEditorUnlocked
+                              ? "Edit property"
+                              : "Unlock Editor Mode to Edit"
+                          }
+                          className={
+                            !isEditorUnlocked
+                              ? "opacity-40 hover:opacity-100"
+                              : ""
+                          }
+                        >
+                          {!isEditorUnlocked ? (
+                            <Lock className="h-3.5 w-3.5 text-amber-500" />
+                          ) : (
+                            <Edit className="h-4 w-4" />
+                          )}
                         </Button>
                         <Button
                           variant="ghost"
                           size="icon"
-                          onClick={() => setDeleteId(p.id)}
-                          className="text-destructive hover:text-destructive">
-                          <Trash2 className="h-4 w-4" />
+                          onClick={() => handleDeleteClick(p.id)}
+                          title={
+                            isEditorUnlocked
+                              ? "Delete property"
+                              : "Unlock Editor Mode to Delete"
+                          }
+                          className={
+                            !isEditorUnlocked
+                              ? "opacity-40 hover:opacity-100 text-muted-foreground"
+                              : "text-destructive hover:text-destructive"
+                          }
+                        >
+                          {!isEditorUnlocked ? (
+                            <Lock className="h-3.5 w-3.5 text-amber-500" />
+                          ) : (
+                            <Trash2 className="h-4 w-4" />
+                          )}
                         </Button>
                       </div>
                     </TableCell>
@@ -272,7 +354,7 @@ export default function InventoryPage() {
         description="Are you sure you want to delete this property? This action cannot be undone."
         confirmText="Delete"
         onConfirm={() => {
-          if (deleteId) deleteProperty(deleteId);
+          if (deleteId && isEditorUnlocked) deleteProperty(deleteId);
           setDeleteId(null);
         }}
       />
