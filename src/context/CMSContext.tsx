@@ -1,255 +1,266 @@
 "use client";
 
-import {
-	createContext,
-	useContext,
-	useReducer,
-	useEffect,
-	useRef,
-	useCallback,
-	useMemo,
-	useState,
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
 } from "react";
-
-import { cmsReducer } from "./CMSReducer";
-import type { CMSState, CMSAction } from "@/types";
-import { storage } from "@/utils/storage";
+import { apiFetch } from "@/lib/api-client";
 import { STORAGE_KEYS } from "@/utils/constants";
-import { fetchProperties } from "@/utils/dataSync";
-import {
-	seedProperties,
-	seedTeam,
-	seedBlog,
-	seedPages,
-	seedTestimonials,
-	seedJobs,
-} from "@/utils/seed";
-
-/* ============================================================
- *  INITIAL STATE
- * ============================================================ */
-export const initialState: CMSState = {
-	siteSettings: {
-		siteName: "Silicon Real Estate (Pvt.) Ltd.",
-		logo: "",
-		contactEmail: "info@siliconrealestate.com",
-		contactPhone: "+880 1712 345 678",
-		address: "2/3 (2nd Floor), Block A, Iqbal Road, Mohammadpur, Dhaka-1207",
-		businessHours: "Sun–Thu: 9:00 AM – 6:00 PM",
-		social: {
-			facebook: "https://facebook.com",
-			twitter: "https://twitter.com",
-			instagram: "https://instagram.com",
-			linkedin: "https://linkedin.com",
-			youtube: "",
-			pinterest: "",
-			rss: "",
-		},
-	},
-	menu: [
-		{ id: "1", label: "Home", href: "/", order: 1 },
-		{ id: "2", label: "Properties", href: "/properties", order: 2 },
-		{ id: "3", label: "About", href: "/about", order: 3 },
-		{ id: "4", label: "Blog", href: "/blog", order: 4 },
-		{ id: "5", label: "Careers", href: "/careers", order: 5 },
-		{ id: "6", label: "Contact", href: "/contact", order: 6 },
-	],
-	properties: seedProperties,
-	team: seedTeam,
-	blog: seedBlog,
-	pages: seedPages,
-	testimonials: seedTestimonials,
-	jobs: seedJobs,
-	theme: {
-		primaryColor: "hsl(150, 55%, 12%)",
-		secondaryColor: "hsl(37, 85%, 52%)",
-		fontFamily: "Inter",
-		mode: "system",
-	},
-	media: [],
-	leads: [],
-	seo: {
-		home: {
-			title: "EstateHub - Find Your Dream Home",
-			description: "Premium real estate listings for modern living.",
-		},
-		about: {
-			title: "About Us - EstateHub",
-			description: "Learn about EstateHub's mission and team.",
-		},
-		properties: {
-			title: "Properties - EstateHub",
-			description: "Browse our curated collection of premium properties.",
-		},
-		blog: {
-			title: "Blog - EstateHub",
-			description: "Real estate tips, trends, and market insights.",
-		},
-		contact: {
-			title: "Contact Us - EstateHub",
-			description: "Get in touch with our real estate experts.",
-		},
-		careers: {
-			title: "Careers - EstateHub",
-			description: "Join our team of real estate professionals.",
-		},
-	},
-};
-
-/* ============================================================
- *  CONTEXT & PROVIDER
- * ============================================================ */
+import { storage } from "@/utils/storage";
+import { initialState } from "./cms-state";
+import type { CMSAction, CMSState } from "@/types";
+export { initialState } from "./cms-state";
 interface CMSContextType {
-	state: CMSState;
-	dispatch: (action: CMSAction) => void;
-	isHydrated: boolean;
-	isLoading: boolean;
-	error: string | null;
-	persistNow: () => void;
-	resetAll: () => void;
-	refetchProperties: () => Promise<void>;
+  state: CMSState;
+  dispatch: React.Dispatch<CMSAction>;
+  resetAll: () => void;
+  refetchProperties: () => Promise<void>;
 }
 
-export const CMSContext = createContext<CMSContextType | undefined>(undefined);
+const CMSContext = createContext<CMSContextType | undefined>(undefined);
+
+function cmsReducer(state: CMSState, action: CMSAction): CMSState {
+  switch (action.type) {
+    case "SET_STATE":
+      return action.payload;
+    case "RESET_STATE":
+      return initialState;
+    case "UPDATE_SITE_SETTINGS":
+      return {
+        ...state,
+        siteSettings: {
+          ...state.siteSettings,
+          ...action.payload,
+        },
+      };
+    case "ADD_MENU_ITEM":
+      return {
+        ...state,
+        menu: [...state.menu, action.payload],
+      };
+    case "UPDATE_MENU_ITEM":
+      return {
+        ...state,
+        menu: state.menu.map((item) =>
+          item.id === action.payload.id ? action.payload : item,
+        ),
+      };
+    case "DELETE_MENU_ITEM":
+      return {
+        ...state,
+        menu: state.menu.filter((item) => item.id !== action.payload),
+      };
+    case "REORDER_MENU":
+      return {
+        ...state,
+        menu: action.payload,
+      };
+    case "ADD_PROPERTY":
+      return {
+        ...state,
+        properties: [...state.properties, action.payload],
+      };
+    case "UPDATE_PROPERTY":
+      return {
+        ...state,
+        properties: state.properties.map((property) =>
+          property.id === action.payload.id ? action.payload : property,
+        ),
+      };
+    case "DELETE_PROPERTY":
+      return {
+        ...state,
+        properties: state.properties.filter(
+          (property) => property.id !== action.payload,
+        ),
+      };
+    case "ADD_TEAM_MEMBER":
+      return {
+        ...state,
+        team: [...state.team, action.payload],
+      };
+    case "UPDATE_TEAM_MEMBER":
+      return {
+        ...state,
+        team: state.team.map((member) =>
+          member.id === action.payload.id ? action.payload : member,
+        ),
+      };
+    case "DELETE_TEAM_MEMBER":
+      return {
+        ...state,
+        team: state.team.filter((member) => member.id !== action.payload),
+      };
+    case "ADD_BLOG_POST":
+      return {
+        ...state,
+        blog: [...state.blog, action.payload],
+      };
+    case "UPDATE_BLOG_POST":
+      return {
+        ...state,
+        blog: state.blog.map((post) =>
+          post.id === action.payload.id ? action.payload : post,
+        ),
+      };
+    case "DELETE_BLOG_POST":
+      return {
+        ...state,
+        blog: state.blog.filter((post) => post.id !== action.payload),
+      };
+    case "ADD_LEAD":
+      return {
+        ...state,
+        leads: [...state.leads, action.payload],
+      };
+    case "UPDATE_LEAD":
+      return {
+        ...state,
+        leads: state.leads.map((lead) =>
+          lead.id === action.payload.id ? { ...lead, ...action.payload } : lead,
+        ),
+      };
+    case "DELETE_LEAD":
+      return {
+        ...state,
+        leads: state.leads.filter((lead) => lead.id !== action.payload),
+      };
+    case "ADD_MEDIA":
+      return {
+        ...state,
+        media: [...state.media, action.payload],
+      };
+    case "DELETE_MEDIA":
+      return {
+        ...state,
+        media: state.media.filter((item) => item.id !== action.payload),
+      };
+    case "UPDATE_THEME":
+      return {
+        ...state,
+        theme: {
+          ...state.theme,
+          ...action.payload,
+        },
+      };
+    case "UPDATE_SEO":
+      return {
+        ...state,
+        seo: {
+          ...state.seo,
+          [action.payload.page]: {
+            ...state.seo[action.payload.page],
+            ...action.payload.data,
+          },
+        },
+      };
+    case "UPDATE_PAGE":
+      return {
+        ...state,
+        pages: state.pages.map((page) =>
+          page.id === action.payload.id ? action.payload : page,
+        ),
+      };
+    case "ADD_TESTIMONIAL":
+      return {
+        ...state,
+        testimonials: [...state.testimonials, action.payload],
+      };
+    case "UPDATE_TESTIMONIAL":
+      return {
+        ...state,
+        testimonials: state.testimonials.map((testimonial) =>
+          testimonial.id === action.payload.id ? action.payload : testimonial,
+        ),
+      };
+    case "DELETE_TESTIMONIAL":
+      return {
+        ...state,
+        testimonials: state.testimonials.filter(
+          (testimonial) => testimonial.id !== action.payload,
+        ),
+      };
+    case "ADD_JOB":
+      return {
+        ...state,
+        jobs: [...state.jobs, action.payload],
+      };
+    case "UPDATE_JOB":
+      return {
+        ...state,
+        jobs: state.jobs.map((job) =>
+          job.id === action.payload.id ? action.payload : job,
+        ),
+      };
+    case "DELETE_JOB":
+      return {
+        ...state,
+        jobs: state.jobs.filter((job) => job.id !== action.payload),
+      };
+    default:
+      return state;
+  }
+}
 
 export function CMSProvider({ children }: { children: React.ReactNode }) {
-	const [state, dispatch] = useReducer(cmsReducer, initialState);
-	const [isHydrated, setIsHydrated] = useState(false);
-	const [isLoading, setIsLoading] = useState(false);
-	const [error, setError] = useState<string | null>(null);
-	const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [state, dispatch] = useReducer(cmsReducer, initialState);
+  const [hydrated, setHydrated] = useState(false);
 
-	// Hydration: load from localStorage on mount, then sync properties via API
-	useEffect(() => {
-		const saved = storage.get<CMSState | null>(STORAGE_KEYS.CMS_DATA, null);
-		let loadedState = initialState;
-		if (saved) {
-			loadedState = mergeWithDefaults(initialState, saved);
-			dispatch({ type: "SET_STATE", payload: loadedState });
-		}
-		setIsHydrated(true);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
 
-		async function syncData() {
-			setIsLoading(true);
-			setError(null);
-			try {
-				const syncedProps = await fetchProperties();
-				dispatch({
-					type: "SET_STATE",
-					payload: {
-						...loadedState,
-						properties: syncedProps,
-					},
-				});
-			} catch (err: any) {
-				const errMsg = err?.message || "Failed to sync properties from API";
-				console.error("[CMSProvider] Failed to sync properties from API:", err);
-				setError(errMsg);
-			} finally {
-				setIsLoading(false);
-			}
-		}
-		syncData();
-	}, []);
+    const storedState = storage.get<CMSState>(
+      STORAGE_KEYS.CMS_DATA,
+      initialState,
+    );
+    dispatch({ type: "SET_STATE", payload: storedState });
+    setHydrated(true);
+  }, []);
 
-	// Auto-save: debounced localStorage persistence
-	useEffect(() => {
-		if (!isHydrated) return;
-		if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
-		saveTimerRef.current = setTimeout(() => {
-			storage.set(STORAGE_KEYS.CMS_DATA, state);
-		}, 300);
-		return () => {
-			if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
-		};
-	}, [state, isHydrated]);
+  useEffect(() => {
+    if (!hydrated) return;
+    storage.set(STORAGE_KEYS.CMS_DATA, state);
+  }, [hydrated, state]);
 
-	const persistNow = useCallback(
-		() => storage.set(STORAGE_KEYS.CMS_DATA, state),
-		[state],
-	);
+  const resetAll = useCallback(() => {
+    storage.remove(STORAGE_KEYS.CMS_DATA);
+    dispatch({ type: "RESET_STATE" });
+  }, []);
 
-	const resetAll = useCallback(() => {
-		storage.remove(STORAGE_KEYS.CMS_DATA);
-		dispatch({ type: "SET_STATE", payload: initialState });
-	}, []);
+  const refetchProperties = useCallback(async () => {
+    try {
+      const response = await apiFetch<unknown>("/properties");
+      const properties = Array.isArray((response as any).properties)
+        ? (response as any).properties
+        : Array.isArray(response)
+          ? (response as any)
+          : undefined;
 
-	const refetchProperties = useCallback(async () => {
-		setIsLoading(true);
-		setError(null);
-		try {
-			const syncedProps = await fetchProperties();
-			dispatch({
-				type: "SET_STATE",
-				payload: {
-					...state,
-					properties: syncedProps,
-				},
-			});
-		} catch (err: any) {
-			const errMsg = err?.message || "Failed to sync properties from API";
-			console.error("[CMSProvider] Refetch failed:", err);
-			setError(errMsg);
-		} finally {
-			setIsLoading(false);
-		}
-	}, [state]);
+      if (properties) {
+        dispatch({ type: "SET_STATE", payload: { ...state, properties } });
+      }
+    } catch (error) {
+      console.error("[CMSContext] Failed to fetch properties:", error);
+    }
+  }, [state]);
 
-	const value = useMemo(
-		() => ({
-			state,
-			dispatch,
-			isHydrated,
-			isLoading,
-			error,
-			persistNow,
-			resetAll,
-			refetchProperties,
-		}),
-		[
-			state,
-			isHydrated,
-			isLoading,
-			error,
-			persistNow,
-			resetAll,
-			refetchProperties,
-		],
-	);
+  const value = useMemo(
+    () => ({ state, dispatch, resetAll, refetchProperties }),
+    [state, dispatch, resetAll, refetchProperties],
+  );
 
-	return <CMSContext.Provider value={value}>{children}</CMSContext.Provider>;
+  return <CMSContext.Provider value={value}>{children}</CMSContext.Provider>;
 }
 
-/* ============================================================
- *  HOOK (This was missing/broken in your file)
- * ============================================================ */
 export function useCMS() {
-	const context = useContext(CMSContext);
-	if (!context) {
-		throw new Error("useCMS must be used within a CMSProvider");
-	}
-	return context;
-}
-
-/* ============================================================
- *  HELPERS
- * ============================================================ */
-function mergeWithDefaults(
-	defaults: CMSState,
-	saved: Partial<CMSState>,
-): CMSState {
-	return {
-		siteSettings: { ...defaults.siteSettings, ...(saved.siteSettings || {}) },
-		menu: saved.menu && saved.menu.length > 0 ? saved.menu : defaults.menu,
-		properties: saved.properties || defaults.properties,
-		team: saved.team || defaults.team,
-		blog: saved.blog || defaults.blog,
-		pages: saved.pages || defaults.pages,
-		testimonials: saved.testimonials || defaults.testimonials,
-		jobs: saved.jobs || defaults.jobs,
-		theme: { ...defaults.theme, ...(saved.theme || {}) },
-		media: saved.media || defaults.media,
-		leads: saved.leads || defaults.leads,
-		seo: { ...defaults.seo, ...(saved.seo || {}) },
-	};
+  const context = useContext(CMSContext);
+  if (!context) {
+    throw new Error("useCMS must be used inside CMSProvider");
+  }
+  return context;
 }

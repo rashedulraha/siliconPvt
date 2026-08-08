@@ -1,0 +1,45 @@
+import type { CMSState } from "@/types";
+
+export const initialState: CMSState = {
+  siteSettings: {
+    siteName: "Silicon Real Estate",
+    logo: "",
+    address: "",
+    contactPhone: "",
+    contactEmail: "",
+    businessHours: "",
+    website: "",
+    social: {
+      facebook: "",
+      twitter: "",
+      instagram: "",
+      linkedin: "",
+      youtube: "",
+      pinterest: "",
+      rss: "",
+    },
+  },
+  menu: [],
+  properties: [],
+  team: [],
+  blog: [],
+  pages: [],
+  theme: {
+    primaryColor: "#2563eb",
+    secondaryColor: "#14b8a6",
+    fontFamily: "Inter, system-ui, sans-serif",
+    mode: "system",
+  },
+  media: [],
+  leads: [],
+  seo: {
+    home: { title: "", description: "" },
+    about: { title: "", description: "" },
+    properties: { title: "", description: "" },
+    blog: { title: "", description: "" },
+    contact: { title: "", description: "" },
+    careers: { title: "", description: "" },
+  },
+  testimonials: [],
+  jobs: [],
+};
