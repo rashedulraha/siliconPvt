@@ -12,23 +12,23 @@ import { SkipToContent } from "@/components/feedback/SkipToContent";
  * Navbar + Footer without affecting admin or dashboard routes.
  */
 export default function MainLayout({
-	children,
+  children,
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-	return (
-		<>
-			<SkipToContent />
-			<div className="relative flex min-h-screen flex-col">
-				<Navbar />
-				<main id="main-content" tabIndex={-1} className="flex-1 outline-none">
-					{children}
-				</main>
-				<Footer />
-			</div>
-			<FloatingActions />
-			{/* <FloatingSimulator /> */}
-			<ScrollToTop />
-		</>
-	);
+  return (
+    <>
+      <SkipToContent />
+      <div className="relative flex min-h-screen flex-col">
+        <Navbar />
+        <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
+          {children}
+        </main>
+        <Footer />
+      </div>
+      <FloatingActions />
+      {/* <FloatingSimulator /> */}
+      <ScrollToTop />
+    </>
+  );
 }
