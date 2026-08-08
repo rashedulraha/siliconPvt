@@ -9,17 +9,17 @@ import { Analytics } from "@/lib/analytics";
  * Use once in root layout.
  */
 export function useAnalytics() {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
 
-  useEffect(() => {
-    if (pathname) {
-      const url = searchParams.toString()
-        ? `${pathname}?${searchParams.toString()}`
-        : pathname;
-      Analytics.pageView(url);
-    }
-  }, [pathname, searchParams]);
+	useEffect(() => {
+		if (pathname) {
+			const url = searchParams.toString()
+				? `${pathname}?${searchParams.toString()}`
+				: pathname;
+			Analytics.pageView(url);
+		}
+	}, [pathname, searchParams]);
 
-  return { Analytics };
+	return { Analytics };
 }

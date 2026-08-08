@@ -28,9 +28,9 @@ import { apiFetch } from "@/lib/api-client";
 export type AppDataKey = "site_settings" | "hero" | "projects";
 
 export interface AppDataResult<T> {
-  data: T | null;
-  isLoading: boolean;
-  error: string | null;
+	data: T | null;
+	isLoading: boolean;
+	error: string | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -38,14 +38,14 @@ export interface AppDataResult<T> {
 // ---------------------------------------------------------------------------
 
 type State<T> =
-  | { phase: "IDLE" }
-  | { phase: "LOADING" }
-  | { phase: "SUCCESS"; data: T }
-  | { phase: "API_ERROR" }
-  | { phase: "FALLBACK_LOADING" }
-  | { phase: "FALLBACK_SUCCESS"; data: T }
-  | { phase: "FALLBACK_ERROR"; message: string }
-  | { phase: "ENV_ABSENT" };
+	| { phase: "IDLE" }
+	| { phase: "LOADING" }
+	| { phase: "SUCCESS"; data: T }
+	| { phase: "API_ERROR" }
+	| { phase: "FALLBACK_LOADING" }
+	| { phase: "FALLBACK_SUCCESS"; data: T }
+	| { phase: "FALLBACK_ERROR"; message: string }
+	| { phase: "ENV_ABSENT" };
 
 // ---------------------------------------------------------------------------
 // Hook
@@ -59,98 +59,99 @@ type State<T> =
  * @returns { data: T | null, isLoading: boolean, error: string | null }
  */
 export function useAppData<T>(key: AppDataKey): AppDataResult<T> {
-  const [state, setState] = useState<State<T>>({ phase: "IDLE" });
+	const [state, setState] = useState<State<T>>({ phase: "IDLE" });
 
-  useEffect(() => {
-    let cancelled = false;
+	useEffect(() => {
+		let cancelled = false;
 
-    async function run() {
-      // Literal property access so Next.js can inline the value at build time.
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+		async function run() {
+			// Literal property access so Next.js can inline the value at build time.
+			const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-      // ENV_ABSENT path — return error immediately, no fetch attempted.
-      if (!apiUrl) {
-        if (!cancelled) {
-          setState({
-            phase: "ENV_ABSENT",
-          });
-        }
-        return;
-      }
+			// ENV_ABSENT path — return error immediately, no fetch attempted.
+			if (!apiUrl) {
+				if (!cancelled) {
+					setState({
+						phase: "ENV_ABSENT",
+					});
+				}
+				return;
+			}
 
-      // LOADING — attempt primary API fetch.
-      if (!cancelled) setState({ phase: "LOADING" });
+			// LOADING — attempt primary API fetch.
+			if (!cancelled) setState({ phase: "LOADING" });
 
-      try {
-        const data = await apiFetch<T>(`/${key}`);
-        if (!cancelled) setState({ phase: "SUCCESS", data });
-      } catch {
-        // API_ERROR — primary fetch failed; attempt JSON fallback.
-        if (!cancelled) setState({ phase: "API_ERROR" });
+			try {
+				const data = await apiFetch<T>(`/${key}`);
+				if (!cancelled) setState({ phase: "SUCCESS", data });
+			} catch {
+				// API_ERROR — primary fetch failed; attempt JSON fallback.
+				if (!cancelled) setState({ phase: "API_ERROR" });
 
-        if (!cancelled) setState({ phase: "FALLBACK_LOADING" });
+				if (!cancelled) setState({ phase: "FALLBACK_LOADING" });
 
-        try {
-          const res = await fetch(`/data/${key}.json`);
-          if (!res.ok) {
-            throw new Error(`HTTP ${res.status}`);
-          }
-          const fallbackData = (await res.json()) as T;
-          if (!cancelled) setState({ phase: "FALLBACK_SUCCESS", data: fallbackData });
-        } catch {
-          if (!cancelled) {
-            setState({
-              phase: "FALLBACK_ERROR",
-              message: `Failed to load ${key} data`,
-            });
-          }
-        }
-      }
-    }
+				try {
+					const res = await fetch(`/data/${key}.json`);
+					if (!res.ok) {
+						throw new Error(`HTTP ${res.status}`);
+					}
+					const fallbackData = (await res.json()) as T;
+					if (!cancelled)
+						setState({ phase: "FALLBACK_SUCCESS", data: fallbackData });
+				} catch {
+					if (!cancelled) {
+						setState({
+							phase: "FALLBACK_ERROR",
+							message: `Failed to load ${key} data`,
+						});
+					}
+				}
+			}
+		}
 
-    run();
+		run();
 
-    return () => {
-      cancelled = true;
-    };
-  }, [key]);
+		return () => {
+			cancelled = true;
+		};
+	}, [key]);
 
-  // ---------------------------------------------------------------------------
-  // Map internal state → public AppDataResult
-  // ---------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------
+	// Map internal state → public AppDataResult
+	// ---------------------------------------------------------------------------
 
-  switch (state.phase) {
-    case "IDLE":
-      return { data: null, isLoading: false, error: null };
+	switch (state.phase) {
+		case "IDLE":
+			return { data: null, isLoading: false, error: null };
 
-    case "LOADING":
-    case "FALLBACK_LOADING":
-      return { data: null, isLoading: true, error: null };
+		case "LOADING":
+		case "FALLBACK_LOADING":
+			return { data: null, isLoading: true, error: null };
 
-    case "SUCCESS":
-      return { data: state.data, isLoading: false, error: null };
+		case "SUCCESS":
+			return { data: state.data, isLoading: false, error: null };
 
-    case "FALLBACK_SUCCESS":
-      return { data: state.data, isLoading: false, error: null };
+		case "FALLBACK_SUCCESS":
+			return { data: state.data, isLoading: false, error: null };
 
-    case "API_ERROR":
-      // Transient — treated as still loading while fallback is about to start.
-      return { data: null, isLoading: true, error: null };
+		case "API_ERROR":
+			// Transient — treated as still loading while fallback is about to start.
+			return { data: null, isLoading: true, error: null };
 
-    case "ENV_ABSENT":
-      return {
-        data: null,
-        isLoading: false,
-        error: `NEXT_PUBLIC_API_URL is not defined — cannot fetch ${key} data`,
-      };
+		case "ENV_ABSENT":
+			return {
+				data: null,
+				isLoading: false,
+				error: `NEXT_PUBLIC_API_URL is not defined — cannot fetch ${key} data`,
+			};
 
-    case "FALLBACK_ERROR":
-      return { data: null, isLoading: false, error: state.message };
+		case "FALLBACK_ERROR":
+			return { data: null, isLoading: false, error: state.message };
 
-    default: {
-      // Exhaustiveness guard — should never be reached.
-      const _exhaustive: never = state;
-      return { data: null, isLoading: false, error: null };
-    }
-  }
+		default: {
+			// Exhaustiveness guard — should never be reached.
+			const _exhaustive: never = state;
+			return { data: null, isLoading: false, error: null };
+		}
+	}
 }
