@@ -20,7 +20,8 @@ export function AdminHeader({
 	onMenuClick,
 	userEmail,
 }: AdminHeaderProps) {
-	const { isEditorUnlocked, unlockEditorMode, lockEditorMode } = useAdminEditor();
+	const { isEditorUnlocked, unlockEditorMode, lockEditorMode } =
+		useAdminEditor();
 
 	return (
 		<header className="sticky top-0 z-30 border-b bg-card/80 backdrop-blur-md border-border/80">
@@ -36,7 +37,9 @@ export function AdminHeader({
 				</Button>
 
 				<div className="flex-1 text-left">
-					<h1 className="text-xl font-bold font-heading tracking-tight text-foreground">{title}</h1>
+					<h1 className="text-xl font-bold font-heading tracking-tight text-foreground">
+						{title}
+					</h1>
 					{description && (
 						<p className="text-xs text-muted-foreground hidden sm:block font-light">
 							{description}

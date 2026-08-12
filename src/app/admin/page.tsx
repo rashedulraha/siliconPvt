@@ -37,7 +37,8 @@ import { useAdminEditor } from "@/context/AdminEditorContext";
 export default function AdminDashboard() {
 	const { properties, stats: propStats } = useProperties();
 	const { leads, stats: leadStats } = useLeads();
-	const { isEditorUnlocked, unlockEditorMode, lockEditorMode } = useAdminEditor();
+	const { isEditorUnlocked, unlockEditorMode, lockEditorMode } =
+		useAdminEditor();
 
 	const recentLeads = [...leads]
 		.sort(
@@ -65,17 +66,20 @@ export default function AdminDashboard() {
 					<div className="space-y-2">
 						<div className="flex items-center gap-2">
 							<span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-semibold uppercase tracking-widest text-primary font-heading">
-								<Sparkles className="h-3.5 w-3.5 text-primary" /> EXECUTIVE COMMAND CENTER
+								<Sparkles className="h-3.5 w-3.5 text-primary" /> EXECUTIVE
+								COMMAND CENTER
 							</span>
 							<span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-semibold uppercase tracking-widest text-emerald-500 font-heading">
-								<Database className="h-3.5 w-3.5 text-emerald-500" /> PostgreSQL DB Live
+								<Database className="h-3.5 w-3.5 text-emerald-500" /> PostgreSQL
+								DB Live
 							</span>
 						</div>
 						<h2 className="font-heading text-2xl md:text-4xl font-extrabold tracking-tight text-foreground leading-tight">
 							Welcome to Silicon RE Console 👋
 						</h2>
 						<p className="text-muted-foreground text-xs sm:text-sm font-light max-w-xl">
-							Manage land plots, hero banners, site hotlines, and blog posts with live PostgreSQL database synchronization.
+							Manage land plots, hero banners, site hotlines, and blog posts
+							with live PostgreSQL database synchronization.
 						</p>
 					</div>
 
@@ -395,5 +399,3 @@ export default function AdminDashboard() {
 		</div>
 	);
 }
-
-
