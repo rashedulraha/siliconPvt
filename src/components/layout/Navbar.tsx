@@ -253,7 +253,8 @@ export function Navbar() {
                   group-hover:border-primary/30
                   flex items-center justify-center
                   shrink-0
-                ">
+                "
+              >
                 <Image
                   src="/silicon.png"
                   alt={`${state.siteSettings.siteName} Logo`}
@@ -291,7 +292,8 @@ export function Navbar() {
                     onMouseEnter={() =>
                       hasMegaMenu && handleMouseEnter(item.label)
                     }
-                    onMouseLeave={handleMouseLeave}>
+                    onMouseLeave={handleMouseLeave}
+                  >
                     <Link
                       href={item.href}
                       className={cn(
@@ -299,7 +301,8 @@ export function Navbar() {
                         isActive || isDropdownOpen
                           ? "bg-background text-primary border border-border/60 shadow-xs font-semibold"
                           : "text-muted-foreground hover:text-foreground hover:bg-background/50",
-                      )}>
+                      )}
+                    >
                       {item.label}
                       {hasMegaMenu && (
                         <ChevronDown
@@ -324,7 +327,8 @@ export function Navbar() {
                             className={cn(
                               "absolute top-full pt-2 z-50",
                               item.megaMenu.align,
-                            )}>
+                            )}
+                          >
                             <div className="w-105 sm:w-110 bg-popover text-popover-foreground border border-border rounded-2xl shadow-2xl overflow-hidden flex transition-all duration-200">
                               {/* Left Sidebar Panel (Soft Muted Surface) */}
                               <div className="w-44 sm:w-48 bg-muted/40 border-r border-border/60 p-3.5 shrink-0 text-left flex flex-col justify-between">
@@ -341,7 +345,8 @@ export function Navbar() {
                                           onClick={() =>
                                             setActiveDropdown(null)
                                           }
-                                          className="group/left flex flex-col text-left p-2 rounded-md hover:bg-primary/10 hover:border-primary/20 border border-transparent transition-all duration-200">
+                                          className="group/left flex flex-col text-left p-2 rounded-md hover:bg-primary/10 hover:border-primary/20 border border-transparent transition-all duration-200"
+                                        >
                                           <span className="text-xs font-semibold text-foreground group-hover/left:text-primary transition-colors font-heading flex items-center justify-between">
                                             {link.label}
                                             <ArrowUpRight className="w-3 h-3 opacity-0 group-hover/left:opacity-100 transition-opacity text-primary" />
@@ -374,7 +379,8 @@ export function Navbar() {
                                         key={link.label}
                                         href={link.href}
                                         onClick={() => setActiveDropdown(null)}
-                                        className="group/right flex flex-col text-left p-2.5 rounded-md hover:bg-primary/10 hover:border-primary/20 border border-transparent transition-all duration-200">
+                                        className="group/right flex flex-col text-left p-2.5 rounded-md hover:bg-primary/10 hover:border-primary/20 border border-transparent transition-all duration-200"
+                                      >
                                         <span className="text-xs font-semibold text-foreground group-hover/right:text-primary transition-colors font-heading flex items-center justify-between">
                                           {link.label}
                                           <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover/right:opacity-100 transition-opacity text-primary" />
@@ -409,7 +415,8 @@ export function Navbar() {
                     onClick={() => setUserMenuOpen((v) => !v)}
                     className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl border border-border bg-muted/50 hover:bg-muted shadow-xs transition-all duration-300 cursor-pointer"
                     aria-expanded={userMenuOpen}
-                    aria-haspopup="true">
+                    aria-haspopup="true"
+                  >
                     {user.avatar ? (
                       <div className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-primary/20">
                         <Image
@@ -453,23 +460,22 @@ export function Navbar() {
                         </p>
                       </div>
                       <Link
-                        href={
-                          user?.role === "admin"
-                            ? "/dashboard/admin"
-                            : "/dashboard/user"
-                        }
-                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-primary/6 hover:text-primary transition-colors">
+                        href="/admin"
+                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-primary/6 hover:text-primary transition-colors"
+                      >
                         <LayoutDashboard className="w-4 h-4" /> My Dashboard
                       </Link>
                       <Link
                         href="/favorites"
-                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-primary/6 hover:text-primary transition-colors">
+                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-primary/6 hover:text-primary transition-colors"
+                      >
                         <Heart className="w-4 h-4" /> Saved Properties
                       </Link>
                       <div className="border-t border-border/60 my-1.5" />
                       <button
                         onClick={handleLogout}
-                        className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-destructive hover:bg-destructive/6 transition-colors text-left cursor-pointer">
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-destructive hover:bg-destructive/6 transition-colors text-left cursor-pointer"
+                      >
                         <LogOut className="w-4 h-4" /> Sign Out
                       </button>
                     </div>
@@ -479,7 +485,8 @@ export function Navbar() {
                 <div className="flex items-center gap-2">
                   <Link
                     href="/contact"
-                    className="bg-primary text-primary-foreground h-9 px-4 rounded-lg text-sm font-medium font-heading inline-flex items-center gap-1.5 hover:bg-primary/90 transition-all duration-300 shadow-md shadow-primary/25">
+                    className="bg-primary text-primary-foreground h-9 px-4 rounded-lg text-sm font-medium font-heading inline-flex items-center gap-1.5 hover:bg-primary/90 transition-all duration-300 shadow-md shadow-primary/25"
+                  >
                     <CalendarCheck className="w-3.5 h-3.5" />
                     Book Visit
                   </Link>
@@ -493,7 +500,8 @@ export function Navbar() {
                 <Link
                   href="/favorites"
                   aria-label="Favorites"
-                  className="w-9 h-9 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-muted transition-all">
+                  className="w-9 h-9 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-muted transition-all"
+                >
                   <Heart className="w-4 h-4" />
                 </Link>
               )}
@@ -502,7 +510,8 @@ export function Navbar() {
                 onClick={() => setIsOpen(!isOpen)}
                 aria-label="Toggle menu"
                 aria-expanded={isOpen}
-                className="w-9 h-9 rounded-lg border border-border text-foreground hover:bg-muted flex items-center justify-center transition-all duration-300 cursor-pointer">
+                className="w-9 h-9 rounded-lg border border-border text-foreground hover:bg-muted flex items-center justify-center transition-all duration-300 cursor-pointer"
+              >
                 {isOpen ? (
                   <X className="h-4 w-4" />
                 ) : (
@@ -530,14 +539,16 @@ export function Navbar() {
         className={cn(
           "fixed inset-y-0 right-0 z-50 w-full max-w-xs sm:max-w-sm bg-background/95 backdrop-blur-2xl border-l border-border/60 shadow-2xl transition-transform duration-300 ease-in-out lg:hidden flex flex-col justify-between overflow-y-auto",
           isOpen ? "translate-x-0" : "translate-x-full",
-        )}>
+        )}
+      >
         <div>
           {/* Drawer Top Header */}
           <div className="p-4 border-b border-border/40 flex items-center justify-between">
             <Link
               href="/"
               onClick={() => setIsOpen(false)}
-              className="flex items-center gap-2.5">
+              className="flex items-center gap-2.5"
+            >
               <div className="relative h-9 w-9 overflow-hidden rounded-full border border-primary/15 bg-background/60 flex items-center justify-center shrink-0">
                 <Image
                   src="/silicon.png"
@@ -559,7 +570,8 @@ export function Navbar() {
             <button
               onClick={() => setIsOpen(false)}
               aria-label="Close menu"
-              className="w-8 h-8 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted flex items-center justify-center transition-all cursor-pointer">
+              className="w-8 h-8 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted flex items-center justify-center transition-all cursor-pointer"
+            >
               <X className="w-4 h-4" />
             </button>
           </div>
@@ -587,7 +599,8 @@ export function Navbar() {
                         isActive
                           ? "bg-primary/10 text-primary font-semibold border border-primary/20"
                           : "text-foreground/90 hover:bg-muted hover:text-foreground",
-                      )}>
+                      )}
+                    >
                       {item.label}
                     </Link>
                     {hasMegaMenu && (
@@ -596,7 +609,8 @@ export function Navbar() {
                           setActiveMobileGroup(isGroupOpen ? null : item.label)
                         }
                         className="p-2.5 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
-                        aria-label={`Toggle ${item.label} submenu`}>
+                        aria-label={`Toggle ${item.label} submenu`}
+                      >
                         <ChevronDown
                           className={cn(
                             "w-4 h-4 transition-transform duration-200 opacity-70",
@@ -613,7 +627,8 @@ export function Navbar() {
                       className={cn(
                         "flex flex-col gap-1 pl-4 overflow-hidden transition-all duration-300",
                         isGroupOpen ? "max-h-80 py-1" : "max-h-0",
-                      )}>
+                      )}
+                    >
                       <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground pt-1">
                         {item.megaMenu.leftPanel.category}
                       </p>
@@ -622,7 +637,8 @@ export function Navbar() {
                           key={subLink.label}
                           href={subLink.href}
                           onClick={() => setIsOpen(false)}
-                          className="px-3 py-1.5 rounded-lg transition-colors text-left block hover:bg-muted/50">
+                          className="px-3 py-1.5 rounded-lg transition-colors text-left block hover:bg-muted/50"
+                        >
                           <p className="text-xs font-bold text-foreground">
                             {subLink.label}
                           </p>
@@ -640,7 +656,8 @@ export function Navbar() {
                           key={subLink.label}
                           href={subLink.href}
                           onClick={() => setIsOpen(false)}
-                          className="px-3 py-1.5 rounded-lg transition-colors text-left block hover:bg-muted/50">
+                          className="px-3 py-1.5 rounded-lg transition-colors text-left block hover:bg-muted/50"
+                        >
                           <p className="text-xs font-bold text-foreground">
                             {subLink.label}
                           </p>
@@ -662,7 +679,8 @@ export function Navbar() {
           <Link
             href="/contact"
             onClick={() => setIsOpen(false)}
-            className="w-full bg-primary text-primary-foreground h-10 rounded-xl text-sm font-medium font-heading inline-flex items-center justify-center gap-2 hover:bg-primary/90 transition-all duration-300 shadow-md shadow-primary/25">
+            className="w-full bg-primary text-primary-foreground h-10 rounded-xl text-sm font-medium font-heading inline-flex items-center justify-center gap-2 hover:bg-primary/90 transition-all duration-300 shadow-md shadow-primary/25"
+          >
             <CalendarCheck className="w-4 h-4" />
             BOOK SITE VISIT
           </Link>
@@ -700,7 +718,8 @@ export function Navbar() {
                       : "/dashboard/user"
                   }
                   onClick={() => setIsOpen(false)}
-                  className="flex items-center justify-center gap-2 h-9 rounded-lg bg-muted text-foreground text-xs font-medium hover:bg-muted/80 transition-all">
+                  className="flex items-center justify-center gap-2 h-9 rounded-lg bg-muted text-foreground text-xs font-medium hover:bg-muted/80 transition-all"
+                >
                   <LayoutDashboard className="w-3.5 h-3.5" /> Dashboard
                 </Link>
                 <button
@@ -708,7 +727,8 @@ export function Navbar() {
                     handleLogout();
                     setIsOpen(false);
                   }}
-                  className="flex items-center justify-center gap-2 h-9 rounded-lg border border-destructive/20 text-destructive text-xs font-medium hover:bg-destructive/4 transition-all cursor-pointer">
+                  className="flex items-center justify-center gap-2 h-9 rounded-lg border border-destructive/20 text-destructive text-xs font-medium hover:bg-destructive/4 transition-all cursor-pointer"
+                >
                   <LogOut className="w-3.5 h-3.5" /> Sign Out
                 </button>
               </div>
@@ -718,7 +738,8 @@ export function Navbar() {
               <Link
                 href="/contact"
                 onClick={() => setIsOpen(false)}
-                className="w-full h-9 rounded-xl border border-border text-foreground hover:bg-muted inline-flex items-center justify-center text-xs font-semibold">
+                className="w-full h-9 rounded-xl border border-border text-foreground hover:bg-muted inline-flex items-center justify-center text-xs font-semibold"
+              >
                 Contact Us
               </Link>
             </div>

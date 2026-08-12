@@ -14,17 +14,17 @@ import { OfflineMembershipGlassBanner } from "./glass/OfflineMembershipGlassBann
 import { SectionContainer } from "../layout/SectionContainer";
 import { useProperties } from "@/hooks/useProperties";
 import { useHomeContent } from "@/hooks/useHomeContent";
+import { useSlides } from "@/hooks/useSlides";
 import { formatCurrency } from "@/lib/utils";
-import {
-  MapPin,
-  ArrowRight,
-} from "lucide-react";
+import { MapPin, ArrowRight } from "lucide-react";
+import InteractiveCarouselRing from "./glass/interactive-carousel-ring";
 
 export function HomePageClient() {
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const { properties } = useProperties();
   const { data: homeData } = useHomeContent();
+  const { slides } = useSlides();
 
   useEffect(() => {
     setMounted(true);
@@ -41,7 +41,53 @@ export function HomePageClient() {
   return (
     <div className="bg-background text-foreground min-h-screen overflow-x-hidden flex flex-col">
       {/* ── SECTION 1: Hero Carousel / Slider ── */}
-      <HeroGlassCarousel />
+      <section className="relative w-full py-4 overflow-hidden flex flex-col items-center justify-center min-h-[750px]">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: 'url("https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center top'
+          }}
+        />
+        {/* Fade Out Gradient (Top to Bottom) */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-background/20 via-background/70 to-background pointer-events-none" />
+        
+        {/* Carousel (Main Banner) */}
+        <div className="relative z-20 w-full">
+          {/* We pass the backend fetched slides into the ring, where they will be duplicated to form 48 items */}
+          <InteractiveCarouselRing className="w-full max-w-[1200px] mx-auto" items={slides.map(s => ({
+            id: s.id,
+            title: s.title,
+            subtitle: s.subtitle,
+            imageUrl: s.image,
+            badge: s.badge || "FEATURED",
+            link: s.link,
+            active: s.active,
+            order: s.order
+          }))} />
+        </div>
+        {/* Absolute Center Text Overlay (Behind the hover modal) */}
+        <div className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center text-center px-4 w-full max-w-2xl pointer-events-none">
+          <motion.h1
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground tracking-tighter mb-4"
+          >
+            {homeData.heroTitle || "Silicon City"}
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-sm md:text-base text-muted-foreground font-normal max-w-lg mx-auto"
+          >
+            {homeData.heroDesc ||
+              "Experience the perfect blend of luxury, nature, and cutting-edge technology."}
+          </motion.p>
+        </div>
+      </section>
 
       {/* ── IMAGE 1 VISUAL SHOWCASE: MASTER PLAN & LIFESTYLE AMENITIES CARDS ── */}
       <MasterPlanAmenities />
