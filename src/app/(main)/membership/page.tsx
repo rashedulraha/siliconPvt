@@ -11,27 +11,7 @@ import {
 	MapPin,
 } from "lucide-react";
 import { SectionContainer } from "@/components/layout/SectionContainer";
-
-const PATHWAYS = [
-	{
-		num: "01",
-		title: "By Inheritance / Succession",
-		desc: "Direct landowners or legal heirs of land situated within the Silicon City project boundary can apply for official membership following the company's prescribed rules.",
-		tag: "Inheritance",
-	},
-	{
-		num: "02",
-		title: "By Direct Purchase from Company",
-		desc: "Clients who have purchased plots or land directly from Silicon Real Estate (Pvt.) Ltd. can apply for membership to complete their plot allocation and handover.",
-		tag: "Direct Allotment",
-	},
-	{
-		num: "03",
-		title: "By Purchase from Other Sources",
-		desc: "Individuals who have purchased land inside the project boundary from third-party owners can also apply for membership under established guidelines to integrate into the township.",
-		tag: "Third-Party Transfer",
-	},
-];
+import { useMembershipContent } from "@/hooks/useMembershipContent";
 
 const TERMS_AND_CONDITIONS = [
 	{
@@ -219,6 +199,7 @@ const TERMS_AND_CONDITIONS = [
 ];
 
 export default function MembershipPage() {
+	const { membershipData } = useMembershipContent();
 	const [activeClauseIdx, setActiveClauseIdx] = useState(0);
 
 	useEffect(() => {
@@ -228,7 +209,7 @@ export default function MembershipPage() {
 
 	return (
 		<div className="bg-background text-foreground min-h-screen pb-24 overflow-x-hidden">
-			{/* ── 1. CLEAN ARCHITECTURAL HERO HEADER (NO GAP UNDER NAVBAR) ── */}
+			{/* ── 1. CLEAN ARCHITECTURAL HERO HEADER ── */}
 			<section className="relative pt-28 pb-20 sm:pb-24 bg-dark-hero text-white overflow-hidden">
 				{/* Subtle Dot Grid */}
 				<div
@@ -240,7 +221,7 @@ export default function MembershipPage() {
 				/>
 
 				<SectionContainer className="relative z-10">
-					<div className="max-w-3xl space-y-4">
+					<div className="max-w-3xl space-y-4 text-left">
 						{/* Breadcrumbs */}
 						<div className="flex items-center gap-2 text-xs font-mono font-medium text-white/60">
 							<Link href="/" className="hover:text-accent transition-colors">
@@ -251,21 +232,16 @@ export default function MembershipPage() {
 						</div>
 
 						<h1 className="text-3xl sm:text-4xl md:text-5xl font-medium font-heading text-white tracking-tight leading-tight">
-							Silicon City{" "}
-							<span className="text-accent font-semibold">
-								Membership Guidelines
-							</span>
+							{membershipData.heroTitle}
 						</h1>
 
 						<p className="text-white/80 text-xs sm:text-sm md:text-base font-light leading-relaxed">
-							Review our official offline membership process, download the
-							printable application form, and understand the terms and
-							conditions required to secure your plot ownership in Silicon City.
+							{membershipData.heroDescription}
 						</p>
 
 						<div className="pt-2 flex flex-wrap items-center gap-4">
 							<a
-								href="/assets/silicon-membership-form.pdf"
+								href={membershipData.formPdfUrl}
 								download
 								className="group bg-primary text-primary-foreground h-12 px-7 rounded-xl font-medium font-heading text-xs sm:text-sm inline-flex items-center justify-center hover:bg-primary/90 transition-all border border-white/20 shadow-lg gap-2"
 							>
@@ -301,10 +277,10 @@ export default function MembershipPage() {
 					</div>
 
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-						{PATHWAYS.map((p) => (
+						{membershipData.pathways.map((p) => (
 							<div
 								key={p.num}
-								className="bg-card border border-border/60 rounded-3xl p-8 shadow-xs flex flex-col justify-between space-y-4 hover:border-primary/40 transition-all"
+								className="bg-card border border-border/60 rounded-3xl p-8 shadow-xs flex flex-col justify-between space-y-4 hover:border-primary/40 transition-all text-left"
 							>
 								<div className="space-y-3">
 									<div className="flex items-center justify-between">
@@ -328,7 +304,7 @@ export default function MembershipPage() {
 				</SectionContainer>
 			</section>
 
-			{/* ── 3. CORPORATE LEGAL CHARTER - EXACT 2-COLUMN SHOWCASE ARCHITECTURE (MATCHING USER SCREENSHOT) ── */}
+			{/* ── 3. CORPORATE LEGAL CHARTER ── */}
 			<section className="py-20 sm:py-24 bg-background border-b border-border/50 overflow-hidden">
 				<SectionContainer className="space-y-12">
 					<div className="max-w-3xl text-left space-y-2">
@@ -347,8 +323,8 @@ export default function MembershipPage() {
 
 					{/* 2-Column Vertical Tab Showcase Architecture */}
 					<div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-						{/* Left Column: Vertical Scrollable Interactive Clause Tabs */}
-						<div className="lg:col-span-5 max-h-[520px] overflow-y-auto pr-2 space-y-3 scrollbar-thin">
+						{/* Left Column: Vertical Scrollable Clause Tabs */}
+						<div className="lg:col-span-5 max-h-[520px] overflow-y-auto pr-2 space-y-3 scrollbar-thin text-left">
 							{TERMS_AND_CONDITIONS.map((clause, idx) => {
 								const isActive = activeClauseIdx === idx;
 								return (
@@ -384,7 +360,7 @@ export default function MembershipPage() {
 						</div>
 
 						{/* Right Column: Dynamic Clause Feature Showcase Panel */}
-						<div className="lg:col-span-7 bg-card border border-border/60 rounded-3xl p-8 sm:p-10 shadow-xs flex flex-col justify-between relative overflow-hidden space-y-6 min-h-[480px]">
+						<div className="lg:col-span-7 bg-card border border-border/60 rounded-3xl p-8 sm:p-10 shadow-xs flex flex-col justify-between relative overflow-hidden space-y-6 min-h-[480px] text-left">
 							<div
 								className="absolute inset-0 opacity-[0.03] pointer-events-none"
 								style={{
@@ -450,7 +426,7 @@ export default function MembershipPage() {
 									{/* Primary Action Button */}
 									<div className="pt-4 border-t border-border/40">
 										<a
-											href="/assets/silicon-membership-form.pdf"
+											href={membershipData.formPdfUrl}
 											download
 											className="group bg-primary text-primary-foreground h-12 px-7 rounded-xl font-medium font-heading text-xs sm:text-sm inline-flex items-center justify-center hover:bg-primary/90 transition-all border border-white/10 shadow-md gap-2"
 										>
@@ -477,11 +453,15 @@ export default function MembershipPage() {
 						</h2>
 						<p className="text-muted-foreground text-xs sm:text-sm md:text-base font-light leading-relaxed">
 							Preview of required application fields inside the official
-							printable PDF document.
+							printable PDF document. Application fee:{" "}
+							<strong className="text-primary font-semibold">
+								{membershipData.applicationFee}
+							</strong>
+							.
 						</p>
 					</div>
 
-					<div className="bg-card border border-border/60 rounded-3xl p-8 sm:p-12 shadow-sm space-y-8 max-w-4xl mx-auto">
+					<div className="bg-card border border-border/60 rounded-3xl p-8 sm:p-12 shadow-sm space-y-8 max-w-4xl mx-auto text-left">
 						<div className="border-b border-border/50 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 							<div>
 								<span className="text-xs font-mono font-medium text-primary uppercase tracking-wider block">
@@ -567,7 +547,7 @@ export default function MembershipPage() {
 			{/* ── 5. OFFLINE PROCESS NOTICE & DOWNLOAD BANNER ── */}
 			<section className="py-20 sm:py-24 bg-background">
 				<SectionContainer>
-					<div className="bg-dark-hero rounded-3xl p-8 sm:p-12 text-white shadow-xl space-y-8 relative overflow-hidden border border-white/15">
+					<div className="bg-dark-hero rounded-3xl p-8 sm:p-12 text-white shadow-xl space-y-8 relative overflow-hidden border border-white/15 text-left">
 						<div
 							className="absolute inset-0 opacity-[0.08] pointer-events-none"
 							style={{
@@ -585,15 +565,13 @@ export default function MembershipPage() {
 									Download Official Membership Form
 								</h2>
 								<p className="text-white/80 text-xs sm:text-sm font-light leading-relaxed max-w-xl">
-									Download the printable PDF application form, attach your NID
-									copies and photographs, and submit it at our Mohammadpur
-									Corporate Office with the BDT 1,000 application fee.
+									{membershipData.offlineNoticeText}
 								</p>
 							</div>
 
 							<div className="lg:col-span-4 flex flex-wrap items-center justify-start lg:justify-end gap-3">
 								<a
-									href="/assets/silicon-membership-form.pdf"
+									href={membershipData.formPdfUrl}
 									download
 									className="group bg-primary text-primary-foreground h-12 px-6 rounded-xl font-medium text-xs sm:text-sm font-heading inline-flex items-center justify-center hover:bg-primary/90 transition-all border border-white/10 shadow-md gap-2"
 								>
@@ -613,7 +591,7 @@ export default function MembershipPage() {
 						<div className="relative z-10 pt-4 text-xs text-white/70 font-heading">
 							Hotlines:{" "}
 							<span className="text-accent font-semibold">
-								+880 12 345 678 / +880 1712 345 678
+								{membershipData.contactHotline}
 							</span>{" "}
 							| Corporate Office: 2/3 (2nd Floor), Block # A, Iqbal Road,
 							Mohammadpur, Dhaka-1207
