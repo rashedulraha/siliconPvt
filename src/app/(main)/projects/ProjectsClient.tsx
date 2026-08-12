@@ -16,6 +16,7 @@ import {
 	Search,
 	X,
 } from "lucide-react";
+import { useProjects } from "@/hooks/useProjects";
 
 type StatusFilter = "all" | Property["status"];
 type CategoryFilter = "all" | Property["category"];
@@ -42,76 +43,9 @@ const STATUS_LABELS: Record<Property["status"], string> = {
 	rented: "Rented",
 };
 
-// 4 Portfolio Projects for Interactive Tabbed Showcase
-const PORTFOLIO_PROJECTS = [
-	{
-		id: "proj-1",
-		num: "01",
-		title: "Silicon City (Phase 1 & 2)",
-		type: "Ongoing Flagship Township",
-		status: "Ongoing",
-		location: "Bara Badeshi Mouza, Savar, Dhaka (Mohammadpur Adjacent)",
-		desc: "High-value residential township along the scenic Turag River with ready civic infrastructure, 30ft & 40ft wide internal roads, grand central mosque, and community parks.",
-		highlights: [
-			"30ft & 40ft Wide Roads",
-			"Turag River Bridge Link",
-			"16–18ft Soil Earthwork",
-			"100% Legal Ownership",
-		],
-		link: "/properties?search=Silicon+City",
-	},
-	{
-		id: "proj-2",
-		num: "02",
-		title: "Silicon Heights",
-		type: "Upcoming Eco-Friendly Apartments",
-		status: "Upcoming",
-		location: "Mohammadpur Waterfront Zone, Dhaka",
-		desc: "Premium eco-friendly ready apartment buildings featuring modern security systems, high-speed elevators, backup power, and scenic river-facing balconies.",
-		highlights: [
-			"Eco-Friendly Architecture",
-			"River-Facing Balconies",
-			"24/7 Elevator & Security",
-			"Modern Community Amenities",
-		],
-		link: "/properties?category=apartment",
-	},
-	{
-		id: "proj-3",
-		num: "03",
-		title: "Silicon Commercial Center",
-		type: "Upcoming Business Complex",
-		status: "Upcoming",
-		location: "Mohammadpur Beribadh Main Road, Dhaka",
-		desc: "Dedicated business complex featuring retail shops, diagnostic centers, corporate office floors, and commercial banking outlets for high ROI investments.",
-		highlights: [
-			"Corporate Banking Outlets",
-			"Retail Shopping Hub",
-			"Diagnostic & Healthcare Floors",
-			"High Commercial Footfall",
-		],
-		link: "/properties?category=commercial",
-	},
-	{
-		id: "proj-4",
-		num: "04",
-		title: "Silicon Green Valley",
-		type: "Completed Residential Block",
-		status: "Completed",
-		location: "Mohammadpur Extension Zone, Dhaka",
-		desc: "Completely developed and successfully handed over residential block, with 100% plot boundary demarcations, electricity connections, and deed registrations completed.",
-		highlights: [
-			"100% Handed Over",
-			"Deed Registrations Done",
-			"Boundary Demarcated",
-			"Ready Utility Grid",
-		],
-		link: "/properties?status=sold",
-	},
-];
-
 export function ProjectsClient() {
 	const { state } = useCMS();
+	const { projects: portfolioProjects } = useProjects();
 
 	// Inventory Filters State
 	const [searchQuery, setSearchQuery] = useState("");
@@ -404,12 +338,12 @@ export function ProjectsClient() {
 					{/* 2-Column Showcase Grid */}
 					<div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
 						{/* Left Column: Interactive Vertical Project Tabs */}
-						<div className="lg:col-span-5 space-y-3">
-							{PORTFOLIO_PROJECTS.map((proj, idx) => {
+						<div className="lg:col-span-5 space-y-3 text-left">
+							{portfolioProjects.map((proj, idx) => {
 								const isActive = activePortfolioTab === idx;
 								return (
 									<div
-										key={proj.id}
+										key={proj.id || idx}
 										onClick={() => setActivePortfolioTab(idx)}
 										className={`p-4 sm:p-5 rounded-2xl border transition-all duration-300 cursor-pointer ${
 											isActive
@@ -420,7 +354,7 @@ export function ProjectsClient() {
 										<div className="flex items-center justify-between">
 											<div className="flex items-center gap-3">
 												<span className="text-xs font-mono font-medium text-primary">
-													{proj.num}
+													{proj.num || `0${idx + 1}`}
 												</span>
 												<h3 className="text-sm sm:text-base font-semibold font-heading text-foreground">
 													{proj.title}
@@ -440,87 +374,91 @@ export function ProjectsClient() {
 						</div>
 
 						{/* Right Column: Dynamic Project Feature Showcase Panel */}
-						<div className="lg:col-span-7 bg-card border border-border/60 rounded-3xl p-8 sm:p-10 shadow-sm flex flex-col justify-between relative overflow-hidden space-y-6">
-							<div
-								className="absolute inset-0 opacity-[0.03] pointer-events-none"
-								style={{
-									backgroundImage: `radial-gradient(rgba(26, 95, 168, 0.8) 1px, transparent 1px)`,
-									backgroundSize: "24px 24px",
-								}}
-							/>
+						{portfolioProjects[activePortfolioTab] && (
+							<div className="lg:col-span-7 bg-card border border-border/60 rounded-3xl p-8 sm:p-10 shadow-sm flex flex-col justify-between relative overflow-hidden space-y-6 text-left">
+								<div
+									className="absolute inset-0 opacity-[0.03] pointer-events-none"
+									style={{
+										backgroundImage: `radial-gradient(rgba(26, 95, 168, 0.8) 1px, transparent 1px)`,
+										backgroundSize: "24px 24px",
+									}}
+								/>
 
-							<AnimatePresence mode="wait">
-								<motion.div
-									key={activePortfolioTab}
-									initial={{ opacity: 0, y: 12 }}
-									animate={{ opacity: 1, y: 0 }}
-									exit={{ opacity: 0, y: -12 }}
-									transition={{ duration: 0.35, ease: "easeOut" }}
-									className="space-y-6 relative z-10"
-								>
-									{/* Top Header Row */}
-									<div className="flex items-center justify-between border-b border-border/40 pb-4">
-										<span className="text-xs font-mono font-medium text-primary uppercase tracking-widest">
-											PROJECT 0{activePortfolioTab + 1} OF 04
-										</span>
-										<span className="text-xs font-medium font-heading text-accent">
-											Silicon Portfolio Verified
-										</span>
-									</div>
-
-									{/* Title & Description */}
-									<div className="space-y-3">
-										<div className="flex flex-wrap items-center gap-2">
-											<span className="px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium font-heading text-primary">
-												{PORTFOLIO_PROJECTS[activePortfolioTab].status}
+								<AnimatePresence mode="wait">
+									<motion.div
+										key={activePortfolioTab}
+										initial={{ opacity: 0, y: 12 }}
+										animate={{ opacity: 1, y: 0 }}
+										exit={{ opacity: 0, y: -12 }}
+										transition={{ duration: 0.35, ease: "easeOut" }}
+										className="space-y-6 relative z-10"
+									>
+										{/* Top Header Row */}
+										<div className="flex items-center justify-between border-b border-border/40 pb-4">
+											<span className="text-xs font-mono font-medium text-primary uppercase tracking-widest">
+												PROJECT {portfolioProjects[activePortfolioTab].num || `0${activePortfolioTab + 1}`} OF 0{portfolioProjects.length}
 											</span>
-											<span className="text-xs text-muted-foreground font-medium">
-												Location:{" "}
-												{PORTFOLIO_PROJECTS[activePortfolioTab].location}
+											<span className="text-xs font-medium font-heading text-accent">
+												Silicon Portfolio Verified
 											</span>
 										</div>
 
-										<h3 className="text-2xl sm:text-3xl font-semibold font-heading text-foreground">
-											{PORTFOLIO_PROJECTS[activePortfolioTab].title}
-										</h3>
-										<p className="text-muted-foreground text-xs sm:text-sm md:text-base font-light leading-relaxed">
-											{PORTFOLIO_PROJECTS[activePortfolioTab].desc}
-										</p>
-									</div>
+										{/* Title & Description */}
+										<div className="space-y-3">
+											<div className="flex flex-wrap items-center gap-2">
+												<span className="px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium font-heading text-primary">
+													{portfolioProjects[activePortfolioTab].status}
+												</span>
+												<span className="text-xs text-muted-foreground font-medium">
+													Location:{" "}
+													{portfolioProjects[activePortfolioTab].location}
+												</span>
+											</div>
 
-									{/* Key Highlights & Specifications Badges */}
-									<div className="space-y-2 pt-2">
-										<span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground font-heading block">
-											KEY HIGHLIGHTS & SPECIFICATIONS:
-										</span>
-										<div className="flex flex-wrap gap-2">
-											{PORTFOLIO_PROJECTS[activePortfolioTab].highlights.map(
-												(tag) => (
-													<span
-														key={tag}
-														className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium font-heading text-primary"
-													>
-														<CheckCircle2 className="w-3.5 h-3.5 text-primary" />
-														{tag}
-													</span>
-												),
-											)}
+											<h3 className="text-2xl sm:text-3xl font-semibold font-heading text-foreground">
+												{portfolioProjects[activePortfolioTab].title}
+											</h3>
+											<p className="text-muted-foreground text-xs sm:text-sm md:text-base font-light leading-relaxed">
+												{portfolioProjects[activePortfolioTab].description}
+											</p>
 										</div>
-									</div>
 
-									{/* Action Button */}
-									<div className="pt-4 border-t border-border/40">
-										<Link
-											href={PORTFOLIO_PROJECTS[activePortfolioTab].link}
-											className="group bg-primary text-primary-foreground h-11 px-6 rounded-xl font-medium font-heading text-xs sm:text-sm inline-flex items-center justify-center hover:bg-primary/90 transition-all border border-white/10 shadow-xs gap-2"
-										>
-											EXPLORE PROJECT DETAILS
-											<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-										</Link>
-									</div>
-								</motion.div>
-							</AnimatePresence>
-						</div>
+										{/* Key Highlights & Specifications Badges */}
+										{portfolioProjects[activePortfolioTab].highlights && portfolioProjects[activePortfolioTab].highlights.length > 0 && (
+											<div className="space-y-2 pt-2">
+												<span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground font-heading block">
+													KEY HIGHLIGHTS & SPECIFICATIONS:
+												</span>
+												<div className="flex flex-wrap gap-2">
+													{portfolioProjects[activePortfolioTab].highlights.map(
+														(tag) => (
+															<span
+																key={tag}
+																className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium font-heading text-primary"
+															>
+																<CheckCircle2 className="w-3.5 h-3.5 text-primary" />
+																{tag}
+															</span>
+														),
+													)}
+												</div>
+											</div>
+										)}
+
+										{/* Action Button */}
+										<div className="pt-4 border-t border-border/40">
+											<Link
+												href={portfolioProjects[activePortfolioTab].demoUrl || "/properties"}
+												className="group bg-primary text-primary-foreground h-11 px-6 rounded-xl font-medium font-heading text-xs sm:text-sm inline-flex items-center justify-center hover:bg-primary/90 transition-all border border-white/10 shadow-xs gap-2"
+											>
+												EXPLORE PROJECT DETAILS
+												<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+											</Link>
+										</div>
+									</motion.div>
+								</AnimatePresence>
+							</div>
+						)}
 					</div>
 				</SectionContainer>
 			</section>
