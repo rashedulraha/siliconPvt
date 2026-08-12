@@ -5,7 +5,6 @@ import Link from "next/link";
 import {
 	ArrowLeft,
 	Save,
-	Building2,
 	Phone,
 	Mail,
 	MapPin,
@@ -13,48 +12,38 @@ import {
 	CheckCircle2,
 	Loader2,
 	Lock,
+	Globe,
+	MessageSquare,
+	ImageIcon,
+	Map,
+	Heading,
+	FileText,
 } from "lucide-react";
 import { SectionContainer } from "@/components/layout/SectionContainer";
-import { useCMS } from "@/context/CMSContext";
-import { apiFetch } from "@/lib/api-client";
 import { useAdminEditor } from "@/context/AdminEditorContext";
+import { useContactInfo, ContactInfoData } from "@/hooks/useContactInfo";
+import { EditorGuard } from "@/components/admin/EditorGuard";
 
 export default function SiteSettingsPage() {
 	const { isEditorUnlocked, unlockEditorMode } = useAdminEditor();
-	const { state, dispatch } = useCMS();
-	const [address, setAddress] = useState(
-		"Level 12, Silicon Tower, Mohammadpur Beribadh Link Road, Dhaka 1207",
-	);
-	const [phone, setPhone] = useState("+880 1711-000000");
-	const [hotline, setHotline] = useState("16222");
-	const [email, setEmail] = useState("info@siliconrealestatepvtltd.com");
-	const [weekend, setWeekend] = useState(
-		"Open Saturday to Thursday (Friday Closed)",
-	);
-	const [loading, setLoading] = useState(true);
+	const { contactInfo, loading, updateContactInfo } = useContactInfo();
+
+	const [formData, setFormData] = useState<ContactInfoData>(contactInfo);
 	const [saving, setSaving] = useState(false);
 	const [savedMessage, setSavedMessage] = useState("");
 
 	useEffect(() => {
-		async function loadSettings() {
-			try {
-				const res = await apiFetch<{ success: boolean; settings?: any }>(
-					"/settings",
-				);
-				if (res && res.success && res.settings) {
-					setAddress(res.settings.address || address);
-					setPhone(res.settings.phone || phone);
-					setHotline(res.settings.hotline || hotline);
-					setEmail(res.settings.email || email);
-				}
-			} catch (e) {
-				console.error("Failed to load settings", e);
-			} finally {
-				setLoading(false);
-			}
+		if (contactInfo) {
+			setFormData(contactInfo);
 		}
-		loadSettings();
-	}, []);
+	}, [contactInfo]);
+
+	const handleChange = (
+		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+	) => {
+		const { name, value } = e.target;
+		setFormData((prev) => ({ ...prev, [name]: value }));
+	};
 
 	const handleSave = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -64,30 +53,11 @@ export default function SiteSettingsPage() {
 		}
 		setSaving(true);
 		try {
-			await apiFetch("/settings", {
-				method: "POST",
-				body: JSON.stringify({
-					address,
-					phone,
-					hotline,
-					email,
-				}),
-			});
-
-			dispatch({
-				type: "UPDATE_SITE_SETTINGS",
-				payload: {
-					address,
-					contactPhone: phone,
-					contactEmail: email,
-					businessHours: weekend,
-				},
-			});
-
-			setSavedMessage("Site settings saved to PostgreSQL database!");
-			setTimeout(() => setSavedMessage(""), 3000);
+			await updateContactInfo(formData);
+			setSavedMessage("Contact information and site settings saved successfully!");
+			setTimeout(() => setSavedMessage(""), 3500);
 		} catch (e) {
-			console.error("Failed to update site settings", e);
+			console.error("Failed to update contact settings", e);
 		} finally {
 			setSaving(false);
 		}
@@ -108,7 +78,7 @@ export default function SiteSettingsPage() {
 						</Link>
 						<button
 							onClick={handleSave}
-							disabled={saving || !isEditorUnlocked}
+							disabled={saving}
 							className="px-4 h-9 rounded-xl bg-primary text-primary-foreground text-xs font-medium font-heading inline-flex items-center gap-1.5 transition-all shadow-none hover:bg-primary/90 cursor-pointer disabled:opacity-50"
 						>
 							{saving ? (
@@ -118,22 +88,21 @@ export default function SiteSettingsPage() {
 							) : (
 								<Save className="w-3.5 h-3.5" />
 							)}
-							{isEditorUnlocked ? "Save Site Settings" : "Unlock to Save"}
+							{isEditorUnlocked ? "Save Contact Settings" : "Unlock to Save"}
 						</button>
 					</div>
 				</SectionContainer>
 			</div>
 
 			<SectionContainer className="py-10">
-				<div className="max-w-3xl mx-auto space-y-8">
+				<div className="max-w-4xl mx-auto space-y-8">
 					{/* Lock Notice Banner */}
 					{!isEditorUnlocked && (
 						<div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-500 text-xs font-medium flex items-center justify-between gap-4">
 							<div className="flex items-center gap-2">
 								<Lock className="w-4 h-4 shrink-0" />
 								<span>
-									<strong>Read-Only Mode Active:</strong> Settings are read-only
-									until Editor Mode is unlocked.
+									<strong>Read-Only Mode Active:</strong> Contact settings are in view-only mode until Editor Mode is unlocked.
 								</span>
 							</div>
 							<button
@@ -147,14 +116,13 @@ export default function SiteSettingsPage() {
 
 					<div className="space-y-1 text-left">
 						<span className="text-xs font-semibold uppercase tracking-widest text-primary font-heading">
-							LIVE DATABASE CONTROL
+							DYNAMIC CONTACT & SITE CONTROL
 						</span>
 						<h1 className="text-3xl font-semibold font-heading text-foreground tracking-tight">
-							Site Content & Corporate Settings
+							Contact Page & Corporate Settings
 						</h1>
 						<p className="text-xs sm:text-sm text-muted-foreground font-light">
-							Edit corporate office address, contact hotline numbers, official
-							email, and office schedule.
+							Manage hero titles, corporate office address, contact numbers, email addresses, business hours, and map locations.
 						</p>
 					</div>
 
@@ -168,98 +136,215 @@ export default function SiteSettingsPage() {
 					{loading ? (
 						<div className="p-12 text-center text-muted-foreground text-sm flex items-center justify-center gap-2">
 							<Loader2 className="w-5 h-5 animate-spin text-primary" />
-							<span>Loading settings from database...</span>
+							<span>Loading contact settings from database...</span>
 						</div>
 					) : (
 						<form
 							onSubmit={handleSave}
-							className="bg-card border border-border/80 rounded-3xl p-8 shadow-none space-y-6"
+							className="bg-card border border-border/80 rounded-3xl p-6 sm:p-8 shadow-none space-y-8"
 						>
-							{/* Corporate Address */}
-							<div className="space-y-1.5 text-left">
-								<label className="text-xs font-medium font-heading text-foreground flex items-center gap-2">
-									<MapPin className="w-3.5 h-3.5 text-primary" />
-									Corporate Office Address
-								</label>
-								<textarea
-									rows={2}
-									disabled={!isEditorUnlocked}
-									value={address}
-									onChange={(e) => setAddress(e.target.value)}
-									className="w-full p-3 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
-								/>
-							</div>
+							{/* Section 1: Hero & Header Content */}
+							<div className="space-y-4 border-b border-border/60 pb-6">
+								<h3 className="text-sm font-semibold font-heading text-foreground uppercase tracking-wider flex items-center gap-2">
+									<Heading className="w-4 h-4 text-primary" /> 1. Contact Page Hero Banner
+								</h3>
 
-							{/* Contact Phones */}
-							<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-								<div className="space-y-1.5 text-left">
-									<label className="text-xs font-medium font-heading text-foreground flex items-center gap-2">
-										<Phone className="w-3.5 h-3.5 text-primary" />
-										Contact Hotline Number
-									</label>
-									<input
-										type="text"
-										disabled={!isEditorUnlocked}
-										value={phone}
-										onChange={(e) => setPhone(e.target.value)}
-										className="w-full h-11 px-3 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
-									/>
-								</div>
+								<div className="space-y-3">
+									<div className="space-y-1.5 text-left">
+										<label className="text-xs font-medium font-heading text-foreground">
+											Hero Page Title
+										</label>
+										<input
+											type="text"
+											name="heroTitle"
+											disabled={!isEditorUnlocked}
+											value={formData.heroTitle || ""}
+											onChange={handleChange}
+											className="w-full h-11 px-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
+										/>
+									</div>
 
-								<div className="space-y-1.5 text-left">
-									<label className="text-xs font-medium font-heading text-foreground flex items-center gap-2">
-										<Phone className="w-3.5 h-3.5 text-primary" />
-										Short Code Hotline
-									</label>
-									<input
-										type="text"
-										disabled={!isEditorUnlocked}
-										value={hotline}
-										onChange={(e) => setHotline(e.target.value)}
-										className="w-full h-11 px-3 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
-									/>
+									<div className="space-y-1.5 text-left">
+										<label className="text-xs font-medium font-heading text-foreground">
+											Hero Description
+										</label>
+										<textarea
+											rows={3}
+											name="heroDescription"
+											disabled={!isEditorUnlocked}
+											value={formData.heroDescription || ""}
+											onChange={handleChange}
+											className="w-full p-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
+										/>
+									</div>
 								</div>
 							</div>
 
-							{/* Official Email */}
-							<div className="space-y-1.5 text-left">
-								<label className="text-xs font-medium font-heading text-foreground flex items-center gap-2">
-									<Mail className="w-3.5 h-3.5 text-primary" />
-									Official Corporate Email
-								</label>
-								<input
-									type="email"
-									value={email}
-									onChange={(e) => setEmail(e.target.value)}
-									className="w-full h-11 px-3 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary"
-								/>
+							{/* Section 2: Contact Information */}
+							<div className="space-y-4 border-b border-border/60 pb-6">
+								<h3 className="text-sm font-semibold font-heading text-foreground uppercase tracking-wider flex items-center gap-2">
+									<Phone className="w-4 h-4 text-primary" /> 2. Corporate Contact Details
+								</h3>
+
+								<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+									<div className="space-y-1.5 text-left">
+										<label className="text-xs font-medium font-heading text-foreground flex items-center gap-1.5">
+											<Phone className="w-3.5 h-3.5 text-muted-foreground" /> Phone & Mobile Numbers
+										</label>
+										<input
+											type="text"
+											name="phone"
+											disabled={!isEditorUnlocked}
+											value={formData.phone || ""}
+											onChange={handleChange}
+											className="w-full h-11 px-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
+										/>
+									</div>
+
+									<div className="space-y-1.5 text-left">
+										<label className="text-xs font-medium font-heading text-foreground flex items-center gap-1.5">
+											<MessageSquare className="w-3.5 h-3.5 text-emerald-500" /> Official WhatsApp
+										</label>
+										<input
+											type="text"
+											name="whatsapp"
+											disabled={!isEditorUnlocked}
+											value={formData.whatsapp || ""}
+											onChange={handleChange}
+											className="w-full h-11 px-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
+										/>
+									</div>
+
+									<div className="space-y-1.5 text-left">
+										<label className="text-xs font-medium font-heading text-foreground flex items-center gap-1.5">
+											<Mail className="w-3.5 h-3.5 text-muted-foreground" /> Primary Email
+										</label>
+										<input
+											type="email"
+											name="email"
+											disabled={!isEditorUnlocked}
+											value={formData.email || ""}
+											onChange={handleChange}
+											className="w-full h-11 px-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
+										/>
+									</div>
+
+									<div className="space-y-1.5 text-left">
+										<label className="text-xs font-medium font-heading text-foreground flex items-center gap-1.5">
+											<Mail className="w-3.5 h-3.5 text-muted-foreground" /> Secondary Email
+										</label>
+										<input
+											type="email"
+											name="secondaryEmail"
+											disabled={!isEditorUnlocked}
+											value={formData.secondaryEmail || ""}
+											onChange={handleChange}
+											className="w-full h-11 px-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
+										/>
+									</div>
+
+									<div className="sm:col-span-2 space-y-1.5 text-left">
+										<label className="text-xs font-medium font-heading text-foreground flex items-center gap-1.5">
+											<MapPin className="w-3.5 h-3.5 text-muted-foreground" /> Corporate Office Address
+										</label>
+										<textarea
+											rows={2}
+											name="address"
+											disabled={!isEditorUnlocked}
+											value={formData.address || ""}
+											onChange={handleChange}
+											className="w-full p-3 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
+										/>
+									</div>
+								</div>
 							</div>
 
-							{/* Office Schedule */}
-							<div className="space-y-1.5 text-left">
-								<label className="text-xs font-medium font-heading text-foreground flex items-center gap-2">
-									<Clock className="w-3.5 h-3.5 text-primary" />
-									Weekly Office Hours & Closed Days
-								</label>
-								<input
-									type="text"
-									value={weekend}
-									onChange={(e) => setWeekend(e.target.value)}
-									className="w-full h-11 px-3 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary"
-								/>
+							{/* Section 3: Hours & Site Visit Notice */}
+							<div className="space-y-4 border-b border-border/60 pb-6">
+								<h3 className="text-sm font-semibold font-heading text-foreground uppercase tracking-wider flex items-center gap-2">
+									<Clock className="w-4 h-4 text-primary" /> 3. Schedule & Site Visit Info
+								</h3>
+
+								<div className="space-y-3">
+									<div className="space-y-1.5 text-left">
+										<label className="text-xs font-medium font-heading text-foreground">
+											Business Hours & Weekly Holidays
+										</label>
+										<input
+											type="text"
+											name="businessHours"
+											disabled={!isEditorUnlocked}
+											value={formData.businessHours || ""}
+											onChange={handleChange}
+											className="w-full h-11 px-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
+										/>
+									</div>
+
+									<div className="space-y-1.5 text-left">
+										<label className="text-xs font-medium font-heading text-foreground">
+											Site Guided Visit Notice Text
+										</label>
+										<textarea
+											rows={3}
+											name="siteVisitNotice"
+											disabled={!isEditorUnlocked}
+											value={formData.siteVisitNotice || ""}
+											onChange={handleChange}
+											className="w-full p-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
+										/>
+									</div>
+								</div>
+							</div>
+
+							{/* Section 4: Map & Media */}
+							<div className="space-y-4">
+								<h3 className="text-sm font-semibold font-heading text-foreground uppercase tracking-wider flex items-center gap-2">
+									<Map className="w-4 h-4 text-primary" /> 4. Location Map & Images
+								</h3>
+
+								<div className="space-y-3">
+									<div className="space-y-1.5 text-left">
+										<label className="text-xs font-medium font-heading text-foreground flex items-center gap-1.5">
+											<Map className="w-3.5 h-3.5 text-muted-foreground" /> Google Map Embed iframe URL
+										</label>
+										<input
+											type="text"
+											name="mapEmbedUrl"
+											disabled={!isEditorUnlocked}
+											value={formData.mapEmbedUrl || ""}
+											onChange={handleChange}
+											className="w-full h-11 px-3.5 rounded-xl bg-background border border-border/60 text-xs font-mono text-muted-foreground focus:outline-none focus:border-primary disabled:opacity-60"
+										/>
+									</div>
+
+									<div className="space-y-1.5 text-left">
+										<label className="text-xs font-medium font-heading text-foreground flex items-center gap-1.5">
+											<ImageIcon className="w-3.5 h-3.5 text-muted-foreground" /> Office Banner Image URL (Optional)
+										</label>
+										<input
+											type="text"
+											name="imageUrl"
+											disabled={!isEditorUnlocked}
+											value={formData.imageUrl || ""}
+											onChange={handleChange}
+											placeholder="https://..."
+											className="w-full h-11 px-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
+										/>
+									</div>
+								</div>
 							</div>
 
 							<button
 								type="submit"
 								disabled={saving}
-								className="w-full h-11 rounded-xl bg-primary text-primary-foreground font-medium font-heading text-xs sm:text-sm inline-flex items-center justify-center gap-2 hover:bg-primary/90 transition-all cursor-pointer"
+								className="w-full h-12 rounded-xl bg-primary text-primary-foreground font-medium font-heading text-xs sm:text-sm inline-flex items-center justify-center gap-2 hover:bg-primary/90 transition-all cursor-pointer shadow-md"
 							>
 								{saving ? (
 									<Loader2 className="w-4 h-4 animate-spin" />
 								) : (
 									<Save className="w-4 h-4" />
 								)}
-								SAVE SETTINGS TO DATABASE
+								SAVE CONTACT SETTINGS TO DATABASE
 							</button>
 						</form>
 					)}
