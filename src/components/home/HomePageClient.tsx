@@ -2,40 +2,29 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { HeroGlassCarousel } from "./glass/HeroGlassCarousel";
 import { MasterPlanAmenities } from "./glass/MasterPlanAmenities";
-import { CompanyValuesGrid } from "./glass/CompanyValuesGrid";
 import { ProjectGallerySection } from "./glass/ProjectGallerySection";
 import { CompanyNewsSection } from "./glass/CompanyNewsSection";
-import { IntroCoreValuesGlassGrid } from "./glass/IntroCoreValuesGlassGrid";
 import { SiliconCityShowcase } from "./glass/SiliconCityShowcase";
 import { LeadershipGlassBlocks } from "./glass/LeadershipGlassBlocks";
 import { OfflineMembershipGlassBanner } from "./glass/OfflineMembershipGlassBanner";
 import { SectionContainer } from "../layout/SectionContainer";
 import { useProperties } from "@/hooks/useProperties";
+import { useHomeContent } from "@/hooks/useHomeContent";
 import { formatCurrency } from "@/lib/utils";
 import {
-  Search,
   MapPin,
-  Building2,
   ArrowRight,
-  ShieldCheck,
-  CheckCircle2,
-  PhoneCall,
 } from "lucide-react";
 
 export function HomePageClient() {
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const { properties } = useProperties();
-
-  // Quick Filter Search State
-  const [location, setLocation] = useState("all");
-  const [type, setType] = useState("all");
-  const [priceRange, setPriceRange] = useState("all");
+  const { data: homeData } = useHomeContent();
 
   useEffect(() => {
     setMounted(true);
@@ -45,47 +34,9 @@ export function HomePageClient() {
     return <div className="min-h-screen bg-background" />;
   }
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    const queryParams = new URLSearchParams();
-    if (location !== "all") queryParams.set("location", location);
-    if (type !== "all") queryParams.set("type", type);
-    if (priceRange !== "all") queryParams.set("price", priceRange);
-    router.push(`/properties?${queryParams.toString()}`);
-  };
-
   const featuredPlots = properties.slice(0, 3);
-
-  const trustCounters = [
-    {
-      value: "10+",
-      label: "Years of Professional Experience & Ethics",
-      detail: "10+ Years Dedicated Service",
-    },
-    {
-      value: "1000+",
-      label: "Happy Clients Secured Future Address",
-      detail: "1,000+ Plot Allotments",
-    },
-    {
-      value: "15+",
-      label: "Completed & Ongoing Development Projects",
-      detail: "15+ Flagship Townships",
-    },
-    {
-      value: "100%",
-      label: "Legally Sound Deed Registries Completed",
-      detail: "100% Legal Ownership",
-    },
-  ];
-
-  const accreditations = [
-    "RAJUK Compliant Planning",
-    "REHAB Member Organization",
-    "ISO 9001:2015 Certified Management",
-    "Government Authorized Land Developer",
-    "100% Legal Ownership Clearance Certified",
-  ];
+  const trustCounters = homeData.trustCounters;
+  const accreditations = homeData.accreditations;
 
   return (
     <div className="bg-background text-foreground min-h-screen overflow-x-hidden flex flex-col">
@@ -95,23 +46,19 @@ export function HomePageClient() {
       {/* ── IMAGE 1 VISUAL SHOWCASE: MASTER PLAN & LIFESTYLE AMENITIES CARDS ── */}
       <MasterPlanAmenities />
 
-      {/* ── IMAGE 2 VISUAL SHOWCASE: COMPANY CORE VALUES GRID 
-			<CompanyValuesGrid />
-
-			{/* ── LIVE DATABASE FEATURED PLOTS & PROJECTS ── */}
+      {/* ── LIVE DATABASE FEATURED PLOTS & PROJECTS ── */}
       <section className="py-20 bg-background text-foreground relative">
         <SectionContainer className="space-y-12">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 text-left">
             <div className="space-y-2 max-w-2xl">
               <span className="inline-block px-3.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium uppercase tracking-widest text-primary font-heading">
-                FEATURED REAL ESTATE INVENTORY
+                {homeData.heroBadge}
               </span>
               <h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
-                Prime Registered Land & Property Listings
+                {homeData.heroTitle}
               </h2>
               <p className="text-xs sm:text-sm text-muted-foreground font-light">
-                Hand-picked, 100% legally verified residential & commercial
-                plots in Dhaka. Managed live via database.
+                {homeData.heroDesc}
               </p>
             </div>
             <Link
@@ -208,15 +155,14 @@ export function HomePageClient() {
               OUR TRACK RECORD
             </span>
             <h2 className="text-3xl sm:text-4xl font-semibold font-heading text-white tracking-tight">
-              Proven Trust & Excellence in Numbers
+              {homeData.trackRecordTitle}
             </h2>
             <p className="text-white/70 text-xs sm:text-sm font-light leading-relaxed">
-              Over a decade of ethical land development, legally verified
-              ownership, and planned community building.
+              {homeData.trackRecordDesc}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
             {trustCounters.map((s, idx) => (
               <motion.div
                 key={s.label}
