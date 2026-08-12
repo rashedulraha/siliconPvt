@@ -15,8 +15,10 @@ import {
 } from "lucide-react";
 import { SectionContainer } from "@/components/layout/SectionContainer";
 import { PageSEO } from "@/components/seo/PageSEO";
+import { useContactInfo } from "@/hooks/useContactInfo";
 
 export default function ContactPage() {
+	const { contactInfo } = useContactInfo();
 	const [fullName, setFullName] = useState("");
 	const [phone, setPhone] = useState("");
 	const [email, setEmail] = useState("");
@@ -42,7 +44,7 @@ export default function ContactPage() {
 		<div className="bg-background text-foreground min-h-screen pb-24 overflow-x-hidden">
 			<PageSEO
 				title="Contact Us | Silicon Real Estate (Pvt.) Ltd."
-				description="Get in touch with our corporate help desk in Mohammadpur, Dhaka to schedule a physical site visit or discuss membership guidelines for Silicon City."
+				description={contactInfo.heroDescription}
 			/>
 
 			{/* ── BLOCK 1: PAGE HEADER (DARK HERO WITHOUT GRADIENT/SHADOW) ── */}
@@ -68,15 +70,11 @@ export default function ContactPage() {
 						</div>
 
 						<h1 className="text-3xl sm:text-4xl md:text-5xl font-medium font-heading text-white tracking-tight leading-tight">
-							Get in Touch{" "}
-							<span className="text-accent font-semibold">with Us</span>
+							{contactInfo.heroTitle}
 						</h1>
 
 						<p className="text-white/80 text-xs sm:text-sm md:text-base font-light leading-relaxed">
-							Have questions about our residential plots in Silicon City? Want
-							to schedule a physical site visit or discuss membership
-							guidelines? Reach out to our corporate help desk. We are here to
-							help you secure your dream address.
+							{contactInfo.heroDescription}
 						</p>
 					</div>
 				</SectionContainer>
@@ -86,7 +84,7 @@ export default function ContactPage() {
 			<section className="py-16 sm:py-20 bg-background">
 				<SectionContainer>
 					<div className="space-y-12 max-w-6xl mx-auto">
-						{/* ── ROW 1: BLOCK 2 & BLOCK 3 (FULL WIDTH CONTAINER: HEAD OFFICE INFO & BUSINESS HOURS) ── */}
+						{/* ── ROW 1: BLOCK 2 & BLOCK 3 (HEAD OFFICE INFO & BUSINESS HOURS) ── */}
 						<div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 							{/* BLOCK 2: Head Office Info (lg:col-span-7) */}
 							<div className="lg:col-span-7 bg-card border border-border/70 rounded-3xl p-8 sm:p-10 space-y-6 text-left">
@@ -107,10 +105,7 @@ export default function ContactPage() {
 											<span className="font-semibold text-foreground font-heading block">
 												Corporate Address:
 											</span>
-											<span>
-												2/3 (2nd Floor), Block # A, Iqbal Road, Mohammadpur,
-												Dhaka-1207, Bangladesh
-											</span>
+											<span>{contactInfo.address}</span>
 										</div>
 									</div>
 
@@ -121,25 +116,27 @@ export default function ContactPage() {
 											<span className="font-semibold text-foreground font-heading block">
 												Phone & Mobile Numbers:
 											</span>
-											<span>+880 12 345 678, +880 1234 567 890</span>
+											<span>{contactInfo.phone}</span>
 										</div>
 									</div>
 
 									{/* WhatsApp */}
-									<div className="flex items-start gap-3.5 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300">
-										<MessageSquare className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-										<div>
-											<span className="font-semibold font-heading block">
-												Official WhatsApp:
-											</span>
-											<span>
-												+880 12 345 678{" "}
-												<span className="font-normal">
-													(Message us instantly for quick support)
+									{contactInfo.whatsapp && (
+										<div className="flex items-start gap-3.5 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300">
+											<MessageSquare className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+											<div>
+												<span className="font-semibold font-heading block">
+													Official WhatsApp:
 												</span>
-											</span>
+												<span>
+													{contactInfo.whatsapp}{" "}
+													<span className="font-normal">
+														(Message us instantly for quick support)
+													</span>
+												</span>
+											</div>
 										</div>
-									</div>
+									)}
 
 									{/* Emails & Website Grid */}
 									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -149,12 +146,14 @@ export default function ContactPage() {
 												<span className="font-semibold text-foreground font-heading block">
 													Official Emails:
 												</span>
-												<span className="block truncate">
-													info@siliconrealestatepvtltd.com
+												<span className="block truncate font-medium text-foreground">
+													{contactInfo.email}
 												</span>
-												<span className="block truncate text-muted-foreground/80">
-													siliconrealestate@gmail.com
-												</span>
+												{contactInfo.secondaryEmail && (
+													<span className="block truncate text-muted-foreground/80">
+														{contactInfo.secondaryEmail}
+													</span>
+												)}
 											</div>
 										</div>
 
@@ -165,7 +164,7 @@ export default function ContactPage() {
 													Official Website:
 												</span>
 												<span className="text-primary font-medium">
-													siliconrealestatepvtltd.com
+													{contactInfo.website}
 												</span>
 											</div>
 										</div>
@@ -185,36 +184,25 @@ export default function ContactPage() {
 										</h2>
 									</div>
 
-									<div className="space-y-2 text-xs sm:text-sm font-light">
-										{[
-											{ day: "Saturday", time: "9:00 AM – 5:00 PM" },
-											{ day: "Sunday", time: "9:00 AM – 5:00 PM" },
-											{ day: "Monday", time: "9:00 AM – 5:00 PM" },
-											{ day: "Tuesday", time: "9:00 AM – 5:00 PM" },
-											{ day: "Wednesday", time: "9:00 AM – 5:00 PM" },
-											{ day: "Thursday", time: "9:00 AM – 5:00 PM" },
-										].map((item) => (
-											<div
-												key={item.day}
-												className="flex items-center justify-between p-2.5 rounded-xl bg-muted/30 border border-border/30"
-											>
-												<span className="font-medium font-heading text-foreground">
-													{item.day}
-												</span>
-												<span className="font-mono text-muted-foreground">
-													{item.time}
-												</span>
-											</div>
-										))}
-
-										<div className="flex items-center justify-between p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400">
-											<span className="font-medium font-heading">Friday</span>
-											<span className="font-mono font-semibold">
-												Closed (Weekly Holiday)
-											</span>
+									<div className="p-4 rounded-2xl bg-muted/30 border border-border/40 text-xs sm:text-sm font-light text-foreground space-y-2">
+										<div className="flex items-center gap-2 font-semibold font-heading text-primary">
+											<Clock className="w-4 h-4" /> Schedule
 										</div>
+										<p className="leading-relaxed font-mono">
+											{contactInfo.businessHours}
+										</p>
 									</div>
 								</div>
+
+								{contactInfo.imageUrl && (
+									<div className="rounded-2xl overflow-hidden border border-border/60 max-h-48">
+										<img
+											src={contactInfo.imageUrl}
+											alt="Corporate Office"
+											className="w-full h-full object-cover"
+										/>
+									</div>
+								)}
 
 								<div className="p-4 rounded-2xl bg-primary/10 border border-primary/20 text-xs font-light text-primary leading-relaxed">
 									<strong>Note:</strong> For inquiries outside official business
@@ -224,7 +212,7 @@ export default function ContactPage() {
 							</div>
 						</div>
 
-						{/* ── ROW 2: SIDE-BY-SIDE (PASHA PASHI) — BLOCK 4 (CONTACT FORM) & BLOCK 5 (SITE VISIT NOTICE) ── */}
+						{/* ── ROW 2: SIDE-BY-SIDE — BLOCK 4 (CONTACT FORM) & BLOCK 5 (SITE VISIT NOTICE) ── */}
 						<div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
 							{/* BLOCK 4: Contact Form (lg:col-span-7) */}
 							<div className="lg:col-span-7 bg-card border border-border/70 rounded-3xl p-8 sm:p-10 space-y-8 text-left">
@@ -338,7 +326,7 @@ export default function ContactPage() {
 
 									<button
 										type="submit"
-										className="w-full h-12 px-8 rounded-xl bg-primary text-primary-foreground font-medium font-heading text-xs sm:text-sm inline-flex items-center justify-center gap-2 hover:bg-primary/90 transition-all"
+										className="w-full h-12 px-8 rounded-xl bg-primary text-primary-foreground font-medium font-heading text-xs sm:text-sm inline-flex items-center justify-center gap-2 hover:bg-primary/90 transition-all cursor-pointer"
 									>
 										<Send className="w-4 h-4" />
 										SEND MESSAGE
@@ -346,7 +334,7 @@ export default function ContactPage() {
 								</form>
 							</div>
 
-							{/* BLOCK 5: Site Visit Notice (lg:col-span-5) Side-by-Side */}
+							{/* BLOCK 5: Site Visit Notice (lg:col-span-5) */}
 							<div className="lg:col-span-5 bg-dark-hero rounded-3xl p-8 sm:p-10 text-white space-y-6 border border-white/15 text-left flex flex-col justify-between">
 								<div className="space-y-4">
 									<div className="flex items-center gap-3 border-b border-white/10 pb-4">
@@ -364,48 +352,38 @@ export default function ContactPage() {
 									</div>
 
 									<div className="space-y-3 text-xs sm:text-sm text-white/80 font-light leading-relaxed">
-										<p>
-											"Silicon City" is strategically located in Bara Badeshi
-											Mouza, Savar, right next to the Turag River and adjacent
-											to Mohammadpur Beribadh.
-										</p>
-										<p>
-											We arrange physical site guided tours for our clients
-											directly from our Corporate Office in Mohammadpur.
-										</p>
+										<p>{contactInfo.siteVisitNotice}</p>
 									</div>
 								</div>
 
 								<div className="p-4 rounded-2xl bg-accent/15 border border-accent/30 text-xs font-light text-accent leading-relaxed">
 									<strong>How to Book:</strong> To book a guided vehicle tour,
-									please call our hotline or submit the contact form with the
-									subject "Schedule Site Visit" at least 24 hours in advance.
+									please call our hotline ({contactInfo.phone}) or submit the
+									contact form with the subject "Schedule Site Visit" at least 24
+									hours in advance.
 								</div>
 							</div>
 						</div>
 
-						{/* ── ROW 3: FULL WIDTH GOOGLE MAP EMBED & DIRECTIONS (FULL WIDTH JORE) ── */}
+						{/* ── ROW 3: FULL WIDTH GOOGLE MAP EMBED & DIRECTIONS ── */}
 						<div className="bg-card border border-border/70 rounded-3xl p-8 sm:p-10 space-y-6 text-left w-full">
 							<div className="space-y-1 border-b border-border/50 pb-4">
 								<span className="text-xs font-mono font-medium text-primary uppercase tracking-wider block">
 									BLOCK 6: LOCATION MAP & DIRECTIONS
 								</span>
 								<h2 className="text-xl sm:text-2xl font-semibold font-heading text-foreground">
-									Silicon Real Estate Corporate Office, Iqbal Road, Mohammadpur,
-									Dhaka.
+									Silicon Real Estate Corporate Office Location
 								</h2>
 								<p className="text-xs sm:text-sm text-muted-foreground font-light">
-									"Our corporate office is conveniently situated near the
-									historic Shia Mosque and Town Hall, making it easily
-									accessible from any part of Dhaka City."
+									{contactInfo.address}
 								</p>
 							</div>
 
-							{/* Full Width Embedded Google Map Placeholder Frame */}
+							{/* Embedded Google Map */}
 							<div className="relative w-full h-[400px] sm:h-[450px] rounded-2xl overflow-hidden border border-border/60 bg-muted">
 								<iframe
 									title="Silicon Real Estate Corporate Office Map Location"
-									src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.8973685412356!2d90.3621!3d23.7509!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755bf4f483c6d7d%3A0x6b4f74d6c6e18f2f!2sIqbal%20Rd%2C%20Dhaka%201207!5e0!3m2!1sen!2sbd!4v1700000000000!5m2!1sen!2sbd"
+									src={contactInfo.mapEmbedUrl}
 									width="100%"
 									height="100%"
 									style={{ border: 0 }}
