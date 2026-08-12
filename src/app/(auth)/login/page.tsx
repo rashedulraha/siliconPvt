@@ -18,7 +18,9 @@ import { apiFetch } from "@/lib/api-client";
 import { getAdminSession, setAdminSession } from "@/lib/admin-auth";
 
 function getAdminEmail(): string {
-	return process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? "info@siliconrealestatepvtltd.com";
+	return (
+		process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? "info@siliconrealestatepvtltd.com"
+	);
 }
 
 function getAdminPassword(): string {
@@ -114,7 +116,11 @@ export default function LoginPage() {
 				}
 			}
 
-			if (!authSuccess && email.trim() === expectedEmail && password === expectedPassword) {
+			if (
+				!authSuccess &&
+				email.trim() === expectedEmail &&
+				password === expectedPassword
+			) {
 				authSuccess = true;
 			}
 
@@ -129,7 +135,9 @@ export default function LoginPage() {
 				setError("Invalid email address or password. Please try again.");
 			}
 		} catch (err: any) {
-			setError(err.message || "Failed to authenticate. Please check your credentials.");
+			setError(
+				err.message || "Failed to authenticate. Please check your credentials.",
+			);
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -282,4 +290,3 @@ export default function LoginPage() {
 		</div>
 	);
 }
-
