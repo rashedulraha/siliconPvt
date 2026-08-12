@@ -9,96 +9,9 @@ import {
 	CheckCircle2,
 	Mail,
 	Phone,
-	ShieldCheck,
 } from "lucide-react";
 import { SectionContainer } from "@/components/layout/SectionContainer";
-
-const CORE_SERVICES = [
-	{
-		num: "01",
-		id: "residential-plots",
-		title: "Residential Plot Sales",
-		tag: "Primary Plot Allotments",
-		desc: "We offer legally verified, risk-free, and register-ready residential plots of various sizes. Every plot is selected with high consideration for premium communication layouts, eco-friendly zoning, and unmatched future asset appreciation.",
-		benefits: [
-			"100% risk-free land investment",
-			"Dispute-free ownership with instant registry readiness",
-			"Located in high-growth suburban zones next to central Dhaka",
-		],
-	},
-	{
-		num: "02",
-		id: "planned-projects",
-		title: "Planned Residential Projects",
-		tag: "Modern Housing Township",
-		desc: "We implement highly modern housing communities like 'Silicon City,' blending state-of-the-art urban architecture with natural serenity. Our township plans incorporate essential civil facilities to elevate the standards of living.",
-		benefits: [
-			"Grand Central Mosque and block-based mosques",
-			"Lush green playgrounds, parks, and dedicated Football and Cricket fields",
-			"Planned spaces for modern School, College, Hospital, and Local Markets",
-		],
-	},
-	{
-		num: "03",
-		id: "land-acquisition",
-		title: "Land Acquisition & Development",
-		tag: "Soil Earthwork & Elevation",
-		desc: "We handle strategic land scouting, absolute deed clearance, and professional land development. Our expert engineering team executes systematic soil filling to prepare solid elevated ground for permanent home construction.",
-		benefits: [
-			"Earth-filling up to a safe height of 16 to 18 feet",
-			"Developing wide internal roads of 30 feet and 40 feet within the blocks",
-			"Adhering strictly to structural safety guidelines and community development blueprints",
-		],
-	},
-	{
-		num: "04",
-		id: "legal-support",
-		title: "Legal Documentation & Registration",
-		tag: "Deed Vetting & Title Search",
-		desc: "Navigating property laws in Bangladesh can be challenging. Our specialized legal and documentation team provides full-scale assistance to verify deed history, ensure flawless title ownership, and complete hassle-free registration.",
-		benefits: [
-			"In-depth deed vetting and title search history clearance",
-			"Hassle-free registry and official mutation processing",
-			"Securing official clearance certificates (NOC) and legal safety",
-		],
-	},
-	{
-		num: "05",
-		id: "investment-consultancy",
-		title: "Real Estate Investment Consultancy",
-		tag: "High ROI Property Advisory",
-		desc: "We provide personalized property advisory services to match your exact budget, housing requirements, and long-term financial goals. Our expert insights ensure you buy property that guarantees maximum security and high return-on-investment (ROI).",
-		benefits: [
-			"Optimizing budget models for land buying",
-			"Guiding first-time land buyers through complex property regulations",
-			"Identifying high-ROI land segments within our projects",
-		],
-	},
-	{
-		num: "06",
-		id: "easy-installments",
-		title: "Easy Installment Facility",
-		tag: "Flexible Payment Schemes",
-		desc: "To make your dream address a reality, we offer flexible and hassle-free payment schemes. Our installment packages are designed carefully to ease your financial burden, allowing you to invest gradually without stress.",
-		benefits: [
-			"Low initial deposit/booking fees",
-			"Planned financial management with custom monthly or quarterly installments",
-			"No hidden charges, ensuring 100% transparency",
-		],
-	},
-	{
-		num: "07",
-		id: "post-sales-support",
-		title: "Dedicated Post-Sales Support",
-		tag: "Demarcation & Utility Setup",
-		desc: "Our commitment to you does not end at property booking. We provide continuous assistance throughout physical plot demarcation, boundary wall setups, and utility connection planning.",
-		benefits: [
-			"Physical demarcation of your plot boundaries on site",
-			"Coordination for shared boundary wall constructions",
-			"Sincere and rapid customer dispute resolution by a professional desk",
-		],
-	},
-];
+import { useServices } from "@/hooks/useServices";
 
 const SERVICE_FEATURES = [
 	{
@@ -124,15 +37,18 @@ const SERVICE_FEATURES = [
 ];
 
 export default function ServicesPage() {
+	const { services, loading } = useServices();
 	const [activeTab, setActiveTab] = useState(0);
 
 	useEffect(() => {
 		document.title = "Our Services | Silicon Real Estate (Pvt.) Ltd.";
 	}, []);
 
+	const currentService = services[activeTab] || services[0];
+
 	return (
 		<div className="bg-background text-foreground min-h-screen pb-24 overflow-x-hidden">
-			{/* ── 1. CLEAN ARCHITECTURAL HERO HEADER (NO GAP UNDER NAVBAR) ── */}
+			{/* ── 1. CLEAN ARCHITECTURAL HERO HEADER ── */}
 			<section className="relative pt-28 pb-20 sm:pb-24 bg-dark-hero text-white overflow-hidden">
 				{/* Subtle Dot Grid */}
 				<div
@@ -144,7 +60,7 @@ export default function ServicesPage() {
 				/>
 
 				<SectionContainer className="relative z-10">
-					<div className="max-w-3xl space-y-4">
+					<div className="max-w-3xl space-y-4 text-left">
 						{/* Breadcrumbs */}
 						<div className="flex items-center gap-2 text-xs font-mono font-medium text-white/60">
 							<Link href="/" className="hover:text-accent transition-colors">
@@ -193,19 +109,19 @@ export default function ServicesPage() {
 							Comprehensive Real Estate Services
 						</h2>
 						<p className="text-muted-foreground text-xs sm:text-sm md:text-base font-light leading-relaxed">
-							Click through our seven specialized service pillars to explore
+							Click through our specialized service pillars to explore
 							detailed benefits and features.
 						</p>
 					</div>
 
 					<div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
 						{/* Left Column: Interactive Vertical Service Tabs */}
-						<div className="lg:col-span-5 space-y-3">
-							{CORE_SERVICES.map((serv, idx) => {
+						<div className="lg:col-span-5 space-y-3 text-left">
+							{services.map((serv, idx) => {
 								const isActive = activeTab === idx;
 								return (
 									<div
-										key={serv.id}
+										key={serv.id || idx}
 										onClick={() => setActiveTab(idx)}
 										className={`p-4 sm:p-5 rounded-2xl border transition-all duration-300 cursor-pointer ${
 											isActive
@@ -216,7 +132,7 @@ export default function ServicesPage() {
 										<div className="flex items-center justify-between">
 											<div className="flex items-center gap-3">
 												<span className="text-xs font-mono font-medium text-primary">
-													{serv.num}
+													{serv.num || `0${idx + 1}`}
 												</span>
 												<h3 className="text-sm sm:text-base font-semibold font-heading text-foreground">
 													{serv.title}
@@ -236,81 +152,85 @@ export default function ServicesPage() {
 						</div>
 
 						{/* Right Column: Dynamic Service Feature Showcase Panel */}
-						<div className="lg:col-span-7 bg-card border border-border/60 rounded-3xl p-8 sm:p-10 shadow-xs flex flex-col justify-between relative overflow-hidden space-y-6">
-							<div
-								className="absolute inset-0 opacity-[0.03] pointer-events-none"
-								style={{
-									backgroundImage: `radial-gradient(rgba(26, 95, 168, 0.8) 1px, transparent 1px)`,
-									backgroundSize: "24px 24px",
-								}}
-							/>
+						{currentService && (
+							<div className="lg:col-span-7 bg-card border border-border/60 rounded-3xl p-8 sm:p-10 shadow-xs flex flex-col justify-between relative overflow-hidden space-y-6 text-left">
+								<div
+									className="absolute inset-0 opacity-[0.03] pointer-events-none"
+									style={{
+										backgroundImage: `radial-gradient(rgba(26, 95, 168, 0.8) 1px, transparent 1px)`,
+										backgroundSize: "24px 24px",
+									}}
+								/>
 
-							<AnimatePresence mode="wait">
-								<motion.div
-									key={activeTab}
-									initial={{ opacity: 0, y: 12 }}
-									animate={{ opacity: 1, y: 0 }}
-									exit={{ opacity: 0, y: -12 }}
-									transition={{ duration: 0.35, ease: "easeOut" }}
-									className="space-y-6 relative z-10"
-								>
-									{/* Header Row */}
-									<div className="flex items-center justify-between border-b border-border/40 pb-4">
-										<span className="text-xs font-mono font-medium text-primary uppercase tracking-widest">
-											SERVICE 0{activeTab + 1} OF 07
-										</span>
-										<span className="text-xs font-medium font-heading text-accent">
-											Silicon Standard Verified
-										</span>
-									</div>
-
-									{/* Title & Description */}
-									<div className="space-y-3">
-										<span className="inline-block px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium font-heading text-primary">
-											{CORE_SERVICES[activeTab].tag}
-										</span>
-
-										<h3 className="text-2xl sm:text-3xl font-semibold font-heading text-foreground">
-											{CORE_SERVICES[activeTab].title}
-										</h3>
-										<p className="text-muted-foreground text-xs sm:text-sm md:text-base font-light leading-relaxed">
-											{CORE_SERVICES[activeTab].desc}
-										</p>
-									</div>
-
-									{/* Key Benefits */}
-									<div className="space-y-3 pt-2">
-										<span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground font-heading block">
-											KEY HIGHLIGHTS & BENEFITS:
-										</span>
-										<div className="space-y-2">
-											{CORE_SERVICES[activeTab].benefits.map((b) => (
-												<div
-													key={b}
-													className="bg-muted/40 border border-border/40 rounded-2xl p-3.5 flex items-start gap-2.5"
-												>
-													<CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-													<span className="text-xs text-foreground font-light leading-relaxed">
-														{b}
-													</span>
-												</div>
-											))}
+								<AnimatePresence mode="wait">
+									<motion.div
+										key={activeTab}
+										initial={{ opacity: 0, y: 12 }}
+										animate={{ opacity: 1, y: 0 }}
+										exit={{ opacity: 0, y: -12 }}
+										transition={{ duration: 0.35, ease: "easeOut" }}
+										className="space-y-6 relative z-10"
+									>
+										{/* Header Row */}
+										<div className="flex items-center justify-between border-b border-border/40 pb-4">
+											<span className="text-xs font-mono font-medium text-primary uppercase tracking-widest">
+												SERVICE {currentService.num || `0${activeTab + 1}`} OF 0{services.length}
+											</span>
+											<span className="text-xs font-medium font-heading text-accent">
+												Silicon Standard Verified
+											</span>
 										</div>
-									</div>
 
-									{/* Action Button */}
-									<div className="pt-4 border-t border-border/40">
-										<Link
-											href="/contact"
-											className="group bg-primary text-primary-foreground h-11 px-6 rounded-xl font-medium font-heading text-xs sm:text-sm inline-flex items-center justify-center hover:bg-primary/90 transition-all border border-white/10 shadow-xs gap-2"
-										>
-											ENQUIRE ABOUT THIS SERVICE
-											<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-										</Link>
-									</div>
-								</motion.div>
-							</AnimatePresence>
-						</div>
+										{/* Title & Description */}
+										<div className="space-y-3">
+											<span className="inline-block px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium font-heading text-primary">
+												{currentService.tag}
+											</span>
+
+											<h3 className="text-2xl sm:text-3xl font-semibold font-heading text-foreground">
+												{currentService.title}
+											</h3>
+											<p className="text-muted-foreground text-xs sm:text-sm md:text-base font-light leading-relaxed">
+												{currentService.description}
+											</p>
+										</div>
+
+										{/* Key Benefits */}
+										{currentService.benefits && currentService.benefits.length > 0 && (
+											<div className="space-y-3 pt-2">
+												<span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground font-heading block">
+													KEY HIGHLIGHTS & BENEFITS:
+												</span>
+												<div className="space-y-2">
+													{currentService.benefits.map((b) => (
+														<div
+															key={b}
+															className="bg-muted/40 border border-border/40 rounded-2xl p-3.5 flex items-start gap-2.5"
+														>
+															<CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+															<span className="text-xs text-foreground font-light leading-relaxed">
+																{b}
+															</span>
+														</div>
+													))}
+												</div>
+											</div>
+										)}
+
+										{/* Action Button */}
+										<div className="pt-4 border-t border-border/40">
+											<Link
+												href="/contact"
+												className="group bg-primary text-primary-foreground h-11 px-6 rounded-xl font-medium font-heading text-xs sm:text-sm inline-flex items-center justify-center hover:bg-primary/90 transition-all border border-white/10 shadow-xs gap-2"
+											>
+												ENQUIRE ABOUT THIS SERVICE
+												<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+											</Link>
+										</div>
+									</motion.div>
+								</AnimatePresence>
+							</div>
+						)}
 					</div>
 				</SectionContainer>
 			</section>
@@ -331,7 +251,7 @@ export default function ServicesPage() {
 						</p>
 					</div>
 
-					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
 						{SERVICE_FEATURES.map((f) => (
 							<div
 								key={f.title}
@@ -370,7 +290,7 @@ export default function ServicesPage() {
 						</p>
 					</div>
 
-					<div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+					<div className="grid grid-cols-1 md:grid-cols-4 gap-6 text-left">
 						{[
 							{
 								step: "01",
@@ -414,10 +334,10 @@ export default function ServicesPage() {
 				</SectionContainer>
 			</section>
 
-			{/* ── 5. FAST CONTACT & ACTION BAR (REDESIGNED LUXURY BANNER) ── */}
+			{/* ── 5. FAST CONTACT & ACTION BAR ── */}
 			<section className="py-20 sm:py-24 bg-background">
 				<SectionContainer>
-					<div className="bg-dark-hero rounded-3xl p-8 sm:p-12 text-white shadow-2xl space-y-10 relative overflow-hidden border border-white/15">
+					<div className="bg-dark-hero rounded-3xl p-8 sm:p-12 text-white shadow-2xl space-y-10 relative overflow-hidden border border-white/15 text-left">
 						{/* Ambient Background Glow Orb */}
 						<div className="absolute top-0 right-0 w-96 h-96 bg-primary/20 rounded-full blur-3xl pointer-events-none" />
 
