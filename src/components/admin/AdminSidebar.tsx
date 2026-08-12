@@ -30,6 +30,7 @@ const navItems = [
 		icon: Building2,
 	},
 	{ href: "/admin/manage-slides", label: "Hero Banners", icon: ImageIcon },
+	{ href: "/admin/home-settings", label: "Home Page Settings", icon: LayoutDashboard },
 	{ href: "/admin/gallery", label: "Gallery Manager", icon: ImageIcon },
 	{
 		href: "/admin/site-settings",
@@ -37,7 +38,22 @@ const navItems = [
 		icon: Settings,
 	},
 	{
-		href: "/admin/manage-content",
+		href: "/admin/membership-settings",
+		label: "Membership Settings",
+		icon: FileCode,
+	},
+	{
+		href: "/admin/services-settings",
+		label: "Services & Products",
+		icon: Briefcase,
+	},
+	{
+		href: "/admin/projects-settings",
+		label: "Projects & Townships",
+		icon: Building2,
+	},
+	{
+		href: "/admin/about-settings",
 		label: "About & Leadership",
 		icon: FileText,
 	},
