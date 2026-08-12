@@ -25,7 +25,10 @@ export function useLeads() {
 					body: JSON.stringify(data),
 				});
 			} catch (err) {
-				console.error("[useLeads] Failed to submit inquiry to backend DB:", err);
+				console.error(
+					"[useLeads] Failed to submit inquiry to backend DB:",
+					err,
+				);
 			}
 
 			return lead;
@@ -42,7 +45,10 @@ export function useLeads() {
 					body: JSON.stringify({ status }),
 				});
 			} catch (err) {
-				console.error("[useLeads] Failed to update lead status on backend DB:", err);
+				console.error(
+					"[useLeads] Failed to update lead status on backend DB:",
+					err,
+				);
 			}
 		},
 		[dispatch],
@@ -105,4 +111,3 @@ export function useLeads() {
 		getLeadsForProperty,
 	};
 }
-

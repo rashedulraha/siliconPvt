@@ -17,7 +17,10 @@ export function useSiteSettings() {
 					body: JSON.stringify(data),
 				});
 			} catch (err) {
-				console.error("[useSiteSettings] Failed to update site settings on backend DB:", err);
+				console.error(
+					"[useSiteSettings] Failed to update site settings on backend DB:",
+					err,
+				);
 			}
 		},
 		[dispatch],
@@ -33,10 +36,16 @@ export function useSiteSettings() {
 			try {
 				await apiFetch("/settings", {
 					method: "PUT",
-					body: JSON.stringify({ facebookUrl: updatedSocial.facebook, youtubeUrl: updatedSocial.youtube }),
+					body: JSON.stringify({
+						facebookUrl: updatedSocial.facebook,
+						youtubeUrl: updatedSocial.youtube,
+					}),
 				});
 			} catch (err) {
-				console.error("[useSiteSettings] Failed to update social settings on backend DB:", err);
+				console.error(
+					"[useSiteSettings] Failed to update social settings on backend DB:",
+					err,
+				);
 			}
 		},
 		[state.siteSettings.social, dispatch],
@@ -48,4 +57,3 @@ export function useSiteSettings() {
 		updateSocial,
 	};
 }
-

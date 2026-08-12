@@ -33,7 +33,10 @@ export function useProperties() {
 					refetchProperties();
 				}
 			} catch (err) {
-				console.error("[useProperties] Failed to persist property to backend DB:", err);
+				console.error(
+					"[useProperties] Failed to persist property to backend DB:",
+					err,
+				);
 			}
 
 			return tempProperty;
@@ -60,7 +63,10 @@ export function useProperties() {
 				});
 				refetchProperties();
 			} catch (err) {
-				console.error("[useProperties] Failed to update property on backend DB:", err);
+				console.error(
+					"[useProperties] Failed to update property on backend DB:",
+					err,
+				);
 			}
 
 			return updated;
@@ -77,7 +83,10 @@ export function useProperties() {
 				});
 				refetchProperties();
 			} catch (err) {
-				console.error("[useProperties] Failed to delete property on backend DB:", err);
+				console.error(
+					"[useProperties] Failed to delete property on backend DB:",
+					err,
+				);
 			}
 		},
 		[dispatch, refetchProperties],
@@ -149,4 +158,3 @@ export function useProperties() {
 		searchProperties,
 	};
 }
-

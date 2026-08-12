@@ -29,9 +29,12 @@ export function mapApiPropertyToProperty(apiProp: any): Property {
 		garage: apiProp.garage ?? 0,
 		type: (apiProp.type === "rent" ? "rent" : "sale") as "sale" | "rent",
 		category: (apiProp.category || "land") as Property["category"],
-		images: Array.isArray(apiProp.images) && apiProp.images.length > 0
-			? apiProp.images
-			: ["https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200"],
+		images:
+			Array.isArray(apiProp.images) && apiProp.images.length > 0
+				? apiProp.images
+				: [
+						"https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200",
+					],
 		features: featuresList,
 		agentId: apiProp.agentId || "agent-1",
 		status: apiProp.status || "available",
@@ -60,4 +63,3 @@ export async function fetchProperties(apiUrl?: string): Promise<Property[]> {
 		return seedProperties;
 	}
 }
-

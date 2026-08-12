@@ -2,7 +2,17 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowLeft, Save, Plus, Trash2, CheckCircle2, Loader2, RefreshCw, Lock, Unlock } from "lucide-react";
+import {
+	ArrowLeft,
+	Save,
+	Plus,
+	Trash2,
+	CheckCircle2,
+	Loader2,
+	RefreshCw,
+	Lock,
+	Unlock,
+} from "lucide-react";
 import { SectionContainer } from "@/components/layout/SectionContainer";
 import { apiFetch } from "@/lib/api-client";
 import { useAdminEditor } from "@/context/AdminEditorContext";
@@ -28,14 +38,17 @@ export default function ManageSlidesPage() {
 		title: "",
 		badge: "Silicon City Township",
 		subtitle: "",
-		image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80",
+		image:
+			"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80",
 		link: "/projects",
 	});
 
 	const fetchSlides = async () => {
 		setLoading(true);
 		try {
-			const res = await apiFetch<{ success: boolean; slides?: any[] }>("/slides");
+			const res = await apiFetch<{ success: boolean; slides?: any[] }>(
+				"/slides",
+			);
 			if (res && res.success && Array.isArray(res.slides)) {
 				setSlides(res.slides);
 			}
@@ -146,7 +159,9 @@ export default function ManageSlidesPage() {
 								onClick={fetchSlides}
 								className="px-3.5 h-9 rounded-xl bg-card border border-border/80 text-foreground text-xs font-medium font-heading inline-flex items-center gap-1.5 hover:bg-muted transition-all cursor-pointer"
 							>
-								<RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
+								<RefreshCw
+									className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`}
+								/>
 								Refresh
 							</button>
 							<button
@@ -171,7 +186,10 @@ export default function ManageSlidesPage() {
 						<div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-500 text-xs font-medium flex items-center justify-between gap-4">
 							<div className="flex items-center gap-2">
 								<Lock className="w-4 h-4 shrink-0" />
-								<span><strong>Read-Only Mode Active:</strong> Editing is disabled until you unlock editor mode.</span>
+								<span>
+									<strong>Read-Only Mode Active:</strong> Editing is disabled
+									until you unlock editor mode.
+								</span>
 							</div>
 							<button
 								onClick={unlockEditorMode}
@@ -189,7 +207,8 @@ export default function ManageSlidesPage() {
 							Hero Slider & Banner Manager
 						</h1>
 						<p className="text-xs sm:text-sm text-muted-foreground font-light">
-							Manage Home Page hero carousel slides, headlines, badges, and background photos synced directly with your PostgreSQL database.
+							Manage Home Page hero carousel slides, headlines, badges, and
+							background photos synced directly with your PostgreSQL database.
 						</p>
 					</div>
 
@@ -207,7 +226,9 @@ export default function ManageSlidesPage() {
 						</div>
 					) : slides.length === 0 ? (
 						<div className="p-12 bg-card border border-border/80 rounded-3xl text-center space-y-3">
-							<p className="text-sm text-muted-foreground">No slides found in database.</p>
+							<p className="text-sm text-muted-foreground">
+								No slides found in database.
+							</p>
 							<button
 								onClick={() => setNewSlideModal(true)}
 								className="px-4 py-2 bg-primary text-primary-foreground text-xs font-medium rounded-xl"
@@ -259,7 +280,11 @@ export default function ManageSlidesPage() {
 												type="text"
 												value={slide.badge || ""}
 												onChange={(e) =>
-													handleUpdateSlideField(slide.id, "badge", e.target.value)
+													handleUpdateSlideField(
+														slide.id,
+														"badge",
+														e.target.value,
+													)
 												}
 												className="w-full h-10 px-3 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground"
 											/>
@@ -273,7 +298,11 @@ export default function ManageSlidesPage() {
 												type="text"
 												value={slide.title || ""}
 												onChange={(e) =>
-													handleUpdateSlideField(slide.id, "title", e.target.value)
+													handleUpdateSlideField(
+														slide.id,
+														"title",
+														e.target.value,
+													)
 												}
 												className="w-full h-10 px-3 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground"
 											/>
@@ -287,7 +316,11 @@ export default function ManageSlidesPage() {
 												rows={2}
 												value={slide.subtitle || ""}
 												onChange={(e) =>
-													handleUpdateSlideField(slide.id, "subtitle", e.target.value)
+													handleUpdateSlideField(
+														slide.id,
+														"subtitle",
+														e.target.value,
+													)
 												}
 												className="w-full p-3 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground"
 											/>
@@ -301,7 +334,11 @@ export default function ManageSlidesPage() {
 												type="text"
 												value={slide.image || ""}
 												onChange={(e) =>
-													handleUpdateSlideField(slide.id, "image", e.target.value)
+													handleUpdateSlideField(
+														slide.id,
+														"image",
+														e.target.value,
+													)
 												}
 												className="w-full h-10 px-3 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground font-mono"
 											/>
@@ -323,42 +360,61 @@ export default function ManageSlidesPage() {
 						</h3>
 						<form onSubmit={handleCreateSlide} className="space-y-4">
 							<div className="space-y-1">
-								<label className="text-xs font-semibold text-muted-foreground">Badge Slogan</label>
+								<label className="text-xs font-semibold text-muted-foreground">
+									Badge Slogan
+								</label>
 								<input
 									type="text"
 									required
 									value={newSlideData.badge}
-									onChange={(e) => setNewSlideData({ ...newSlideData, badge: e.target.value })}
+									onChange={(e) =>
+										setNewSlideData({ ...newSlideData, badge: e.target.value })
+									}
 									className="w-full h-10 px-3 rounded-xl bg-background border border-border/60 text-xs"
 								/>
 							</div>
 							<div className="space-y-1">
-								<label className="text-xs font-semibold text-muted-foreground">Slide Title</label>
+								<label className="text-xs font-semibold text-muted-foreground">
+									Slide Title
+								</label>
 								<input
 									type="text"
 									required
 									value={newSlideData.title}
-									onChange={(e) => setNewSlideData({ ...newSlideData, title: e.target.value })}
+									onChange={(e) =>
+										setNewSlideData({ ...newSlideData, title: e.target.value })
+									}
 									className="w-full h-10 px-3 rounded-xl bg-background border border-border/60 text-xs"
 								/>
 							</div>
 							<div className="space-y-1">
-								<label className="text-xs font-semibold text-muted-foreground">Subtitle / Description</label>
+								<label className="text-xs font-semibold text-muted-foreground">
+									Subtitle / Description
+								</label>
 								<textarea
 									rows={2}
 									required
 									value={newSlideData.subtitle}
-									onChange={(e) => setNewSlideData({ ...newSlideData, subtitle: e.target.value })}
+									onChange={(e) =>
+										setNewSlideData({
+											...newSlideData,
+											subtitle: e.target.value,
+										})
+									}
 									className="w-full p-3 rounded-xl bg-background border border-border/60 text-xs"
 								/>
 							</div>
 							<div className="space-y-1">
-								<label className="text-xs font-semibold text-muted-foreground">Image URL</label>
+								<label className="text-xs font-semibold text-muted-foreground">
+									Image URL
+								</label>
 								<input
 									type="text"
 									required
 									value={newSlideData.image}
-									onChange={(e) => setNewSlideData({ ...newSlideData, image: e.target.value })}
+									onChange={(e) =>
+										setNewSlideData({ ...newSlideData, image: e.target.value })
+									}
 									className="w-full h-10 px-3 rounded-xl bg-background border border-border/60 text-xs font-mono"
 								/>
 							</div>
@@ -384,4 +440,3 @@ export default function ManageSlidesPage() {
 		</div>
 	);
 }
-

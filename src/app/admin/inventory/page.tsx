@@ -8,25 +8,25 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
 } from "@/components/ui/dialog";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
 } from "@/components/ui/select";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
 } from "@/components/ui/table";
 import { PropertyForm } from "@/components/admin/PropertyForm";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
@@ -36,331 +36,331 @@ import type { Property } from "@/types";
 import { useAdminEditor } from "@/context/AdminEditorContext";
 
 export default function InventoryPage() {
-  const { isEditorUnlocked, unlockEditorMode } = useAdminEditor();
-  const { properties, addProperty, updateProperty, deleteProperty } =
-    useProperties();
-  const [search, setSearch] = useState("");
-  const [typeFilter, setTypeFilter] = useState<"all" | "sale" | "rent">("all");
-  const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [formOpen, setFormOpen] = useState(false);
-  const [editingProperty, setEditingProperty] = useState<Property | null>(null);
-  const [deleteId, setDeleteId] = useState<string | null>(null);
+	const { isEditorUnlocked, unlockEditorMode } = useAdminEditor();
+	const { properties, addProperty, updateProperty, deleteProperty } =
+		useProperties();
+	const [search, setSearch] = useState("");
+	const [typeFilter, setTypeFilter] = useState<"all" | "sale" | "rent">("all");
+	const [statusFilter, setStatusFilter] = useState<string>("all");
+	const [formOpen, setFormOpen] = useState(false);
+	const [editingProperty, setEditingProperty] = useState<Property | null>(null);
+	const [deleteId, setDeleteId] = useState<string | null>(null);
 
-  const filtered = useMemo(() => {
-    let result = [...properties];
-    if (search) {
-      const q = search.toLowerCase();
-      result = result.filter(
-        (p) =>
-          p.title.toLowerCase().includes(q) ||
-          p.location.toLowerCase().includes(q),
-      );
-    }
-    if (typeFilter !== "all")
-      result = result.filter((p) => p.type === typeFilter);
-    if (statusFilter !== "all")
-      result = result.filter((p) => p.status === statusFilter);
-    return result;
-  }, [properties, search, typeFilter, statusFilter]);
+	const filtered = useMemo(() => {
+		let result = [...properties];
+		if (search) {
+			const q = search.toLowerCase();
+			result = result.filter(
+				(p) =>
+					p.title.toLowerCase().includes(q) ||
+					p.location.toLowerCase().includes(q),
+			);
+		}
+		if (typeFilter !== "all")
+			result = result.filter((p) => p.type === typeFilter);
+		if (statusFilter !== "all")
+			result = result.filter((p) => p.status === statusFilter);
+		return result;
+	}, [properties, search, typeFilter, statusFilter]);
 
-  const handleSave = (data: any) => {
-    if (!isEditorUnlocked) {
-      unlockEditorMode();
-      return;
-    }
-    try {
-      if (editingProperty) {
-        updateProperty(editingProperty.id, data);
-      } else {
-        addProperty(data);
-      }
-      toast.success("Property saved.");
-      setFormOpen(false);
-      setEditingProperty(null);
-    } catch {
-      toast.error("Failed to save property.");
-    }
-  };
+	const handleSave = (data: any) => {
+		if (!isEditorUnlocked) {
+			unlockEditorMode();
+			return;
+		}
+		try {
+			if (editingProperty) {
+				updateProperty(editingProperty.id, data);
+			} else {
+				addProperty(data);
+			}
+			toast.success("Property saved.");
+			setFormOpen(false);
+			setEditingProperty(null);
+		} catch {
+			toast.error("Failed to save property.");
+		}
+	};
 
-  const openEdit = (p: Property) => {
-    if (!isEditorUnlocked) {
-      unlockEditorMode();
-      return;
-    }
-    setEditingProperty(p);
-    setFormOpen(true);
-  };
+	const openEdit = (p: Property) => {
+		if (!isEditorUnlocked) {
+			unlockEditorMode();
+			return;
+		}
+		setEditingProperty(p);
+		setFormOpen(true);
+	};
 
-  const openCreate = () => {
-    if (!isEditorUnlocked) {
-      unlockEditorMode();
-      return;
-    }
-    setEditingProperty(null);
-    setFormOpen(true);
-  };
+	const openCreate = () => {
+		if (!isEditorUnlocked) {
+			unlockEditorMode();
+			return;
+		}
+		setEditingProperty(null);
+		setFormOpen(true);
+	};
 
-  const handleDeleteClick = (id: string) => {
-    if (!isEditorUnlocked) {
-      unlockEditorMode();
-      return;
-    }
-    setDeleteId(id);
-  };
+	const handleDeleteClick = (id: string) => {
+		if (!isEditorUnlocked) {
+			unlockEditorMode();
+			return;
+		}
+		setDeleteId(id);
+	};
 
-  return (
-    <div className="space-y-6 text-left">
-      {/* Lock Notice Banner */}
-      {!isEditorUnlocked && (
-        <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-500 text-xs font-medium flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <Lock className="w-4 h-4 shrink-0" />
-            <span>
-              <strong>Read-Only Mode Active:</strong> Adding, editing, and
-              deleting properties is disabled until Editor Mode is unlocked.
-            </span>
-          </div>
-          <button
-            onClick={unlockEditorMode}
-            className="px-3 py-1.5 rounded-lg bg-amber-500 text-black text-[11px] font-bold uppercase tracking-wider hover:bg-amber-400 shrink-0 cursor-pointer"
-          >
-            Unlock Editor
-          </button>
-        </div>
-      )}
+	return (
+		<div className="space-y-6 text-left">
+			{/* Lock Notice Banner */}
+			{!isEditorUnlocked && (
+				<div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-500 text-xs font-medium flex items-center justify-between gap-4">
+					<div className="flex items-center gap-2">
+						<Lock className="w-4 h-4 shrink-0" />
+						<span>
+							<strong>Read-Only Mode Active:</strong> Adding, editing, and
+							deleting properties is disabled until Editor Mode is unlocked.
+						</span>
+					</div>
+					<button
+						onClick={unlockEditorMode}
+						className="px-3 py-1.5 rounded-lg bg-amber-500 text-black text-[11px] font-bold uppercase tracking-wider hover:bg-amber-400 shrink-0 cursor-pointer"
+					>
+						Unlock Editor
+					</button>
+				</div>
+			)}
 
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-2xl font-bold font-heading text-foreground">
-            Property Inventory
-          </h2>
-          <p className="text-sm text-muted-foreground font-light">
-            {properties.length} total • {filtered.length} shown
-          </p>
-        </div>
-        <Button
-          onClick={openCreate}
-          className={!isEditorUnlocked ? "opacity-75" : ""}
-        >
-          {!isEditorUnlocked ? (
-            <Lock className="h-4 w-4 mr-2" />
-          ) : (
-            <Plus className="h-4 w-4 mr-2" />
-          )}
-          {isEditorUnlocked ? "Add Property" : "Unlock to Add Property"}
-        </Button>
-      </div>
+			{/* Header */}
+			<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+				<div>
+					<h2 className="text-2xl font-bold font-heading text-foreground">
+						Property Inventory
+					</h2>
+					<p className="text-sm text-muted-foreground font-light">
+						{properties.length} total • {filtered.length} shown
+					</p>
+				</div>
+				<Button
+					onClick={openCreate}
+					className={!isEditorUnlocked ? "opacity-75" : ""}
+				>
+					{!isEditorUnlocked ? (
+						<Lock className="h-4 w-4 mr-2" />
+					) : (
+						<Plus className="h-4 w-4 mr-2" />
+					)}
+					{isEditorUnlocked ? "Add Property" : "Unlock to Add Property"}
+				</Button>
+			</div>
 
-      {/* Filters */}
-      <Card className="border border-border/80 shadow-none">
-        <CardContent className="p-4">
-          <div className="grid sm:grid-cols-3 gap-3">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search properties..."
-                className="pl-9"
-              />
-            </div>
-            <Select
-              value={typeFilter}
-              onValueChange={(v) => setTypeFilter(v as any)}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Types</SelectItem>
-                <SelectItem value="sale">For Sale</SelectItem>
-                <SelectItem value="rent">For Rent</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger>
-                <SelectValue placeholder="Status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Statuses</SelectItem>
-                <SelectItem value="available">Available</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
-                <SelectItem value="sold">Sold</SelectItem>
-                <SelectItem value="rented">Rented</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </CardContent>
-      </Card>
+			{/* Filters */}
+			<Card className="border border-border/80 shadow-none">
+				<CardContent className="p-4">
+					<div className="grid sm:grid-cols-3 gap-3">
+						<div className="relative">
+							<Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+							<Input
+								value={search}
+								onChange={(e) => setSearch(e.target.value)}
+								placeholder="Search properties..."
+								className="pl-9"
+							/>
+						</div>
+						<Select
+							value={typeFilter}
+							onValueChange={(v) => setTypeFilter(v as any)}
+						>
+							<SelectTrigger>
+								<SelectValue placeholder="Type" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="all">All Types</SelectItem>
+								<SelectItem value="sale">For Sale</SelectItem>
+								<SelectItem value="rent">For Rent</SelectItem>
+							</SelectContent>
+						</Select>
+						<Select value={statusFilter} onValueChange={setStatusFilter}>
+							<SelectTrigger>
+								<SelectValue placeholder="Status" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="all">All Statuses</SelectItem>
+								<SelectItem value="available">Available</SelectItem>
+								<SelectItem value="pending">Pending</SelectItem>
+								<SelectItem value="sold">Sold</SelectItem>
+								<SelectItem value="rented">Rented</SelectItem>
+							</SelectContent>
+						</Select>
+					</div>
+				</CardContent>
+			</Card>
 
-      {/* Table */}
-      <Card className="border border-border/80 shadow-none">
-        <CardContent className="p-0">
-          {filtered.length === 0 ? (
-            <div className="text-center py-16">
-              <Filter className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">
-                No properties match your filters.
-              </p>
-            </div>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Property</TableHead>
-                  <TableHead className="hidden md:table-cell">
-                    Location
-                  </TableHead>
-                  <TableHead>Price</TableHead>
-                  <TableHead className="hidden sm:table-cell">Type</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filtered.map((p) => (
-                  <TableRow key={p.id}>
-                    <TableCell>
-                      <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-md overflow-hidden bg-muted flex-shrink-0 border border-border/40">
-                          {p.images[0] ? (
-                            <img
-                              src={p.images[0]}
-                              alt=""
-                              className="w-full h-full object-cover"
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                              🏠
-                            </div>
-                          )}
-                        </div>
-                        <div className="min-w-0">
-                          <p className="font-medium truncate max-w-[200px]">
-                            {p.title}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {p.bedrooms}bd • {p.bathrooms}ba • {p.area}ft²
-                          </p>
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell className="hidden md:table-cell text-muted-foreground">
-                      {p.location}
-                    </TableCell>
-                    <TableCell className="font-semibold">
-                      {formatCurrency(p.price)}
-                      {p.type === "rent" && (
-                        <span className="text-xs text-muted-foreground">
-                          /mo
-                        </span>
-                      )}
-                    </TableCell>
-                    <TableCell className="hidden sm:table-cell">
-                      <Badge variant="outline" className="capitalize">
-                        {p.type}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Badge
-                        variant="outline"
-                        className={
-                          p.status === "available"
-                            ? "bg-green-500/10 text-green-600 border-green-500/20"
-                            : p.status === "sold" || p.status === "rented"
-                              ? "bg-blue-500/10 text-blue-600 border-blue-500/20"
-                              : "bg-amber-500/10 text-amber-600 border-amber-500/20"
-                        }
-                      >
-                        {p.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-1">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => openEdit(p)}
-                          title={
-                            isEditorUnlocked
-                              ? "Edit property"
-                              : "Unlock Editor Mode to Edit"
-                          }
-                          className={
-                            !isEditorUnlocked
-                              ? "opacity-40 hover:opacity-100"
-                              : ""
-                          }
-                        >
-                          {!isEditorUnlocked ? (
-                            <Lock className="h-3.5 w-3.5 text-amber-500" />
-                          ) : (
-                            <Edit className="h-4 w-4" />
-                          )}
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => handleDeleteClick(p.id)}
-                          title={
-                            isEditorUnlocked
-                              ? "Delete property"
-                              : "Unlock Editor Mode to Delete"
-                          }
-                          className={
-                            !isEditorUnlocked
-                              ? "opacity-40 hover:opacity-100 text-muted-foreground"
-                              : "text-destructive hover:text-destructive"
-                          }
-                        >
-                          {!isEditorUnlocked ? (
-                            <Lock className="h-3.5 w-3.5 text-amber-500" />
-                          ) : (
-                            <Trash2 className="h-4 w-4" />
-                          )}
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
+			{/* Table */}
+			<Card className="border border-border/80 shadow-none">
+				<CardContent className="p-0">
+					{filtered.length === 0 ? (
+						<div className="text-center py-16">
+							<Filter className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+							<p className="text-muted-foreground">
+								No properties match your filters.
+							</p>
+						</div>
+					) : (
+						<Table>
+							<TableHeader>
+								<TableRow>
+									<TableHead>Property</TableHead>
+									<TableHead className="hidden md:table-cell">
+										Location
+									</TableHead>
+									<TableHead>Price</TableHead>
+									<TableHead className="hidden sm:table-cell">Type</TableHead>
+									<TableHead>Status</TableHead>
+									<TableHead className="text-right">Actions</TableHead>
+								</TableRow>
+							</TableHeader>
+							<TableBody>
+								{filtered.map((p) => (
+									<TableRow key={p.id}>
+										<TableCell>
+											<div className="flex items-center gap-3">
+												<div className="h-10 w-10 rounded-md overflow-hidden bg-muted flex-shrink-0 border border-border/40">
+													{p.images[0] ? (
+														<img
+															src={p.images[0]}
+															alt=""
+															className="w-full h-full object-cover"
+														/>
+													) : (
+														<div className="w-full h-full flex items-center justify-center text-muted-foreground">
+															🏠
+														</div>
+													)}
+												</div>
+												<div className="min-w-0">
+													<p className="font-medium truncate max-w-[200px]">
+														{p.title}
+													</p>
+													<p className="text-xs text-muted-foreground">
+														{p.bedrooms}bd • {p.bathrooms}ba • {p.area}ft²
+													</p>
+												</div>
+											</div>
+										</TableCell>
+										<TableCell className="hidden md:table-cell text-muted-foreground">
+											{p.location}
+										</TableCell>
+										<TableCell className="font-semibold">
+											{formatCurrency(p.price)}
+											{p.type === "rent" && (
+												<span className="text-xs text-muted-foreground">
+													/mo
+												</span>
+											)}
+										</TableCell>
+										<TableCell className="hidden sm:table-cell">
+											<Badge variant="outline" className="capitalize">
+												{p.type}
+											</Badge>
+										</TableCell>
+										<TableCell>
+											<Badge
+												variant="outline"
+												className={
+													p.status === "available"
+														? "bg-green-500/10 text-green-600 border-green-500/20"
+														: p.status === "sold" || p.status === "rented"
+															? "bg-blue-500/10 text-blue-600 border-blue-500/20"
+															: "bg-amber-500/10 text-amber-600 border-amber-500/20"
+												}
+											>
+												{p.status}
+											</Badge>
+										</TableCell>
+										<TableCell className="text-right">
+											<div className="flex justify-end gap-1">
+												<Button
+													variant="ghost"
+													size="icon"
+													onClick={() => openEdit(p)}
+													title={
+														isEditorUnlocked
+															? "Edit property"
+															: "Unlock Editor Mode to Edit"
+													}
+													className={
+														!isEditorUnlocked
+															? "opacity-40 hover:opacity-100"
+															: ""
+													}
+												>
+													{!isEditorUnlocked ? (
+														<Lock className="h-3.5 w-3.5 text-amber-500" />
+													) : (
+														<Edit className="h-4 w-4" />
+													)}
+												</Button>
+												<Button
+													variant="ghost"
+													size="icon"
+													onClick={() => handleDeleteClick(p.id)}
+													title={
+														isEditorUnlocked
+															? "Delete property"
+															: "Unlock Editor Mode to Delete"
+													}
+													className={
+														!isEditorUnlocked
+															? "opacity-40 hover:opacity-100 text-muted-foreground"
+															: "text-destructive hover:text-destructive"
+													}
+												>
+													{!isEditorUnlocked ? (
+														<Lock className="h-3.5 w-3.5 text-amber-500" />
+													) : (
+														<Trash2 className="h-4 w-4" />
+													)}
+												</Button>
+											</div>
+										</TableCell>
+									</TableRow>
+								))}
+							</TableBody>
+						</Table>
+					)}
+				</CardContent>
+			</Card>
 
-      {/* Form Dialog */}
-      <Dialog open={formOpen} onOpenChange={setFormOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
-          <DialogHeader>
-            <DialogTitle>
-              {editingProperty ? "Edit Property" : "Add New Property"}
-            </DialogTitle>
-          </DialogHeader>
-          <PropertyForm
-            initial={editingProperty || undefined}
-            onSave={handleSave}
-            onCancel={() => setFormOpen(false)}
-          />
-        </DialogContent>
-      </Dialog>
+			{/* Form Dialog */}
+			<Dialog open={formOpen} onOpenChange={setFormOpen}>
+				<DialogContent className="max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
+					<DialogHeader>
+						<DialogTitle>
+							{editingProperty ? "Edit Property" : "Add New Property"}
+						</DialogTitle>
+					</DialogHeader>
+					<PropertyForm
+						initial={editingProperty || undefined}
+						onSave={handleSave}
+						onCancel={() => setFormOpen(false)}
+					/>
+				</DialogContent>
+			</Dialog>
 
-      {/* Delete Confirmation */}
-      <ConfirmDialog
-        open={!!deleteId}
-        onOpenChange={(open) => !open && setDeleteId(null)}
-        title="Delete Property"
-        description="Are you sure you want to delete this property? This action cannot be undone."
-        confirmText="Delete"
-        onConfirm={() => {
-          if (deleteId && isEditorUnlocked) deleteProperty(deleteId);
-          setDeleteId(null);
-        }}
-      />
+			{/* Delete Confirmation */}
+			<ConfirmDialog
+				open={!!deleteId}
+				onOpenChange={(open) => !open && setDeleteId(null)}
+				title="Delete Property"
+				description="Are you sure you want to delete this property? This action cannot be undone."
+				confirmText="Delete"
+				onConfirm={() => {
+					if (deleteId && isEditorUnlocked) deleteProperty(deleteId);
+					setDeleteId(null);
+				}}
+			/>
 
-      {/* Form-closed sentinel for tests */}
-      {!formOpen && <div data-testid="form-closed" />}
-    </div>
-  );
+			{/* Form-closed sentinel for tests */}
+			{!formOpen && <div data-testid="form-closed" />}
+		</div>
+	);
 }

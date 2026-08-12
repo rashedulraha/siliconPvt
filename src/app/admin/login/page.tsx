@@ -21,7 +21,9 @@ import { apiFetch } from "@/lib/api-client";
 import { getAdminSession, setAdminSession } from "@/lib/admin-auth";
 
 function getAdminEmail(): string {
-	return process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? "info@siliconrealestatepvtltd.com";
+	return (
+		process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? "info@siliconrealestatepvtltd.com"
+	);
 }
 
 function getAdminPassword(): string {
@@ -117,7 +119,11 @@ export default function AdminLoginPage() {
 				}
 			}
 
-			if (!authSuccess && email.trim() === expectedEmail && password === expectedPassword) {
+			if (
+				!authSuccess &&
+				email.trim() === expectedEmail &&
+				password === expectedPassword
+			) {
 				authSuccess = true;
 			}
 
@@ -132,7 +138,9 @@ export default function AdminLoginPage() {
 				setError("Invalid email address or password. Please try again.");
 			}
 		} catch (err: any) {
-			setError(err.message || "Failed to authenticate. Please check your credentials.");
+			setError(
+				err.message || "Failed to authenticate. Please check your credentials.",
+			);
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -200,13 +208,12 @@ export default function AdminLoginPage() {
 
 					<h1 className="text-3xl sm:text-4xl xl:text-5xl font-medium font-heading text-white tracking-tight leading-tight">
 						Secure Gateway to Your <br />
-						<span className="text-accent font-medium">
-							Property Management
-						</span>
+						<span className="text-accent font-medium">Property Management</span>
 					</h1>
 
 					<p className="text-white/75 text-xs sm:text-sm font-light leading-relaxed">
-						Sign in with your administrative credentials to manage inventory, update banner slides, review client leads, and edit site settings.
+						Sign in with your administrative credentials to manage inventory,
+						update banner slides, review client leads, and edit site settings.
 					</p>
 
 					{/* Feature Highlights */}
@@ -272,7 +279,8 @@ export default function AdminLoginPage() {
 									Admin Sign In
 								</h2>
 								<p className="text-xs text-muted-foreground font-light">
-									Sign in with your admin credentials to access the management portal.
+									Sign in with your admin credentials to access the management
+									portal.
 								</p>
 							</div>
 
@@ -302,7 +310,9 @@ export default function AdminLoginPage() {
 										/>
 									</div>
 									{errors.email && (
-										<p className="text-[11px] text-destructive">{errors.email}</p>
+										<p className="text-[11px] text-destructive">
+											{errors.email}
+										</p>
 									)}
 								</div>
 
@@ -333,7 +343,9 @@ export default function AdminLoginPage() {
 										</button>
 									</div>
 									{errors.password && (
-										<p className="text-[11px] text-destructive">{errors.password}</p>
+										<p className="text-[11px] text-destructive">
+											{errors.password}
+										</p>
 									)}
 								</div>
 
@@ -380,5 +392,3 @@ export default function AdminLoginPage() {
 		</div>
 	);
 }
-
-

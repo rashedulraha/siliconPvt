@@ -28,7 +28,9 @@ export default function SiteSettingsPage() {
 	const [phone, setPhone] = useState("+880 1711-000000");
 	const [hotline, setHotline] = useState("16222");
 	const [email, setEmail] = useState("info@siliconrealestatepvtltd.com");
-	const [weekend, setWeekend] = useState("Open Saturday to Thursday (Friday Closed)");
+	const [weekend, setWeekend] = useState(
+		"Open Saturday to Thursday (Friday Closed)",
+	);
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
 	const [savedMessage, setSavedMessage] = useState("");
@@ -36,7 +38,9 @@ export default function SiteSettingsPage() {
 	useEffect(() => {
 		async function loadSettings() {
 			try {
-				const res = await apiFetch<{ success: boolean; settings?: any }>("/settings");
+				const res = await apiFetch<{ success: boolean; settings?: any }>(
+					"/settings",
+				);
 				if (res && res.success && res.settings) {
 					setAddress(res.settings.address || address);
 					setPhone(res.settings.phone || phone);
@@ -107,7 +111,13 @@ export default function SiteSettingsPage() {
 							disabled={saving || !isEditorUnlocked}
 							className="px-4 h-9 rounded-xl bg-primary text-primary-foreground text-xs font-medium font-heading inline-flex items-center gap-1.5 transition-all shadow-none hover:bg-primary/90 cursor-pointer disabled:opacity-50"
 						>
-							{saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : !isEditorUnlocked ? <Lock className="w-3.5 h-3.5" /> : <Save className="w-3.5 h-3.5" />}
+							{saving ? (
+								<Loader2 className="w-3.5 h-3.5 animate-spin" />
+							) : !isEditorUnlocked ? (
+								<Lock className="w-3.5 h-3.5" />
+							) : (
+								<Save className="w-3.5 h-3.5" />
+							)}
 							{isEditorUnlocked ? "Save Site Settings" : "Unlock to Save"}
 						</button>
 					</div>
@@ -121,7 +131,10 @@ export default function SiteSettingsPage() {
 						<div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-500 text-xs font-medium flex items-center justify-between gap-4">
 							<div className="flex items-center gap-2">
 								<Lock className="w-4 h-4 shrink-0" />
-								<span><strong>Read-Only Mode Active:</strong> Settings are read-only until Editor Mode is unlocked.</span>
+								<span>
+									<strong>Read-Only Mode Active:</strong> Settings are read-only
+									until Editor Mode is unlocked.
+								</span>
 							</div>
 							<button
 								onClick={unlockEditorMode}
@@ -140,7 +153,8 @@ export default function SiteSettingsPage() {
 							Site Content & Corporate Settings
 						</h1>
 						<p className="text-xs sm:text-sm text-muted-foreground font-light">
-							Edit corporate office address, contact hotline numbers, official email, and office schedule.
+							Edit corporate office address, contact hotline numbers, official
+							email, and office schedule.
 						</p>
 					</div>
 
@@ -240,7 +254,11 @@ export default function SiteSettingsPage() {
 								disabled={saving}
 								className="w-full h-11 rounded-xl bg-primary text-primary-foreground font-medium font-heading text-xs sm:text-sm inline-flex items-center justify-center gap-2 hover:bg-primary/90 transition-all cursor-pointer"
 							>
-								{saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+								{saving ? (
+									<Loader2 className="w-4 h-4 animate-spin" />
+								) : (
+									<Save className="w-4 h-4" />
+								)}
 								SAVE SETTINGS TO DATABASE
 							</button>
 						</form>
@@ -250,4 +268,3 @@ export default function SiteSettingsPage() {
 		</div>
 	);
 }
-
