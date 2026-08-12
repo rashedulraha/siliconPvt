@@ -22,8 +22,10 @@ const DEFAULT_NEWS: NewsPost[] = [
 		id: "news-1",
 		title: "Turag River Bridge Processing Underway for Silicon City",
 		slug: "turag-river-bridge-processing",
-		excerpt: "Direct bridge connectivity from Mohammadpur Beribadh to Silicon City will reduce commute times to central Dhaka to just 10 minutes.",
-		image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1200",
+		excerpt:
+			"Direct bridge connectivity from Mohammadpur Beribadh to Silicon City will reduce commute times to central Dhaka to just 10 minutes.",
+		image:
+			"https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1200",
 		category: "Infrastructure",
 		author: "Silicon Editorial",
 		publishedAt: new Date().toISOString(),
@@ -32,8 +34,10 @@ const DEFAULT_NEWS: NewsPost[] = [
 		id: "news-2",
 		title: "RAJUK Extended Masterplan Compliance Certified",
 		slug: "rajuk-extended-masterplan-compliance",
-		excerpt: "Silicon Real Estate secures full planning alignment with RAJUK's eco-township development guidelines.",
-		image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200",
+		excerpt:
+			"Silicon Real Estate secures full planning alignment with RAJUK's eco-township development guidelines.",
+		image:
+			"https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200",
 		category: "Legal & Regulatory",
 		author: "Legal Cell",
 		publishedAt: new Date().toISOString(),
@@ -42,8 +46,10 @@ const DEFAULT_NEWS: NewsPost[] = [
 		id: "news-3",
 		title: "Block A Handover Ceremony & Ready Registration Drive",
 		slug: "block-a-handover-ceremony",
-		excerpt: "Over 150 plot owners received instant registration deeds during Silicon Real Estate's annual customer appreciation day.",
-		image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200",
+		excerpt:
+			"Over 150 plot owners received instant registration deeds during Silicon Real Estate's annual customer appreciation day.",
+		image:
+			"https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200",
 		category: "Events",
 		author: "PR Division",
 		publishedAt: new Date().toISOString(),
@@ -58,8 +64,16 @@ export function CompanyNewsSection() {
 		async function fetchNews() {
 			try {
 				const { apiFetch } = await import("@/lib/api-client");
-				const res = await apiFetch<{ success: boolean; posts?: any[] }>("/blog");
-				if (res && res.success && Array.isArray(res.posts) && res.posts.length > 0 && isMounted) {
+				const res = await apiFetch<{ success: boolean; posts?: any[] }>(
+					"/blog",
+				);
+				if (
+					res &&
+					res.success &&
+					Array.isArray(res.posts) &&
+					res.posts.length > 0 &&
+					isMounted
+				) {
 					setPosts(res.posts);
 				}
 			} catch {
@@ -84,7 +98,8 @@ export function CompanyNewsSection() {
 							Latest Announcements & Articles
 						</h2>
 						<p className="text-xs sm:text-sm text-muted-foreground font-light">
-							Stay updated with project progress, bridge construction milestones, and corporate news.
+							Stay updated with project progress, bridge construction
+							milestones, and corporate news.
 						</p>
 					</div>
 					<Link
@@ -103,7 +118,10 @@ export function CompanyNewsSection() {
 						>
 							<div className="relative h-48 w-full overflow-hidden bg-muted">
 								<img
-									src={post.image || "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200"}
+									src={
+										post.image ||
+										"https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200"
+									}
 									alt={post.title}
 									className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
 								/>

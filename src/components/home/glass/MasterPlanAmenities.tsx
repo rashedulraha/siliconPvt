@@ -1,7 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Trees, Building, ShieldCheck, Gamepad2 } from "lucide-react";
+import {
+	ArrowRight,
+	Trees,
+	Building,
+	ShieldCheck,
+	Gamepad2,
+} from "lucide-react";
 import { SectionContainer } from "@/components/layout/SectionContainer";
 
 export function MasterPlanAmenities() {
@@ -30,7 +36,9 @@ export function MasterPlanAmenities() {
 									At a Glance: Township Layout
 								</h3>
 								<p className="text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
-									Meticulously planned master layout featuring 30ft & 40ft wide avenues, optimal sunlight orientation, and eco-zoning for every plot.
+									Meticulously planned master layout featuring 30ft & 40ft wide
+									avenues, optimal sunlight orientation, and eco-zoning for
+									every plot.
 								</p>
 							</div>
 
@@ -144,4 +152,3 @@ export function MasterPlanAmenities() {
 		</section>
 	);
 }
-

@@ -2,7 +2,16 @@
 
 import { motion } from "framer-motion";
 import { SectionContainer } from "@/components/layout/SectionContainer";
-import { Handshake, HeartHandshake, ShieldCheck, Star, Layers, MapPin, Headphones, Users } from "lucide-react";
+import {
+	Handshake,
+	HeartHandshake,
+	ShieldCheck,
+	Star,
+	Layers,
+	MapPin,
+	Headphones,
+	Users,
+} from "lucide-react";
 
 const values = [
 	{
@@ -69,7 +78,8 @@ export function CompanyValuesGrid() {
 						Corporate Core Values
 					</h2>
 					<p className="text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
-						The principles that guide our land development ethics, legal verification, and client relationships.
+						The principles that guide our land development ethics, legal
+						verification, and client relationships.
 					</p>
 				</div>
 
@@ -103,4 +113,3 @@ export function CompanyValuesGrid() {
 		</section>
 	);
 }
-

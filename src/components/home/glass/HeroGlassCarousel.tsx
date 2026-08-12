@@ -82,22 +82,36 @@ const slideVariants = {
 
 export function HeroGlassCarousel() {
 	const [slides, setSlides] = useState<HeroSlide[]>(DEFAULT_SLIDES);
-	const [[currentIndex, direction], setPage] = useState<[number, number]>([0, 0]);
+	const [[currentIndex, direction], setPage] = useState<[number, number]>([
+		0, 0,
+	]);
 
 	useEffect(() => {
 		let isMounted = true;
 		async function fetchSlides() {
 			try {
 				const { apiFetch } = await import("@/lib/api-client");
-				const res = await apiFetch<{ success: boolean; slides?: any[] }>("/slides");
-				if (res && res.success && Array.isArray(res.slides) && res.slides.length > 0 && isMounted) {
+				const res = await apiFetch<{ success: boolean; slides?: any[] }>(
+					"/slides",
+				);
+				if (
+					res &&
+					res.success &&
+					Array.isArray(res.slides) &&
+					res.slides.length > 0 &&
+					isMounted
+				) {
 					const mapped: HeroSlide[] = res.slides.map((s: any, idx: number) => ({
 						id: s.id || `slide-${idx}`,
 						slogan: s.badge || "Silicon City Township",
 						englishSlogan: s.badge || "Silicon City Township",
 						title: s.title || "Your Trusted Partner in Land Investment",
-						description: s.subtitle || "Legally sound, planned, and eco-friendly land plots.",
-						image: s.image || "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600",
+						description:
+							s.subtitle ||
+							"Legally sound, planned, and eco-friendly land plots.",
+						image:
+							s.image ||
+							"https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600",
 						ctaText1: "EXPLORE PLOTS",
 						ctaLink1: s.link || "/projects",
 						ctaText2: "CONTACT SALES",
@@ -237,20 +251,19 @@ export function HeroGlassCarousel() {
 								aria-label="Previous slide"
 								className="w-8 h-8 rounded-full border border-border/80 bg-background/80 hover:bg-background text-foreground flex items-center justify-center transition-all cursor-pointer"
 							>
-							<ChevronLeft className="w-4 h-4" />
-						</button>
-						<button
-							onClick={() => paginate(1)}
-							aria-label="Next slide"
-							className="w-8 h-8 rounded-full border border-border/80 bg-background/80 hover:bg-background text-foreground flex items-center justify-center transition-all cursor-pointer"
-						>
-							<ChevronRight className="w-4 h-4" />
-						</button>
+								<ChevronLeft className="w-4 h-4" />
+							</button>
+							<button
+								onClick={() => paginate(1)}
+								aria-label="Next slide"
+								className="w-8 h-8 rounded-full border border-border/80 bg-background/80 hover:bg-background text-foreground flex items-center justify-center transition-all cursor-pointer"
+							>
+								<ChevronRight className="w-4 h-4" />
+							</button>
+						</div>
 					</div>
-				</div>
-			)}
-		</section>
+				)}
+			</section>
 		</div>
 	);
 }
-

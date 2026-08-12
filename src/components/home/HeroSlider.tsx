@@ -187,10 +187,10 @@ export function HeroSlider() {
               initial="hidden"
               animate="visible"
               custom={1}
-              className="text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-foreground leading-[1.1]"
+              className="text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-white leading-[1.1]"
             >
               {slide.title} <br />
-              <span className="font-medium text-neutral-500 dark:text-neutral-400">
+              <span className="font-medium text-primary">
                 {slide.highlight}
               </span>
             </motion.h1>

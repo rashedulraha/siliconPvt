@@ -10,7 +10,8 @@ const galleryItems = [
 	{
 		id: 1,
 		title: "Silicon City Township Master Plan",
-		subtitle: "Discover modern eco-township living adjacent to Mohammadpur, Dhaka.",
+		subtitle:
+			"Discover modern eco-township living adjacent to Mohammadpur, Dhaka.",
 		category: "Flagship Layout",
 		src: "https://images.unsplash.com/photo-1524813686514-a57563d77965?q=80&w=1400",
 		link: "/projects",
@@ -18,7 +19,8 @@ const galleryItems = [
 	{
 		id: 2,
 		title: "30ft & 40ft Internal Avenue Roads",
-		subtitle: "Wide communication networks engineered for smooth and congestion-free vehicle movement.",
+		subtitle:
+			"Wide communication networks engineered for smooth and congestion-free vehicle movement.",
 		category: "Infrastructure",
 		src: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1400",
 		link: "/projects",
@@ -26,7 +28,8 @@ const galleryItems = [
 	{
 		id: 3,
 		title: "16–18ft Soil Earthwork Elevation",
-		subtitle: "Extensive land-filling ensuring flood-protected, high-level residential plot foundations.",
+		subtitle:
+			"Extensive land-filling ensuring flood-protected, high-level residential plot foundations.",
 		category: "Soil Earthwork",
 		src: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1400",
 		link: "/projects",
@@ -34,7 +37,8 @@ const galleryItems = [
 	{
 		id: 4,
 		title: "Turag Riverfront Ecological Corridor",
-		subtitle: "Scenic natural riverfront parklands and recreational green belts.",
+		subtitle:
+			"Scenic natural riverfront parklands and recreational green belts.",
 		category: "Green Spaces",
 		src: "https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?q=80&w=1400",
 		link: "/about#amenities",
@@ -42,7 +46,8 @@ const galleryItems = [
 	{
 		id: 5,
 		title: "Central Mosque & Civic Complex",
-		subtitle: "Modern central mosque, schools, healthcare center and community markets.",
+		subtitle:
+			"Modern central mosque, schools, healthcare center and community markets.",
 		category: "Civic Amenities",
 		src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1400",
 		link: "/about#civic",
@@ -65,11 +70,15 @@ export function ProjectGallerySection() {
 			const windowHeight = window.innerHeight;
 
 			// Check if section is in viewport bounds
-			const isInView = rect.top <= windowHeight * 0.45 && rect.bottom >= windowHeight * 0.55;
+			const isInView =
+				rect.top <= windowHeight * 0.45 && rect.bottom >= windowHeight * 0.55;
 
 			if (isInView) {
 				// Smoothly auto-center the section in viewport on first lock entry
-				if (!isCenteredRef.current && Math.abs(rect.top - (windowHeight - rect.height) / 2) > 60) {
+				if (
+					!isCenteredRef.current &&
+					Math.abs(rect.top - (windowHeight - rect.height) / 2) > 60
+				) {
 					isCenteredRef.current = true;
 					section.scrollIntoView({ behavior: "smooth", block: "center" });
 				}
@@ -110,7 +119,9 @@ export function ProjectGallerySection() {
 	};
 
 	const handlePrev = () => {
-		setActiveIndex((prev) => (prev - 1 + galleryItems.length) % galleryItems.length);
+		setActiveIndex(
+			(prev) => (prev - 1 + galleryItems.length) % galleryItems.length,
+		);
 	};
 
 	return (
@@ -267,12 +278,3 @@ export function ProjectGallerySection() {
 		</section>
 	);
 }
-
-
-
-
-
-
-
-
-
