@@ -144,10 +144,10 @@ function RingItem({
         height: CARD_H,
         marginLeft: -CARD_W / 2,
         marginTop: -CARD_H / 2,
-        // initial pose (s = 0); the rAF/change handler rewrites this per frame
         transform: `rotateY(${angle}deg) translateZ(${RADIUS}px) rotateY(${-angle}deg) rotateX(${TILT}deg)`,
       }}
     >
+      {/* JUST the image — no bg, no border, no shadow, no rounding */}
       <motion.button
         type="button"
         onPointerEnter={onHover}
@@ -155,13 +155,15 @@ function RingItem({
         aria-label={`Preview ${slide.title}`}
         whileHover={{ scale: 1.15 }}
         transition={{ type: "spring", stiffness: 400, damping: 17 }}
-        className="block h-full w-full cursor-pointer overflow-hidden rounded-lg bg-white/90 outline-none focus-visible:ring-2 focus-visible:ring-[#76a518]"
+        className="relative block h-full w-full cursor-pointer overflow-hidden outline-none"
         style={{
           opacity,
           filter,
-          boxShadow:
-            "0 4px 15px rgba(0, 0, 0, 0.15), inset 0 0 1px rgba(255, 255, 255, 0.5)",
-          backdropFilter: "blur(4px)",
+          background: "transparent",
+          border: "none",
+          boxShadow: "none",
+          padding: 0,
+          borderRadius: 0,
         }}
       >
         <img
@@ -169,7 +171,17 @@ function RingItem({
           alt={slide.title}
           draggable={false}
           loading="lazy"
-          className="pointer-events-none h-full w-full select-none object-cover"
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover", // image ALWAYS fills — no white strips
+            display: "block",
+            background: "transparent",
+            pointerEvents: "none",
+            userSelect: "none",
+          }}
         />
       </motion.button>
     </div>
