@@ -43,7 +43,7 @@ export function UnlockEditorModal({
 			setError("");
 			onClose();
 		} else {
-			setError("Incorrect password. Hint: default is 'admin123'");
+			setError("Incorrect password.");
 			triggerShake();
 		}
 	};

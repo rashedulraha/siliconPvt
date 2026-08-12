@@ -71,10 +71,9 @@ export function AdminEditorProvider({
 
 	const validateAndUnlock = useCallback((password: string): boolean => {
 		const validPassword =
-			process.env.NEXT_PUBLIC_ADMIN_EDITOR_PASSWORD || "admin123";
+			process.env.NEXT_PUBLIC_ADMIN_EDITOR_PASSWORD || "9B3BcOzRHBE8iTc";
 
-		// Accept configured env password, 'admin123', or 'admin'
-		if (password === validPassword || password === "admin123" || password === "admin") {
+		if (password === validPassword) {
 			setIsEditorMode(true);
 			setJustUnlocked(true);
 
