@@ -17,7 +17,7 @@ import { useHomeContent } from "@/hooks/useHomeContent";
 import { useSlides } from "@/hooks/useSlides";
 import { formatCurrency } from "@/lib/utils";
 import { MapPin, ArrowRight } from "lucide-react";
-import InteractiveCarouselRing from "./glass/interactive-carousel-ring";
+import InteractiveCarouselRing from "./glass/InteractiveCarouselRing";
 
 export function HomePageClient() {
   const [mounted, setMounted] = useState(false);
@@ -41,48 +41,50 @@ export function HomePageClient() {
   return (
     <div className="bg-background text-foreground min-h-screen overflow-x-hidden flex flex-col">
       {/* ── SECTION 1: Hero Carousel / Slider ── */}
-      <section className="relative w-full py-4 overflow-hidden flex flex-col items-center justify-center min-h-[750px]">
+      <section className="relative w-full py-4 overflow-hidden flex flex-col items-center justify-center min-h-187.5">
         {/* Background Image */}
-        <div 
+        <div
           className="absolute inset-0 z-0"
           style={{
-            backgroundImage: 'url("https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075")',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center top'
+            backgroundImage:
+              'url("https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075")',
+            backgroundSize: "cover",
+            backgroundPosition: "center top",
           }}
         />
         {/* Fade Out Gradient (Top to Bottom) */}
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-background/20 via-background/70 to-background pointer-events-none" />
-        
+        <div className="absolute inset-0 z-0 bg-linear-to-b from-background/20 via-background/70 to-background pointer-events-none" />
+
         {/* Carousel (Main Banner) */}
         <div className="relative z-20 w-full">
           {/* We pass the backend fetched slides into the ring, where they will be duplicated to form 48 items */}
-          <InteractiveCarouselRing className="w-full max-w-[1200px] mx-auto" items={slides.map(s => ({
-            id: s.id,
-            title: s.title,
-            subtitle: s.subtitle,
-            imageUrl: s.image,
-            badge: s.badge || "FEATURED",
-            link: s.link,
-            active: s.active,
-            order: s.order
-          }))} />
+          <InteractiveCarouselRing
+            className="w-full max-w-300 mx-auto"
+            items={slides.map((s) => ({
+              id: s.id,
+              title: s.title,
+              subtitle: s.subtitle,
+              imageUrl: s.image,
+              badge: s.badge || "FEATURED",
+              link: s.link,
+              active: s.active,
+              order: s.order,
+            }))}
+          />
         </div>
         {/* Absolute Center Text Overlay (Behind the hover modal) */}
         <div className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center text-center px-4 w-full max-w-2xl pointer-events-none">
           <motion.h1
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground tracking-tighter mb-4"
-          >
+            className="text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground tracking-tighter mb-4">
             {homeData.heroTitle || "Silicon City"}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-sm md:text-base text-muted-foreground font-normal max-w-lg mx-auto"
-          >
+            className="text-sm md:text-base text-muted-foreground font-normal max-w-lg mx-auto">
             {homeData.heroDesc ||
               "Experience the perfect blend of luxury, nature, and cutting-edge technology."}
           </motion.p>
@@ -109,8 +111,7 @@ export function HomePageClient() {
             </div>
             <Link
               href="/properties"
-              className="text-xs font-semibold font-heading text-primary hover:underline inline-flex items-center gap-1 shrink-0"
-            >
+              className="text-xs font-semibold font-heading text-primary hover:underline inline-flex items-center gap-1 shrink-0">
               View All Listings <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -120,8 +121,7 @@ export function HomePageClient() {
             {featuredPlots.map((prop) => (
               <div
                 key={prop.id}
-                className="group bg-card border border-border/60 rounded-3xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between text-left"
-              >
+                className="group bg-card border border-border/60 rounded-3xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between text-left">
                 <div className="relative h-48 w-full overflow-hidden bg-muted">
                   <img
                     src={
@@ -164,8 +164,7 @@ export function HomePageClient() {
                     </div>
                     <Link
                       href={`/properties/${prop.slug}`}
-                      className="px-4 py-2 rounded-xl bg-muted hover:bg-primary hover:text-primary-foreground text-xs font-semibold font-heading transition-all"
-                    >
+                      className="px-4 py-2 rounded-xl bg-muted hover:bg-primary hover:text-primary-foreground text-xs font-semibold font-heading transition-all">
                       Details
                     </Link>
                   </div>
@@ -217,8 +216,7 @@ export function HomePageClient() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: idx * 0.08 }}
                 whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                className="bg-white/[0.06] backdrop-blur-xl border border-white/12 rounded-3xl p-7 flex flex-col justify-between space-y-4 hover:border-accent/60 transition-all duration-300 shadow-lg"
-              >
+                className="bg-white/[0.06] backdrop-blur-xl border border-white/12 rounded-3xl p-7 flex flex-col justify-between space-y-4 hover:border-accent/60 transition-all duration-300 shadow-lg">
                 <div className="space-y-3">
                   <span className="text-3xl sm:text-4xl font-extrabold font-heading text-accent tracking-tight block">
                     {s.value}
@@ -257,8 +255,7 @@ export function HomePageClient() {
             {accreditations.map((badge) => (
               <div
                 key={badge}
-                className="bg-card px-4 py-2 rounded-full border border-border/60 text-xs font-medium font-heading text-foreground/90 shadow-2xs"
-              >
+                className="bg-card px-4 py-2 rounded-full border border-border/60 text-xs font-medium font-heading text-foreground/90 shadow-2xs">
                 {badge}
               </div>
             ))}
