@@ -1,7 +1,21 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Mail, Phone, Trash2, Search, MessageSquare } from "lucide-react";
+import {
+	Mail,
+	Phone,
+	Trash2,
+	Search,
+	MessageSquare,
+	Users,
+	CheckCircle2,
+	Clock,
+	ShieldCheck,
+	ArrowUpRight,
+	Calendar,
+	Filter,
+	Sparkles,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -43,7 +57,6 @@ export default function LeadsPage() {
 	const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
 
 	const filtered = useMemo(() => {
-		// Reset page whenever filters change
 		let result = [...leads];
 		if (search) {
 			const q = search.toLowerCase();
@@ -62,7 +75,6 @@ export default function LeadsPage() {
 		);
 	}, [leads, search, statusFilter]);
 
-	// Reset to page 1 when filters/search change by deriving page from filtered length
 	const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
 	const safePage = Math.min(currentPage, Math.max(1, totalPages));
 
@@ -81,152 +93,211 @@ export default function LeadsPage() {
 		setCurrentPage(1);
 	}
 
+	const statCards = [
+		{
+			label: "Total Inquiries",
+			value: stats.total,
+			icon: Users,
+			color: "bg-blue-500/10 text-blue-600 border-blue-500/20",
+		},
+		{
+			label: "New Leads",
+			value: stats.new,
+			icon: Mail,
+			color: "bg-amber-500/10 text-amber-600 border-amber-500/20",
+			pulse: stats.new > 0,
+		},
+		{
+			label: "Contacted",
+			value: stats.contacted,
+			icon: Phone,
+			color: "bg-indigo-500/10 text-indigo-600 border-indigo-500/20",
+		},
+		{
+			label: "Qualified",
+			value: stats.qualified,
+			icon: CheckCircle2,
+			color: "bg-purple-500/10 text-purple-600 border-purple-500/20",
+		},
+		{
+			label: "Closed Deals",
+			value: stats.closed,
+			icon: ShieldCheck,
+			color: "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
+		},
+	];
+
 	return (
-		<div className="space-y-6">
-			{/* Stats */}
-			<div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-				{[
-					{ label: "Total", value: stats.total, color: "bg-muted" },
-					{
-						label: "New",
-						value: stats.new,
-						color: "bg-blue-500/10 text-blue-600",
-					},
-					{
-						label: "Contacted",
-						value: stats.contacted,
-						color: "bg-amber-500/10 text-amber-600",
-					},
-					{
-						label: "Qualified",
-						value: stats.qualified,
-						color: "bg-purple-500/10 text-purple-600",
-					},
-					{
-						label: "Closed",
-						value: stats.closed,
-						color: "bg-green-500/10 text-green-600",
-					},
-				].map((s) => (
-					<Card key={s.label}>
-						<CardContent className="p-4">
-							<p className="text-xs text-muted-foreground font-medium">
-								{s.label}
-							</p>
-							<p className="text-2xl font-bold mt-1">{s.value}</p>
-						</CardContent>
-					</Card>
-				))}
+		<div className="space-y-6 max-w-7xl mx-auto text-left font-roboto">
+			{/* ── 1. STAT CARDS ── */}
+			<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
+				{statCards.map((s) => {
+					const Icon = s.icon;
+					return (
+						<div
+							key={s.label}
+							className="bg-card border border-border/80 rounded-2xl p-4 shadow-xs hover:shadow-md transition-all space-y-2 group"
+						>
+							<div className="flex items-center justify-between">
+								<span className="text-[11px] font-medium text-muted-foreground uppercase font-heading tracking-wider">
+									{s.label}
+								</span>
+								<div
+									className={`w-7 h-7 rounded-lg flex items-center justify-center border ${s.color}`}
+								>
+									<Icon className="w-3.5 h-3.5" />
+								</div>
+							</div>
+							<div className="flex items-baseline gap-2">
+								<p className="text-2xl font-extrabold font-heading text-foreground">
+									{s.value}
+								</p>
+								{s.pulse && (
+									<span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+								)}
+							</div>
+						</div>
+					);
+				})}
 			</div>
 
-			{/* Filters */}
-			<Card>
-				<CardContent className="p-4">
-					<div className="grid sm:grid-cols-2 gap-3">
-						<div className="relative">
-							<Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-							<Input
-								value={search}
-								onChange={(e) => handleSearchChange(e.target.value)}
-								placeholder="Search by name, email, or message..."
-								className="pl-9"
-							/>
-						</div>
+			{/* ── 2. SEARCH & FILTER CONTROLS ── */}
+			<div className="bg-card border border-border/80 rounded-2xl p-4 shadow-xs">
+				<div className="flex flex-col sm:flex-row items-center gap-3">
+					<div className="relative flex-1 w-full">
+						<Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+						<Input
+							value={search}
+							onChange={(e) => handleSearchChange(e.target.value)}
+							placeholder="Search inquiries by name, email, or message keyword..."
+							className="pl-10 h-10 rounded-xl bg-background border-border/70 text-xs sm:text-sm font-light"
+						/>
+					</div>
+					<div className="w-full sm:w-56 shrink-0">
 						<Select
 							value={statusFilter}
 							onValueChange={handleStatusFilterChange}
 						>
-							<SelectTrigger>
+							<SelectTrigger className="h-10 rounded-xl bg-background border-border/70 text-xs font-semibold font-heading">
 								<SelectValue placeholder="Filter by status" />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="all">All Statuses</SelectItem>
-								<SelectItem value="new">New</SelectItem>
-								<SelectItem value="contacted">Contacted</SelectItem>
-								<SelectItem value="qualified">Qualified</SelectItem>
-								<SelectItem value="closed">Closed</SelectItem>
+								<SelectItem value="all">
+									All Inquiries ({stats.total})
+								</SelectItem>
+								<SelectItem value="new">New ({stats.new})</SelectItem>
+								<SelectItem value="contacted">
+									Contacted ({stats.contacted})
+								</SelectItem>
+								<SelectItem value="qualified">
+									Qualified ({stats.qualified})
+								</SelectItem>
+								<SelectItem value="closed">Closed ({stats.closed})</SelectItem>
 							</SelectContent>
 						</Select>
 					</div>
-				</CardContent>
-			</Card>
+				</div>
+			</div>
 
-			{/* Table */}
-			<Card>
-				<CardContent className="p-0">
-					{filtered.length === 0 ? (
-						<div className="text-center py-16">
-							<MessageSquare className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-							<p className="text-muted-foreground">No leads found.</p>
+			{/* ── 3. DATA TABLE / LEADS LIST ── */}
+			<div className="bg-card border border-border/80 rounded-2xl overflow-hidden shadow-xs">
+				{filtered.length === 0 ? (
+					<div className="text-center py-16 px-4 space-y-3">
+						<div className="w-12 h-12 rounded-2xl bg-muted/60 border border-border/80 flex items-center justify-center mx-auto text-muted-foreground">
+							<MessageSquare className="h-6 w-6" />
 						</div>
-					) : (
+						<div className="space-y-1">
+							<p className="text-sm font-bold font-heading text-foreground">
+								No Customer Inquiries Found
+							</p>
+							<p className="text-xs text-muted-foreground font-light max-w-sm mx-auto">
+								{search || statusFilter !== "all"
+									? "Try clearing your search keyword or changing the status filter to see other results."
+									: "When customers submit contact forms or book site visits, they will show up here live."}
+							</p>
+						</div>
+					</div>
+				) : (
+					<>
 						<Table>
-							<TableHeader>
-								<TableRow>
-									<TableHead>Name</TableHead>
-									<TableHead className="hidden md:table-cell">
-										Contact
+							<TableHeader className="bg-muted/40 border-b border-border/60">
+								<TableRow className="hover:bg-transparent">
+									<TableHead className="font-heading font-bold text-xs text-muted-foreground uppercase py-3.5 pl-5">
+										Customer Name
 									</TableHead>
-									<TableHead className="hidden lg:table-cell">
-										Message
+									<TableHead className="font-heading font-bold text-xs text-muted-foreground uppercase hidden md:table-cell">
+										Contact Details
 									</TableHead>
-									<TableHead>Status</TableHead>
-									<TableHead className="hidden sm:table-cell">Date</TableHead>
-									<TableHead className="text-right">Actions</TableHead>
+									<TableHead className="font-heading font-bold text-xs text-muted-foreground uppercase hidden lg:table-cell">
+										Inquiry Message
+									</TableHead>
+									<TableHead className="font-heading font-bold text-xs text-muted-foreground uppercase">
+										Lead Status
+									</TableHead>
+									<TableHead className="font-heading font-bold text-xs text-muted-foreground uppercase hidden sm:table-cell">
+										Date Received
+									</TableHead>
+									<TableHead className="font-heading font-bold text-xs text-muted-foreground uppercase text-right pr-5">
+										Actions
+									</TableHead>
 								</TableRow>
 							</TableHeader>
-							<TableBody>
+							<TableBody className="divide-y divide-border/40">
 								{paginatedLeads.map((lead) => (
 									<TableRow
 										key={lead.id}
 										data-lead-row="true"
-										className="cursor-pointer"
+										className="cursor-pointer hover:bg-muted/30 transition-colors"
 										onClick={() => setSelectedLead(lead)}
 									>
-										<TableCell>
+										<TableCell className="py-3.5 pl-5">
 											<div className="flex items-center gap-3">
-												<div className="h-9 w-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold text-sm">
+												<div className="h-9 w-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs border border-primary/20 shrink-0">
 													{lead.name.charAt(0).toUpperCase()}
 												</div>
-												<div>
-													<p className="font-medium">{lead.name}</p>
-													<p className="text-xs text-muted-foreground md:hidden">
+												<div className="min-w-0">
+													<p className="font-bold text-sm text-foreground truncate">
+														{lead.name}
+													</p>
+													<p className="text-xs text-muted-foreground md:hidden truncate font-light">
 														{lead.email}
 													</p>
 												</div>
 											</div>
 										</TableCell>
-										<TableCell className="hidden md:table-cell">
+										<TableCell className="hidden md:table-cell py-3.5">
 											<div className="space-y-0.5">
-												<p className="text-sm">{lead.email}</p>
+												<p className="text-xs font-medium text-foreground">
+													{lead.email}
+												</p>
 												{lead.phone && (
-													<p className="text-xs text-muted-foreground">
+													<p className="text-[11px] text-muted-foreground font-mono">
 														{lead.phone}
 													</p>
 												)}
 											</div>
 										</TableCell>
-										<TableCell className="hidden lg:table-cell max-w-xs">
-											<p className="truncate text-sm text-muted-foreground">
-												{lead.message}
+										<TableCell className="hidden lg:table-cell max-w-xs py-3.5">
+											<p className="truncate text-xs text-muted-foreground font-light">
+												{lead.message || "—"}
 											</p>
 										</TableCell>
-										<TableCell>
+										<TableCell className="py-3.5">
 											<LeadStatusBadge status={lead.status} />
 										</TableCell>
-										<TableCell className="hidden sm:table-cell text-sm text-muted-foreground">
+										<TableCell className="hidden sm:table-cell text-xs text-muted-foreground font-mono py-3.5">
 											{formatDate(lead.createdAt)}
 										</TableCell>
-										<TableCell className="text-right">
-											<div className="flex justify-end gap-1">
+										<TableCell className="text-right py-3.5 pr-5">
+											<div
+												className="flex items-center justify-end gap-1"
+												onClick={(e) => e.stopPropagation()}
+											>
 												<Button
 													variant="ghost"
 													size="icon"
-													onClick={(e) => {
-														e.stopPropagation();
-														setDeleteId(lead.id);
-													}}
-													className="text-destructive hover:text-destructive"
+													className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10 cursor-pointer rounded-lg"
+													onClick={() => setDeleteId(lead.id)}
 												>
 													<Trash2 className="h-4 w-4" />
 												</Button>
@@ -236,150 +307,148 @@ export default function LeadsPage() {
 								))}
 							</TableBody>
 						</Table>
-					)}
-				</CardContent>
-			</Card>
 
-			{/* Pagination */}
-			{totalPages > 1 && (
-				<div className="flex items-center justify-center gap-2">
-					{Array.from({ length: totalPages }, (_, i) => i + 1).map(
-						(pageNum) => (
-							<Button
-								key={pageNum}
-								data-page={pageNum}
-								variant={safePage === pageNum ? "default" : "outline"}
-								size="sm"
-								onClick={() => setCurrentPage(pageNum)}
-							>
-								{pageNum}
-							</Button>
-						),
-					)}
-				</div>
-			)}
-
-			{/* Lead Detail Sheet */}
-			<Sheet
-				open={!!selectedLead}
-				onOpenChange={(open) => !open && setSelectedLead(null)}
-			>
-				<SheetContent side="right" className="overflow-y-auto">
-					{selectedLead && (
-						<>
-							<SheetHeader>
-								<SheetTitle className="flex items-center gap-3">
-									<div className="h-10 w-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold">
-										{selectedLead.name.charAt(0).toUpperCase()}
-									</div>
-									{selectedLead.name}
-								</SheetTitle>
-							</SheetHeader>
-
-							<div className="px-4 pb-6 space-y-6">
-								{/* Contact Info */}
-								<div className="space-y-3">
-									<h3 className="text-xs font-semibold uppercase text-muted-foreground tracking-wider">
-										Contact Information
-									</h3>
-									<div className="space-y-2">
-										<a
-											href={`mailto:${selectedLead.email}`}
-											className="flex items-center gap-2 text-sm hover:text-primary transition-colors"
-										>
-											<Mail className="h-4 w-4 text-muted-foreground shrink-0" />
-											{selectedLead.email}
-										</a>
-										{selectedLead.phone && (
-											<a
-												href={`tel:${selectedLead.phone}`}
-												className="flex items-center gap-2 text-sm hover:text-primary transition-colors"
-											>
-												<Phone className="h-4 w-4 text-muted-foreground shrink-0" />
-												{selectedLead.phone}
-											</a>
-										)}
-									</div>
-								</div>
-
-								{/* Message */}
-								<div className="space-y-2">
-									<h3 className="text-xs font-semibold uppercase text-muted-foreground tracking-wider">
-										Message
-									</h3>
-									<p className="text-sm whitespace-pre-line leading-relaxed">
-										{selectedLead.message}
-									</p>
-								</div>
-
-								{/* Metadata */}
-								<div className="space-y-2">
-									<h3 className="text-xs font-semibold uppercase text-muted-foreground tracking-wider">
-										Details
-									</h3>
-									<div className="grid grid-cols-2 gap-2 text-sm">
-										<div>
-											<p className="text-muted-foreground text-xs">Date</p>
-											<p>{formatDate(selectedLead.createdAt)}</p>
-										</div>
-										{selectedLead.propertyId && (
-											<div>
-												<p className="text-muted-foreground text-xs">
-													Property ID
-												</p>
-												<p className="truncate">{selectedLead.propertyId}</p>
-											</div>
-										)}
-										{selectedLead.jobId && (
-											<div>
-												<p className="text-muted-foreground text-xs">Job ID</p>
-												<p className="truncate">{selectedLead.jobId}</p>
-											</div>
-										)}
-									</div>
-								</div>
-
-								{/* Status Selector */}
-								<div className="space-y-3">
-									<h3 className="text-xs font-semibold uppercase text-muted-foreground tracking-wider">
-										Update Status
-									</h3>
-									<div className="flex flex-wrap gap-2">
-										{(["new", "contacted", "qualified", "closed"] as const).map(
-											(s) => (
-												<Button
-													key={s}
-													variant={
-														selectedLead.status === s ? "default" : "outline"
-													}
-													size="sm"
-													onClick={() => {
-														updateLeadStatus(selectedLead.id, s);
-														setSelectedLead({ ...selectedLead, status: s });
-													}}
-													className="capitalize"
-												>
-													{s}
-												</Button>
-											),
-										)}
-									</div>
+						{/* Pagination Controls */}
+						{totalPages > 1 && (
+							<div className="flex items-center justify-between px-5 py-3.5 border-t border-border/50 bg-muted/20 text-xs text-muted-foreground font-mono">
+								<span>
+									Showing {(safePage - 1) * ITEMS_PER_PAGE + 1} to{" "}
+									{Math.min(safePage * ITEMS_PER_PAGE, filtered.length)} of{" "}
+									{filtered.length} inquiries
+								</span>
+								<div className="flex items-center gap-2">
+									<Button
+										variant="outline"
+										size="sm"
+										className="h-8 px-3 rounded-lg text-xs"
+										disabled={safePage <= 1}
+										onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+									>
+										Previous
+									</Button>
+									<span className="px-2 font-bold text-foreground">
+										{safePage} / {totalPages}
+									</span>
+									<Button
+										variant="outline"
+										size="sm"
+										className="h-8 px-3 rounded-lg text-xs"
+										disabled={safePage >= totalPages}
+										onClick={() =>
+											setCurrentPage((p) => Math.min(totalPages, p + 1))
+										}
+									>
+										Next
+									</Button>
 								</div>
 							</div>
-						</>
+						)}
+					</>
+				)}
+			</div>
+
+			{/* ── 4. LEAD DETAIL SHEET ── */}
+			<Sheet
+				open={Boolean(selectedLead)}
+				onOpenChange={(open) => !open && setSelectedLead(null)}
+			>
+				<SheetContent className="sm:max-w-md space-y-6 font-roboto">
+					<SheetHeader className="text-left border-b border-border/50 pb-4">
+						<SheetTitle className="font-heading text-lg font-bold">
+							Inquiry Details
+						</SheetTitle>
+					</SheetHeader>
+
+					{selectedLead && (
+						<div className="space-y-5 text-left text-xs sm:text-sm">
+							<div className="space-y-1">
+								<span className="text-[11px] font-mono text-muted-foreground uppercase">
+									Lead Name
+								</span>
+								<p className="font-bold text-base text-foreground">
+									{selectedLead.name}
+								</p>
+							</div>
+
+							<div className="grid grid-cols-2 gap-4">
+								<div className="space-y-1">
+									<span className="text-[11px] font-mono text-muted-foreground uppercase">
+										Email
+									</span>
+									<a
+										href={`mailto:${selectedLead.email}`}
+										className="block font-medium text-primary hover:underline"
+									>
+										{selectedLead.email}
+									</a>
+								</div>
+								<div className="space-y-1">
+									<span className="text-[11px] font-mono text-muted-foreground uppercase">
+										Phone
+									</span>
+									<a
+										href={`tel:${selectedLead.phone}`}
+										className="block font-medium text-foreground hover:underline"
+									>
+										{selectedLead.phone || "—"}
+									</a>
+								</div>
+							</div>
+
+							<div className="space-y-1.5">
+								<span className="text-[11px] font-mono text-muted-foreground uppercase">
+									Change Status
+								</span>
+								<Select
+									value={selectedLead.status}
+									onValueChange={(val) => {
+										updateLeadStatus(selectedLead.id, val as any);
+										setSelectedLead((prev) =>
+											prev ? { ...prev, status: val as any } : null,
+										);
+									}}
+								>
+									<SelectTrigger className="h-10 rounded-xl bg-background border-border/80">
+										<SelectValue />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="new">New</SelectItem>
+										<SelectItem value="contacted">Contacted</SelectItem>
+										<SelectItem value="qualified">Qualified</SelectItem>
+										<SelectItem value="closed">Closed</SelectItem>
+									</SelectContent>
+								</Select>
+							</div>
+
+							<div className="space-y-1.5">
+								<span className="text-[11px] font-mono text-muted-foreground uppercase">
+									Customer Message
+								</span>
+								<div className="p-4 rounded-xl bg-muted/40 border border-border/60 leading-relaxed font-light whitespace-pre-wrap">
+									{selectedLead.message || "No message body provided."}
+								</div>
+							</div>
+
+							<div className="space-y-1 text-[11px] font-mono text-muted-foreground pt-2 border-t border-border/50">
+								<span>Received: {formatDate(selectedLead.createdAt)}</span>
+							</div>
+						</div>
 					)}
 				</SheetContent>
 			</Sheet>
 
+			{/* ── 5. CONFIRM DELETE MODAL ── */}
 			<ConfirmDialog
-				open={!!deleteId}
+				open={Boolean(deleteId)}
 				onOpenChange={(open) => !open && setDeleteId(null)}
-				title="Delete Lead"
-				description="Are you sure you want to delete this lead? This action cannot be undone."
+				title="Delete Inquiry"
+				description="Are you sure you want to delete this customer inquiry? This action cannot be undone."
 				confirmText="Delete"
 				onConfirm={() => {
-					if (deleteId) deleteLead(deleteId);
-					setDeleteId(null);
+					if (deleteId) {
+						deleteLead(deleteId);
+						setDeleteId(null);
+					}
 				}}
 			/>
 		</div>
