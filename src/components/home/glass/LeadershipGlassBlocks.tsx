@@ -94,7 +94,9 @@ export function LeadershipGlassBlocks() {
 						{isBn ? "শীর্ষ পরিচালনা পর্ষদ" : "EXECUTIVE LEADERSHIP"}
 					</span>
 					<h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
-						{isBn ? "দূরদর্শী নেতৃত্বের দিকনির্দেশনা" : "Guided By Visionary Leadership"}
+						{isBn
+							? "দূরদর্শী নেতৃত্বের দিকনির্দেশনা"
+							: "Guided By Visionary Leadership"}
 					</h2>
 					<p className="text-muted-foreground text-xs sm:text-sm md:text-base font-light">
 						{isBn
@@ -163,7 +165,9 @@ export function LeadershipGlassBlocks() {
 							<div className="pt-4 border-t border-border/40 flex items-center justify-between text-[11px] font-heading font-medium text-muted-foreground">
 								<span className="flex items-center gap-1.5 text-foreground/80">
 									<ShieldCheck className="w-3.5 h-3.5 text-primary" />
-									{isBn ? "সিলিকন রিয়েল এস্টেট গর্ভন্যান্স" : "Silicon Real Estate Governance"}
+									{isBn
+										? "সিলিকন রিয়েল এস্টেট গর্ভন্যান্স"
+										: "Silicon Real Estate Governance"}
 								</span>
 								<span className="text-primary font-medium">
 									{isBn ? "এক্সিকিউটিভ বোর্ড" : "Executive Board"}
