@@ -79,7 +79,9 @@ export default function ProjectsSettingsPage() {
 
 	// Project Modal State
 	const [projectModalOpen, setProjectModalOpen] = useState(false);
-	const [editingProject, setEditingProject] = useState<ProjectItem | null>(null);
+	const [editingProject, setEditingProject] = useState<ProjectItem | null>(
+		null,
+	);
 	const [projectFormData, setProjectFormData] =
 		useState<Omit<ProjectItem, "id">>(emptyProjectForm);
 	const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
@@ -90,7 +92,10 @@ export default function ProjectsSettingsPage() {
 		}
 	}, [initialContent]);
 
-	const handleContentChange = (field: keyof ProjectsContentData, value: any) => {
+	const handleContentChange = (
+		field: keyof ProjectsContentData,
+		value: any,
+	) => {
 		setContentForm((prev) => ({ ...prev, [field]: value }));
 	};
 
@@ -194,8 +199,8 @@ export default function ProjectsSettingsPage() {
 
 	return (
 		<div className="bg-background text-foreground min-h-screen pb-24 text-left">
-			{/* ── TOP ACTION BAR ── */}
-			<div className="border-b border-border/60 bg-card/80 backdrop-blur-md sticky top-0 z-30 py-3.5">
+			{/* ── TOP ACTION BAR (Non-sticky) ── */}
+			<div className="border-b border-border/50 py-3 mb-6">
 				<SectionContainer>
 					<div className="flex items-center justify-between gap-4">
 						<Link
@@ -213,7 +218,7 @@ export default function ProjectsSettingsPage() {
 									refetchProjects();
 								}}
 								disabled={isGlobalLoading}
-								className="px-3.5 h-9 rounded-xl border border-border/80 text-foreground hover:bg-muted text-xs font-semibold font-heading inline-flex items-center gap-1.5 transition-all cursor-pointer"
+								className="px-3.5 h-8 rounded-full border border-border/80 text-foreground hover:bg-muted text-xs font-semibold font-heading inline-flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs"
 							>
 								<RefreshCw
 									className={`w-3.5 h-3.5 ${isGlobalLoading ? "animate-spin" : ""}`}
@@ -224,24 +229,11 @@ export default function ProjectsSettingsPage() {
 							<Link
 								href="/projects"
 								target="_blank"
-								className="px-3.5 h-9 rounded-xl border border-border/80 text-foreground hover:bg-muted text-xs font-semibold font-heading inline-flex items-center gap-1.5 transition-all"
+								className="px-3.5 h-8 rounded-full border border-border/80 text-foreground hover:bg-muted text-xs font-semibold font-heading inline-flex items-center gap-1.5 transition-all shadow-2xs"
 							>
 								<Eye className="w-3.5 h-3.5 text-muted-foreground" />
 								<span>Live Projects Page</span>
 							</Link>
-
-							<button
-								onClick={() => handleSaveContent()}
-								disabled={saving || isGlobalLoading}
-								className="px-4 h-9 rounded-xl bg-primary text-primary-foreground text-xs font-bold font-heading inline-flex items-center gap-1.5 transition-all shadow-xs hover:bg-primary/90 cursor-pointer disabled:opacity-50"
-							>
-								{saving ? (
-									<Loader2 className="w-3.5 h-3.5 animate-spin" />
-								) : (
-									<Save className="w-3.5 h-3.5" />
-								)}
-								<span>Save Changes</span>
-							</button>
 						</div>
 					</div>
 				</SectionContainer>
@@ -252,13 +244,15 @@ export default function ProjectsSettingsPage() {
 					{/* Header Title */}
 					<div className="space-y-1 text-left">
 						<span className="text-xs font-semibold uppercase tracking-wider text-primary font-heading inline-flex items-center gap-1.5">
-							<Sparkles className="w-3.5 h-3.5" /> PUBLIC PROJECTS PAGE COMPLETE CONTROL
+							<Sparkles className="w-3.5 h-3.5" /> PUBLIC PROJECTS PAGE COMPLETE
+							CONTROL
 						</span>
 						<h1 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
 							Projects & Township Settings
 						</h1>
 						<p className="text-xs sm:text-sm text-muted-foreground font-light">
-							Manage headers, trust metrics, spotlight specifications, portfolio projects, amenities, connectivity matrix, and allotment roadmap.
+							Manage headers, trust metrics, spotlight specifications, portfolio
+							projects, amenities, connectivity matrix, and allotment roadmap.
 						</p>
 					</div>
 
@@ -275,9 +269,21 @@ export default function ProjectsSettingsPage() {
 						{[
 							{ id: "hero", label: "Header & Trust Metrics", icon: FileText },
 							{ id: "spotlight", label: "Spotlight & Specs", icon: Award },
-							{ id: "projects", label: `Township Projects (${projects.length})`, icon: Building2 },
-							{ id: "categories", label: "Property Categories", icon: HelpCircle },
-							{ id: "amenities", label: "Amenities & Proximity", icon: Compass },
+							{
+								id: "projects",
+								label: `Township Projects (${projects.length})`,
+								icon: Building2,
+							},
+							{
+								id: "categories",
+								label: "Property Categories",
+								icon: HelpCircle,
+							},
+							{
+								id: "amenities",
+								label: "Amenities & Proximity",
+								icon: Compass,
+							},
 							{ id: "roadmap", label: "Roadmap & CTA Desk", icon: PhoneCall },
 						].map((tab) => {
 							const Icon = tab.icon;
@@ -398,7 +404,11 @@ export default function ProjectsSettingsPage() {
 									</div>
 
 									<div className="flex justify-end pt-2">
-										<Button type="submit" disabled={saving} className="gap-2 px-6">
+										<Button
+											type="submit"
+											disabled={saving}
+											className="gap-2 px-6"
+										>
 											{saving ? (
 												<Loader2 className="w-4 h-4 animate-spin" />
 											) : (
@@ -426,7 +436,10 @@ export default function ProjectsSettingsPage() {
 												<Input
 													value={contentForm.spotlightBadge}
 													onChange={(e) =>
-														handleContentChange("spotlightBadge", e.target.value)
+														handleContentChange(
+															"spotlightBadge",
+															e.target.value,
+														)
 													}
 												/>
 											</div>
@@ -437,7 +450,10 @@ export default function ProjectsSettingsPage() {
 												<Input
 													value={contentForm.spotlightTitle}
 													onChange={(e) =>
-														handleContentChange("spotlightTitle", e.target.value)
+														handleContentChange(
+															"spotlightTitle",
+															e.target.value,
+														)
 													}
 												/>
 											</div>
@@ -464,7 +480,10 @@ export default function ProjectsSettingsPage() {
 												<Input
 													value={contentForm.spotlightBoxTitle}
 													onChange={(e) =>
-														handleContentChange("spotlightBoxTitle", e.target.value)
+														handleContentChange(
+															"spotlightBoxTitle",
+															e.target.value,
+														)
 													}
 												/>
 											</div>
@@ -489,7 +508,10 @@ export default function ProjectsSettingsPage() {
 												rows={3}
 												value={contentForm.spotlightBoxDesc}
 												onChange={(e) =>
-													handleContentChange("spotlightBoxDesc", e.target.value)
+													handleContentChange(
+														"spotlightBoxDesc",
+														e.target.value,
+													)
 												}
 											/>
 										</div>
@@ -555,7 +577,11 @@ export default function ProjectsSettingsPage() {
 									</div>
 
 									<div className="flex justify-end pt-2">
-										<Button type="submit" disabled={saving} className="gap-2 px-6">
+										<Button
+											type="submit"
+											disabled={saving}
+											className="gap-2 px-6"
+										>
 											{saving ? (
 												<Loader2 className="w-4 h-4 animate-spin" />
 											) : (
@@ -576,7 +602,8 @@ export default function ProjectsSettingsPage() {
 												Active Portfolio Projects ({projects.length})
 											</h2>
 											<p className="text-xs text-muted-foreground font-light">
-												These projects appear directly in the Development Portfolio section on the public projects page.
+												These projects appear directly in the Development
+												Portfolio section on the public projects page.
 											</p>
 										</div>
 										<Button
@@ -636,24 +663,23 @@ export default function ProjectsSettingsPage() {
 														{item.description}
 													</p>
 
-													{item.highlights &&
-														item.highlights.length > 0 && (
-															<div className="space-y-1.5 pt-1">
-																<span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground font-heading block">
-																	Highlights ({item.highlights.length}):
-																</span>
-																<div className="flex flex-wrap gap-1.5">
-																	{item.highlights.map((h, i) => (
-																		<span
-																			key={i}
-																			className="text-[10px] px-2 py-0.5 rounded-md bg-muted text-muted-foreground font-medium"
-																		>
-																			{h}
-																		</span>
-																	))}
-																</div>
+													{item.highlights && item.highlights.length > 0 && (
+														<div className="space-y-1.5 pt-1">
+															<span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground font-heading block">
+																Highlights ({item.highlights.length}):
+															</span>
+															<div className="flex flex-wrap gap-1.5">
+																{item.highlights.map((h, i) => (
+																	<span
+																		key={i}
+																		className="text-[10px] px-2 py-0.5 rounded-md bg-muted text-muted-foreground font-medium"
+																	>
+																		{h}
+																	</span>
+																))}
 															</div>
-														)}
+														</div>
+													)}
 												</div>
 
 												{/* Action Buttons */}
@@ -766,7 +792,11 @@ export default function ProjectsSettingsPage() {
 									</div>
 
 									<div className="flex justify-end pt-2">
-										<Button type="submit" disabled={saving} className="gap-2 px-6">
+										<Button
+											type="submit"
+											disabled={saving}
+											className="gap-2 px-6"
+										>
 											{saving ? (
 												<Loader2 className="w-4 h-4 animate-spin" />
 											) : (
@@ -916,7 +946,11 @@ export default function ProjectsSettingsPage() {
 									</div>
 
 									<div className="flex justify-end pt-2">
-										<Button type="submit" disabled={saving} className="gap-2 px-6">
+										<Button
+											type="submit"
+											disabled={saving}
+											className="gap-2 px-6"
+										>
 											{saving ? (
 												<Loader2 className="w-4 h-4 animate-spin" />
 											) : (
@@ -1046,7 +1080,11 @@ export default function ProjectsSettingsPage() {
 									</div>
 
 									<div className="flex justify-end pt-2">
-										<Button type="submit" disabled={saving} className="gap-2 px-6">
+										<Button
+											type="submit"
+											disabled={saving}
+											className="gap-2 px-6"
+										>
 											{saving ? (
 												<Loader2 className="w-4 h-4 animate-spin" />
 											) : (
@@ -1295,7 +1333,11 @@ export default function ProjectsSettingsPage() {
 								>
 									Cancel
 								</Button>
-								<Button type="submit" disabled={saving} className="gap-1.5 font-bold">
+								<Button
+									type="submit"
+									disabled={saving}
+									className="gap-1.5 font-bold"
+								>
 									{saving ? (
 										<Loader2 className="w-3.5 h-3.5 animate-spin" />
 									) : (
@@ -1317,7 +1359,8 @@ export default function ProjectsSettingsPage() {
 							Delete Project?
 						</h3>
 						<p className="text-xs text-muted-foreground font-light">
-							Are you sure you want to permanently delete this project from the database?
+							Are you sure you want to permanently delete this project from the
+							database?
 						</p>
 						<div className="flex items-center justify-center gap-3 pt-2">
 							<Button
@@ -1337,6 +1380,22 @@ export default function ProjectsSettingsPage() {
 					</div>
 				</div>
 			)}
+
+			{/* ── FLOATING BOTTOM-RIGHT SAVE CAPSULE ── */}
+			<div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 p-1.5 rounded-full bg-card/90 backdrop-blur-xl border border-border/80 shadow-[0_12px_36px_rgba(0,0,0,0.25)]">
+				<button
+					onClick={() => handleSaveContent()}
+					disabled={saving || isGlobalLoading}
+					className="h-11 px-6 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground text-xs sm:text-sm font-bold font-heading inline-flex items-center gap-2 shadow-md shadow-primary/25 hover:shadow-lg transition-all active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+				>
+					{saving ? (
+						<Loader2 className="w-4 h-4 animate-spin" />
+					) : (
+						<Save className="w-4 h-4" />
+					)}
+					<span>{saving ? "Saving Changes..." : "Save Changes"}</span>
+				</button>
+			</div>
 		</div>
 	);
 }

@@ -21,11 +21,22 @@ import {
 } from "lucide-react";
 import { SectionContainer } from "@/components/layout/SectionContainer";
 import { useSlides, Slide } from "@/hooks/useSlides";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+	Card,
+	CardContent,
+	CardHeader,
+	CardTitle,
+	CardDescription,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 
 export default function ManageSlidesPage() {
@@ -55,7 +66,8 @@ export default function ManageSlidesPage() {
 			title: "",
 			subtitle: "Masterplanned Eco-Township in Savar, Dhaka",
 			badge: "FEATURED",
-			image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600",
+			image:
+				"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600",
 			link: "/projects",
 			active: true,
 			order: slides.length + 1,
@@ -127,8 +139,8 @@ export default function ManageSlidesPage() {
 
 	return (
 		<div className="bg-background text-foreground min-h-screen pb-24 text-left">
-			{/* ── TOP ACTION BAR ── */}
-			<div className="border-b border-border/60 bg-card/80 backdrop-blur-md sticky top-0 z-30 py-3.5">
+			{/* ── TOP ACTION BAR (Non-sticky) ── */}
+			<div className="border-b border-border/50 py-3 mb-6">
 				<SectionContainer>
 					<div className="flex items-center justify-between gap-4">
 						<Link
@@ -143,7 +155,7 @@ export default function ManageSlidesPage() {
 							<button
 								onClick={() => refetch()}
 								disabled={loading}
-								className="px-3.5 h-9 rounded-xl border border-border/80 text-foreground hover:bg-muted text-xs font-semibold font-heading inline-flex items-center gap-1.5 transition-all cursor-pointer"
+								className="px-3.5 h-8 rounded-full border border-border/80 text-foreground hover:bg-muted text-xs font-semibold font-heading inline-flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs"
 							>
 								<RefreshCw
 									className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`}
@@ -154,7 +166,7 @@ export default function ManageSlidesPage() {
 							<Link
 								href="/"
 								target="_blank"
-								className="px-3.5 h-9 rounded-xl border border-border/80 text-foreground hover:bg-muted text-xs font-semibold font-heading inline-flex items-center gap-1.5 transition-all"
+								className="px-3.5 h-8 rounded-full border border-border/80 text-foreground hover:bg-muted text-xs font-semibold font-heading inline-flex items-center gap-1.5 transition-all shadow-2xs"
 							>
 								<Eye className="w-3.5 h-3.5 text-muted-foreground" />
 								<span>Live Website</span>
@@ -162,10 +174,10 @@ export default function ManageSlidesPage() {
 
 							<button
 								onClick={openCreateModal}
-								className="px-4 h-9 rounded-xl bg-primary text-primary-foreground text-xs font-bold font-heading inline-flex items-center gap-1.5 transition-all shadow-xs hover:bg-primary/90 cursor-pointer"
+								className="px-4 h-8 rounded-full bg-primary text-primary-foreground text-xs font-bold font-heading inline-flex items-center gap-1.5 transition-all shadow-xs hover:bg-primary/90 cursor-pointer"
 							>
-								<Plus className="w-4 h-4" />
-								Add New Slide
+								<Plus className="w-3.5 h-3.5" />
+								<span>Add Slide</span>
 							</button>
 						</div>
 					</div>
@@ -183,7 +195,8 @@ export default function ManageSlidesPage() {
 							Hero Banner & Ring Carousel Slides
 						</h1>
 						<p className="text-xs sm:text-sm text-muted-foreground font-light">
-							Manage the photographic slides displayed in the interactive 3D rotating cylinder ring on the Home landing page.
+							Manage the photographic slides displayed in the interactive 3D
+							rotating cylinder ring on the Home landing page.
 						</p>
 					</div>
 
@@ -195,7 +208,11 @@ export default function ManageSlidesPage() {
 								Dynamic 3D Ring Multiplication System
 							</p>
 							<p className="text-muted-foreground font-light leading-relaxed">
-								The 3D rotating ring carousel on the homepage seamlessly repeats your database slides to populate all <strong>48 ring slots</strong>. Whether you configure 1 slide or 20 slides, the system dynamically tiles them into a complete 360-degree rotating cylinder.
+								The 3D rotating ring carousel on the homepage seamlessly repeats
+								your database slides to populate all{" "}
+								<strong>48 ring slots</strong>. Whether you configure 1 slide or
+								20 slides, the system dynamically tiles them into a complete
+								360-degree rotating cylinder.
 							</p>
 						</div>
 					</div>
@@ -231,7 +248,8 @@ export default function ManageSlidesPage() {
 									No slides in database
 								</p>
 								<p className="text-xs text-muted-foreground font-light max-w-sm mx-auto">
-									Add your first hero banner slide to populate the 3D rotating cylinder carousel.
+									Add your first hero banner slide to populate the 3D rotating
+									cylinder carousel.
 								</p>
 								<Button onClick={openCreateModal} size="sm" className="gap-1">
 									<Plus className="w-3.5 h-3.5" />
@@ -337,11 +355,16 @@ export default function ManageSlidesPage() {
 				<DialogContent className="max-w-xl max-h-[90vh] overflow-y-auto">
 					<DialogHeader>
 						<DialogTitle className="text-lg font-bold font-heading">
-							{editingSlide ? "Edit Hero Banner Slide" : "Add New Hero Banner Slide"}
+							{editingSlide
+								? "Edit Hero Banner Slide"
+								: "Add New Hero Banner Slide"}
 						</DialogTitle>
 					</DialogHeader>
 
-					<form onSubmit={handleFormSubmit} className="space-y-4 pt-2 text-left">
+					<form
+						onSubmit={handleFormSubmit}
+						className="space-y-4 pt-2 text-left"
+					>
 						<div className="space-y-2">
 							<Label className="text-xs font-semibold font-heading text-muted-foreground uppercase">
 								Slide Headline Title *
@@ -411,7 +434,8 @@ export default function ManageSlidesPage() {
 								placeholder="https://images.unsplash.com/photo-..."
 							/>
 							<p className="text-[11px] text-muted-foreground font-light">
-								Paste any high-resolution public image URL (Unsplash, Cloudinary, Imgur, AWS S3, etc.).
+								Paste any high-resolution public image URL (Unsplash,
+								Cloudinary, Imgur, AWS S3, etc.).
 							</p>
 
 							{/* Live Image URL Preview Box */}
