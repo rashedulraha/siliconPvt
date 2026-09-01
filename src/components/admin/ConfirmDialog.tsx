@@ -1,6 +1,5 @@
 "use client";
 
-import { AlertTriangle } from "lucide-react";
 import {
 	Dialog,
 	DialogContent,
@@ -9,7 +8,6 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 
 interface ConfirmDialogProps {
 	open: boolean;
@@ -34,29 +32,38 @@ export function ConfirmDialog({
 }: ConfirmDialogProps) {
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="max-w-md">
-				<DialogHeader>
-					<div className="flex items-center gap-3">
-						<div className="flex h-10 w-10 items-center justify-center rounded-full bg-destructive/10">
-							<AlertTriangle className="h-5 w-5 text-destructive" />
-						</div>
-						<DialogTitle>{title}</DialogTitle>
-					</div>
-					<DialogDescription className="pt-2">{description}</DialogDescription>
+			<DialogContent className="sm:max-w-[400px] rounded-2xl p-6 bg-white  border border-slate-200  shadow-2xl font-roboto text-left">
+				<DialogHeader className="space-y-2 text-left">
+					<DialogTitle className="font-heading text-lg font-bold text-slate-900 tracking-tight">
+						{title}
+					</DialogTitle>
+					<DialogDescription className="text-sm text-slate-600 leading-relaxed">
+						{description}
+					</DialogDescription>
 				</DialogHeader>
-				<DialogFooter className="gap-2 sm:gap-0">
-					<Button variant="outline" onClick={() => onOpenChange(false)}>
+
+				<DialogFooter className="mt-6 flex items-center justify-end gap-2.5">
+					<button
+						type="button"
+						onClick={() => onOpenChange(false)}
+						className="h-9 px-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-semibold font-heading transition-all cursor-pointer shadow-xs active:scale-[0.98]"
+					>
 						{cancelText}
-					</Button>
-					<Button
-						variant={variant}
+					</button>
+					<button
+						type="button"
 						onClick={() => {
 							onConfirm();
 							onOpenChange(false);
 						}}
+						className={`h-9 px-5 rounded-xl text-xs font-bold font-heading text-white transition-all cursor-pointer shadow-xs active:scale-[0.98] ${
+							variant === "destructive"
+								? "bg-red-600 hover:bg-red-700 shadow-red-600/20"
+								: "bg-blue-600 hover:bg-blue-700 shadow-blue-600/20"
+						}`}
 					>
 						{confirmText}
-					</Button>
+					</button>
 				</DialogFooter>
 			</DialogContent>
 		</Dialog>
