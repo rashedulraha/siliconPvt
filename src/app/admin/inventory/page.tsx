@@ -2,11 +2,11 @@
 
 import { useState, useMemo } from "react";
 import { toast } from "sonner";
-import { Plus, Edit, Trash2, Search, Filter, Lock } from "lucide-react";
+import { Plus, Edit, Trash2, Search, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
 	Dialog,
 	DialogContent,
@@ -33,10 +33,8 @@ import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import { useProperties } from "@/hooks/useProperties";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import type { Property } from "@/types";
-import { useAdminEditor } from "@/context/AdminEditorContext";
 
 export default function InventoryPage() {
-	const { isEditorUnlocked, unlockEditorMode } = useAdminEditor();
 	const { properties, addProperty, updateProperty, deleteProperty } =
 		useProperties();
 	const [search, setSearch] = useState("");
@@ -63,18 +61,14 @@ export default function InventoryPage() {
 		return result;
 	}, [properties, search, typeFilter, statusFilter]);
 
-	const handleSave = (data: any) => {
-		if (!isEditorUnlocked) {
-			unlockEditorMode();
-			return;
-		}
+	const handleSave = async (data: any) => {
 		try {
 			if (editingProperty) {
-				updateProperty(editingProperty.id, data);
+				await updateProperty(editingProperty.id, data);
 			} else {
-				addProperty(data);
+				await addProperty(data);
 			}
-			toast.success("Property saved.");
+			toast.success("Plot/Property saved successfully to database.");
 			setFormOpen(false);
 			setEditingProperty(null);
 		} catch {
@@ -83,52 +77,21 @@ export default function InventoryPage() {
 	};
 
 	const openEdit = (p: Property) => {
-		if (!isEditorUnlocked) {
-			unlockEditorMode();
-			return;
-		}
 		setEditingProperty(p);
 		setFormOpen(true);
 	};
 
 	const openCreate = () => {
-		if (!isEditorUnlocked) {
-			unlockEditorMode();
-			return;
-		}
 		setEditingProperty(null);
 		setFormOpen(true);
 	};
 
 	const handleDeleteClick = (id: string) => {
-		if (!isEditorUnlocked) {
-			unlockEditorMode();
-			return;
-		}
 		setDeleteId(id);
 	};
 
 	return (
 		<div className="space-y-6 text-left">
-			{/* Lock Notice Banner */}
-			{!isEditorUnlocked && (
-				<div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-500 text-xs font-medium flex items-center justify-between gap-4">
-					<div className="flex items-center gap-2">
-						<Lock className="w-4 h-4 shrink-0" />
-						<span>
-							<strong>Read-Only Mode Active:</strong> Adding, editing, and
-							deleting properties is disabled until Editor Mode is unlocked.
-						</span>
-					</div>
-					<button
-						onClick={unlockEditorMode}
-						className="px-3 py-1.5 rounded-lg bg-amber-500 text-black text-[11px] font-bold uppercase tracking-wider hover:bg-amber-400 shrink-0 cursor-pointer"
-					>
-						Unlock Editor
-					</button>
-				</div>
-			)}
-
 			{/* Header */}
 			<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 				<div>
@@ -139,16 +102,9 @@ export default function InventoryPage() {
 						{properties.length} total • {filtered.length} shown
 					</p>
 				</div>
-				<Button
-					onClick={openCreate}
-					className={!isEditorUnlocked ? "opacity-75" : ""}
-				>
-					{!isEditorUnlocked ? (
-						<Lock className="h-4 w-4 mr-2" />
-					) : (
-						<Plus className="h-4 w-4 mr-2" />
-					)}
-					{isEditorUnlocked ? "Add Property" : "Unlock to Add Property"}
+				<Button onClick={openCreate} className="gap-2">
+					<Plus className="h-4 w-4" />
+					Add Property
 				</Button>
 			</div>
 
@@ -165,12 +121,13 @@ export default function InventoryPage() {
 								className="pl-9"
 							/>
 						</div>
+
 						<Select
 							value={typeFilter}
-							onValueChange={(v) => setTypeFilter(v as any)}
+							onValueChange={(v: "all" | "sale" | "rent") => setTypeFilter(v)}
 						>
 							<SelectTrigger>
-								<SelectValue placeholder="Type" />
+								<SelectValue placeholder="All Types" />
 							</SelectTrigger>
 							<SelectContent>
 								<SelectItem value="all">All Types</SelectItem>
@@ -178,12 +135,13 @@ export default function InventoryPage() {
 								<SelectItem value="rent">For Rent</SelectItem>
 							</SelectContent>
 						</Select>
+
 						<Select value={statusFilter} onValueChange={setStatusFilter}>
 							<SelectTrigger>
-								<SelectValue placeholder="Status" />
+								<SelectValue placeholder="All Status" />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="all">All Statuses</SelectItem>
+								<SelectItem value="all">All Status</SelectItem>
 								<SelectItem value="available">Available</SelectItem>
 								<SelectItem value="pending">Pending</SelectItem>
 								<SelectItem value="sold">Sold</SelectItem>
@@ -195,83 +153,70 @@ export default function InventoryPage() {
 			</Card>
 
 			{/* Table */}
-			<Card className="border border-border/80 shadow-none">
-				<CardContent className="p-0">
-					{filtered.length === 0 ? (
-						<div className="text-center py-16">
-							<Filter className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-							<p className="text-muted-foreground">
-								No properties match your filters.
-							</p>
-						</div>
-					) : (
-						<Table>
-							<TableHeader>
+			<Card className="border border-border/80 shadow-none overflow-hidden">
+				<div className="overflow-x-auto">
+					<Table>
+						<TableHeader>
+							<TableRow className="border-border/80">
+								<TableHead className="w-12">#</TableHead>
+								<TableHead>Property</TableHead>
+								<TableHead>Location</TableHead>
+								<TableHead>Category</TableHead>
+								<TableHead>Type</TableHead>
+								<TableHead>Price</TableHead>
+								<TableHead>Status</TableHead>
+								<TableHead className="text-right">Actions</TableHead>
+							</TableRow>
+						</TableHeader>
+						<TableBody>
+							{filtered.length === 0 ? (
 								<TableRow>
-									<TableHead>Property</TableHead>
-									<TableHead className="hidden md:table-cell">
-										Location
-									</TableHead>
-									<TableHead>Price</TableHead>
-									<TableHead className="hidden sm:table-cell">Type</TableHead>
-									<TableHead>Status</TableHead>
-									<TableHead className="text-right">Actions</TableHead>
+									<TableCell
+										colSpan={8}
+										className="text-center py-8 text-muted-foreground"
+									>
+										No properties found.
+									</TableCell>
 								</TableRow>
-							</TableHeader>
-							<TableBody>
-								{filtered.map((p) => (
-									<TableRow key={p.id}>
+							) : (
+								filtered.map((p, i) => (
+									<TableRow key={p.id} className="border-border/80">
+										<TableCell className="text-muted-foreground text-xs">
+											{i + 1}
+										</TableCell>
 										<TableCell>
-											<div className="flex items-center gap-3">
-												<div className="h-10 w-10 rounded-md overflow-hidden bg-muted flex-shrink-0 border border-border/40">
-													{p.images[0] ? (
-														<img
-															src={p.images[0]}
-															alt=""
-															className="w-full h-full object-cover"
-														/>
-													) : (
-														<div className="w-full h-full flex items-center justify-center text-muted-foreground">
-															🏠
-														</div>
-													)}
-												</div>
-												<div className="min-w-0">
-													<p className="font-medium truncate max-w-[200px]">
-														{p.title}
-													</p>
-													<p className="text-xs text-muted-foreground">
-														{p.bedrooms}bd • {p.bathrooms}ba • {p.area}ft²
-													</p>
-												</div>
+											<div className="font-medium text-foreground">
+												{p.title}
+											</div>
+											<div className="text-xs text-muted-foreground">
+												{p.area} sqft / kathas
 											</div>
 										</TableCell>
-										<TableCell className="hidden md:table-cell text-muted-foreground">
-											{p.location}
-										</TableCell>
-										<TableCell className="font-semibold">
-											{formatCurrency(p.price)}
-											{p.type === "rent" && (
-												<span className="text-xs text-muted-foreground">
-													/mo
-												</span>
-											)}
-										</TableCell>
-										<TableCell className="hidden sm:table-cell">
-											<Badge variant="outline" className="capitalize">
-												{p.type}
-											</Badge>
+										<TableCell className="text-sm">{p.location}</TableCell>
+										<TableCell className="capitalize text-sm">
+											{p.category}
 										</TableCell>
 										<TableCell>
 											<Badge
-												variant="outline"
-												className={
+												variant={p.type === "sale" ? "default" : "secondary"}
+												className="capitalize text-[11px]"
+											>
+												{p.type}
+											</Badge>
+										</TableCell>
+										<TableCell className="font-semibold text-sm">
+											{formatCurrency(p.price)}
+										</TableCell>
+										<TableCell>
+											<Badge
+												variant={
 													p.status === "available"
-														? "bg-green-500/10 text-green-600 border-green-500/20"
-														: p.status === "sold" || p.status === "rented"
-															? "bg-blue-500/10 text-blue-600 border-blue-500/20"
-															: "bg-amber-500/10 text-amber-600 border-amber-500/20"
+														? "default"
+														: p.status === "pending"
+															? "outline"
+															: "secondary"
 												}
+												className="capitalize text-[11px]"
 											>
 												{p.status}
 											</Badge>
@@ -282,85 +227,65 @@ export default function InventoryPage() {
 													variant="ghost"
 													size="icon"
 													onClick={() => openEdit(p)}
-													title={
-														isEditorUnlocked
-															? "Edit property"
-															: "Unlock Editor Mode to Edit"
-													}
-													className={
-														!isEditorUnlocked
-															? "opacity-40 hover:opacity-100"
-															: ""
-													}
+													className="h-8 w-8"
 												>
-													{!isEditorUnlocked ? (
-														<Lock className="h-3.5 w-3.5 text-amber-500" />
-													) : (
-														<Edit className="h-4 w-4" />
-													)}
+													<Edit className="h-4 w-4" />
 												</Button>
 												<Button
 													variant="ghost"
 													size="icon"
 													onClick={() => handleDeleteClick(p.id)}
-													title={
-														isEditorUnlocked
-															? "Delete property"
-															: "Unlock Editor Mode to Delete"
-													}
-													className={
-														!isEditorUnlocked
-															? "opacity-40 hover:opacity-100 text-muted-foreground"
-															: "text-destructive hover:text-destructive"
-													}
+													className="h-8 w-8 text-destructive"
 												>
-													{!isEditorUnlocked ? (
-														<Lock className="h-3.5 w-3.5 text-amber-500" />
-													) : (
-														<Trash2 className="h-4 w-4" />
-													)}
+													<Trash2 className="h-4 w-4" />
 												</Button>
 											</div>
 										</TableCell>
 									</TableRow>
-								))}
-							</TableBody>
-						</Table>
-					)}
-				</CardContent>
+								))
+							)}
+						</TableBody>
+					</Table>
+				</div>
 			</Card>
 
 			{/* Form Dialog */}
 			<Dialog open={formOpen} onOpenChange={setFormOpen}>
-				<DialogContent className="max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
+				<DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
 					<DialogHeader>
 						<DialogTitle>
-							{editingProperty ? "Edit Property" : "Add New Property"}
+							{editingProperty ? "Edit Property" : "Add Property"}
 						</DialogTitle>
 					</DialogHeader>
 					<PropertyForm
-						initial={editingProperty || undefined}
+						initial={editingProperty ?? undefined}
 						onSave={handleSave}
-						onCancel={() => setFormOpen(false)}
+						onCancel={() => {
+							setFormOpen(false);
+							setEditingProperty(null);
+						}}
 					/>
 				</DialogContent>
 			</Dialog>
 
-			{/* Delete Confirmation */}
+			{/* Delete Confirm */}
 			<ConfirmDialog
 				open={!!deleteId}
-				onOpenChange={(open) => !open && setDeleteId(null)}
+				onOpenChange={(open) => {
+					if (!open) setDeleteId(null);
+				}}
 				title="Delete Property"
 				description="Are you sure you want to delete this property? This action cannot be undone."
 				confirmText="Delete"
+				variant="destructive"
 				onConfirm={() => {
-					if (deleteId && isEditorUnlocked) deleteProperty(deleteId);
-					setDeleteId(null);
+					if (deleteId) {
+						deleteProperty(deleteId);
+						toast.success("Property deleted.");
+						setDeleteId(null);
+					}
 				}}
 			/>
-
-			{/* Form-closed sentinel for tests */}
-			{!formOpen && <div data-testid="form-closed" />}
 		</div>
 	);
 }
