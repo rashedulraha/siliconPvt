@@ -228,9 +228,13 @@ export default function PrivacyTermsPage() {
 								{isBn ? "হোম" : "Home"}
 							</Link>
 							<ChevronRight className="w-3 h-3 text-white/40" />
-							<span className="text-accent font-semibold">{isBn ? "আইনি নীতিমালা" : "Legal"}</span>
+							<span className="text-accent font-semibold">
+								{isBn ? "আইনি নীতিমালা" : "Legal"}
+							</span>
 							<ChevronRight className="w-3 h-3 text-white/40" />
-							<span className="text-accent font-semibold">{isBn ? "গোপনীয়তা ও শর্তাবলী" : "Privacy & Terms"}</span>
+							<span className="text-accent font-semibold">
+								{isBn ? "গোপনীয়তা ও শর্তাবলী" : "Privacy & Terms"}
+							</span>
 						</div>
 
 						<h1 className="text-3xl sm:text-4xl md:text-5xl font-medium font-heading text-white tracking-tight leading-tight">
@@ -251,7 +255,9 @@ export default function PrivacyTermsPage() {
 								{isBn ? "সর্বশেষ হালনাগাদ: অগাস্ট ২০২৬" : "Last Updated: August 2026"}
 							</span>
 							<span className="px-3 py-1 rounded-full bg-accent/15 border border-accent/20 text-accent font-medium font-heading">
-								{isBn ? "আইনি এখতিয়ার: ঢাকা, বাংলাদেশ" : "Jurisdiction: Dhaka, Bangladesh"}
+								{isBn
+									? "আইনি এখতিয়ার: ঢাকা, বাংলাদেশ"
+									: "Jurisdiction: Dhaka, Bangladesh"}
 							</span>
 						</div>
 					</div>
@@ -296,10 +302,14 @@ export default function PrivacyTermsPage() {
 									<div className="border-b border-border/60 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 										<div className="space-y-1">
 											<span className="text-xs font-mono font-medium text-primary uppercase tracking-wider block">
-												{isBn ? "গোপনীয়তা সুরক্ষা সনদ: SRE-PRV-2026-BD" : "PRIVACY COMPLIANCE DOC: SRE-PRV-2026-BD"}
+												{isBn
+													? "গোপনীয়তা সুরক্ষা সনদ: SRE-PRV-2026-BD"
+													: "PRIVACY COMPLIANCE DOC: SRE-PRV-2026-BD"}
 											</span>
 											<h2 className="text-xl font-semibold font-heading text-foreground">
-												{isBn ? "সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ — ডাটা প্রটেকশন চার্টার" : "Silicon Real Estate (Pvt.) Ltd. — Data Protection Charter"}
+												{isBn
+													? "সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ — ডাটা প্রটেকশন চার্টার"
+													: "Silicon Real Estate (Pvt.) Ltd. — Data Protection Charter"}
 											</h2>
 										</div>
 										<div className="flex items-center gap-2">
@@ -335,10 +345,14 @@ export default function PrivacyTermsPage() {
 									<div className="border-b border-border/60 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 										<div className="space-y-1">
 											<span className="text-xs font-mono font-medium text-primary uppercase tracking-wider block">
-												{isBn ? "আইনি কর্পোরেট চার্টার: SRE-TOS-2026-BD" : "CORPORATE LEGAL CHARTER: SRE-TOS-2026-BD"}
+												{isBn
+													? "আইনি কর্পোরেট চার্টার: SRE-TOS-2026-BD"
+													: "CORPORATE LEGAL CHARTER: SRE-TOS-2026-BD"}
 											</span>
 											<h2 className="text-xl font-semibold font-heading text-foreground">
-												{isBn ? "সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ — প্রাতিষ্ঠানিক শর্তাবলী" : "Silicon Real Estate (Pvt.) Ltd. — Terms of Governance"}
+												{isBn
+													? "সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ — প্রাতিষ্ঠানিক শর্তাবলী"
+													: "Silicon Real Estate (Pvt.) Ltd. — Terms of Governance"}
 											</h2>
 										</div>
 										<div className="flex items-center gap-2">
@@ -387,10 +401,14 @@ export default function PrivacyTermsPage() {
 						<div className="bg-dark-hero rounded-3xl p-8 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6 border border-white/15">
 							<div className="space-y-1 text-left">
 								<span className="text-xs font-mono font-medium text-accent uppercase tracking-wider block">
-									{isBn ? "আইনি ও প্রপার্টি সহায়তা ডেস্ক" : "LEGAL & PRIVACY ADVISORY DESK"}
+									{isBn
+										? "আইনি ও প্রপার্টি সহায়তা ডেস্ক"
+										: "LEGAL & PRIVACY ADVISORY DESK"}
 								</span>
 								<h3 className="text-lg font-semibold font-heading text-white">
-									{isBn ? "আমাদের শর্তাবলী বা নীতিমালা সম্পর্কে কোনো প্রশ্ন আছে?" : "Questions About Our Policies or Terms?"}
+									{isBn
+										? "আমাদের শর্তাবলী বা নীতিমালা সম্পর্কে কোনো প্রশ্ন আছে?"
+										: "Questions About Our Policies or Terms?"}
 								</h3>
 								<p className="text-xs text-white/70 font-light">
 									{isBn
