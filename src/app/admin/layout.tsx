@@ -13,30 +13,37 @@ const pageMeta: Record<string, { title: string; description: string }> = {
 		title: "Dashboard",
 		description: "Overview of your real estate business",
 	},
+	"/admin/home-settings": {
+		title: "Home Page Settings",
+		description: "Manage Home page hero, stats, and sections",
+	},
+	"/admin/manage-slides": {
+		title: "Hero Banners",
+		description: "Manage home page hero banner slides",
+	},
+	"/admin/about-settings": {
+		title: "About & Leadership",
+		description: "Manage corporate story, mission, and leadership speeches",
+	},
+	"/admin/projects-settings": {
+		title: "Projects & Townships",
+		description: "Manage flagship projects and township highlights",
+	},
 	"/admin/inventory": {
-		title: "Inventory",
-		description: "Manage your property listings",
+		title: "Plots & Inventory",
+		description: "Manage land plot and property listings",
+	},
+	"/admin/services-settings": {
+		title: "Services & Solutions",
+		description: "Manage corporate services and real estate offerings",
+	},
+	"/admin/site-settings": {
+		title: "Site Contact & Info",
+		description: "Manage corporate address, hotlines, emails, and social links",
 	},
 	"/admin/leads": {
-		title: "Leads",
-		description: "Track and manage client inquiries",
-	},
-	"/admin/menu": {
-		title: "Menu Builder",
-		description: "Customize your site navigation",
-	},
-	"/admin/theme": {
-		title: "Theme",
-		description: "Customize colors and typography",
-	},
-	"/admin/seo": { title: "SEO", description: "Manage meta tags for each page" },
-	"/admin/media": {
-		title: "Media Library",
-		description: "Upload and manage images",
-	},
-	"/admin/cms": {
-		title: "CMS Editor",
-		description: "Visual content editor",
+		title: "Client Inquiries",
+		description: "Track and manage client submissions & site visit requests",
 	},
 };
 
