@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, Calendar, User } from "lucide-react";
 import { SectionContainer } from "@/components/layout/SectionContainer";
 import { formatDate } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface NewsPost {
 	id: string;
@@ -17,7 +18,7 @@ interface NewsPost {
 	publishedAt: string;
 }
 
-const DEFAULT_NEWS: NewsPost[] = [
+const DEFAULT_NEWS_EN: NewsPost[] = [
 	{
 		id: "news-1",
 		title: "Turag River Bridge Processing Underway for Silicon City",
@@ -56,35 +57,52 @@ const DEFAULT_NEWS: NewsPost[] = [
 	},
 ];
 
+const DEFAULT_NEWS_BN: NewsPost[] = [
+	{
+		id: "news-1",
+		title: "সিলিকন সিটিতে তুরাগ নদীর উপর সরাসরি সেতু নির্মাণ প্রক্রিয়া চলমান",
+		slug: "turag-river-bridge-processing",
+		excerpt:
+			"মোহাম্মদপুর বেড়িবাঁধ থেকে সরাসরি সেতু নির্মাণের মাধ্যমে ঢাকার মূল শহরের সাথে সিলিকন সিটির যাতায়াত সময় কমে হবে মাত্র ১০ মিনিট।",
+		image:
+			"https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1200",
+		category: "অবকাঠামো",
+		author: "সিলিকন বার্তা",
+		publishedAt: new Date().toISOString(),
+	},
+	{
+		id: "news-2",
+		title: "রাজউক সম্প্রসারিত মহাপরিকল্পনার সাথে সংগতিপূর্ণ আবাসন অনুমোদন",
+		slug: "rajuk-extended-masterplan-compliance",
+		excerpt:
+			"সিলিকন রিয়েল এস্টেট পরিকল্পিত পরিবেশবান্ধব টাউনশিপ গড়ার ক্ষেত্রে রাজউকের নগর উন্নয়ন কাঠামোর সাথে শতভাগ সঙ্গতিপূর্ণ।",
+		image:
+			"https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200",
+		category: "আইনি ও নিয়ন্ত্রণ",
+		author: "লিগ্যাল বিভাগ",
+		publishedAt: new Date().toISOString(),
+	},
+	{
+		id: "news-3",
+		title: "ব্লক-এ প্লট সীমানা হস্তান্তর ও রেজিস্ট্রেশন উৎসব সম্পন্ন",
+		slug: "block-a-handover-ceremony",
+		excerpt:
+			"বার্ষিক গ্রাহক মিলনমেলায় শতাধিক প্লট গ্রহীতাকে তাৎক্ষণিক সাব-রেজিস্ট্রি দলিল ও বাউন্ডারি দখল হস্তান্তর করা হয়েছে।",
+		image:
+			"https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200",
+		category: "ইভেন্ট",
+		author: "পিআর সেল",
+		publishedAt: new Date().toISOString(),
+	},
+];
+
 export function CompanyNewsSection() {
-	const [posts, setPosts] = useState<NewsPost[]>(DEFAULT_NEWS);
+	const { isBn } = useLanguage();
+	const [posts, setPosts] = useState<NewsPost[]>(isBn ? DEFAULT_NEWS_BN : DEFAULT_NEWS_EN);
 
 	useEffect(() => {
-		let isMounted = true;
-		async function fetchNews() {
-			try {
-				const { apiFetch } = await import("@/lib/api-client");
-				const res = await apiFetch<{ success: boolean; posts?: any[] }>(
-					"/blog",
-				);
-				if (
-					res &&
-					res.success &&
-					Array.isArray(res.posts) &&
-					res.posts.length > 0 &&
-					isMounted
-				) {
-					setPosts(res.posts);
-				}
-			} catch {
-				// Fallback to default
-			}
-		}
-		fetchNews();
-		return () => {
-			isMounted = false;
-		};
-	}, []);
+		setPosts(isBn ? DEFAULT_NEWS_BN : DEFAULT_NEWS_EN);
+	}, [isBn]);
 
 	return (
 		<section className="py-20 bg-muted/30 text-foreground relative border-t border-border/50">
@@ -92,21 +110,22 @@ export function CompanyNewsSection() {
 				<div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 text-left">
 					<div className="space-y-2 max-w-2xl">
 						<span className="inline-block px-3.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium uppercase tracking-widest text-primary font-heading">
-							COMPANY NEWS & UPDATES
+							{isBn ? "কোম্পানি সংবাদ ও আপডেট" : "COMPANY NEWS & UPDATES"}
 						</span>
 						<h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
-							Latest Announcements & Articles
+							{isBn ? "সর্বশেষ ঘোষণা ও উন্নয়ন সংবাদ" : "Latest Announcements & Articles"}
 						</h2>
 						<p className="text-xs sm:text-sm text-muted-foreground font-light">
-							Stay updated with project progress, bridge construction
-							milestones, and corporate news.
+							{isBn
+								? "সিলিকন সিটির উন্নয়ন অগ্রগতি, নদী সংযোগ সেতু এবং কর্পোরেট খবরাখবর জানুন।"
+								: "Stay updated with project progress, bridge construction milestones, and corporate news."}
 						</p>
 					</div>
 					<Link
 						href="/about"
 						className="text-xs font-semibold font-heading text-primary hover:underline inline-flex items-center gap-1 shrink-0"
 					>
-						Explore Company Story <ArrowRight className="w-3.5 h-3.5" />
+						{isBn ? "আমাদের গল্প দেখুন" : "Explore Company Story"} <ArrowRight className="w-3.5 h-3.5" />
 					</Link>
 				</div>
 
@@ -155,7 +174,7 @@ export function CompanyNewsSection() {
 										href="/about"
 										className="text-xs font-semibold font-heading text-primary hover:underline inline-flex items-center gap-1"
 									>
-										Learn More <ArrowRight className="w-3.5 h-3.5" />
+										{isBn ? "বিস্তারিত পড়ুন" : "Learn More"} <ArrowRight className="w-3.5 h-3.5" />
 									</Link>
 								</div>
 							</div>
