@@ -43,17 +43,11 @@ export const DEFAULT_ADMIN_EMAIL = "admin@afiaholdingsltd.com";
 export const DEFAULT_ADMIN_PASSWORD = "admin123456";
 
 export function getAdminEmail(): string {
-	return (
-		process.env.NEXT_PUBLIC_ADMIN_EMAIL ||
-		DEFAULT_ADMIN_EMAIL
-	);
+	return process.env.NEXT_PUBLIC_ADMIN_EMAIL || DEFAULT_ADMIN_EMAIL;
 }
 
 export function getAdminPassword(): string {
-	return (
-		process.env.NEXT_PUBLIC_ADMIN_PASSWORD ||
-		DEFAULT_ADMIN_PASSWORD
-	);
+	return process.env.NEXT_PUBLIC_ADMIN_PASSWORD || DEFAULT_ADMIN_PASSWORD;
 }
 
 // ---------------------------------------------------------------------------

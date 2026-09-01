@@ -60,12 +60,18 @@ export async function apiFetch<T>(
 	options?: RequestInit,
 ): Promise<T> {
 	// Standardize to internal Next.js /api route handlers
-	let rawUrl = (process.env.NEXT_PUBLIC_API_URL || "").trim().replace(/\/+$/, "");
+	let rawUrl = (process.env.NEXT_PUBLIC_API_URL || "")
+		.trim()
+		.replace(/\/+$/, "");
 
 	// Normalize if rawUrl points to /api/v1 or just host
 	if (rawUrl.endsWith("/api/v1")) {
 		rawUrl = rawUrl.replace(/\/api\/v1$/, "/api");
-	} else if (!rawUrl.endsWith("/api") && rawUrl.length > 0 && !path.startsWith("/api")) {
+	} else if (
+		!rawUrl.endsWith("/api") &&
+		rawUrl.length > 0 &&
+		!path.startsWith("/api")
+	) {
 		rawUrl = `${rawUrl}/api`;
 	}
 
@@ -75,7 +81,9 @@ export async function apiFetch<T>(
 	if (path.startsWith("http://") || path.startsWith("https://")) {
 		url = path;
 	} else if (rawUrl) {
-		const finalPath = cleanPath.startsWith("/api") ? cleanPath.replace(/^\/api/, "") : cleanPath;
+		const finalPath = cleanPath.startsWith("/api")
+			? cleanPath.replace(/^\/api/, "")
+			: cleanPath;
 		url = `${rawUrl}${finalPath}`;
 	} else {
 		url = cleanPath.startsWith("/api") ? cleanPath : `/api${cleanPath}`;

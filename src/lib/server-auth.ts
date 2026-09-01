@@ -4,8 +4,7 @@ import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-const JWT_SECRET =
-	process.env.JWT_SECRET || "silicon_secret_key_2026_admin";
+const JWT_SECRET = process.env.JWT_SECRET || "silicon_secret_key_2026_admin";
 
 export interface TokenPayload {
 	id: string;
@@ -37,7 +36,9 @@ export async function ensureAdminUser() {
 	}
 }
 
-export async function verifyAdminSession(req?: Request): Promise<TokenPayload | null> {
+export async function verifyAdminSession(
+	req?: Request,
+): Promise<TokenPayload | null> {
 	try {
 		let token: string | null = null;
 
@@ -88,7 +89,11 @@ export async function verifyAdminSession(req?: Request): Promise<TokenPayload | 
 	}
 }
 
-export function generateAuthToken(admin: { id: string; email: string; role: string }) {
+export function generateAuthToken(admin: {
+	id: string;
+	email: string;
+	role: string;
+}) {
 	return jwt.sign(
 		{
 			id: admin.id,
@@ -100,7 +105,9 @@ export function generateAuthToken(admin: { id: string; email: string; role: stri
 	);
 }
 
-export function unauthorizedResponse(message = "Unauthorized. Admin authentication required.") {
+export function unauthorizedResponse(
+	message = "Unauthorized. Admin authentication required.",
+) {
 	return NextResponse.json({ success: false, message }, { status: 401 });
 }
 
