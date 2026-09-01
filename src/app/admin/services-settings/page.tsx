@@ -16,9 +16,13 @@ import {
 	ListCheck,
 	Tag,
 	Hash,
+	Eye,
+	Sparkles,
+	Layers,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SectionContainer } from "@/components/layout/SectionContainer";
+import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import { useAdminEditor } from "@/context/AdminEditorContext";
 import { useServices, ServiceItem } from "@/hooks/useServices";
 
@@ -147,76 +151,88 @@ export default function ServicesSettingsPage() {
 	};
 
 	return (
-		<div className="bg-background text-foreground min-h-screen pb-24 text-left">
-			{/* Top Bar */}
-			<div className="border-b border-border/50 bg-card/60 backdrop-blur-md sticky top-0 z-30 py-4">
+		<div className="bg-background text-foreground min-h-screen pb-24 text-left font-roboto">
+			{/* Top Bar (Non-sticky) */}
+			<div className="border-b border-border/50 py-3 mb-6">
 				<SectionContainer>
-					<div className="flex items-center justify-between">
+					<div className="flex items-center justify-between gap-4">
 						<Link
 							href="/admin"
-							className="text-xs font-medium font-heading text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5"
+							className="text-xs font-medium font-heading text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 transition-colors"
 						>
 							<ArrowLeft className="w-4 h-4" />
-							Back to Admin Panel
+							<span>Back to Admin Overview</span>
 						</Link>
-						<button
-							onClick={openCreateModal}
-							className="px-4 h-9 rounded-xl bg-primary text-primary-foreground text-xs font-medium font-heading inline-flex items-center gap-1.5 transition-all shadow-none hover:bg-primary/90 cursor-pointer"
-						>
-							<Plus className="w-3.5 h-3.5" />
-							Add New Service
-						</button>
+						<div className="flex items-center gap-2.5">
+							<Link
+								href="/services"
+								target="_blank"
+								className="px-3.5 h-8 rounded-full border border-border/80 text-foreground hover:bg-muted text-xs font-semibold font-heading inline-flex items-center gap-1.5 transition-all shadow-2xs"
+							>
+								<Eye className="w-3.5 h-3.5 text-muted-foreground" />
+								<span>Live Services Page</span>
+							</Link>
+
+							<button
+								onClick={openCreateModal}
+								className="px-4 h-8 rounded-full bg-primary text-primary-foreground text-xs font-semibold font-heading inline-flex items-center gap-1.5 transition-all shadow-xs hover:bg-primary/90 cursor-pointer"
+							>
+								<Plus className="w-3.5 h-3.5" />
+								<span>Add Service</span>
+							</button>
+						</div>
 					</div>
 				</SectionContainer>
 			</div>
 
-			<SectionContainer className="py-10">
-				<div className="max-w-5xl mx-auto space-y-8">
-
-					<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-left">
-						<div>
-							<span className="text-xs font-semibold uppercase tracking-widest text-primary font-heading">
-								SERVICES MANAGEMENT
-							</span>
-							<h1 className="text-3xl font-semibold font-heading text-foreground tracking-tight">
-								Professional Services & Products
-							</h1>
-							<p className="text-xs sm:text-sm text-muted-foreground font-light mt-0.5">
-								{services.length} core services configured • Add, edit, or remove service offerings.
-							</p>
-						</div>
+			<SectionContainer className="py-6">
+				<div className="max-w-5xl mx-auto space-y-6">
+					{/* Header Title */}
+					<div className="space-y-1 text-left">
+						<span className="text-xs font-semibold uppercase tracking-wider text-primary font-heading inline-flex items-center gap-1.5">
+							<Sparkles className="w-3.5 h-3.5" /> SERVICES & SOLUTIONS
+							MANAGEMENT
+						</span>
+						<h1 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
+							Professional Corporate Services
+						</h1>
+						<p className="text-xs sm:text-sm text-muted-foreground font-light">
+							{services.length} core services configured • Add, edit, or
+							reorganize service offerings displayed on the public services
+							page.
+						</p>
 					</div>
 
 					{savedMessage && (
-						<div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-xs font-medium flex items-center gap-2">
-							<CheckCircle2 className="w-4 h-4 shrink-0" />
+						<div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 text-xs font-semibold font-heading flex items-center gap-2 shadow-xs">
+							<CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-500" />
 							<span>{savedMessage}</span>
 						</div>
 					)}
 
 					{loading ? (
-						<div className="p-12 text-center text-muted-foreground text-sm flex items-center justify-center gap-2">
+						<div className="p-16 text-center text-muted-foreground text-xs sm:text-sm flex items-center justify-center gap-2 bg-card border border-border/80 rounded-2xl">
 							<Loader2 className="w-5 h-5 animate-spin text-primary" />
 							<span>Loading services from database...</span>
 						</div>
 					) : (
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
 							{services.map((item, idx) => (
 								<div
 									key={item.id || idx}
-									className="bg-card border border-border/70 rounded-3xl p-6 shadow-none flex flex-col justify-between space-y-4 hover:border-border transition-all"
+									className="bg-card border border-border/80 rounded-2xl p-6 shadow-xs hover:shadow-md transition-all flex flex-col justify-between space-y-4 group"
 								>
 									<div className="space-y-3">
 										<div className="flex items-center justify-between">
-											<span className="text-xs font-mono font-medium text-primary px-2.5 py-0.5 rounded-md bg-primary/10 border border-primary/20">
+											<span className="text-xs font-mono font-bold text-primary px-2.5 py-0.5 rounded-lg bg-primary/10 border border-primary/20">
 												{item.num || `0${idx + 1}`}
 											</span>
-											<span className="text-[11px] font-medium font-heading text-accent px-2.5 py-0.5 rounded-full bg-accent/10 border border-accent/20">
+											<span className="text-[11px] font-semibold font-heading text-accent px-2.5 py-0.5 rounded-full bg-accent/10 border border-accent/20">
 												{item.tag}
 											</span>
 										</div>
 
-										<h3 className="text-lg font-semibold font-heading text-foreground">
+										<h3 className="text-base sm:text-lg font-bold font-heading text-foreground group-hover:text-primary transition-colors">
 											{item.title}
 										</h3>
 
@@ -225,14 +241,17 @@ export default function ServicesSettingsPage() {
 										</p>
 
 										{item.benefits && item.benefits.length > 0 && (
-											<div className="space-y-1.5 pt-1">
-												<span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground font-heading block">
+											<div className="space-y-1.5 pt-2 border-t border-border/40">
+												<span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground font-mono block">
 													Highlights ({item.benefits.length}):
 												</span>
-												<ul className="space-y-1 text-xs text-foreground/80 font-light">
-													{item.benefits.slice(0, 2).map((b, i) => (
-														<li key={i} className="line-clamp-1 flex items-center gap-1.5">
-															<CheckCircle2 className="w-3 h-3 text-primary shrink-0" />
+												<ul className="space-y-1 text-xs text-foreground/85 font-light">
+													{item.benefits.slice(0, 3).map((b, i) => (
+														<li
+															key={i}
+															className="line-clamp-1 flex items-center gap-1.5"
+														>
+															<CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
 															<span>{b}</span>
 														</li>
 													))}
@@ -242,20 +261,26 @@ export default function ServicesSettingsPage() {
 									</div>
 
 									<div className="flex items-center justify-between pt-4 border-t border-border/50">
-										<span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${item.active ? "bg-emerald-500/10 text-emerald-500 border border-emerald-500/20" : "bg-muted text-muted-foreground"}`}>
-											{item.active ? "ACTIVE" : "HIDDEN"}
+										<span
+											className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border ${
+												item.active
+													? "bg-emerald-500/10 text-emerald-600 border-emerald-500/20"
+													: "bg-muted text-muted-foreground border-border/60"
+											}`}
+										>
+											{item.active ? "LIVE • ACTIVE" : "DRAFT • HIDDEN"}
 										</span>
 
 										<div className="flex items-center gap-2">
 											<button
 												onClick={() => openEditModal(item)}
-												className="px-3 py-1.5 rounded-xl bg-muted/60 hover:bg-muted text-foreground text-xs font-medium inline-flex items-center gap-1.5 cursor-pointer transition-all"
+												className="px-3 h-8 rounded-xl bg-muted/60 hover:bg-muted text-foreground text-xs font-semibold font-heading inline-flex items-center gap-1.5 cursor-pointer transition-all border border-border/60"
 											>
-												<Edit3 className="w-3.5 h-3.5" /> Edit
+												<Edit3 className="w-3.5 h-3.5 text-primary" /> Edit
 											</button>
 											<button
 												onClick={() => setDeleteConfirmId(item.id)}
-												className="px-3 py-1.5 rounded-xl bg-destructive/10 hover:bg-destructive/20 text-destructive text-xs font-medium inline-flex items-center gap-1.5 cursor-pointer transition-all"
+												className="px-3 h-8 rounded-xl bg-destructive/10 hover:bg-destructive/20 text-destructive text-xs font-semibold font-heading inline-flex items-center gap-1.5 cursor-pointer transition-all border border-destructive/20"
 											>
 												<Trash2 className="w-3.5 h-3.5" /> Delete
 											</button>
@@ -275,23 +300,27 @@ export default function ServicesSettingsPage() {
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
 						exit={{ opacity: 0 }}
-						className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4"
+						className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4"
 						onClick={() => setModalOpen(false)}
 					>
 						<motion.div
 							initial={{ scale: 0.96, opacity: 0 }}
 							animate={{ scale: 1, opacity: 1 }}
 							exit={{ scale: 0.96, opacity: 0 }}
-							className="bg-card border border-border/80 rounded-[28px] max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+							className="bg-card border border-border/80 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
 							onClick={(e) => e.stopPropagation()}
 						>
-							<div className="sticky top-0 bg-card border-b border-border/50 px-6 py-4 flex items-center justify-between rounded-t-[28px]">
+							<div className="sticky top-0 bg-card border-b border-border/60 px-6 py-4 flex items-center justify-between rounded-t-3xl z-10">
 								<div>
 									<h3 className="text-base font-bold font-heading text-foreground">
-										{editingItem ? "Edit Service Pillar" : "Add New Service"}
+										{editingItem
+											? "Edit Service Offering"
+											: "Add New Service Offering"}
 									</h3>
 									<p className="text-xs text-muted-foreground font-light">
-										{editingItem ? `Editing: ${editingItem.title}` : "Configure service details and key benefits"}
+										{editingItem
+											? `Editing: ${editingItem.title}`
+											: "Configure service details and benefits"}
 									</p>
 								</div>
 								<button
@@ -305,7 +334,7 @@ export default function ServicesSettingsPage() {
 							<form onSubmit={handleSave} className="p-6 space-y-5">
 								<div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
 									<div className="space-y-1.5">
-										<label className="text-xs font-semibold text-foreground flex items-center gap-1">
+										<label className="text-xs font-semibold font-heading text-foreground flex items-center gap-1">
 											<Hash className="w-3.5 h-3.5 text-primary" /> Number Code
 										</label>
 										<input
@@ -320,8 +349,9 @@ export default function ServicesSettingsPage() {
 									</div>
 
 									<div className="sm:col-span-2 space-y-1.5">
-										<label className="text-xs font-semibold text-foreground flex items-center gap-1">
-											<Tag className="w-3.5 h-3.5 text-primary" /> Service Tag / Badge *
+										<label className="text-xs font-semibold font-heading text-foreground flex items-center gap-1">
+											<Tag className="w-3.5 h-3.5 text-primary" /> Service Tag /
+											Badge *
 										</label>
 										<input
 											type="text"
@@ -337,8 +367,9 @@ export default function ServicesSettingsPage() {
 								</div>
 
 								<div className="space-y-1.5">
-									<label className="text-xs font-semibold text-foreground flex items-center gap-1">
-										<Briefcase className="w-3.5 h-3.5 text-primary" /> Service Title *
+									<label className="text-xs font-semibold font-heading text-foreground flex items-center gap-1">
+										<Briefcase className="w-3.5 h-3.5 text-primary" /> Service
+										Title *
 									</label>
 									<input
 										type="text"
@@ -353,7 +384,7 @@ export default function ServicesSettingsPage() {
 								</div>
 
 								<div className="space-y-1.5">
-									<label className="text-xs font-semibold text-foreground">
+									<label className="text-xs font-semibold font-heading text-foreground">
 										Full Description *
 									</label>
 									<textarea
@@ -361,18 +392,22 @@ export default function ServicesSettingsPage() {
 										required
 										value={formData.description}
 										onChange={(e) =>
-											setFormData((p) => ({ ...p, description: e.target.value }))
+											setFormData((p) => ({
+												...p,
+												description: e.target.value,
+											}))
 										}
 										placeholder="Detailed explanation of what this service covers..."
-										className="w-full p-3 rounded-xl bg-background border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
+										className="w-full p-3 rounded-xl bg-background border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary font-light"
 									/>
 								</div>
 
 								{/* Highlights & Benefits */}
 								<div className="space-y-2">
 									<div className="flex items-center justify-between">
-										<label className="text-xs font-semibold text-foreground flex items-center gap-1">
-											<ListCheck className="w-3.5 h-3.5 text-primary" /> Key Highlights & Benefits
+										<label className="text-xs font-semibold font-heading text-foreground flex items-center gap-1">
+											<ListCheck className="w-3.5 h-3.5 text-primary" /> Key
+											Highlights & Benefits
 										</label>
 										<button
 											type="button"
@@ -413,14 +448,14 @@ export default function ServicesSettingsPage() {
 									<button
 										type="button"
 										onClick={() => setModalOpen(false)}
-										className="px-4 py-2.5 rounded-xl bg-muted text-foreground text-xs font-medium cursor-pointer hover:bg-muted/80"
+										className="px-4 py-2.5 rounded-xl bg-muted text-foreground text-xs font-semibold font-heading cursor-pointer hover:bg-muted/80"
 									>
 										Cancel
 									</button>
 									<button
 										type="submit"
 										disabled={saving}
-										className="px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider cursor-pointer hover:bg-primary/90 inline-flex items-center gap-2 disabled:opacity-50"
+										className="px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-xs font-bold font-heading uppercase tracking-wider cursor-pointer hover:bg-primary/90 inline-flex items-center gap-2 disabled:opacity-50 shadow-md shadow-primary/20"
 									>
 										{saving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
 										{editingItem ? "Update Service" : "Create Service"}
@@ -433,52 +468,14 @@ export default function ServicesSettingsPage() {
 			</AnimatePresence>
 
 			{/* ── DELETE CONFIRMATION MODAL ── */}
-			<AnimatePresence>
-				{deleteConfirmId && (
-					<motion.div
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						exit={{ opacity: 0 }}
-						className="fixed inset-0 z-[60] bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
-						onClick={() => !saving && setDeleteConfirmId(null)}
-					>
-						<motion.div
-							initial={{ scale: 0.95, opacity: 0 }}
-							animate={{ scale: 1, opacity: 1 }}
-							exit={{ scale: 0.95, opacity: 0 }}
-							className="bg-card border border-border/80 rounded-[24px] max-w-md w-full p-6 space-y-5"
-							onClick={(e) => e.stopPropagation()}
-						>
-							<div className="space-y-2">
-								<h4 className="text-base font-bold font-heading text-foreground">
-									Delete Service
-								</h4>
-								<p className="text-xs text-muted-foreground font-light leading-relaxed">
-									Are you sure you want to delete this service entry? This action cannot be undone.
-								</p>
-							</div>
-
-							<div className="flex items-center justify-end gap-3 pt-2">
-								<button
-									onClick={() => setDeleteConfirmId(null)}
-									disabled={saving}
-									className="px-4 py-2 rounded-xl bg-muted text-foreground text-xs font-medium"
-								>
-									Cancel
-								</button>
-								<button
-									onClick={() => handleDelete(deleteConfirmId)}
-									disabled={saving}
-									className="px-5 py-2 rounded-xl bg-destructive text-white text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2"
-								>
-									{saving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-									Yes, Delete
-								</button>
-							</div>
-						</motion.div>
-					</motion.div>
-				)}
-			</AnimatePresence>
+			<ConfirmDialog
+				open={Boolean(deleteConfirmId)}
+				onOpenChange={(open) => !open && setDeleteConfirmId(null)}
+				title="Delete Service Offering"
+				description="Are you sure you want to delete this service entry from the public website? This action cannot be undone."
+				confirmText="Yes, Delete"
+				onConfirm={() => deleteConfirmId && handleDelete(deleteConfirmId)}
+			/>
 		</div>
 	);
 }
