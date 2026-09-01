@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { MasterPlanAmenities } from "./glass/MasterPlanAmenities";
 import { WhyChooseUs } from "./WhyChooseUs";
 import { SiliconCityShowcase } from "./glass/SiliconCityShowcase";
@@ -16,28 +16,17 @@ import { SectionContainer } from "../layout/SectionContainer";
 import { useProperties } from "@/hooks/useProperties";
 import { useHomeContent } from "@/hooks/useHomeContent";
 import { useSlides } from "@/hooks/useSlides";
+import { useLanguage } from "@/context/LanguageContext";
 import { formatCurrency } from "@/lib/utils";
 import {
   MapPin,
   ArrowRight,
-  Image as ImageIcon,
-  Video,
-  Volume2,
-  VolumeX,
 } from "lucide-react";
 import InteractiveCarouselRing from "./glass/InteractiveCarouselRing";
 
-// High-resolution luxury architectural photos for the background slideshow
-const DEFAULT_BG_SLIDES = [
-  "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075",
-  "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=2070",
-  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070",
-  "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070",
-];
-
-// 4K Scenic real estate aerial drone video
-const DEFAULT_DRONE_VIDEO =
-  "https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-a-residential-suburb-with-houses-and-gardens-42218-large.mp4";
+// Soft, lightweight modern architectural real estate photo for hero background
+const HERO_BG_IMAGE =
+  "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1920&q=75";
 
 export function HomePageClient() {
   const [mounted, setMounted] = useState(false);
@@ -45,25 +34,11 @@ export function HomePageClient() {
   const { properties } = useProperties();
   const { data: homeData } = useHomeContent();
   const { slides } = useSlides();
-
-  // Hero Background Dual-Mode State (Photos Slider vs Drone Video)
-  const [bgMode, setBgMode] = useState<"photos" | "video">("photos");
-  const [activeBgIndex, setActiveBgIndex] = useState(0);
-  const [isMuted, setIsMuted] = useState(true);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const { isBn } = useLanguage();
 
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  // Background Photo Slider: Smooth vertical slide transition every 6 seconds
-  useEffect(() => {
-    if (bgMode !== "photos") return;
-    const interval = setInterval(() => {
-      setActiveBgIndex((prev) => (prev + 1) % DEFAULT_BG_SLIDES.length);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, [bgMode]);
 
   if (!mounted) {
     return <div className="min-h-screen bg-background" />;
@@ -73,110 +48,45 @@ export function HomePageClient() {
   const trustCounters = homeData.trustCounters;
   const accreditations = homeData.accreditations;
 
+  const bnTrustCounters = [
+    { value: "১৫০+ একর", label: "পরিকল্পিত টাউনশিপ এলাকা", detail: "মোট মাস্টারপ্ল্যান সাইজ" },
+    { value: "১৬–১৮ ফুট", label: "উঁচু বালু ভরাটকৃত জমি", detail: "মৌসুমী বন্যা প্রতিরোধী" },
+    { value: "৩০ ও ৪০ ফুট", label: "প্রশস্ত অভ্যন্তরীণ রাস্তা", detail: "মসৃণ যানবাহন চলাচল" },
+    { value: "১০০% রেডি", label: "নিষ্কণ্টক মালিকানা ও মিউটেশন", detail: "তাৎক্ষণিক দলিল রেজিস্ট্রি" },
+  ];
+
+  const bnAccreditations = [
+    "রাজউক মাস্টারপ্ল্যান আওতাভুক্ত",
+    "বন্যা নিয়ন্ত্রণ বাঁধ সুরক্ষিত জোন",
+    "সিএস, এসএ, আরএস ও বিএস খতিয়ান মিউটেশন",
+    "মোহাম্মদপুর ব্রিজ সরাসরি সংযোগ",
+    "সেন্ট্রাল মসজিদ ও স্পোর্টস কমপ্লেক্স",
+    "আধুনিক হাসপাতাল ও স্কুল সংরক্ষিত জোন",
+  ];
+
   return (
     <div className="bg-background text-foreground min-h-screen overflow-x-hidden flex flex-col">
-      {/* ── SECTION 1: WORLD-CLASS LUXURY ARCHITECTURAL HERO (EXACTLY BELOW NAVBAR) ── */}
+      {/* ── SECTION 1: WORLD-CLASS LUXURY ARCHITECTURAL HERO ── */}
       <section className="relative w-full h-[calc(100dvh-64px)] mt-16 overflow-hidden flex flex-col justify-between items-center select-none">
-        {/* ── BACKGROUND LAYER: LUMINOUS HIGH-DEFINITION ARCHITECTURE OR 4K DRONE VIDEO ── */}
+        {/* ── BACKGROUND LAYER: SOFT LIGHTWEIGHT REAL ESTATE IMAGE ── */}
         <div className="absolute inset-0 z-0 overflow-hidden bg-slate-950">
-          {bgMode === "photos" ? (
-            <div className="relative w-full h-full overflow-hidden">
-              <AnimatePresence initial={false}>
-                <motion.div
-                  key={activeBgIndex}
-                  initial={{ y: "100%" }}
-                  animate={{ y: "0%" }}
-                  exit={{ y: "-100%" }}
-                  transition={{
-                    duration: 1.1,
-                    ease: [0.25, 1, 0.5, 1], // Smooth cinematic vertical slide
-                  }}
-                  className="absolute inset-0 w-full h-full bg-cover bg-center"
-                  style={{
-                    backgroundImage: `url("${DEFAULT_BG_SLIDES[activeBgIndex]}")`,
-                  }}
-                />
-              </AnimatePresence>
-            </div>
-          ) : (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.8 }}
-              className="absolute inset-0"
-            >
-              <video
-                ref={videoRef}
-                autoPlay
-                loop
-                muted={isMuted}
-                playsInline
-                className="w-full h-full object-cover object-center"
-              >
-                <source src={DEFAULT_DRONE_VIDEO} type="video/mp4" />
-              </video>
-            </motion.div>
-          )}
+          <div
+            className="absolute inset-0 w-full h-full bg-cover bg-center opacity-45 scale-105 transition-all duration-700"
+            style={{
+              backgroundImage: `url("${HERO_BG_IMAGE}")`,
+            }}
+          />
 
-          {/* Clean, Luminous Daylight Vignette (Crisp Architectural Visibility) */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/15 to-black/60 pointer-events-none" />
-          <div className="absolute inset-0 bg-radial from-transparent via-black/15 to-black/70 pointer-events-none" />
+          {/* Soft Ambient Vignette Overlay for Crisp Contrast */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/10 to-black/55 pointer-events-none" />
+          <div className="absolute inset-0 bg-radial from-transparent via-black/10 to-black/50 pointer-events-none" />
         </div>
 
-        {/* ── TOP UTILITY STRIP (BELOW NAVBAR) ── */}
-        <div className="relative z-30 w-full flex items-center justify-between px-6 sm:px-12 pt-3">
-          <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-[11px] font-mono tracking-widest text-white/80 uppercase">
+        {/* ── TOP UTILITY STRIP ── */}
+        <div className="relative z-30 w-full flex items-center justify-start px-6 sm:px-12 pt-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-[11px] font-mono tracking-widest text-white/80 uppercase shadow-xs">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            SAVAR, DHAKA • 15 MIN FROM MOHAMMADPUR
-          </div>
-
-          {/* Mode Switcher Pill */}
-          <div className="flex items-center gap-2 ml-auto">
-            <div className="p-1 rounded-full bg-black/50 backdrop-blur-md border border-white/20 shadow-lg flex items-center gap-1">
-              <button
-                type="button"
-                onClick={() => setBgMode("photos")}
-                className={`px-3.5 py-1 rounded-full text-xs font-bold font-heading inline-flex items-center gap-1.5 transition-all cursor-pointer ${
-                  bgMode === "photos"
-                    ? "bg-primary text-primary-foreground shadow-xs"
-                    : "text-white/80 hover:text-white hover:bg-white/10"
-                }`}
-              >
-                <ImageIcon className="w-3.5 h-3.5" />
-                <span>Photo Tour</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setBgMode("video")}
-                className={`px-3.5 py-1 rounded-full text-xs font-bold font-heading inline-flex items-center gap-1.5 transition-all cursor-pointer ${
-                  bgMode === "video"
-                    ? "bg-primary text-primary-foreground shadow-xs"
-                    : "text-white/80 hover:text-white hover:bg-white/10"
-                }`}
-              >
-                <Video className="w-3.5 h-3.5" />
-                <span>Drone Tour</span>
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              </button>
-            </div>
-
-            {/* Mute Toggle for Drone Video */}
-            {bgMode === "video" && (
-              <button
-                type="button"
-                onClick={() => setIsMuted((prev) => !prev)}
-                className="p-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/20 shadow-lg text-white hover:bg-white/20 transition-all cursor-pointer"
-                title={isMuted ? "Unmute Audio" : "Mute Audio"}
-              >
-                {isMuted ? (
-                  <VolumeX className="w-4 h-4 text-white/60" />
-                ) : (
-                  <Volume2 className="w-4 h-4 text-primary" />
-                )}
-              </button>
-            )}
+            {isBn ? "সাভার, ঢাকা • মোহাম্মদপুর থেকে মাত্র ১৫ মিনিট" : "SAVAR, DHAKA • 15 MIN FROM MOHAMMADPUR"}
           </div>
         </div>
 
@@ -190,14 +100,14 @@ export function HomePageClient() {
               title: s.title,
               subtitle: s.subtitle,
               imageUrl: s.image,
-              badge: s.badge || "FEATURED",
+              badge: s.badge || (isBn ? "ফিচারড" : "FEATURED"),
               link: s.link,
               active: s.active,
               order: s.order,
             }))}
           />
 
-          {/* 2. Nestled Center Headline Text (Inside Belly of 3D Ring Cavity, Layer z-20, Compact Font) */}
+          {/* 2. Nestled Center Headline Text */}
           <div className="absolute top-[25%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center text-center px-4 w-full max-w-md sm:max-w-lg pointer-events-none space-y-1.5">
             {/* Badge Tag */}
             <motion.div
@@ -206,44 +116,49 @@ export function HomePageClient() {
             >
               <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-amber-300 font-heading shadow-md">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-                {homeData.heroBadge ||
-                  "PLANNED ECO-TOWNSHIPS & RESIDENTIAL PLOTS"}
+                {isBn
+                  ? "পরিকল্পিত ইকো-টাউনশিপ ও নিষ্কণ্টক প্লট"
+                  : (homeData.heroBadge || "PLANNED ECO-TOWNSHIPS & RESIDENTIAL PLOTS")}
               </span>
             </motion.div>
 
-            {/* Main Headline Title - Compact & Clean */}
+            {/* Main Headline Title */}
             <motion.h1
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.1 }}
               className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white font-heading tracking-tight leading-tight drop-shadow-xl"
             >
-              {homeData.heroTitle || "Silicon City — Master Planned Township"}
+              {isBn
+                ? "সিলিকন সিটি — মাস্টার প্ল্যানড মেগা টাউনশিপ"
+                : (homeData.heroTitle || "Silicon City — Master Planned Township")}
             </motion.h1>
 
-            {/* Narrative Subtitle - Refined & Legible */}
+            {/* Narrative Subtitle */}
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
               className="text-[11px] sm:text-xs text-white/90 font-light max-w-xs sm:max-w-md mx-auto leading-relaxed line-clamp-2 drop-shadow-md"
             >
-              {homeData.heroDesc ||
-                "Experience modern urban planning with 16–18ft high elevation, 30ft/40ft wide internal concrete roads, and clear legal title mutation in Savar, adjacent to Mohammadpur, Dhaka."}
+              {isBn
+                ? "১৬–১৮ ফুট উঁচু বালু ভরাট, ৩০ ও ৪০ ফুট চওড়া অভ্যন্তরীণ আরসিসি রাস্তা এবং শতভাগ নিষ্কণ্টক মালিকানায় মোহাম্মদপুর সংলগ্ন সাভারে আপনার স্থায়ী ঠিকানা।"
+                : (homeData.heroDesc ||
+                  "Experience modern urban planning with 16–18ft high elevation, 30ft/40ft wide internal concrete roads, and clear legal title mutation in Savar, adjacent to Mohammadpur, Dhaka.")}
             </motion.p>
 
             {/* Key Highlights Micro-Pill Strip */}
             <div className="hidden sm:flex items-center gap-2 pt-0.5">
               <span className="px-2 py-0.5 rounded-md bg-white/10 backdrop-blur-xs border border-white/15 text-[10px] font-medium text-white/90">
-                16-18ft High Elevation
+                {isBn ? "১৬-১৮ ফুট উঁচু মাটি ভরাট" : "16-18ft High Elevation"}
               </span>
               <span className="text-white/40">•</span>
               <span className="px-2 py-0.5 rounded-md bg-white/10 backdrop-blur-xs border border-white/15 text-[10px] font-medium text-white/90">
-                40ft Main Concrete Roads
+                {isBn ? "৪০ ফুট প্রধান সংযোগ সড়ক" : "40ft Main Concrete Roads"}
               </span>
               <span className="text-white/40">•</span>
               <span className="px-2 py-0.5 rounded-md bg-white/10 backdrop-blur-xs border border-white/15 text-[10px] font-medium text-white/90">
-                100% Mutation Ready
+                {isBn ? "১০০% মিউটেশন ও রেজিস্ট্রেশন প্রস্তুত" : "100% Mutation Ready"}
               </span>
             </div>
           </div>
@@ -256,26 +171,26 @@ export function HomePageClient() {
             <div className="grid grid-cols-3 gap-3 divide-x divide-white/15 w-full sm:w-auto text-left">
               <div className="px-2">
                 <span className="text-xs sm:text-sm font-bold font-heading text-amber-300 block leading-tight">
-                  200+ Acres
+                  {isBn ? "১৫০+ একর" : "150+ Acres"}
                 </span>
                 <span className="text-[9px] sm:text-[10px] text-white/70 font-light block uppercase tracking-wider">
-                  Masterplan
+                  {isBn ? "মাস্টারপ্ল্যান" : "Masterplan"}
                 </span>
               </div>
               <div className="px-2 pl-3">
                 <span className="text-xs sm:text-sm font-bold font-heading text-white block leading-tight">
-                  15 Mins
+                  {isBn ? "১৫ মিনিট" : "15 Mins"}
                 </span>
                 <span className="text-[9px] sm:text-[10px] text-white/70 font-light block uppercase tracking-wider">
-                  To Mohammadpur
+                  {isBn ? "মোহাম্মদপুর থেকে" : "To Mohammadpur"}
                 </span>
               </div>
               <div className="px-2 pl-3">
                 <span className="text-xs sm:text-sm font-bold font-heading text-emerald-400 block leading-tight">
-                  Ready Plot
+                  {isBn ? "রেডি প্লট" : "Ready Plot"}
                 </span>
                 <span className="text-[9px] sm:text-[10px] text-white/70 font-light block uppercase tracking-wider">
-                  Immediate Handover
+                  {isBn ? "তাৎক্ষণিক হস্তান্তর" : "Immediate Handover"}
                 </span>
               </div>
             </div>
@@ -286,7 +201,7 @@ export function HomePageClient() {
                 href="/projects"
                 className="flex-1 sm:flex-initial px-4 py-1.5 rounded-xl bg-primary text-primary-foreground text-xs font-bold font-heading hover:bg-primary/90 transition-all shadow-md inline-flex items-center justify-center gap-1.5"
               >
-                <span>Explore Plots</span>
+                <span>{isBn ? "প্লট দেখুন" : "Explore Plots"}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
 
@@ -294,7 +209,7 @@ export function HomePageClient() {
                 href="/contact"
                 className="flex-1 sm:flex-initial px-4 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold font-heading border border-white/20 transition-all inline-flex items-center justify-center gap-1.5"
               >
-                <span>Book Site Visit</span>
+                <span>{isBn ? "সাইট ভিজিট বুক করুন" : "Book Site Visit"}</span>
               </Link>
             </div>
           </div>
@@ -310,20 +225,22 @@ export function HomePageClient() {
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 text-left">
             <div className="space-y-2 max-w-2xl">
               <span className="inline-block px-3.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium uppercase tracking-widest text-primary font-heading">
-                FEATURED PLOT INVENTORY
+                {isBn ? "বিশেষ প্লট ইনভেন্টরি" : "FEATURED PLOT INVENTORY"}
               </span>
               <h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
-                Prime Verified Plots in Silicon City
+                {isBn ? "সিলিকন সিটির সেরা ভেরিফাইড প্লটসমূহ" : "Prime Verified Plots in Silicon City"}
               </h2>
               <p className="text-xs sm:text-sm md:text-base text-muted-foreground font-light leading-relaxed">
-                Handpicked RAJUK-compliant residential and commercial plots with immediate registration, clear boundary demarcation, and flexible installments.
+                {isBn
+                  ? "তাৎক্ষণিক রেজিস্ট্রেশন, স্পষ্ট সীমানা চিহ্নিতকরণ এবং সহজ কিস্তির সুবিধা সহ বাছাইকৃত আবাসিক ও বাণিজ্যিক প্লট।"
+                  : "Handpicked RAJUK-compliant residential and commercial plots with immediate registration, clear boundary demarcation, and flexible installments."}
               </p>
             </div>
             <Link
               href="/projects"
               className="text-xs font-semibold font-heading text-primary hover:underline inline-flex items-center gap-1 shrink-0"
             >
-              View All Plots &amp; Projects <ArrowRight className="w-3.5 h-3.5" />
+              {isBn ? "সব প্লট ও প্রজেক্ট দেখুন" : "View All Plots & Projects"} <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
@@ -368,17 +285,17 @@ export function HomePageClient() {
                   <div className="pt-3 border-t border-border/40 flex items-center justify-between">
                     <div>
                       <span className="text-[10px] text-muted-foreground block font-mono uppercase">
-                        PRICE
+                        {isBn ? "মূল্য" : "PRICE"}
                       </span>
                       <span className="text-base font-bold font-heading text-primary">
                         {formatCurrency(prop.price)}
                       </span>
                     </div>
                     <Link
-                      href={`/projects/${prop.slug}`}
+                      href={`/projects`}
                       className="px-4 py-2 rounded-xl bg-muted hover:bg-primary hover:text-primary-foreground text-xs font-semibold font-heading transition-all"
                     >
-                      Details
+                      {isBn ? "বিস্তারিত দেখুন" : "Details"}
                     </Link>
                   </div>
                 </div>
@@ -413,18 +330,20 @@ export function HomePageClient() {
         <SectionContainer className="relative z-10 space-y-12">
           <div className="max-w-3xl text-left space-y-2">
             <span className="inline-block px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-medium uppercase tracking-widest text-accent font-heading">
-              OUR TRACK RECORD
+              {isBn ? "আমাদের ট্র্যাক রেকর্ড" : "OUR TRACK RECORD"}
             </span>
             <h2 className="text-3xl sm:text-4xl font-semibold font-heading text-white tracking-tight">
-              {homeData.trackRecordTitle}
+              {isBn ? "বিশ্বস্ততা ও সাফল্যের বাস্তব পরিসংখ্যান" : homeData.trackRecordTitle}
             </h2>
             <p className="text-white/70 text-xs sm:text-sm font-light leading-relaxed">
-              {homeData.trackRecordDesc}
+              {isBn
+                ? "এক দশকেরও বেশি সময় ধরে আধুনিক নগর পরিকল্পনা, আইনগত স্বচ্ছতা এবং গ্রাহক সন্তুষ্টির সাথে আমরা বাস্তবায়ন করছি নিরাপদ আবাসন।"
+                : homeData.trackRecordDesc}
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
-            {trustCounters.map((s, idx) => (
+            {(isBn ? bnTrustCounters : trustCounters).map((s, idx) => (
               <motion.div
                 key={s.label}
                 initial={{ opacity: 0, y: 20 }}
@@ -445,7 +364,7 @@ export function HomePageClient() {
 
                 <div className="pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-white/50 font-heading">
                   <span>{s.detail}</span>
-                  <span className="text-accent font-medium">Verified</span>
+                  <span className="text-accent font-medium">{isBn ? "যাচাইকৃত" : "Verified"}</span>
                 </div>
               </motion.div>
             ))}
@@ -461,15 +380,15 @@ export function HomePageClient() {
         <SectionContainer>
           <div className="text-center space-y-2 mb-8">
             <span className="text-xs font-medium uppercase tracking-widest text-primary font-heading">
-              ACCREDITATIONS & RECOGNITIONS
+              {isBn ? "অনুমোদন ও স্বীকৃতি" : "ACCREDITATIONS & RECOGNITIONS"}
             </span>
             <h3 className="text-base sm:text-lg font-semibold font-heading text-foreground">
-              Official Regulatory Compliance & Certifications
+              {isBn ? "সরকারি অনুমোদন ও আইনগত স্বীকৃতি" : "Official Regulatory Compliance & Certifications"}
             </h3>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-3">
-            {accreditations.map((badge) => (
+            {(isBn ? bnAccreditations : accreditations).map((badge) => (
               <div
                 key={badge}
                 className="bg-card px-4 py-2 rounded-full border border-border/60 text-xs font-medium font-heading text-foreground/90 shadow-2xs"
@@ -489,4 +408,3 @@ export function HomePageClient() {
     </div>
   );
 }
-
