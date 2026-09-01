@@ -30,6 +30,12 @@ export function UserAuthProvider({ children }: { children: React.ReactNode }) {
 			}
 			if (token) {
 				window.localStorage.setItem("silicon_jwt_token", token);
+				try {
+					document.cookie = `silicon_jwt=${token}; path=/; max-age=604800; SameSite=Lax`;
+					document.cookie = `silicon_jwt_token=${token}; path=/; max-age=604800; SameSite=Lax`;
+				} catch {
+					// Ignore cookie failure
+				}
 			}
 		}
 	}, []);
@@ -40,6 +46,9 @@ export function UserAuthProvider({ children }: { children: React.ReactNode }) {
 			try {
 				window.localStorage.removeItem(AUTH_STORAGE_KEY);
 				window.localStorage.removeItem("silicon_jwt_token");
+				window.localStorage.removeItem("silicon_admin_session");
+				document.cookie = "silicon_jwt=; path=/; max-age=0";
+				document.cookie = "silicon_jwt_token=; path=/; max-age=0";
 			} catch {
 				// Ignore storage failures.
 			}
