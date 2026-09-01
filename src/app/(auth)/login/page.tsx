@@ -39,7 +39,7 @@ export default function LoginPage() {
 		}
 	}, [router]);
 
-	const [email, setEmail] = useState("info@siliconrealestatepvtltd.com");
+	const [email, setEmail] = useState("admin@afiaholdingsltd.com");
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
 	const [rememberMe, setRememberMe] = useState(true);
@@ -211,7 +211,7 @@ export default function LoginPage() {
 							type="email"
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
-							placeholder="info@siliconrealestatepvtltd.com"
+							placeholder="admin@afiaholdingsltd.com"
 							className="w-full h-11 pl-10 pr-4 rounded-xl bg-card border border-border/60 text-foreground text-xs sm:text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-light"
 						/>
 					</div>
