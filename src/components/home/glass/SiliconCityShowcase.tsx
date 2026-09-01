@@ -145,11 +145,7 @@ const servicesListBn = [
 		num: "০১",
 		title: "আবাসিক প্লট বিক্রয়",
 		desc: "পরিকল্পিত ব্লকে শতভাগ নিষ্কণ্টক, তাৎক্ষণিক রেজিস্ট্রেশন ও বাউন্ডারি প্রস্তুত আবাসিক প্লট।",
-		highlights: [
-			"১০০% যাচাইকৃত দলিল",
-			"তাৎক্ষণিক রেজিস্ট্রেশন",
-			"নিষ্কণ্টক মালিকানা",
-		],
+		highlights: ["১০০% যাচাইকৃত দলিল", "তাৎক্ষণিক রেজিস্ট্রেশন", "নিষ্কণ্টক মালিকানা"],
 	},
 	{
 		num: "০২",
@@ -218,18 +214,21 @@ export function SiliconCityShowcase() {
 					{/* Header */}
 					<div className="max-w-3xl text-left space-y-3">
 						<span className="inline-block px-3.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium uppercase tracking-widest text-primary font-heading">
-							{isBn ? "ফ্ল্যাগশিপ টাউনশিপ" : (data.showcaseBadge || "FLAGSHIP TOWNSHIP")}
+							{isBn
+								? "ফ্ল্যাগশিপ টাউনশিপ"
+								: data.showcaseBadge || "FLAGSHIP TOWNSHIP"}
 						</span>
 						<h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
 							{isBn
 								? "সিলিকন সিটি – পরিকল্পিত নিরাপদ আবাসন নগরী"
-								: (data.showcaseTitle || "Silicon City – The Ideal Housing Township")}
+								: data.showcaseTitle ||
+									"Silicon City – The Ideal Housing Township"}
 						</h2>
 						<p className="text-muted-foreground text-xs sm:text-sm md:text-base leading-relaxed font-light">
 							{isBn
 								? "ঢাকার মোহাম্মদপুর সংলগ্ন সাভার বড় বাদেশী মৌজায়, রাজউকের সম্প্রসারিত মহাপরিকল্পনার আওতাভুক্ত ও ঢাকা বন্যা নিয়ন্ত্রণ বাঁধ সুরক্ষিত অঞ্চলে অবস্থিত।"
-								: (data.showcaseDesc ||
-									"Located in Savar (Bara Badeshi Mouza), inside the proposed RAJUK extended master plan and protected by the Dhaka Flood Protection Embankment.")}
+								: data.showcaseDesc ||
+									"Located in Savar (Bara Badeshi Mouza), inside the proposed RAJUK extended master plan and protected by the Dhaka Flood Protection Embankment."}
 						</p>
 					</div>
 
@@ -254,7 +253,9 @@ export function SiliconCityShowcase() {
 										{isBn ? "তুরাগ নদী করিডোর" : "Turag Riverfront Corridor"}
 									</span>
 									<span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-[11px] font-medium text-white/80 font-heading uppercase tracking-wider">
-										{isBn ? "বন্যা নিয়ন্ত্রণ বাঁধ সুরক্ষিত" : "Flood Embankment Protected"}
+										{isBn
+											? "বন্যা নিয়ন্ত্রণ বাঁধ সুরক্ষিত"
+											: "Flood Embankment Protected"}
 									</span>
 								</div>
 
@@ -276,7 +277,9 @@ export function SiliconCityShowcase() {
 									href="/projects"
 									className="group bg-primary text-primary-foreground h-12 px-7 rounded-xl font-medium text-xs sm:text-sm font-heading inline-flex items-center justify-center hover:bg-primary/90 transition-all border border-white/20 shadow-md gap-2"
 								>
-									{isBn ? "সিলিকন সিটির লেআউট দেখুন" : "EXPLORE SILICON CITY LAYOUTS"}
+									{isBn
+										? "সিলিকন সিটির লেআউট দেখুন"
+										: "EXPLORE SILICON CITY LAYOUTS"}
 									<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
 								</Link>
 							</div>
@@ -313,8 +316,12 @@ export function SiliconCityShowcase() {
 								</div>
 
 								<div className="pt-3 border-t border-border/40 flex items-center justify-between text-[11px] font-heading font-medium text-muted-foreground">
-									<span>{isBn ? "সিলিকন স্ট্যান্ডার্ড" : "Silicon City Standard"}</span>
-									<span className="text-primary font-medium">{isBn ? "ভেরিফাইড" : "Verified"}</span>
+									<span>
+										{isBn ? "সিলিকন স্ট্যান্ডার্ড" : "Silicon City Standard"}
+									</span>
+									<span className="text-primary font-medium">
+										{isBn ? "ভেরিফাইড" : "Verified"}
+									</span>
 								</div>
 							</motion.div>
 						))}
@@ -328,7 +335,9 @@ export function SiliconCityShowcase() {
 							{isBn ? "আমাদের সেবাসমূহ" : "WHAT WE OFFER"}
 						</span>
 						<h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
-							{isBn ? "আমাদের পূর্ণাঙ্গ রিয়েল এস্টেট সেবাসমূহ" : "Comprehensive Real Estate Services"}
+							{isBn
+								? "আমাদের পূর্ণাঙ্গ রিয়েল এস্টেট সেবাসমূহ"
+								: "Comprehensive Real Estate Services"}
 						</h2>
 						<p className="text-muted-foreground text-xs sm:text-sm md:text-base font-light">
 							{isBn
@@ -435,7 +444,9 @@ export function SiliconCityShowcase() {
 											href="/services"
 											className="group bg-primary text-primary-foreground h-11 px-6 rounded-xl font-medium font-heading text-xs sm:text-sm inline-flex items-center justify-center hover:bg-primary/90 transition-all border border-white/10 shadow-xs gap-2"
 										>
-											{isBn ? "সার্ভিসের বিস্তারিত দেখুন" : "EXPLORE SERVICE DETAILS"}
+											{isBn
+												? "সার্ভিসের বিস্তারিত দেখুন"
+												: "EXPLORE SERVICE DETAILS"}
 											<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
 										</Link>
 									</div>
