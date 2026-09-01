@@ -78,7 +78,9 @@ export function WhyChooseUs() {
 								},
 								{
 									title: isBn ? "নিষ্কণ্টক জমি" : "Zero Dispute",
-									desc: isBn ? "লিগ্যাল টিম দ্বারা যাচাইকৃত" : "Vetted by in-house legal team",
+									desc: isBn
+										? "লিগ্যাল টিম দ্বারা যাচাইকৃত"
+										: "Vetted by in-house legal team",
 								},
 							].map((item, idx) => (
 								<div
@@ -127,8 +129,12 @@ export function WhyChooseUs() {
 								{isBn ? "সরাসরি যোগাযোগ" : "Active Connectivity"}
 							</div>
 							<div className="flex items-center justify-between text-xs text-foreground font-medium font-heading">
-								<span>{isBn ? "মোহাম্মদপুর বেড়িবাঁধ থেকে" : "To Mohammadpur Beribadh"}</span>
-								<span className="font-mono text-primary font-bold">{isBn ? "১৫ মিনিট" : "15 Mins"}</span>
+								<span>
+									{isBn ? "মোহাম্মদপুর বেড়িবাঁধ থেকে" : "To Mohammadpur Beribadh"}
+								</span>
+								<span className="font-mono text-primary font-bold">
+									{isBn ? "১৫ মিনিট" : "15 Mins"}
+								</span>
 							</div>
 							<div className="w-full bg-border/50 h-1.5 rounded-full overflow-hidden">
 								<div className="bg-primary h-full w-[90%] rounded-full" />
@@ -167,7 +173,10 @@ export function WhyChooseUs() {
 								{ name: isBn ? "কিস্তিসমূহ" : "Installments", pct: "50%" },
 								{ name: isBn ? "রেজিস্ট্রেশন" : "Deed", pct: "30%" },
 							].map((mile, i) => (
-								<div key={i} className="flex-1 text-center bg-muted/40 rounded-xl p-2 border border-border/40">
+								<div
+									key={i}
+									className="flex-1 text-center bg-muted/40 rounded-xl p-2 border border-border/40"
+								>
 									<div className="text-xs font-bold text-primary font-mono">
 										{mile.pct}
 									</div>

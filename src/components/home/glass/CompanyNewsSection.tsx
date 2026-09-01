@@ -98,7 +98,9 @@ const DEFAULT_NEWS_BN: NewsPost[] = [
 
 export function CompanyNewsSection() {
 	const { isBn } = useLanguage();
-	const [posts, setPosts] = useState<NewsPost[]>(isBn ? DEFAULT_NEWS_BN : DEFAULT_NEWS_EN);
+	const [posts, setPosts] = useState<NewsPost[]>(
+		isBn ? DEFAULT_NEWS_BN : DEFAULT_NEWS_EN,
+	);
 
 	useEffect(() => {
 		setPosts(isBn ? DEFAULT_NEWS_BN : DEFAULT_NEWS_EN);
@@ -113,7 +115,9 @@ export function CompanyNewsSection() {
 							{isBn ? "কোম্পানি সংবাদ ও আপডেট" : "COMPANY NEWS & UPDATES"}
 						</span>
 						<h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
-							{isBn ? "সর্বশেষ ঘোষণা ও উন্নয়ন সংবাদ" : "Latest Announcements & Articles"}
+							{isBn
+								? "সর্বশেষ ঘোষণা ও উন্নয়ন সংবাদ"
+								: "Latest Announcements & Articles"}
 						</h2>
 						<p className="text-xs sm:text-sm text-muted-foreground font-light">
 							{isBn
@@ -125,7 +129,8 @@ export function CompanyNewsSection() {
 						href="/about"
 						className="text-xs font-semibold font-heading text-primary hover:underline inline-flex items-center gap-1 shrink-0"
 					>
-						{isBn ? "আমাদের গল্প দেখুন" : "Explore Company Story"} <ArrowRight className="w-3.5 h-3.5" />
+						{isBn ? "আমাদের গল্প দেখুন" : "Explore Company Story"}{" "}
+						<ArrowRight className="w-3.5 h-3.5" />
 					</Link>
 				</div>
 
@@ -174,7 +179,8 @@ export function CompanyNewsSection() {
 										href="/about"
 										className="text-xs font-semibold font-heading text-primary hover:underline inline-flex items-center gap-1"
 									>
-										{isBn ? "বিস্তারিত পড়ুন" : "Learn More"} <ArrowRight className="w-3.5 h-3.5" />
+										{isBn ? "বিস্তারিত পড়ুন" : "Learn More"}{" "}
+										<ArrowRight className="w-3.5 h-3.5" />
 									</Link>
 								</div>
 							</div>
