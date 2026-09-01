@@ -10,7 +10,10 @@ interface LanguageToggleProps {
 	compact?: boolean;
 }
 
-export function LanguageToggle({ className, compact = false }: LanguageToggleProps) {
+export function LanguageToggle({
+	className,
+	compact = false,
+}: LanguageToggleProps) {
 	const { toggleLanguage, isBn } = useLanguage();
 
 	return (
@@ -25,7 +28,12 @@ export function LanguageToggle({ className, compact = false }: LanguageTogglePro
 			aria-label={isBn ? "Switch to English" : "বাংলা ভাষায় পরিবর্তন করুন"}
 		>
 			<span className="text-xs leading-none">{isBn ? "🇧🇩" : "🇬🇧"}</span>
-			<span className={cn("text-xs", isBn ? "font-bengali font-bold" : "font-heading font-semibold")}>
+			<span
+				className={cn(
+					"text-xs",
+					isBn ? "font-bengali font-bold" : "font-heading font-semibold",
+				)}
+			>
 				{isBn ? "বাংলা" : "EN"}
 			</span>
 		</button>
