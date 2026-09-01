@@ -57,7 +57,7 @@ export function TeamSection() {
 								<div className="absolute inset-0 bg-primary/70 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center gap-3">
 									<div className="w-9 h-9 rounded-full bg-white/15 border border-white/30 flex items-center justify-center hover:bg-accent/80 transition-colors duration-300 cursor-pointer">
 										<a
-											href="https://www.linkedin.com/in/rashedulraha/"
+											href={member.linkedin || "#"}
 											target="_blank"
 											rel="noopener noreferrer"
 										>
@@ -66,7 +66,7 @@ export function TeamSection() {
 									</div>
 									<div className="w-9 h-9 rounded-full bg-white/15 border border-white/30 flex items-center justify-center hover:bg-accent/80 transition-colors duration-300 cursor-pointer">
 										<a
-											href="mailto:rashedulraha.bd@gmail.com?subject=Project Inquiry&body=Hello Rashedul,"
+											href={`mailto:${member.email || "info@siliconrealestatepvtltd.com"}?subject=Inquiry for ${member.name}`}
 											className="w-9 h-9 rounded-full bg-white/15 border border-white/30 flex items-center justify-center hover:bg-accent/80 transition-colors duration-300"
 										>
 											<Mail className="h-4 w-4 text-white" />
