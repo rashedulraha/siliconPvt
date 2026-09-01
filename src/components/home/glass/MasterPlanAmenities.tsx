@@ -35,18 +35,18 @@ export function MasterPlanAmenities() {
 						<div className="p-8 sm:p-10 flex-1 flex flex-col justify-between space-y-6 text-left">
 							<div className="space-y-3">
 								<span className="text-xs font-semibold font-heading uppercase tracking-widest text-accent">
-									{isBn ? "মাস্টার প্ল্যান" : (data.masterPlanBadge || "MASTER PLAN")}
+									{isBn ? "মাস্টার প্ল্যান" : data.masterPlanBadge || "MASTER PLAN"}
 								</span>
 								<h3 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight leading-tight">
 									{isBn
 										? "এক নজরে: আধুনিক টাউনশিপ লেআউট"
-										: (data.masterPlanTitle || "At a Glance: Township Layout")}
+										: data.masterPlanTitle || "At a Glance: Township Layout"}
 								</h3>
 								<p className="text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
 									{isBn
 										? "৩০ ও ৪০ ফুট প্রশস্ত প্রশস্ত রাস্তা, পর্যাপ্ত আলো-বাতাস চলাচলের নিশ্চয়তা এবং প্রতিটি প্লটের জন্য পরিবেশবান্ধব জোনিং সহ সুপরিকল্পিত লেআউট।"
-										: (data.masterPlanDesc ||
-											"Meticulously planned master layout featuring 30ft & 40ft wide avenues, optimal sunlight orientation, and eco-zoning for every plot.")}
+										: data.masterPlanDesc ||
+											"Meticulously planned master layout featuring 30ft & 40ft wide avenues, optimal sunlight orientation, and eco-zoning for every plot."}
 								</p>
 							</div>
 
@@ -55,7 +55,8 @@ export function MasterPlanAmenities() {
 									href="/projects"
 									className="inline-flex items-center justify-center h-11 px-7 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-medium font-heading text-xs tracking-wider uppercase transition-all gap-2"
 								>
-									{isBn ? "লেআউট ম্যাপ দেখুন" : "EXPLORE LAYOUT"} <ArrowRight className="w-3.5 h-3.5" />
+									{isBn ? "লেআউট ম্যাপ দেখুন" : "EXPLORE LAYOUT"}{" "}
+									<ArrowRight className="w-3.5 h-3.5" />
 								</Link>
 							</div>
 						</div>
@@ -86,12 +87,14 @@ export function MasterPlanAmenities() {
 						<div className="p-8 sm:p-10 flex-1 flex flex-col justify-between space-y-6 text-left">
 							<div className="space-y-4">
 								<span className="text-xs font-semibold font-heading uppercase tracking-widest text-accent">
-									{isBn ? "নাগরিক সুযোগ-সুবিধা" : (data.amenitiesBadge || "LIFESTYLE AMENITIES")}
+									{isBn
+										? "নাগরিক সুযোগ-সুবিধা"
+										: data.amenitiesBadge || "LIFESTYLE AMENITIES"}
 								</span>
 								<h3 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight leading-tight">
 									{isBn
 										? "সকল আধুনিক নাগরিক ও লাইফস্টাইল সুবিধা"
-										: (data.amenitiesTitle || "All Modern Lifestyle Amenities")}
+										: data.amenitiesTitle || "All Modern Lifestyle Amenities"}
 								</h3>
 
 								{/* 4 Amenities Icon Grid */}
@@ -139,7 +142,8 @@ export function MasterPlanAmenities() {
 									href="/projects"
 									className="inline-flex items-center justify-center h-11 px-7 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-medium font-heading text-xs tracking-wider uppercase transition-all gap-2"
 								>
-									{isBn ? "সব সুবিধা দেখুন" : "VIEW ALL AMENITIES"} <ArrowRight className="w-3.5 h-3.5" />
+									{isBn ? "সব সুবিধা দেখুন" : "VIEW ALL AMENITIES"}{" "}
+									<ArrowRight className="w-3.5 h-3.5" />
 								</Link>
 							</div>
 						</div>
