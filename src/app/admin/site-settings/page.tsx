@@ -18,6 +18,7 @@ import {
 	Map,
 	Heading,
 	FileText,
+	Eye,
 } from "lucide-react";
 import { SectionContainer } from "@/components/layout/SectionContainer";
 import { useAdminEditor } from "@/context/AdminEditorContext";
@@ -54,7 +55,9 @@ export default function SiteSettingsPage() {
 		setSaving(true);
 		try {
 			await updateContactInfo(formData);
-			setSavedMessage("Contact information and site settings saved successfully!");
+			setSavedMessage(
+				"Contact information and site settings saved successfully!",
+			);
 			setTimeout(() => setSavedMessage(""), 3500);
 		} catch (e) {
 			console.error("Failed to update contact settings", e);
@@ -65,8 +68,8 @@ export default function SiteSettingsPage() {
 
 	return (
 		<div className="bg-background text-foreground min-h-screen pb-24 text-left">
-			{/* Top Header */}
-			<div className="border-b border-border/50 bg-card/60 backdrop-blur-md sticky top-0 z-30 py-4">
+			{/* Top Header (Non-sticky) */}
+			<div className="border-b border-border/50 py-3 mb-6">
 				<SectionContainer>
 					<div className="flex items-center justify-between">
 						<Link
@@ -76,25 +79,20 @@ export default function SiteSettingsPage() {
 							<ArrowLeft className="w-4 h-4" />
 							Back to Admin Panel
 						</Link>
-						<button
-							onClick={handleSave}
-							disabled={saving}
-							className="px-4 h-9 rounded-xl bg-primary text-primary-foreground text-xs font-medium font-heading inline-flex items-center gap-1.5 transition-all shadow-none hover:bg-primary/90 cursor-pointer disabled:opacity-50"
+						<Link
+							href="/contact"
+							target="_blank"
+							className="px-3.5 h-8 rounded-full border border-border/80 text-foreground hover:bg-muted text-xs font-semibold font-heading inline-flex items-center gap-1.5 transition-all shadow-2xs"
 						>
-							{saving ? (
-								<Loader2 className="w-3.5 h-3.5 animate-spin" />
-							) : (
-								<Save className="w-3.5 h-3.5" />
-							)}
-							Save Contact Settings
-						</button>
+							<Eye className="w-3.5 h-3.5 text-muted-foreground" />
+							<span>Live Contact Page</span>
+						</Link>
 					</div>
 				</SectionContainer>
 			</div>
 
 			<SectionContainer className="py-10">
 				<div className="max-w-4xl mx-auto space-y-8">
-
 					<div className="space-y-1 text-left">
 						<span className="text-xs font-semibold uppercase tracking-widest text-primary font-heading">
 							DYNAMIC CONTACT & SITE CONTROL
@@ -103,7 +101,8 @@ export default function SiteSettingsPage() {
 							Contact Page & Corporate Settings
 						</h1>
 						<p className="text-xs sm:text-sm text-muted-foreground font-light">
-							Manage hero titles, corporate office address, contact numbers, email addresses, business hours, and map locations.
+							Manage hero titles, corporate office address, contact numbers,
+							email addresses, business hours, and map locations.
 						</p>
 					</div>
 
@@ -127,7 +126,8 @@ export default function SiteSettingsPage() {
 							{/* Section 1: Hero & Header Content */}
 							<div className="space-y-4 border-b border-border/60 pb-6">
 								<h3 className="text-sm font-semibold font-heading text-foreground uppercase tracking-wider flex items-center gap-2">
-									<Heading className="w-4 h-4 text-primary" /> 1. Contact Page Hero Banner
+									<Heading className="w-4 h-4 text-primary" /> 1. Contact Page
+									Hero Banner
 								</h3>
 
 								<div className="space-y-3">
@@ -164,13 +164,15 @@ export default function SiteSettingsPage() {
 							{/* Section 2: Contact Information */}
 							<div className="space-y-4 border-b border-border/60 pb-6">
 								<h3 className="text-sm font-semibold font-heading text-foreground uppercase tracking-wider flex items-center gap-2">
-									<Phone className="w-4 h-4 text-primary" /> 2. Corporate Contact Details
+									<Phone className="w-4 h-4 text-primary" /> 2. Corporate
+									Contact Details
 								</h3>
 
 								<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 									<div className="space-y-1.5 text-left">
 										<label className="text-xs font-medium font-heading text-foreground flex items-center gap-1.5">
-											<Phone className="w-3.5 h-3.5 text-muted-foreground" /> Phone & Mobile Numbers
+											<Phone className="w-3.5 h-3.5 text-muted-foreground" />{" "}
+											Phone & Mobile Numbers
 										</label>
 										<input
 											type="text"
@@ -184,7 +186,8 @@ export default function SiteSettingsPage() {
 
 									<div className="space-y-1.5 text-left">
 										<label className="text-xs font-medium font-heading text-foreground flex items-center gap-1.5">
-											<MessageSquare className="w-3.5 h-3.5 text-emerald-500" /> Official WhatsApp
+											<MessageSquare className="w-3.5 h-3.5 text-emerald-500" />{" "}
+											Official WhatsApp
 										</label>
 										<input
 											type="text"
@@ -198,7 +201,8 @@ export default function SiteSettingsPage() {
 
 									<div className="space-y-1.5 text-left">
 										<label className="text-xs font-medium font-heading text-foreground flex items-center gap-1.5">
-											<Mail className="w-3.5 h-3.5 text-muted-foreground" /> Primary Email
+											<Mail className="w-3.5 h-3.5 text-muted-foreground" />{" "}
+											Primary Email
 										</label>
 										<input
 											type="email"
@@ -212,7 +216,8 @@ export default function SiteSettingsPage() {
 
 									<div className="space-y-1.5 text-left">
 										<label className="text-xs font-medium font-heading text-foreground flex items-center gap-1.5">
-											<Mail className="w-3.5 h-3.5 text-muted-foreground" /> Secondary Email
+											<Mail className="w-3.5 h-3.5 text-muted-foreground" />{" "}
+											Secondary Email
 										</label>
 										<input
 											type="email"
@@ -226,7 +231,8 @@ export default function SiteSettingsPage() {
 
 									<div className="sm:col-span-2 space-y-1.5 text-left">
 										<label className="text-xs font-medium font-heading text-foreground flex items-center gap-1.5">
-											<MapPin className="w-3.5 h-3.5 text-muted-foreground" /> Corporate Office Address
+											<MapPin className="w-3.5 h-3.5 text-muted-foreground" />{" "}
+											Corporate Office Address
 										</label>
 										<textarea
 											rows={2}
@@ -243,7 +249,8 @@ export default function SiteSettingsPage() {
 							{/* Section 3: Hours & Site Visit Notice */}
 							<div className="space-y-4 border-b border-border/60 pb-6">
 								<h3 className="text-sm font-semibold font-heading text-foreground uppercase tracking-wider flex items-center gap-2">
-									<Clock className="w-4 h-4 text-primary" /> 3. Schedule & Site Visit Info
+									<Clock className="w-4 h-4 text-primary" /> 3. Schedule & Site
+									Visit Info
 								</h3>
 
 								<div className="space-y-3">
@@ -280,13 +287,15 @@ export default function SiteSettingsPage() {
 							{/* Section 4: Map & Media */}
 							<div className="space-y-4">
 								<h3 className="text-sm font-semibold font-heading text-foreground uppercase tracking-wider flex items-center gap-2">
-									<Map className="w-4 h-4 text-primary" /> 4. Location Map & Images
+									<Map className="w-4 h-4 text-primary" /> 4. Location Map &
+									Images
 								</h3>
 
 								<div className="space-y-3">
 									<div className="space-y-1.5 text-left">
 										<label className="text-xs font-medium font-heading text-foreground flex items-center gap-1.5">
-											<Map className="w-3.5 h-3.5 text-muted-foreground" /> Google Map Embed iframe URL
+											<Map className="w-3.5 h-3.5 text-muted-foreground" />{" "}
+											Google Map Embed iframe URL
 										</label>
 										<input
 											type="text"
@@ -300,7 +309,8 @@ export default function SiteSettingsPage() {
 
 									<div className="space-y-1.5 text-left">
 										<label className="text-xs font-medium font-heading text-foreground flex items-center gap-1.5">
-											<ImageIcon className="w-3.5 h-3.5 text-muted-foreground" /> Office Banner Image URL (Optional)
+											<ImageIcon className="w-3.5 h-3.5 text-muted-foreground" />{" "}
+											Office Banner Image URL (Optional)
 										</label>
 										<input
 											type="text"
@@ -331,6 +341,22 @@ export default function SiteSettingsPage() {
 					)}
 				</div>
 			</SectionContainer>
+
+			{/* ── FLOATING BOTTOM-RIGHT SAVE CAPSULE ── */}
+			<div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 p-1.5 rounded-full bg-card/90 backdrop-blur-xl border border-border/80 shadow-[0_12px_36px_rgba(0,0,0,0.25)]">
+				<button
+					onClick={handleSave}
+					disabled={saving}
+					className="h-11 px-6 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground text-xs sm:text-sm font-bold font-heading inline-flex items-center gap-2 shadow-md shadow-primary/25 hover:shadow-lg transition-all active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+				>
+					{saving ? (
+						<Loader2 className="w-4 h-4 animate-spin" />
+					) : (
+						<Save className="w-4 h-4" />
+					)}
+					<span>{saving ? "Saving Changes..." : "Save Contact Settings"}</span>
+				</button>
+			</div>
 		</div>
 	);
 }

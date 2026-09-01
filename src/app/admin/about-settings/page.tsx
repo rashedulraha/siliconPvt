@@ -28,7 +28,12 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 export default function AboutSettingsPage() {
-	const { data: initialData, loading, updateContent, refetch } = useAboutContent();
+	const {
+		data: initialData,
+		loading,
+		updateContent,
+		refetch,
+	} = useAboutContent();
 
 	const [formData, setFormData] = useState<AboutContentData>(initialData);
 	const [activeTab, setActiveTab] = useState<
@@ -64,8 +69,8 @@ export default function AboutSettingsPage() {
 
 	return (
 		<div className="bg-background text-foreground min-h-screen pb-24 text-left">
-			{/* ── TOP ACTION BAR ── */}
-			<div className="border-b border-border/60 bg-card/80 backdrop-blur-md sticky top-0 z-30 py-3.5">
+			{/* ── TOP ACTION BAR (Non-sticky) ── */}
+			<div className="border-b border-border/50 py-3 mb-6">
 				<SectionContainer>
 					<div className="flex items-center justify-between gap-4">
 						<Link
@@ -80,7 +85,7 @@ export default function AboutSettingsPage() {
 							<button
 								onClick={() => refetch()}
 								disabled={loading}
-								className="px-3.5 h-9 rounded-xl border border-border/80 text-foreground hover:bg-muted text-xs font-semibold font-heading inline-flex items-center gap-1.5 transition-all cursor-pointer"
+								className="px-3.5 h-8 rounded-full border border-border/80 text-foreground hover:bg-muted text-xs font-semibold font-heading inline-flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs"
 							>
 								<RefreshCw
 									className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`}
@@ -91,24 +96,11 @@ export default function AboutSettingsPage() {
 							<Link
 								href="/about"
 								target="_blank"
-								className="px-3.5 h-9 rounded-xl border border-border/80 text-foreground hover:bg-muted text-xs font-semibold font-heading inline-flex items-center gap-1.5 transition-all"
+								className="px-3.5 h-8 rounded-full border border-border/80 text-foreground hover:bg-muted text-xs font-semibold font-heading inline-flex items-center gap-1.5 transition-all shadow-2xs"
 							>
 								<Eye className="w-3.5 h-3.5 text-muted-foreground" />
 								<span>Live About Page</span>
 							</Link>
-
-							<button
-								onClick={() => handleSave()}
-								disabled={saving || loading}
-								className="px-4 h-9 rounded-xl bg-primary text-primary-foreground text-xs font-bold font-heading inline-flex items-center gap-1.5 transition-all shadow-xs hover:bg-primary/90 cursor-pointer disabled:opacity-50"
-							>
-								{saving ? (
-									<Loader2 className="w-3.5 h-3.5 animate-spin" />
-								) : (
-									<Save className="w-3.5 h-3.5" />
-								)}
-								<span>Save Changes</span>
-							</button>
 						</div>
 					</div>
 				</SectionContainer>
@@ -119,13 +111,15 @@ export default function AboutSettingsPage() {
 					{/* Header Title */}
 					<div className="space-y-1 text-left">
 						<span className="text-xs font-semibold uppercase tracking-wider text-primary font-heading inline-flex items-center gap-1.5">
-							<Sparkles className="w-3.5 h-3.5" /> PUBLIC ABOUT PAGE CONTENT CONTROL
+							<Sparkles className="w-3.5 h-3.5" /> PUBLIC ABOUT PAGE CONTENT
+							CONTROL
 						</span>
 						<h1 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
 							About & Leadership Settings
 						</h1>
 						<p className="text-xs sm:text-sm text-muted-foreground font-light">
-							Manage company bio, mission, vision, chairman and MD addresses, milestones timeline, and executive board members.
+							Manage company bio, mission, vision, chairman and MD addresses,
+							milestones timeline, and executive board members.
 						</p>
 					</div>
 
@@ -141,8 +135,16 @@ export default function AboutSettingsPage() {
 					<div className="flex flex-wrap gap-2 border-b border-border/60 pb-3">
 						{[
 							{ id: "hero", label: "Hero & Who We Are", icon: FileText },
-							{ id: "mission", label: "Mission, Vision & Values", icon: Target },
-							{ id: "leadership", label: "Chairman & MD Speeches", icon: UserCheck },
+							{
+								id: "mission",
+								label: "Mission, Vision & Values",
+								icon: Target,
+							},
+							{
+								id: "leadership",
+								label: "Chairman & MD Speeches",
+								icon: UserCheck,
+							},
 							{ id: "stats", label: "Stats & Milestones", icon: Award },
 							{ id: "whyChooseUs", label: "Why Choose Us", icon: HelpCircle },
 							{ id: "team", label: "Executive Team", icon: Users },
@@ -189,7 +191,9 @@ export default function AboutSettingsPage() {
 											<Input
 												required
 												value={formData.heroTitle}
-												onChange={(e) => handleChange("heroTitle", e.target.value)}
+												onChange={(e) =>
+													handleChange("heroTitle", e.target.value)
+												}
 												placeholder="e.g. Building Trust."
 											/>
 										</div>
@@ -200,7 +204,9 @@ export default function AboutSettingsPage() {
 											<Input
 												required
 												value={formData.heroSubtitle}
-												onChange={(e) => handleChange("heroSubtitle", e.target.value)}
+												onChange={(e) =>
+													handleChange("heroSubtitle", e.target.value)
+												}
 												placeholder="e.g. Creating Sustainable Communities."
 											/>
 										</div>
@@ -225,7 +231,9 @@ export default function AboutSettingsPage() {
 										<Input
 											required
 											value={formData.whoWeAreTitle}
-											onChange={(e) => handleChange("whoWeAreTitle", e.target.value)}
+											onChange={(e) =>
+												handleChange("whoWeAreTitle", e.target.value)
+											}
 											placeholder="e.g. Pioneering Planned & Eco-Friendly Development"
 										/>
 									</div>
@@ -237,7 +245,9 @@ export default function AboutSettingsPage() {
 										<Textarea
 											rows={4}
 											value={formData.whoWeAreDesc}
-											onChange={(e) => handleChange("whoWeAreDesc", e.target.value)}
+											onChange={(e) =>
+												handleChange("whoWeAreDesc", e.target.value)
+											}
 											placeholder="Comprehensive company narrative..."
 										/>
 									</div>
@@ -260,7 +270,9 @@ export default function AboutSettingsPage() {
 													</Label>
 													<Input
 														value={formData.missionTitle}
-														onChange={(e) => handleChange("missionTitle", e.target.value)}
+														onChange={(e) =>
+															handleChange("missionTitle", e.target.value)
+														}
 													/>
 												</div>
 												<div className="space-y-1.5">
@@ -270,7 +282,9 @@ export default function AboutSettingsPage() {
 													<Textarea
 														rows={3}
 														value={formData.missionDesc}
-														onChange={(e) => handleChange("missionDesc", e.target.value)}
+														onChange={(e) =>
+															handleChange("missionDesc", e.target.value)
+														}
 													/>
 												</div>
 											</div>
@@ -282,7 +296,9 @@ export default function AboutSettingsPage() {
 													</Label>
 													<Input
 														value={formData.visionTitle}
-														onChange={(e) => handleChange("visionTitle", e.target.value)}
+														onChange={(e) =>
+															handleChange("visionTitle", e.target.value)
+														}
 													/>
 												</div>
 												<div className="space-y-1.5">
@@ -292,7 +308,9 @@ export default function AboutSettingsPage() {
 													<Textarea
 														rows={3}
 														value={formData.visionDesc}
-														onChange={(e) => handleChange("visionDesc", e.target.value)}
+														onChange={(e) =>
+															handleChange("visionDesc", e.target.value)
+														}
 													/>
 												</div>
 											</div>
@@ -307,7 +325,10 @@ export default function AboutSettingsPage() {
 
 										<div className="grid sm:grid-cols-2 gap-4">
 											{formData.coreValues.map((cv, idx) => (
-												<div key={idx} className="p-4 rounded-xl bg-muted/30 border border-border/60 space-y-2">
+												<div
+													key={idx}
+													className="p-4 rounded-xl bg-muted/30 border border-border/60 space-y-2"
+												>
 													<div className="space-y-1">
 														<Label className="text-[11px] font-semibold font-mono text-primary">
 															Pillar 0{idx + 1} Title
@@ -358,7 +379,9 @@ export default function AboutSettingsPage() {
 												</Label>
 												<Input
 													value={formData.chairmanName}
-													onChange={(e) => handleChange("chairmanName", e.target.value)}
+													onChange={(e) =>
+														handleChange("chairmanName", e.target.value)
+													}
 												/>
 											</div>
 											<div className="space-y-1.5">
@@ -367,7 +390,9 @@ export default function AboutSettingsPage() {
 												</Label>
 												<Input
 													value={formData.chairmanRole}
-													onChange={(e) => handleChange("chairmanRole", e.target.value)}
+													onChange={(e) =>
+														handleChange("chairmanRole", e.target.value)
+													}
 												/>
 											</div>
 										</div>
@@ -379,7 +404,9 @@ export default function AboutSettingsPage() {
 												</Label>
 												<Input
 													value={formData.chairmanImage}
-													onChange={(e) => handleChange("chairmanImage", e.target.value)}
+													onChange={(e) =>
+														handleChange("chairmanImage", e.target.value)
+													}
 												/>
 											</div>
 											{formData.chairmanImage && (
@@ -389,7 +416,9 @@ export default function AboutSettingsPage() {
 														alt="Chairman"
 														className="w-14 h-14 rounded-full object-cover border-2 border-primary shadow-xs"
 													/>
-													<span className="text-[11px] text-muted-foreground">Live Photo Preview</span>
+													<span className="text-[11px] text-muted-foreground">
+														Live Photo Preview
+													</span>
 												</div>
 											)}
 										</div>
@@ -401,7 +430,9 @@ export default function AboutSettingsPage() {
 											<Textarea
 												rows={5}
 												value={formData.chairmanSpeech}
-												onChange={(e) => handleChange("chairmanSpeech", e.target.value)}
+												onChange={(e) =>
+													handleChange("chairmanSpeech", e.target.value)
+												}
 											/>
 										</div>
 									</div>
@@ -419,7 +450,9 @@ export default function AboutSettingsPage() {
 												</Label>
 												<Input
 													value={formData.mdName}
-													onChange={(e) => handleChange("mdName", e.target.value)}
+													onChange={(e) =>
+														handleChange("mdName", e.target.value)
+													}
 												/>
 											</div>
 											<div className="space-y-1.5">
@@ -428,7 +461,9 @@ export default function AboutSettingsPage() {
 												</Label>
 												<Input
 													value={formData.mdRole}
-													onChange={(e) => handleChange("mdRole", e.target.value)}
+													onChange={(e) =>
+														handleChange("mdRole", e.target.value)
+													}
 												/>
 											</div>
 										</div>
@@ -440,7 +475,9 @@ export default function AboutSettingsPage() {
 												</Label>
 												<Input
 													value={formData.mdImage}
-													onChange={(e) => handleChange("mdImage", e.target.value)}
+													onChange={(e) =>
+														handleChange("mdImage", e.target.value)
+													}
 												/>
 											</div>
 											{formData.mdImage && (
@@ -450,7 +487,9 @@ export default function AboutSettingsPage() {
 														alt="MD"
 														className="w-14 h-14 rounded-full object-cover border-2 border-primary shadow-xs"
 													/>
-													<span className="text-[11px] text-muted-foreground">Live Photo Preview</span>
+													<span className="text-[11px] text-muted-foreground">
+														Live Photo Preview
+													</span>
 												</div>
 											)}
 										</div>
@@ -462,7 +501,9 @@ export default function AboutSettingsPage() {
 											<Textarea
 												rows={5}
 												value={formData.mdSpeech}
-												onChange={(e) => handleChange("mdSpeech", e.target.value)}
+												onChange={(e) =>
+													handleChange("mdSpeech", e.target.value)
+												}
 											/>
 										</div>
 									</div>
@@ -480,7 +521,10 @@ export default function AboutSettingsPage() {
 
 										<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
 											{formData.stats.map((st, idx) => (
-												<div key={idx} className="p-4 rounded-xl bg-muted/30 border border-border/60 space-y-2">
+												<div
+													key={idx}
+													className="p-4 rounded-xl bg-muted/30 border border-border/60 space-y-2"
+												>
 													<div className="space-y-1">
 														<Label className="text-[11px] font-semibold text-primary font-mono">
 															Metric #{idx + 1} Value
@@ -520,7 +564,10 @@ export default function AboutSettingsPage() {
 
 										<div className="space-y-3">
 											{formData.timeline.map((item, idx) => (
-												<div key={idx} className="p-4 rounded-xl bg-muted/30 border border-border/60 grid sm:grid-cols-12 gap-3 items-center">
+												<div
+													key={idx}
+													className="p-4 rounded-xl bg-muted/30 border border-border/60 grid sm:grid-cols-12 gap-3 items-center"
+												>
 													<div className="sm:col-span-2">
 														<Label className="text-[10px] font-mono text-primary uppercase">
 															Year
@@ -576,7 +623,10 @@ export default function AboutSettingsPage() {
 
 									<div className="grid sm:grid-cols-2 gap-4">
 										{formData.whyChooseUs.map((item, idx) => (
-											<div key={idx} className="p-4 rounded-xl bg-muted/30 border border-border/60 space-y-2">
+											<div
+												key={idx}
+												className="p-4 rounded-xl bg-muted/30 border border-border/60 space-y-2"
+											>
 												<div className="space-y-1">
 													<Label className="text-[11px] font-semibold text-primary font-mono">
 														Advantage 0{idx + 1} Title
@@ -615,7 +665,8 @@ export default function AboutSettingsPage() {
 								<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-5">
 									<div className="flex items-center justify-between border-b border-border/50 pb-2.5">
 										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground">
-											Executive Management Team ({formData.managementTeam.length})
+											Executive Management Team (
+											{formData.managementTeam.length})
 										</h2>
 										<Button
 											type="button"
@@ -627,7 +678,8 @@ export default function AboutSettingsPage() {
 														name: "NEW EXECUTIVE",
 														role: "Director",
 														philosophy: "Committed to excellence.",
-														image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80",
+														image:
+															"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80",
 													},
 												]);
 											}}
@@ -640,7 +692,10 @@ export default function AboutSettingsPage() {
 
 									<div className="grid sm:grid-cols-2 gap-4">
 										{formData.managementTeam.map((mem, idx) => (
-											<div key={idx} className="p-4 rounded-xl bg-muted/30 border border-border/60 space-y-3 relative group">
+											<div
+												key={idx}
+												className="p-4 rounded-xl bg-muted/30 border border-border/60 space-y-3 relative group"
+											>
 												<div className="flex items-start justify-between gap-3">
 													<div className="flex items-center gap-3">
 														<img
@@ -648,7 +703,8 @@ export default function AboutSettingsPage() {
 															alt={mem.name}
 															className="w-12 h-12 rounded-full object-cover border border-primary/40"
 															onError={(e) => {
-																(e.target as HTMLElement).style.display = "none";
+																(e.target as HTMLElement).style.display =
+																	"none";
 															}}
 														/>
 														<div>
@@ -666,7 +722,9 @@ export default function AboutSettingsPage() {
 														variant="ghost"
 														size="icon"
 														onClick={() => {
-															const updated = formData.managementTeam.filter((_, i) => i !== idx);
+															const updated = formData.managementTeam.filter(
+																(_, i) => i !== idx,
+															);
 															handleChange("managementTeam", updated);
 														}}
 														className="h-7 w-7 text-destructive hover:bg-destructive/10 cursor-pointer"
@@ -758,6 +816,22 @@ export default function AboutSettingsPage() {
 					)}
 				</div>
 			</SectionContainer>
+
+			{/* ── FLOATING BOTTOM-RIGHT SAVE CAPSULE ── */}
+			<div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 p-1.5 rounded-full bg-card/90 backdrop-blur-xl border border-border/80 shadow-[0_12px_36px_rgba(0,0,0,0.25)]">
+				<button
+					onClick={() => handleSave()}
+					disabled={saving || loading}
+					className="h-11 px-6 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground text-xs sm:text-sm font-bold font-heading inline-flex items-center gap-2 shadow-md shadow-primary/25 hover:shadow-lg transition-all active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+				>
+					{saving ? (
+						<Loader2 className="w-4 h-4 animate-spin" />
+					) : (
+						<Save className="w-4 h-4" />
+					)}
+					<span>{saving ? "Saving Changes..." : "Save Changes"}</span>
+				</button>
+			</div>
 		</div>
 	);
 }
