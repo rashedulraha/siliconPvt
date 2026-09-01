@@ -11,14 +11,18 @@ export function FloatingActions() {
 
 	// Derive the contact phone: CMS value takes priority, env var is the fallback
 	const contactPhone =
-		state.siteSettings.contactPhone || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+8801712345678";
+		state.siteSettings.contactPhone ||
+		process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ||
+		"+8801712345678";
 
 	// Strip all non-digit characters for the wa.me URL
 	const digits = contactPhone ? contactPhone.replace(/\D/g, "") : "";
 
 	const message = isBn
 		? encodeURIComponent("আসসালামু আলাইকুম, আমি সিলিকন সিটির প্লট সম্পর্কে জানতে আগ্রহী।")
-		: encodeURIComponent("Hello, I am interested in Silicon City residential plots.");
+		: encodeURIComponent(
+				"Hello, I am interested in Silicon City residential plots.",
+			);
 
 	const whatsappUrl = `https://wa.me/${digits}?text=${message}`;
 
