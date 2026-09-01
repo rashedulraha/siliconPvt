@@ -59,25 +59,27 @@ export async function apiFetch<T>(
 	path: string,
 	options?: RequestInit,
 ): Promise<T> {
-	// Fallback to the production server if NEXT_PUBLIC_API_URL is not configured
-	let baseUrl = (
-		process.env.NEXT_PUBLIC_API_URL ||
-		"https://silicon-pvt-server.onrender.com/api/v1"
-	)
-		.trim()
-		.replace(/\/+$/, "");
+	// Standardize to internal Next.js /api route handlers
+	let rawUrl = (process.env.NEXT_PUBLIC_API_URL || "").trim().replace(/\/+$/, "");
 
-	// Normalize baseUrl if missing /api/v1 or /api when path doesn't start with /api
-	if (
-		!baseUrl.endsWith("/api/v1") &&
-		!baseUrl.endsWith("/api") &&
-		!path.startsWith("/api")
-	) {
-		baseUrl = `${baseUrl}/api/v1`;
+	// Normalize if rawUrl points to /api/v1 or just host
+	if (rawUrl.endsWith("/api/v1")) {
+		rawUrl = rawUrl.replace(/\/api\/v1$/, "/api");
+	} else if (!rawUrl.endsWith("/api") && rawUrl.length > 0 && !path.startsWith("/api")) {
+		rawUrl = `${rawUrl}/api`;
 	}
 
 	const cleanPath = path.startsWith("/") ? path : `/${path}`;
-	const url = path.startsWith("http") ? path : `${baseUrl}${cleanPath}`;
+	let url: string;
+
+	if (path.startsWith("http://") || path.startsWith("https://")) {
+		url = path;
+	} else if (rawUrl) {
+		const finalPath = cleanPath.startsWith("/api") ? cleanPath.replace(/^\/api/, "") : cleanPath;
+		url = `${rawUrl}${finalPath}`;
+	} else {
+		url = cleanPath.startsWith("/api") ? cleanPath : `/api${cleanPath}`;
+	}
 
 	// Prepare headers
 	const headers = new Headers(options?.headers);
