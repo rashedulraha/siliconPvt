@@ -4,8 +4,9 @@ import { motion } from "framer-motion";
 import { Search, MapPin, FileText, KeyRound, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { SectionContainer } from "@/components/layout/SectionContainer";
+import { useLanguage } from "@/context/LanguageContext";
 
-const steps = [
+const stepsEn = [
 	{
 		number: "01",
 		icon: Search,
@@ -40,7 +41,45 @@ const steps = [
 	},
 ];
 
+const stepsBn = [
+	{
+		number: "০১",
+		icon: Search,
+		title: "প্লট নির্বাচন ও যাচাই",
+		description:
+			"সিলিকন সিটির আবাসিক ও বাণিজ্যিক প্লট তালিকা থেকে আপনার বাজেট ও পছন্দ অনুযায়ী উপযুক্ত প্লট নির্বাচন করুন।",
+		tag: "প্লট সন্ধান",
+	},
+	{
+		number: "০২",
+		icon: MapPin,
+		title: "ফ্রি সাইট ভিজিট ও দলিল পরীক্ষণ",
+		description:
+			"মোহাম্মদপুর কর্পোরেট অফিস থেকে নিজস্ব গাড়িতে সরজমিনে গিয়ে প্লটের সীমানা ও সিএস, এসএ, আরএস, বিএস দলিল দেখুন।",
+		tag: "সাইট পরিদর্শন",
+	},
+	{
+		number: "০৩",
+		icon: FileText,
+		title: "বুকিং ও স্বচ্ছ চুক্তি সম্পাদন",
+		description:
+			"স্বচ্ছ চুক্তিপত্র, স্পষ্ট পেমেন্ট শর্তাবলী এবং সুবিধাজনক মাসিক কিস্তির মাধ্যমে আপনার পছন্দের প্লটটি বুকিং করুন।",
+		tag: "স্বচ্ছ চুক্তি",
+	},
+	{
+		number: "০৪",
+		icon: KeyRound,
+		title: "সাব-রেজিস্ট্রি ও দখল হস্তান্তর",
+		description:
+			"আমাদের লিগ্যাল টিমের সহায়তায় নির্ঝঞ্ঝাট সাব-রেজিস্ট্রি, নামজারি (মিউটেশন) ও প্লটের দখল বুঝে নিন।",
+		tag: "নিষ্কণ্টক মালিকানা",
+	},
+];
+
 export function InvestmentProcess() {
+	const { isBn } = useLanguage();
+	const steps = isBn ? stepsBn : stepsEn;
+
 	return (
 		<section className="py-20 sm:py-24 bg-muted/30 text-foreground relative overflow-hidden border-t border-border/50">
 			{/* Subtle Dot Grid */}
@@ -57,13 +96,17 @@ export function InvestmentProcess() {
 				<div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 text-left">
 					<div className="space-y-2 max-w-2xl">
 						<span className="inline-block px-3.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium uppercase tracking-widest text-primary font-heading">
-							TRANSPARENT PROCESS
+							{isBn ? "স্বচ্ছ বিনিয়োগ প্রক্রিয়া" : "TRANSPARENT PROCESS"}
 						</span>
 						<h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
-							From First Visit to Registered Deed
+							{isBn
+								? "প্রথম পরিদর্শন থেকে দলিল হস্তান্তর পর্যন্ত ৪ ধাপ"
+								: "From First Visit to Registered Deed"}
 						</h2>
 						<p className="text-xs sm:text-sm md:text-base text-muted-foreground font-light leading-relaxed">
-							Four simple steps to secure, legally verified land ownership with complete peace of mind.
+							{isBn
+								? "সম্পূর্ণ স্বচ্ছতা ও আইনি নিশ্চয়তার সাথে নিষ্কণ্টক জমির মালিকানা অর্জনের ৪টি সহজ ধাপ।"
+								: "Four simple steps to secure, legally verified land ownership with complete peace of mind."}
 						</p>
 					</div>
 
@@ -71,7 +114,7 @@ export function InvestmentProcess() {
 						href="/contact?type=visit"
 						className="text-xs font-semibold font-heading text-primary hover:underline inline-flex items-center gap-1 shrink-0"
 					>
-						Schedule Free Site Visit <ArrowRight className="w-3.5 h-3.5" />
+						{isBn ? "ফ্রি সাইট ভিজিট বুক করুন" : "Schedule Free Site Visit"} <ArrowRight className="w-3.5 h-3.5" />
 					</Link>
 				</div>
 
@@ -114,8 +157,8 @@ export function InvestmentProcess() {
 							</div>
 
 							<div className="pt-3 border-t border-border/40 flex items-center justify-between text-[11px] font-heading text-muted-foreground font-medium">
-								<span>Step 0{idx + 1} of 04</span>
-								<span className="text-primary font-semibold">Verified Step</span>
+								<span>{isBn ? `ধাপ ${step.number} (মোট ৪টির মধ্যে)` : `Step 0${idx + 1} of 04`}</span>
+								<span className="text-primary font-semibold">{isBn ? "ভেরিফাইড" : "Verified Step"}</span>
 							</div>
 						</motion.div>
 					))}
@@ -124,4 +167,3 @@ export function InvestmentProcess() {
 		</section>
 	);
 }
-
