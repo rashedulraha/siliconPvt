@@ -17,36 +17,40 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { SectionContainer } from "../ui/section-container";
-
-const QUICK_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "About Us", href: "/about" },
-  { label: "Projects", href: "/projects" },
-  { label: "Services", href: "/services" },
-  { label: "Contact Us", href: "/contact" },
-];
-
-const USEFUL_LINKS = [
-  { label: "Privacy Policy", href: "/privacy-terms" },
-  { label: "Terms of Service", href: "/privacy-terms" },
-  { label: "Schedule Site Visit", href: "/contact" },
-  { label: "Admin Portal", href: "/login" },
-];
+import { useLanguage } from "@/context/LanguageContext";
 
 export function Footer() {
+  const { isBn } = useLanguage();
   const [email, setEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
+  const quickLinks = [
+    { label: isBn ? "হোম" : "Home", href: "/" },
+    { label: isBn ? "আমাদের সম্পর্কে" : "About Us", href: "/about" },
+    { label: isBn ? "প্রকল্পসমূহ" : "Projects", href: "/projects" },
+    { label: isBn ? "সেবাসমূহ" : "Services", href: "/services" },
+    { label: isBn ? "যোগাযোগ" : "Contact Us", href: "/contact" },
+  ];
+
+  const usefulLinks = [
+    { label: isBn ? "গোপনীয়তা নীতিমালা" : "Privacy Policy", href: "/privacy-terms" },
+    { label: isBn ? "শর্তাবলী ও নিয়মাবলী" : "Terms of Service", href: "/privacy-terms" },
+    { label: isBn ? "সাইট ভিজিট বুকিং" : "Schedule Site Visit", href: "/contact" },
+    { label: isBn ? "এডমিন পোর্টাল" : "Admin Portal", href: "/admin/login" },
+  ];
 
   const handleNewsletter = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      toast.error("Please enter a valid email address.");
+      toast.error(isBn ? "অনুগ্রহ করে একটি সঠিক ইমেইল এড্রেস লিখুন।" : "Please enter a valid email address.");
       return;
     }
     setSubmitting(true);
     setTimeout(() => {
       toast.success(
-        "Thank you for subscribing to Silicon Real Estate updates!",
+        isBn
+          ? "সিলিকন রিয়েল এস্টেটের সাথে যুক্ত হওয়ার জন্য ধন্যবাদ!"
+          : "Thank you for subscribing to Silicon Real Estate updates!",
       );
       setEmail("");
       setSubmitting(false);
@@ -66,21 +70,21 @@ export function Footer() {
               <div className="w-8 h-8 rounded-xl bg-accent/20 border border-accent/30 flex items-center justify-center shrink-0">
                 <ShieldCheck className="w-4 h-4 text-accent" />
               </div>
-              <span>RAJUK Compliant Housing Township</span>
+              <span>{isBn ? "রাজউক মাস্টারপ্ল্যান আওতাভুক্ত হাউজিং টাউনশিপ" : "RAJUK Compliant Housing Township"}</span>
             </div>
 
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-xl bg-accent/20 border border-accent/30 flex items-center justify-center shrink-0">
                 <Building2 className="w-4 h-4 text-accent" />
               </div>
-              <span>Mohammadpur Riverside Location</span>
+              <span>{isBn ? "মোহাম্মদপুর সংলগ্ন মনোরম নদীতীরবর্তী লোকেশন" : "Mohammadpur Riverside Location"}</span>
             </div>
 
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-xl bg-accent/20 border border-accent/30 flex items-center justify-center shrink-0">
                 <FileText className="w-4 h-4 text-accent" />
               </div>
-              <span>100% Legal Title Verification</span>
+              <span>{isBn ? "১০০% নির্ভেজাল ও নিষ্কণ্টক আইনগত দলিলপত্র" : "100% Legal Title Verification"}</span>
             </div>
           </div>
         </SectionContainer>
@@ -89,7 +93,7 @@ export function Footer() {
       {/* ── 2. MAIN FOOTER CONTENT GRID ── */}
       <SectionContainer className="py-14 sm:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 text-left">
-          {/* COLUMN 1: BRANDING & CONTACT INFO WITH IMAGE (lg:col-span-4) */}
+          {/* COLUMN 1: BRANDING & CONTACT INFO (lg:col-span-4) */}
           <div className="lg:col-span-4 space-y-6">
             {/* Logo Image Header */}
             <Link href="/" className="flex items-center gap-3 w-fit group">
@@ -99,7 +103,7 @@ export function Footer() {
                   alt="Silicon Real Estate Logo"
                   width={36}
                   height={36}
-                  className=" h-full w-full object-cover"
+                  className="h-full w-full object-cover"
                 />
               </div>
               <div>
@@ -107,15 +111,15 @@ export function Footer() {
                   Silicon Real Estate (Pvt.) Ltd.
                 </span>
                 <span className="text-accent text-[10px] tracking-widest uppercase font-mono font-medium">
-                  Official Land Development Company
+                  {isBn ? "গভঃ অনুমোদিত ল্যান্ড ডেভেলপার কোম্পানি" : "Official Land Development Company"}
                 </span>
               </div>
             </Link>
 
             <p className="text-white/70 text-xs sm:text-sm leading-relaxed font-light">
-              A trusted pioneer in modern land development across Dhaka.
-              RAJUK-approved planned residential township in Silicon City with
-              legal deed transparency.
+              {isBn
+                ? "ঢাকার মোহাম্মদপুর সংলগ্ন পরিকল্পিত ও পরিবেশবান্ধব মেগা টাউনশিপ 'সিলিকন সিটি'। শতভাগ নিষ্কণ্টক মালিকানা, আধুনিক নাগরিক সুবিধা ও সহজ কিস্তিতে প্লট বরাদ্দ।"
+                : "A trusted pioneer in modern land development across Dhaka. RAJUK-compliant planned residential township in Silicon City with legal deed transparency."}
             </p>
 
             {/* Corporate Address & Hotlines */}
@@ -123,8 +127,9 @@ export function Footer() {
               <div className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-accent shrink-0 mt-0.5" />
                 <span>
-                  2/3 (2nd Floor), Block # A, Iqbal Road, Mohammadpur,
-                  Dhaka-1207
+                  {isBn
+                    ? "২/৩ (২য় তলা), ব্লক # এ, ইকবাল রোড, মোহাম্মদপুর, ঢাকা-১২০৭"
+                    : "2/3 (2nd Floor), Block # A, Iqbal Road, Mohammadpur, Dhaka-1207"}
                 </span>
               </div>
 
@@ -148,11 +153,11 @@ export function Footer() {
           {/* COLUMN 2: QUICK LINKS (lg:col-span-3) */}
           <div className="lg:col-span-3 space-y-4">
             <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-accent border-b border-white/10 pb-2">
-              QUICK NAVIGATION
+              {isBn ? "দ্রুত নেভিগেশন" : "QUICK NAVIGATION"}
             </h3>
             <ul className="space-y-2.5">
-              {QUICK_LINKS.map((link) => (
-                <li key={link.label}>
+              {quickLinks.map((link) => (
+                <li key={link.href}>
                   <Link
                     href={link.href}
                     className="text-xs sm:text-sm text-white/70 hover:text-accent transition-colors flex items-center gap-2 group"
@@ -168,10 +173,10 @@ export function Footer() {
           {/* COLUMN 3: USEFUL LINKS & LEGAL POLICIES (lg:col-span-2) */}
           <div className="lg:col-span-2 space-y-4">
             <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-accent border-b border-white/10 pb-2">
-              USEFUL POLICIES
+              {isBn ? "নীতিমালা ও পোর্টাল" : "USEFUL POLICIES"}
             </h3>
             <ul className="space-y-2.5">
-              {USEFUL_LINKS.map((link) => (
+              {usefulLinks.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
@@ -185,21 +190,22 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* COLUMN 4: NEWSLETTER & PROJECT THUMBNAIL (lg:col-span-3) */}
+          {/* COLUMN 4: NEWSLETTER & BADGE (lg:col-span-3) */}
           <div className="lg:col-span-3 space-y-4">
             <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-accent border-b border-white/10 pb-2">
-              STAY UPDATED
+              {isBn ? "আপডেট পান" : "STAY UPDATED"}
             </h3>
             <p className="text-xs text-white/70 font-light leading-relaxed">
-              Subscribe for official project updates, plot availability notices,
-              and site visit schedules.
+              {isBn
+                ? "নতুন প্লট বুকিং বিজ্ঞপ্তি ও সাইট ভিজিট শিডিউল সম্পর্কে জানতে ইমেইল দিয়ে সাবস্ক্রাইব করুন।"
+                : "Subscribe for official project updates, plot availability notices, and site visit schedules."}
             </p>
 
             <form onSubmit={handleNewsletter} className="space-y-2">
               <div className="relative flex items-center">
                 <input
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder={isBn ? "আপনার ইমেইল দিন..." : "Enter your email..."}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full h-11 pl-4 pr-12 rounded-xl bg-white/10 border border-white/15 text-xs text-white placeholder:text-white/40 focus:outline-none focus:border-accent"
@@ -208,6 +214,7 @@ export function Footer() {
                   type="submit"
                   disabled={submitting}
                   className="absolute right-1.5 w-8 h-8 rounded-lg bg-accent text-accent-foreground flex items-center justify-center hover:opacity-90 transition-opacity"
+                  aria-label="Submit newsletter"
                 >
                   <Send className="w-3.5 h-3.5" />
                 </button>
@@ -230,10 +237,10 @@ export function Footer() {
                     SILICON CITY TOWNSHIP
                   </span>
                   <span className="text-xs font-heading text-white font-medium block">
-                    Corporate Head Office
+                    {isBn ? "কর্পোরেট প্রধান কার্যালয়" : "Corporate Head Office"}
                   </span>
                   <span className="text-[10px] text-white/60 font-light block">
-                    Mohammadpur, Dhaka
+                    {isBn ? "মোহাম্মদপুর, ঢাকা" : "Mohammadpur, Dhaka"}
                   </span>
                 </div>
               </div>
@@ -247,17 +254,17 @@ export function Footer() {
         <SectionContainer>
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-white/50">
             <span>
-              © 2026 Silicon Real Estate (Pvt.) Ltd. All Rights Reserved.
+              © 2026 Silicon Real Estate (Pvt.) Ltd. {isBn ? "সর্বস্বত্ব সংরক্ষিত।" : "All Rights Reserved."}
             </span>
             <span>
               Designed & Developed by{" "}
               <a
-                href="https://rashedul-raha.vercel.app/"
+                href="https://www.exzazon.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 hover:text-accent transition-colors"
+                className="inline-flex items-center gap-1 hover:text-accent font-medium text-white/70 transition-colors"
               >
-                <span>Rashedul Islam</span>
+                <span>Exzazon</span>
                 <ExternalLink className="w-3 h-3 shrink-0" />
               </a>
             </span>
@@ -266,14 +273,14 @@ export function Footer() {
                 href="/privacy-terms"
                 className="hover:text-accent transition-colors"
               >
-                Terms of Governance
+                {isBn ? "শর্তাবলী" : "Terms"}
               </Link>
               <span>•</span>
               <Link
                 href="/privacy-terms"
                 className="hover:text-accent transition-colors"
               >
-                Privacy Protection
+                {isBn ? "গোপনীয়তা নীতি" : "Privacy Policy"}
               </Link>
             </div>
           </div>
