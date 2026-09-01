@@ -1,0 +1,274 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  role         String   @default("admin")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Property {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  type        String   // plot, flat, commercial, project
+  category    String   // residential, commercial, industrial, luxury
+  status      String   @default("available") // available, booked, sold, rented
+  price       Float
+  location    String
+  areaSqFt    Float?
+  bedrooms    Int?
+  bathrooms   Int?
+  description String
+  features    String[]
+  images      String[]
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Lead {
+  id         String   @id @default(cuid())
+  name       String
+  email      String
+  phone      String
+  message    String
+  propertyId String?
+  status     String   @default("new") // new, contacted, qualified, closed
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Slide {
+  id        String   @id @default(cuid())
+  title     String
+  subtitle  String
+  image     String
+  badge     String?
+  link      String?
+  active    Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model SiteSettings {
+  id           String   @id @default("global")
+  email        String
+  phone        String
+  hotline      String?
+  address      String
+  facebookUrl  String?
+  youtubeUrl   String?
+  aboutSummary String?
+  mission      String?
+  vision       String?
+  socialLinks  String?  // JSON stringified optional social links
+  updatedAt    DateTime @updatedAt
+}
+
+model ContactInfo {
+  id              String   @id @default("global")
+  heroTitle       String   @default("Get in Touch with Us")
+  heroDescription String   @default("Have questions about our residential plots in Silicon City? Want to schedule a physical site visit or discuss membership guidelines? Reach out to our corporate help desk. We are here to help you secure your dream address.")
+  address         String   @default("2/3 (2nd Floor), Block # A, Iqbal Road, Mohammadpur, Dhaka-1207, Bangladesh")
+  phone           String   @default("+880 12 345 678, +880 1234 567 890")
+  whatsapp        String   @default("+880 12 345 678")
+  email           String   @default("info@siliconrealestatepvtltd.com")
+  secondaryEmail  String?  @default("siliconrealestate@gmail.com")
+  website         String   @default("siliconrealestatepvtltd.com")
+  businessHours   String   @default("Saturday - Thursday: 9:00 AM – 5:00 PM | Friday: Closed")
+  mapEmbedUrl     String   @default("https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.8973685412356!2d90.3621!3d23.7509!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755bf4f483c6d7d%3A0x6b4f74d6c6e18f2f!2sIqbal%20Rd%2C%20Dhaka%201207!5e0!3m2!1sen!2sbd!4v1700000000000!5m2!1sen!2sbd")
+  siteVisitNotice String   @default("Silicon City is strategically located in Bara Badeshi Mouza, Savar, right next to the Turag River and adjacent to Mohammadpur Beribadh. We arrange physical site guided tours for our clients directly from our Corporate Office.")
+  imageUrl        String?  
+  facebookUrl     String?  @default("https://facebook.com")
+  youtubeUrl      String?  @default("https://youtube.com")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model MembershipContent {
+  id                  String   @id @default("global")
+  heroTitle           String   @default("Silicon City Membership Guidelines")
+  heroDescription     String   @default("Review our official offline membership process, download the printable application form, and understand the terms and conditions required to secure your plot ownership in Silicon City.")
+  formPdfUrl          String   @default("/assets/silicon-membership-form.pdf")
+  applicationFee      String   @default("BDT 1,000")
+  landSharePercentage String   @default("25% - 30%")
+  soilElevationHeight String   @default("16 to 18 Feet")
+  offlineNoticeText   String   @default("Download the printable PDF application form, attach your NID copies and photographs, and submit it at our Mohammadpur Corporate Office with the BDT 1,000 application fee.")
+  contactHotline      String   @default("+880 12 345 678 / +880 1712 345 678")
+  pathways            String?  // JSON stringified array of pathways
+  termsAndConditions  String?  // JSON stringified array of terms
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String
+  content     String
+  image       String
+  category    String   @default("Company News")
+  author      String   @default("Silicon Editorial")
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model GalleryItem {
+  id        String   @id @default(cuid())
+  title     String
+  category  String   // project | infrastructure | office | handovers
+  badge     String
+  location  String
+  overview  String
+  images    String[]
+  features  String[]
+  order     Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  name      String
+  role      String   // Chairman, Managing Director, Executive, etc.
+  speech    String   // Formal leadership address speech
+  image     String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  num         String?
+  title       String
+  tag         String
+  description String
+  icon        String?
+  imageUrl    String?
+  pricing     String?
+  benefits    String[]
+  order       Int      @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model AboutContent {
+  id              String   @id @default(cuid())
+  heroTitle       String
+  heroSubtitle    String
+  heroDesc        String
+  whoWeAreTitle   String
+  whoWeAreDesc    String
+  missionTitle    String
+  missionDesc     String
+  visionTitle     String
+  visionDesc      String
+  chairmanName    String
+  chairmanRole    String
+  chairmanSpeech  String
+  chairmanImage   String
+  mdName          String
+  mdRole          String
+  mdSpeech        String
+  mdImage         String
+  stats           Json?
+  coreValues      Json?
+  timeline        Json?
+  whyChooseUs     Json?
+  managementTeam  Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model HomeContent {
+  id                 String   @id @default(cuid())
+  heroBadge          String
+  heroTitle          String
+  heroSubtitle       String
+  heroDesc           String
+  heroCtaText        String
+  heroCtaLink        String
+  masterPlanBadge    String?  @default("MASTER PLAN")
+  masterPlanTitle    String?  @default("At a Glance: Township Layout")
+  masterPlanDesc     String?  @default("Meticulously planned master layout featuring 30ft & 40ft wide avenues, optimal sunlight orientation, and eco-zoning for every plot.")
+  masterPlanImage    String?  @default("https://images.unsplash.com/photo-1524813686514-a57563d77965?q=80&w=1200")
+  amenitiesBadge     String?  @default("LIFESTYLE AMENITIES")
+  amenitiesTitle     String?  @default("Integrated Modern Civic Amenities")
+  amenitiesDesc      String?  @default("Dedicated Central Mosque, Grand Athletics Sports Ground, Riverfront Green Eco Parks, School & Medical Centers inside the boundary.")
+  showcaseBadge      String?  @default("FLAGSHIP TOWNSHIP")
+  showcaseTitle      String?  @default("Silicon City — Planned Eco-Township")
+  showcaseDesc       String?  @default("Located at Bara Badeshi Mouza, Savar, Dhaka — strategically positioned adjacent to Mohammadpur Beribadh along the scenic Turag River.")
+  trackRecordTitle   String
+  trackRecordDesc    String
+  trustCounters      Json?
+  accreditations     Json?
+  ctaTitle           String
+  ctaDesc            String
+  ctaButtonText      String
+  ctaButtonLink      String
+  sectionsConfig     Json?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  num         String?
+  title       String
+  slug        String?  @unique
+  type        String   @default("Township Project") // e.g. "Ongoing Flagship Township"
+  status      String   @default("Ongoing") // Ongoing, Upcoming, Completed
+  location    String
+  description String
+  images      String[]
+  highlights  String[] // tech stack / feature tags
+  demoUrl     String?  // live/demo URL or detail link
+  clientInfo  String?  // client details / developer info
+  order       Int      @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ProjectsContent {
+  id                String   @id @default(cuid())
+  heroTitle         String   @default("Master Planned Townships & Prime Land Developments")
+  heroSubtitle      String   @default("Prime Land Developments")
+  heroDesc          String   @default("Silicon Real Estate (Pvt.) Ltd. develops legally secure, environment-friendly, and flood-protected mega townships designed for peaceful living and high-yielding real estate investments in Dhaka.")
+  trustMetrics      Json?
+  spotlightBadge    String   @default("FLAGSHIP TOWNSHIP")
+  spotlightTitle    String   @default("Silicon City — Planned Eco-Township")
+  spotlightDesc     String   @default("Located at Bara Badeshi Mouza, Savar, Dhaka — strategically positioned adjacent to Mohammadpur Beribadh along the scenic Turag River.")
+  spotlightTag      String   @default("ONGOING MEGA PROJECT")
+  spotlightBoxTitle String   @default("RAJUK Extended Masterplan & Embankment Protected")
+  spotlightBoxDesc  String   @default("Silicon City falls under the proposed extended urban development master plan of RAJUK and is fully secured inside the proposed Dhaka Flood Protection Embankment for 100% environmental safety.")
+  spotlightLocation String   @default("Savar (Bara Badeshi)")
+  spotlightBadge2   String   @default("100% Ready Mutation")
+  specs             Json?
+  categories        Json?
+  amenities         Json?
+  proximities       Json?
+  roadmap           Json?
+  ctaBadge          String   @default("DIRECT CONSULTATION DESK")
+  ctaTitle          String   @default("Ready to Secure Your Plot in Silicon City?")
+  ctaDesc           String   @default("Schedule a guided vehicle site visit or speak directly with our senior property advisors at our Mohammadpur Corporate Office.")
+  ctaHotline        String   @default("+880 12 345 678 / +880 1712 345 678")
+  ctaEmail          String   @default("info@siliconrealestatepvtltd.com")
+  ctaOffice         String   @default("2/3 (2nd Floor), Block-A, Iqbal Road, Mohammadpur, Dhaka-1207")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
