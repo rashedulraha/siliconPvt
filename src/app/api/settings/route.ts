@@ -1,14 +1,17 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { errorResponse, verifyAdminSession, unauthorizedResponse } from "@/lib/server-auth";
+import {
+	errorResponse,
+	verifyAdminSession,
+	unauthorizedResponse,
+} from "@/lib/server-auth";
 
 const DEFAULT_SETTINGS = {
 	id: "global",
 	email: "info@siliconrealestatepvtltd.com",
 	phone: "+880 1711-000000",
 	hotline: "16789",
-	address:
-		"2/3 (2nd Floor), Block-A, Iqbal Road, Mohammadpur, Dhaka-1207",
+	address: "2/3 (2nd Floor), Block-A, Iqbal Road, Mohammadpur, Dhaka-1207",
 	facebookUrl: "https://facebook.com",
 	youtubeUrl: "https://youtube.com",
 	aboutSummary:
@@ -52,12 +55,18 @@ export async function PUT(req: Request) {
 				...(data.phone && { phone: data.phone }),
 				...(data.hotline !== undefined && { hotline: data.hotline }),
 				...(data.address && { address: data.address }),
-				...(data.facebookUrl !== undefined && { facebookUrl: data.facebookUrl }),
+				...(data.facebookUrl !== undefined && {
+					facebookUrl: data.facebookUrl,
+				}),
 				...(data.youtubeUrl !== undefined && { youtubeUrl: data.youtubeUrl }),
-				...(data.aboutSummary !== undefined && { aboutSummary: data.aboutSummary }),
+				...(data.aboutSummary !== undefined && {
+					aboutSummary: data.aboutSummary,
+				}),
 				...(data.mission !== undefined && { mission: data.mission }),
 				...(data.vision !== undefined && { vision: data.vision }),
-				...(data.socialLinks !== undefined && { socialLinks: data.socialLinks }),
+				...(data.socialLinks !== undefined && {
+					socialLinks: data.socialLinks,
+				}),
 			},
 			create: {
 				...DEFAULT_SETTINGS,

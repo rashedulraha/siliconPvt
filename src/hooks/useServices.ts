@@ -133,9 +133,10 @@ export function useServices() {
 	const fetchServices = useCallback(async () => {
 		setLoading(true);
 		try {
-			const res = await apiFetch<{ success: boolean; services?: ServiceItem[] }>(
-				"/services",
-			);
+			const res = await apiFetch<{
+				success: boolean;
+				services?: ServiceItem[];
+			}>("/services");
 			if (res && res.success && res.services && res.services.length > 0) {
 				setServices(res.services);
 			}
@@ -151,27 +152,24 @@ export function useServices() {
 		fetchServices();
 	}, [fetchServices]);
 
-	const createService = useCallback(
-		async (data: Omit<ServiceItem, "id">) => {
-			try {
-				const res = await apiFetch<{ success: boolean; service?: ServiceItem }>(
-					"/services",
-					{
-						method: "POST",
-						body: JSON.stringify(data),
-					},
-				);
-				if (res && res.service) {
-					setServices((prev) => [...prev, res.service!]);
-					return res.service;
-				}
-			} catch (err: any) {
-				console.error("[useServices] Failed to create service:", err);
-				throw err;
+	const createService = useCallback(async (data: Omit<ServiceItem, "id">) => {
+		try {
+			const res = await apiFetch<{ success: boolean; service?: ServiceItem }>(
+				"/services",
+				{
+					method: "POST",
+					body: JSON.stringify(data),
+				},
+			);
+			if (res && res.service) {
+				setServices((prev) => [...prev, res.service!]);
+				return res.service;
 			}
-		},
-		[],
-	);
+		} catch (err: any) {
+			console.error("[useServices] Failed to create service:", err);
+			throw err;
+		}
+	}, []);
 
 	const updateService = useCallback(
 		async (id: string, data: Partial<ServiceItem>) => {

@@ -21,8 +21,7 @@ async function handleSeed() {
 		const defaultAdminEmail = (
 			process.env.ADMIN_EMAIL || "admin@afiaholdingsltd.com"
 		).toLowerCase();
-		const defaultAdminPassword =
-			process.env.ADMIN_PASSWORD || "admin123456";
+		const defaultAdminPassword = process.env.ADMIN_PASSWORD || "admin123456";
 		const passwordHash = bcrypt.hashSync(defaultAdminPassword, 10);
 
 		// 1. Admin

@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { errorResponse, verifyAdminSession, unauthorizedResponse } from "@/lib/server-auth";
+import {
+	errorResponse,
+	verifyAdminSession,
+	unauthorizedResponse,
+} from "@/lib/server-auth";
 
 const DEFAULT_CONTACT_INFO = {
 	heroTitle: "Get in Touch with Us",
@@ -13,8 +17,7 @@ const DEFAULT_CONTACT_INFO = {
 	email: "info@siliconrealestatepvtltd.com",
 	secondaryEmail: "siliconrealestate@gmail.com",
 	website: "siliconrealestatepvtltd.com",
-	businessHours:
-		"Saturday - Thursday: 9:00 AM – 5:00 PM | Friday: Closed",
+	businessHours: "Saturday - Thursday: 9:00 AM – 5:00 PM | Friday: Closed",
 	mapEmbedUrl:
 		"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.8973685412356!2d90.3621!3d23.7509!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755bf4f483c6d7d%3A0x6b4f74d6c6e18f2f!2sIqbal%20Rd%2C%20Dhaka%201207!5e0!3m2!1sen!2sbd!4v1700000000000!5m2!1sen!2sbd",
 	siteVisitNotice:
@@ -61,13 +64,17 @@ export async function PUT(req: Request) {
 				...(data.phone && { phone: data.phone }),
 				...(data.whatsapp && { whatsapp: data.whatsapp }),
 				...(data.email && { email: data.email }),
-				...(data.secondaryEmail !== undefined && { secondaryEmail: data.secondaryEmail }),
+				...(data.secondaryEmail !== undefined && {
+					secondaryEmail: data.secondaryEmail,
+				}),
 				...(data.website && { website: data.website }),
 				...(data.businessHours && { businessHours: data.businessHours }),
 				...(data.mapEmbedUrl && { mapEmbedUrl: data.mapEmbedUrl }),
 				...(data.siteVisitNotice && { siteVisitNotice: data.siteVisitNotice }),
 				...(data.imageUrl !== undefined && { imageUrl: data.imageUrl }),
-				...(data.facebookUrl !== undefined && { facebookUrl: data.facebookUrl }),
+				...(data.facebookUrl !== undefined && {
+					facebookUrl: data.facebookUrl,
+				}),
 				...(data.youtubeUrl !== undefined && { youtubeUrl: data.youtubeUrl }),
 			},
 			create: {

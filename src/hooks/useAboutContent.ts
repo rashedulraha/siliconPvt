@@ -228,26 +228,29 @@ export function useAboutContent() {
 		fetchContent();
 	}, [fetchContent]);
 
-	const updateContent = useCallback(async (updated: Partial<AboutContentData>) => {
-		try {
-			const res = await apiFetch<{
-				success: boolean;
-				content?: AboutContentData;
-			}>("/about-content", {
-				method: "PUT",
-				body: JSON.stringify(updated),
-			});
-			if (res && res.content) {
-				setData((prev) => ({ ...prev, ...res.content }));
-			} else {
-				setData((prev) => ({ ...prev, ...updated }));
+	const updateContent = useCallback(
+		async (updated: Partial<AboutContentData>) => {
+			try {
+				const res = await apiFetch<{
+					success: boolean;
+					content?: AboutContentData;
+				}>("/about-content", {
+					method: "PUT",
+					body: JSON.stringify(updated),
+				});
+				if (res && res.content) {
+					setData((prev) => ({ ...prev, ...res.content }));
+				} else {
+					setData((prev) => ({ ...prev, ...updated }));
+				}
+				return true;
+			} catch (err: any) {
+				console.error("[useAboutContent] Failed to update about content:", err);
+				throw err;
 			}
-			return true;
-		} catch (err: any) {
-			console.error("[useAboutContent] Failed to update about content:", err);
-			throw err;
-		}
-	}, []);
+		},
+		[],
+	);
 
 	return {
 		data,

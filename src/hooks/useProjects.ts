@@ -116,16 +116,19 @@ export const DEFAULT_PORTFOLIO_PROJECTS: ProjectItem[] = [
 ];
 
 export function useProjects() {
-	const [projects, setProjects] = useState<ProjectItem[]>(DEFAULT_PORTFOLIO_PROJECTS);
+	const [projects, setProjects] = useState<ProjectItem[]>(
+		DEFAULT_PORTFOLIO_PROJECTS,
+	);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
 	const fetchProjects = useCallback(async () => {
 		setLoading(true);
 		try {
-			const res = await apiFetch<{ success: boolean; projects?: ProjectItem[] }>(
-				"/projects",
-			);
+			const res = await apiFetch<{
+				success: boolean;
+				projects?: ProjectItem[];
+			}>("/projects");
 			if (res && res.success && res.projects && res.projects.length > 0) {
 				setProjects(res.projects);
 			}
@@ -141,27 +144,24 @@ export function useProjects() {
 		fetchProjects();
 	}, [fetchProjects]);
 
-	const createProject = useCallback(
-		async (data: Omit<ProjectItem, "id">) => {
-			try {
-				const res = await apiFetch<{ success: boolean; project?: ProjectItem }>(
-					"/projects",
-					{
-						method: "POST",
-						body: JSON.stringify(data),
-					},
-				);
-				if (res && res.project) {
-					setProjects((prev) => [...prev, res.project!]);
-					return res.project;
-				}
-			} catch (err: any) {
-				console.error("[useProjects] Failed to create project:", err);
-				throw err;
+	const createProject = useCallback(async (data: Omit<ProjectItem, "id">) => {
+		try {
+			const res = await apiFetch<{ success: boolean; project?: ProjectItem }>(
+				"/projects",
+				{
+					method: "POST",
+					body: JSON.stringify(data),
+				},
+			);
+			if (res && res.project) {
+				setProjects((prev) => [...prev, res.project!]);
+				return res.project;
 			}
-		},
-		[],
-	);
+		} catch (err: any) {
+			console.error("[useProjects] Failed to create project:", err);
+			throw err;
+		}
+	}, []);
 
 	const updateProject = useCallback(
 		async (id: string, data: Partial<ProjectItem>) => {

@@ -237,7 +237,9 @@ export const DEFAULT_PROJECTS_CONTENT: ProjectsContentData = {
 };
 
 export function useProjectsContent() {
-	const [data, setData] = useState<ProjectsContentData>(DEFAULT_PROJECTS_CONTENT);
+	const [data, setData] = useState<ProjectsContentData>(
+		DEFAULT_PROJECTS_CONTENT,
+	);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
@@ -273,7 +275,10 @@ export function useProjectsContent() {
 				});
 			}
 		} catch (err: any) {
-			console.error("[useProjectsContent] Failed to fetch projects content:", err);
+			console.error(
+				"[useProjectsContent] Failed to fetch projects content:",
+				err,
+			);
 			setError(err.message || "Failed to load projects content");
 		} finally {
 			setLoading(false);
@@ -301,7 +306,10 @@ export function useProjectsContent() {
 				}
 				return true;
 			} catch (err: any) {
-				console.error("[useProjectsContent] Failed to update projects content:", err);
+				console.error(
+					"[useProjectsContent] Failed to update projects content:",
+					err,
+				);
 				throw err;
 			}
 		},

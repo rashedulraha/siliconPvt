@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { errorResponse, verifyAdminSession, unauthorizedResponse } from "@/lib/server-auth";
+import {
+	errorResponse,
+	verifyAdminSession,
+	unauthorizedResponse,
+} from "@/lib/server-auth";
 
 const DEFAULT_HOME_CONTENT = {
 	heroBadge: "PLANNED ECO-TOWNSHIPS & RESIDENTIAL PLOTS",
@@ -102,29 +106,69 @@ export async function PUT(req: Request) {
 				data: {
 					...(data.heroBadge !== undefined && { heroBadge: data.heroBadge }),
 					...(data.heroTitle !== undefined && { heroTitle: data.heroTitle }),
-					...(data.heroSubtitle !== undefined && { heroSubtitle: data.heroSubtitle }),
+					...(data.heroSubtitle !== undefined && {
+						heroSubtitle: data.heroSubtitle,
+					}),
 					...(data.heroDesc !== undefined && { heroDesc: data.heroDesc }),
-					...(data.heroCtaText !== undefined && { heroCtaText: data.heroCtaText }),
-					...(data.heroCtaLink !== undefined && { heroCtaLink: data.heroCtaLink }),
-					...(data.masterPlanBadge !== undefined && { masterPlanBadge: data.masterPlanBadge }),
-					...(data.masterPlanTitle !== undefined && { masterPlanTitle: data.masterPlanTitle }),
-					...(data.masterPlanDesc !== undefined && { masterPlanDesc: data.masterPlanDesc }),
-					...(data.masterPlanImage !== undefined && { masterPlanImage: data.masterPlanImage }),
-					...(data.amenitiesBadge !== undefined && { amenitiesBadge: data.amenitiesBadge }),
-					...(data.amenitiesTitle !== undefined && { amenitiesTitle: data.amenitiesTitle }),
-					...(data.amenitiesDesc !== undefined && { amenitiesDesc: data.amenitiesDesc }),
-					...(data.showcaseBadge !== undefined && { showcaseBadge: data.showcaseBadge }),
-					...(data.showcaseTitle !== undefined && { showcaseTitle: data.showcaseTitle }),
-					...(data.showcaseDesc !== undefined && { showcaseDesc: data.showcaseDesc }),
-					...(data.trackRecordTitle !== undefined && { trackRecordTitle: data.trackRecordTitle }),
-					...(data.trackRecordDesc !== undefined && { trackRecordDesc: data.trackRecordDesc }),
-					...(data.trustCounters !== undefined && { trustCounters: data.trustCounters }),
-					...(data.accreditations !== undefined && { accreditations: data.accreditations }),
+					...(data.heroCtaText !== undefined && {
+						heroCtaText: data.heroCtaText,
+					}),
+					...(data.heroCtaLink !== undefined && {
+						heroCtaLink: data.heroCtaLink,
+					}),
+					...(data.masterPlanBadge !== undefined && {
+						masterPlanBadge: data.masterPlanBadge,
+					}),
+					...(data.masterPlanTitle !== undefined && {
+						masterPlanTitle: data.masterPlanTitle,
+					}),
+					...(data.masterPlanDesc !== undefined && {
+						masterPlanDesc: data.masterPlanDesc,
+					}),
+					...(data.masterPlanImage !== undefined && {
+						masterPlanImage: data.masterPlanImage,
+					}),
+					...(data.amenitiesBadge !== undefined && {
+						amenitiesBadge: data.amenitiesBadge,
+					}),
+					...(data.amenitiesTitle !== undefined && {
+						amenitiesTitle: data.amenitiesTitle,
+					}),
+					...(data.amenitiesDesc !== undefined && {
+						amenitiesDesc: data.amenitiesDesc,
+					}),
+					...(data.showcaseBadge !== undefined && {
+						showcaseBadge: data.showcaseBadge,
+					}),
+					...(data.showcaseTitle !== undefined && {
+						showcaseTitle: data.showcaseTitle,
+					}),
+					...(data.showcaseDesc !== undefined && {
+						showcaseDesc: data.showcaseDesc,
+					}),
+					...(data.trackRecordTitle !== undefined && {
+						trackRecordTitle: data.trackRecordTitle,
+					}),
+					...(data.trackRecordDesc !== undefined && {
+						trackRecordDesc: data.trackRecordDesc,
+					}),
+					...(data.trustCounters !== undefined && {
+						trustCounters: data.trustCounters,
+					}),
+					...(data.accreditations !== undefined && {
+						accreditations: data.accreditations,
+					}),
 					...(data.ctaTitle !== undefined && { ctaTitle: data.ctaTitle }),
 					...(data.ctaDesc !== undefined && { ctaDesc: data.ctaDesc }),
-					...(data.ctaButtonText !== undefined && { ctaButtonText: data.ctaButtonText }),
-					...(data.ctaButtonLink !== undefined && { ctaButtonLink: data.ctaButtonLink }),
-					...(data.sectionsConfig !== undefined && { sectionsConfig: data.sectionsConfig }),
+					...(data.ctaButtonText !== undefined && {
+						ctaButtonText: data.ctaButtonText,
+					}),
+					...(data.ctaButtonLink !== undefined && {
+						ctaButtonLink: data.ctaButtonLink,
+					}),
+					...(data.sectionsConfig !== undefined && {
+						sectionsConfig: data.sectionsConfig,
+					}),
 				},
 			});
 		}

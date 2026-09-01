@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { errorResponse, verifyAdminSession, unauthorizedResponse } from "@/lib/server-auth";
+import {
+	errorResponse,
+	verifyAdminSession,
+	unauthorizedResponse,
+} from "@/lib/server-auth";
 
 export async function PUT(
 	req: Request,

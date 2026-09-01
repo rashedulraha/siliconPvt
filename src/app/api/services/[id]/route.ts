@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { errorResponse, verifyAdminSession, unauthorizedResponse } from "@/lib/server-auth";
+import {
+	errorResponse,
+	verifyAdminSession,
+	unauthorizedResponse,
+} from "@/lib/server-auth";
 
 export async function GET(
 	_req: Request,
@@ -44,7 +48,9 @@ export async function PUT(
 				...(data.num && { num: data.num }),
 				...(data.title && { title: data.title }),
 				...(data.tag && { tag: data.tag }),
-				...(data.description !== undefined && { description: data.description }),
+				...(data.description !== undefined && {
+					description: data.description,
+				}),
 				...(data.icon !== undefined && { icon: data.icon }),
 				...(data.imageUrl !== undefined && { imageUrl: data.imageUrl }),
 				...(data.pricing !== undefined && { pricing: data.pricing }),

@@ -68,8 +68,9 @@ export const defaultMembershipData: MembershipData = {
 };
 
 export function useMembershipContent() {
-	const [membershipData, setMembershipData] =
-		useState<MembershipData>(defaultMembershipData);
+	const [membershipData, setMembershipData] = useState<MembershipData>(
+		defaultMembershipData,
+	);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
@@ -118,9 +119,7 @@ export function useMembershipContent() {
 			try {
 				const payload = {
 					...data,
-					pathways: data.pathways
-						? JSON.stringify(data.pathways)
-						: undefined,
+					pathways: data.pathways ? JSON.stringify(data.pathways) : undefined,
 				};
 
 				const res = await apiFetch<{ success: boolean; content?: any }>(

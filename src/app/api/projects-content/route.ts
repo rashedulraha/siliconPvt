@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { errorResponse, verifyAdminSession, unauthorizedResponse } from "@/lib/server-auth";
+import {
+	errorResponse,
+	verifyAdminSession,
+	unauthorizedResponse,
+} from "@/lib/server-auth";
 
 const DEFAULT_PROJECTS_CONTENT = {
 	heroTitle: "Master Planned Townships &",
@@ -209,21 +213,47 @@ export async function PUT(req: Request) {
 				where: { id: existing.id },
 				data: {
 					...(data.heroTitle !== undefined && { heroTitle: data.heroTitle }),
-					...(data.heroSubtitle !== undefined && { heroSubtitle: data.heroSubtitle }),
+					...(data.heroSubtitle !== undefined && {
+						heroSubtitle: data.heroSubtitle,
+					}),
 					...(data.heroDesc !== undefined && { heroDesc: data.heroDesc }),
-					...(data.trustMetrics !== undefined && { trustMetrics: data.trustMetrics as any }),
-					...(data.spotlightBadge !== undefined && { spotlightBadge: data.spotlightBadge }),
-					...(data.spotlightTitle !== undefined && { spotlightTitle: data.spotlightTitle }),
-					...(data.spotlightDesc !== undefined && { spotlightDesc: data.spotlightDesc }),
-					...(data.spotlightTag !== undefined && { spotlightTag: data.spotlightTag }),
-					...(data.spotlightBoxTitle !== undefined && { spotlightBoxTitle: data.spotlightBoxTitle }),
-					...(data.spotlightBoxDesc !== undefined && { spotlightBoxDesc: data.spotlightBoxDesc }),
-					...(data.spotlightLocation !== undefined && { spotlightLocation: data.spotlightLocation }),
-					...(data.spotlightBadge2 !== undefined && { spotlightBadge2: data.spotlightBadge2 }),
+					...(data.trustMetrics !== undefined && {
+						trustMetrics: data.trustMetrics as any,
+					}),
+					...(data.spotlightBadge !== undefined && {
+						spotlightBadge: data.spotlightBadge,
+					}),
+					...(data.spotlightTitle !== undefined && {
+						spotlightTitle: data.spotlightTitle,
+					}),
+					...(data.spotlightDesc !== undefined && {
+						spotlightDesc: data.spotlightDesc,
+					}),
+					...(data.spotlightTag !== undefined && {
+						spotlightTag: data.spotlightTag,
+					}),
+					...(data.spotlightBoxTitle !== undefined && {
+						spotlightBoxTitle: data.spotlightBoxTitle,
+					}),
+					...(data.spotlightBoxDesc !== undefined && {
+						spotlightBoxDesc: data.spotlightBoxDesc,
+					}),
+					...(data.spotlightLocation !== undefined && {
+						spotlightLocation: data.spotlightLocation,
+					}),
+					...(data.spotlightBadge2 !== undefined && {
+						spotlightBadge2: data.spotlightBadge2,
+					}),
 					...(data.specs !== undefined && { specs: data.specs as any }),
-					...(data.categories !== undefined && { categories: data.categories as any }),
-					...(data.amenities !== undefined && { amenities: data.amenities as any }),
-					...(data.proximities !== undefined && { proximities: data.proximities as any }),
+					...(data.categories !== undefined && {
+						categories: data.categories as any,
+					}),
+					...(data.amenities !== undefined && {
+						amenities: data.amenities as any,
+					}),
+					...(data.proximities !== undefined && {
+						proximities: data.proximities as any,
+					}),
 					...(data.roadmap !== undefined && { roadmap: data.roadmap as any }),
 					...(data.ctaBadge !== undefined && { ctaBadge: data.ctaBadge }),
 					...(data.ctaTitle !== undefined && { ctaTitle: data.ctaTitle }),

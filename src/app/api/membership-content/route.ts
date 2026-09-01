@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { errorResponse, verifyAdminSession, unauthorizedResponse } from "@/lib/server-auth";
+import {
+	errorResponse,
+	verifyAdminSession,
+	unauthorizedResponse,
+} from "@/lib/server-auth";
 
 const DEFAULT_PATHWAYS = [
 	{
@@ -79,9 +83,15 @@ export async function PUT(req: Request) {
 				...(data.heroDescription && { heroDescription: data.heroDescription }),
 				...(data.formPdfUrl && { formPdfUrl: data.formPdfUrl }),
 				...(data.applicationFee && { applicationFee: data.applicationFee }),
-				...(data.landSharePercentage && { landSharePercentage: data.landSharePercentage }),
-				...(data.soilElevationHeight && { soilElevationHeight: data.soilElevationHeight }),
-				...(data.offlineNoticeText && { offlineNoticeText: data.offlineNoticeText }),
+				...(data.landSharePercentage && {
+					landSharePercentage: data.landSharePercentage,
+				}),
+				...(data.soilElevationHeight && {
+					soilElevationHeight: data.soilElevationHeight,
+				}),
+				...(data.offlineNoticeText && {
+					offlineNoticeText: data.offlineNoticeText,
+				}),
 				...(data.contactHotline && { contactHotline: data.contactHotline }),
 				...(pathwaysStr !== undefined && { pathways: pathwaysStr }),
 				...(termsStr !== undefined && { termsAndConditions: termsStr }),

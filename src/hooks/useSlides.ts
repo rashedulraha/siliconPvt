@@ -112,10 +112,13 @@ export function useSlides() {
 
 	const createSlide = useCallback(
 		async (slideData: Omit<Slide, "id" | "createdAt" | "updatedAt">) => {
-			const res = await apiFetch<{ success: boolean; slide: Slide }>("/slides", {
-				method: "POST",
-				body: JSON.stringify(slideData),
-			});
+			const res = await apiFetch<{ success: boolean; slide: Slide }>(
+				"/slides",
+				{
+					method: "POST",
+					body: JSON.stringify(slideData),
+				},
+			);
 			if (res && res.slide) {
 				setSlides((prev) => [...prev, res.slide]);
 				return res.slide;

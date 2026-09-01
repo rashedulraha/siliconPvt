@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { errorResponse, verifyAdminSession, unauthorizedResponse } from "@/lib/server-auth";
+import {
+	errorResponse,
+	verifyAdminSession,
+	unauthorizedResponse,
+} from "@/lib/server-auth";
 
 const DEFAULT_ABOUT_CONTENT = {
 	heroTitle: "Building Trust.",
@@ -189,8 +193,12 @@ export async function PUT(req: Request) {
 					...(data.stats !== undefined && { stats: data.stats }),
 					...(data.coreValues !== undefined && { coreValues: data.coreValues }),
 					...(data.timeline !== undefined && { timeline: data.timeline }),
-					...(data.whyChooseUs !== undefined && { whyChooseUs: data.whyChooseUs }),
-					...(data.managementTeam !== undefined && { managementTeam: data.managementTeam }),
+					...(data.whyChooseUs !== undefined && {
+						whyChooseUs: data.whyChooseUs,
+					}),
+					...(data.managementTeam !== undefined && {
+						managementTeam: data.managementTeam,
+					}),
 				},
 			});
 		}

@@ -42,16 +42,18 @@ export const defaultContactInfo: ContactInfoData = {
 };
 
 export function useContactInfo() {
-	const [contactInfo, setContactInfo] = useState<ContactInfoData>(defaultContactInfo);
+	const [contactInfo, setContactInfo] =
+		useState<ContactInfoData>(defaultContactInfo);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
 	const fetchContactInfo = useCallback(async () => {
 		setLoading(true);
 		try {
-			const res = await apiFetch<{ success: boolean; contactInfo?: ContactInfoData }>(
-				"/contact-info",
-			);
+			const res = await apiFetch<{
+				success: boolean;
+				contactInfo?: ContactInfoData;
+			}>("/contact-info");
 			if (res && res.success && res.contactInfo) {
 				setContactInfo({
 					...defaultContactInfo,
@@ -70,32 +72,35 @@ export function useContactInfo() {
 		fetchContactInfo();
 	}, [fetchContactInfo]);
 
-	const updateContactInfo = useCallback(async (data: Partial<ContactInfoData>) => {
-		try {
-			const res = await apiFetch<{ success: boolean; contactInfo?: ContactInfoData }>(
-				"/contact-info",
-				{
+	const updateContactInfo = useCallback(
+		async (data: Partial<ContactInfoData>) => {
+			try {
+				const res = await apiFetch<{
+					success: boolean;
+					contactInfo?: ContactInfoData;
+				}>("/contact-info", {
 					method: "PUT",
 					body: JSON.stringify(data),
-				},
-			);
-			if (res && res.contactInfo) {
-				setContactInfo((prev) => ({
-					...prev,
-					...res.contactInfo,
-				}));
-			} else {
-				setContactInfo((prev) => ({
-					...prev,
-					...data,
-				}));
+				});
+				if (res && res.contactInfo) {
+					setContactInfo((prev) => ({
+						...prev,
+						...res.contactInfo,
+					}));
+				} else {
+					setContactInfo((prev) => ({
+						...prev,
+						...data,
+					}));
+				}
+				return true;
+			} catch (err: any) {
+				console.error("[useContactInfo] Failed to update contact info:", err);
+				throw err;
 			}
-			return true;
-		} catch (err: any) {
-			console.error("[useContactInfo] Failed to update contact info:", err);
-			throw err;
-		}
-	}, []);
+		},
+		[],
+	);
 
 	return {
 		contactInfo,
