@@ -9,6 +9,8 @@ import {
   LayoutDashboard,
   LogOut,
   CalendarCheck,
+  PhoneCall,
+  Sparkles,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
@@ -82,12 +84,13 @@ export function Navbar() {
                     h-11 w-11
                     overflow-hidden
                     rounded-full
-                    border border-primary/15
-                    bg-background/60
+                    border border-primary/20
+                    bg-background/80
                     backdrop-blur-md
                     transition-all duration-300
-                    group-hover:scale-[1.03]
-                    group-hover:border-primary/30
+                    group-hover:scale-[1.04]
+                    group-hover:border-primary/40
+                    group-hover:shadow-xs
                     flex items-center justify-center
                     shrink-0
                   "
@@ -104,7 +107,7 @@ export function Navbar() {
                 </div>
 
                 <div className="hidden sm:flex flex-col text-left">
-                  <span className="font-heading font-bold text-sm tracking-tight leading-tight text-foreground">
+                  <span className="font-heading font-bold text-sm tracking-tight leading-tight text-foreground group-hover:text-primary transition-colors">
                     Silicon
                   </span>
                   <span className="text-[10px] tracking-[0.18em] uppercase font-medium leading-none text-muted-foreground">
@@ -138,40 +141,41 @@ export function Navbar() {
               })}
             </nav>
 
-            {/* ── 3. Right: Single Compact Language Button & Single Admin Button ───── */}
+            {/* ── 3. Right: Luxury Action Capsule ───── */}
             <div className="hidden lg:flex items-center justify-end gap-2.5 shrink-0">
               {/* Single Compact Language Toggle Button */}
               <LanguageToggle />
 
-              {/* Single Clean Admin Button */}
-              <Link
-                href={isLoggedIn ? "/admin" : "/admin/login"}
-                className={cn(
-                  "inline-flex items-center gap-1.5 h-8 px-3.5 rounded-full text-xs font-semibold font-heading transition-all duration-200 shadow-2xs cursor-pointer border",
-                  isLoggedIn
-                    ? "bg-primary text-primary-foreground border-primary hover:bg-primary/90"
-                    : "bg-primary/10 text-primary border-primary/25 hover:bg-primary hover:text-primary-foreground hover:border-primary",
-                )}
-                title={
-                  isLoggedIn
-                    ? (isBn ? "এডমিন প্যানেলে যান" : "Go to Admin Dashboard")
-                    : (isBn ? "এডমিন লগইন" : "Admin Login")
-                }
-              >
-                <LayoutDashboard className="w-3.5 h-3.5" />
-                <span>{isBn ? "এডমিন" : "Admin"}</span>
-              </Link>
+              {/* Conditional Action: Show Admin Portal ONLY when logged in; otherwise show Book Site Visit CTA */}
+              {isLoggedIn ? (
+                <div className="flex items-center gap-1.5 p-0.5 rounded-full bg-primary/5 border border-primary/20 shadow-2xs">
+                  <Link
+                    href="/admin"
+                    className="inline-flex items-center gap-2 h-8 px-3.5 rounded-full bg-primary text-primary-foreground text-xs font-semibold font-heading hover:bg-primary/90 transition-all shadow-xs cursor-pointer"
+                    title={isBn ? "এডমিন ড্যাশবোর্ডে যান" : "Go to Admin Dashboard"}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <LayoutDashboard className="w-3.5 h-3.5" />
+                    <span>{isBn ? "এডমিন ড্যাশবোর্ড" : "Dashboard"}</span>
+                  </Link>
 
-              {/* Optional Logout icon if already logged in */}
-              {isLoggedIn && (
-                <button
-                  type="button"
-                  onClick={handleLogout}
-                  className="w-8 h-8 rounded-full border border-border/60 bg-muted/50 hover:bg-destructive/10 text-muted-foreground hover:text-destructive flex items-center justify-center transition-all cursor-pointer shadow-2xs"
-                  title={isBn ? "লগআউট" : "Log out"}
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="w-8 h-8 rounded-full hover:bg-destructive/10 text-muted-foreground hover:text-destructive flex items-center justify-center transition-all cursor-pointer"
+                    title={isBn ? "লগআউট" : "Sign Out"}
+                  >
+                    <LogOut className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 h-8 px-4 rounded-full bg-primary text-primary-foreground text-xs font-semibold font-heading hover:bg-primary/90 transition-all duration-200 shadow-xs hover:shadow-md hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                 >
-                  <LogOut className="w-3.5 h-3.5" />
-                </button>
+                  <CalendarCheck className="w-3.5 h-3.5" />
+                  <span>{isBn ? "সাইট ভিজিট বুক করুন" : "Book Site Visit"}</span>
+                </Link>
               )}
             </div>
 
@@ -292,17 +296,18 @@ export function Navbar() {
             {isBn ? "সাইট ভিজিট বুক করুন" : "BOOK SITE VISIT"}
           </Link>
 
-          <div className="pt-2 border-t border-border/40 flex items-center gap-2">
-            <Link
-              href={isLoggedIn ? "/admin" : "/admin/login"}
-              onClick={() => setIsOpen(false)}
-              className="flex-1 h-9 rounded-xl bg-primary/10 border border-primary/20 hover:bg-primary hover:text-primary-foreground text-primary inline-flex items-center justify-center gap-1.5 text-xs font-semibold font-heading transition-all"
-            >
-              <LayoutDashboard className="w-3.5 h-3.5" />
-              <span>{isBn ? "এডমিন প্যানেল" : "Admin Panel"}</span>
-            </Link>
+          {isLoggedIn ? (
+            <div className="pt-2 border-t border-border/40 flex items-center gap-2">
+              <Link
+                href="/admin"
+                onClick={() => setIsOpen(false)}
+                className="flex-1 h-9 rounded-xl bg-primary/10 border border-primary/20 hover:bg-primary hover:text-primary-foreground text-primary inline-flex items-center justify-center gap-1.5 text-xs font-semibold font-heading transition-all"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <LayoutDashboard className="w-3.5 h-3.5" />
+                <span>{isBn ? "এডমিন ড্যাশবোর্ড" : "Dashboard"}</span>
+              </Link>
 
-            {isLoggedIn && (
               <button
                 type="button"
                 onClick={() => {
@@ -310,12 +315,29 @@ export function Navbar() {
                   setIsOpen(false);
                 }}
                 className="w-9 h-9 rounded-xl border border-destructive/20 text-destructive hover:bg-destructive/10 inline-flex items-center justify-center transition-all"
-                title={isBn ? "লগআউট" : "Log out"}
+                title={isBn ? "লগআউট" : "Sign Out"}
               >
                 <LogOut className="w-4 h-4" />
               </button>
-            )}
-          </div>
+            </div>
+          ) : (
+            <div className="pt-2 border-t border-border/40 flex items-center justify-between text-xs text-muted-foreground px-1">
+              <a
+                href="tel:+88012345678"
+                className="inline-flex items-center gap-1.5 hover:text-primary transition-colors"
+              >
+                <PhoneCall className="w-3.5 h-3.5 text-primary" />
+                <span>+880 12 345 678</span>
+              </a>
+              <Link
+                href="/admin/login"
+                onClick={() => setIsOpen(false)}
+                className="text-[11px] text-muted-foreground/70 hover:text-primary underline transition-colors"
+              >
+                {isBn ? "এডমিন লগইন" : "Admin Login"}
+              </Link>
+            </div>
+          )}
         </div>
       </aside>
     </>

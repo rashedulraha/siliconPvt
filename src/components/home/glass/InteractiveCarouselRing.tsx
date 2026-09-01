@@ -6,7 +6,7 @@
  * - Crisp, high-contrast hover preview modal with smooth spring entrance
  * - 100% full-height cover images inside every 3D cylinder card
  * - Dynamic round-robin repetition for seamless 360-degree coverage
- * - Uncluttered, pure architectural presentation
+ * - Uncluttered, pure architectural presentation with full Bengali and English bilingual support
  */
 
 import { useEffect, useRef, useState } from "react";
@@ -18,7 +18,8 @@ import {
 	useTransform,
 	type MotionValue,
 } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export interface CylinderSlide {
 	id: string | number;
@@ -45,6 +46,69 @@ const CANVAS_W = 1100;
 const INNER_H = Math.round(
 	RADIUS * 2 * Math.sin((TILT * Math.PI) / 180) + CARD_H + 40,
 );
+
+// Comprehensive dictionary for high-fidelity Bengali translations of slides
+const BN_SLIDE_MAPPINGS: Record<
+	string,
+	{ title: string; subtitle: string; badge: string; btn: string }
+> = {
+	"Your Trusted Partner in Land Investment": {
+		badge: "সিলিকন সিটি টাউনশিপ",
+		title: "জমি বিনিয়োগে আপনার বিশ্বস্ত প্রতিষ্ঠান",
+		subtitle:
+			"মোহাম্মদপুর সংলগ্ন সাভারে ৩০ ও ৪০ ফুট প্রশস্ত অভ্যন্তরীণ রাস্তাসহ পরিকল্পিত পরিবেশ-বান্ধব আবাসিক প্লট।",
+		btn: "বিস্তারিত দেখুন",
+	},
+	"A Secure Home for Future Generations": {
+		badge: "নিষ্কণ্টক জমি",
+		title: "ভবিষ্যৎ প্রজন্মের জন্য নিরাপদ স্থায়ী ঠিকানা",
+		subtitle:
+			"১০০% নিষ্কণ্টক দলিল, তাৎক্ষণিক রেজিস্ট্রেশন, রাজউক মাস্টারপ্ল্যান আওতাভুক্ত এবং বন্যা-সুরক্ষিত উঁচু জমি।",
+		btn: "বিস্তারিত দেখুন",
+	},
+	"Experience Peaceful Eco Township Living": {
+		badge: "প্রাকৃতিক নদী তীরবর্তী পরিবেশ",
+		title: "শান্তিময় পরিকল্পিত ইকো-টাউনশিপ জীবনযাপন",
+		subtitle:
+			"তুরাগ নদীর মনোরম তীরে সবুজ পার্ক, কেন্দ্রীয় মসজিদ, শিক্ষা প্রতিষ্ঠান ও সার্বক্ষণিক নিরাপত্তায় ঘেরা আদর্শ আবাসন।",
+		btn: "বিস্তারিত দেখুন",
+	},
+	"Modern Architectural Excellence & Infrastructure": {
+		badge: "রেডি রেজিস্ট্রেশন",
+		title: "আধুনিক স্থাপত্য নকশা ও সুপরিকল্পিত অবকাঠামো",
+		subtitle:
+			"১৬–১৮ ফুট উঁচু বালু ভরাটকৃত জমি, যা সম্পূর্ণ মৌসুমী বন্যা থেকে সুরক্ষিত ও দীর্ঘমেয়াদী স্থায়ী।",
+		btn: "বিস্তারিত দেখুন",
+	},
+	"15 Minutes from Mohammadpur Beribadh": {
+		badge: "কৌশলগত অবস্থান",
+		title: "মোহাম্মদপুর বেড়িবাঁধ থেকে মাত্র ১৫ মিনিট",
+		subtitle:
+			"ঢাকা শহরের প্রধান প্রধান সড়ক ও বাণিজ্যিক এলাকার সাথে চমৎকার ও মসৃণ সরাসরি যোগাযোগ ব্যবস্থা।",
+		btn: "বিস্তারিত দেখুন",
+	},
+	"Silicon City — Master Planned Township": {
+		badge: "ফ্ল্যাগশিপ টাউনশিপ",
+		title: "সিলিকন সিটি — মাস্টার প্ল্যানড মেগা টাউনশিপ",
+		subtitle:
+			"১৬–১৮ ফুট উঁচু মাটি ভরাট, ৩০ ও ৪০ ফুট চওড়া অভ্যন্তরীণ রাস্তা এবং শতভাগ নিষ্কণ্টক মালিকানা।",
+		btn: "বিস্তারিত দেখুন",
+	},
+	"100% Legal & Mutation Ready Plots": {
+		badge: "আইনগত নিরাপত্তা",
+		title: "১০০% নিষ্কণ্টক ও মিউটেশন প্রস্তুত প্লট",
+		subtitle:
+			"সিএস, এসএ, আরএস ও বিএস খতিয়ান যাচাইকৃত এবং তাৎক্ষণিক রেজিস্ট্রি ও সীমানা হস্তান্তর সুবিধা।",
+		btn: "বিস্তারিত দেখুন",
+	},
+	"Turag Riverfront Ecological Corridor": {
+		badge: "চমৎকার যোগাযোগ",
+		title: "তুরাগ রিভারফ্রন্ট ইকোলজিক্যাল করিডোর",
+		subtitle:
+			"মনোরম নদী তীরবর্তী আবাসন এবং মোহাম্মদপুর থেকে মাত্র ১০ মিনিটের সহজ যোগাযোগ ব্যবস্থা।",
+		btn: "বিস্তারিত দেখুন",
+	},
+};
 
 interface RingItemProps {
 	slide: CylinderSlide;
@@ -164,6 +228,7 @@ export default function InteractiveCarouselRing({
 	items,
 	speed: baseSpeed = 5,
 }: Props) {
+	const { isBn } = useLanguage();
 	const activeItems = items && items.length > 0 ? items : FALLBACK_ITEMS;
 
 	// 28 evenly-spaced slots for optimal breathing room and spatial clarity
@@ -251,6 +316,21 @@ export default function InteractiveCarouselRing({
 
 	const outerH = Math.round(INNER_H * scale);
 
+	// Determine localized content for currently hovered slide
+	const translation = hovered ? BN_SLIDE_MAPPINGS[hovered.title] : null;
+	const displayBadge = isBn
+		? (translation?.badge || (hovered?.badge ? (hovered.badge === "FEATURED" ? "ফিচারড" : hovered.badge) : "সিলিকন সিটি"))
+		: (hovered?.badge || hovered?.tag || "FEATURED");
+	const displayTitle = isBn
+		? (translation?.title || hovered?.title)
+		: hovered?.title;
+	const displaySubtitle = isBn
+		? (translation?.subtitle || hovered?.subtitle || hovered?.description)
+		: (hovered?.subtitle || hovered?.description);
+	const displayBtn = isBn
+		? (translation?.btn || "বিস্তারিত দেখুন")
+		: "View Details";
+
 	return (
 		<div
 			ref={wrapRef}
@@ -308,9 +388,9 @@ export default function InteractiveCarouselRing({
 							className="absolute z-50 pointer-events-auto"
 							style={{ left: "50%", top: "50%" }}
 						>
-							<div className="relative -translate-x-1/2 -translate-y-1/2 overflow-hidden w-[90vw] max-w-[620px] h-[250px] pointer-events-auto flex flex-row rounded-2xl bg-white text-slate-900 border border-slate-200 shadow-[0_25px_60px_-10px_rgba(0,0,0,0.4)] text-left">
+							<div className="relative -translate-x-1/2 -translate-y-1/2 overflow-hidden w-[90vw] max-w-[620px] min-h-[250px] pointer-events-auto flex flex-col sm:flex-row rounded-3xl bg-white text-slate-900 border border-slate-200/80 shadow-[0_25px_60px_-10px_rgba(0,0,0,0.5)] text-left backdrop-blur-xl">
 								{/* Left Side: Photo Showcase */}
-								<div className="relative w-[44%] h-full overflow-hidden bg-slate-100 shrink-0 border-r border-slate-200/60">
+								<div className="relative w-full sm:w-[44%] h-48 sm:h-auto overflow-hidden bg-slate-100 shrink-0 border-b sm:border-b-0 sm:border-r border-slate-200/60">
 									<img
 										src={hovered.imageUrl}
 										alt={hovered.title}
@@ -322,30 +402,31 @@ export default function InteractiveCarouselRing({
 										}}
 										className="h-full w-full object-cover"
 									/>
-									<div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
+									<div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
 								</div>
 
 								{/* Right Side: High-Contrast Pure Light Details */}
-								<div className="w-[56%] p-6 flex flex-col justify-between text-left bg-white">
-									<div className="space-y-2">
+								<div className="w-full sm:w-[56%] p-6 sm:p-7 flex flex-col justify-between text-left bg-white space-y-4">
+									<div className="space-y-2.5">
 										{/* Tag / Badge */}
-										{(hovered.badge || hovered.tag) && (
+										{displayBadge && (
 											<div>
-												<span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-wider font-heading">
-													{hovered.badge || hovered.tag}
+												<span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] sm:text-[11px] font-bold uppercase tracking-wider font-heading">
+													<Sparkles className="w-3 h-3 text-primary" />
+													<span>{displayBadge}</span>
 												</span>
 											</div>
 										)}
 
 										{/* Title */}
 										<h3 className="text-lg sm:text-xl font-bold font-heading text-slate-900 tracking-tight leading-snug line-clamp-2">
-											{hovered.title}
+											{displayTitle}
 										</h3>
 
 										{/* Subtitle / Description */}
-										{(hovered.subtitle || hovered.description) && (
-											<p className="text-xs text-slate-600 font-light leading-relaxed line-clamp-2">
-												{hovered.subtitle || hovered.description}
+										{displaySubtitle && (
+											<p className="text-xs sm:text-[13px] text-slate-600 font-light leading-relaxed line-clamp-3">
+												{displaySubtitle}
 											</p>
 										)}
 									</div>
@@ -354,9 +435,9 @@ export default function InteractiveCarouselRing({
 									<div className="pt-2">
 										<Link
 											href={hovered.link || "/projects"}
-											className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-bold font-heading hover:bg-primary/90 transition-all shadow-xs w-fit"
+											className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground text-xs sm:text-sm font-bold font-heading transition-all shadow-md shadow-primary/25 hover:shadow-lg hover:shadow-primary/30 active:scale-[0.98] w-fit"
 										>
-											<span>View Details</span>
+											<span>{displayBtn}</span>
 											<ArrowRight className="w-3.5 h-3.5" />
 										</Link>
 									</div>

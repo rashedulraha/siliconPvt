@@ -14,6 +14,7 @@ import {
   Building2,
   FileText,
   ExternalLink,
+  Lock,
 } from "lucide-react";
 import { toast } from "sonner";
 import { SectionContainer } from "../ui/section-container";
@@ -36,7 +37,7 @@ export function Footer() {
     { label: isBn ? "গোপনীয়তা নীতিমালা" : "Privacy Policy", href: "/privacy-terms" },
     { label: isBn ? "শর্তাবলী ও নিয়মাবলী" : "Terms of Service", href: "/privacy-terms" },
     { label: isBn ? "সাইট ভিজিট বুকিং" : "Schedule Site Visit", href: "/contact" },
-    { label: isBn ? "এডমিন পোর্টাল" : "Admin Portal", href: "/admin/login" },
+    { label: isBn ? "এডমিন লগইন পোর্টাল" : "Admin Login Portal", href: "/admin/login" },
   ];
 
   const handleNewsletter = (e: React.FormEvent<HTMLFormElement>) => {
@@ -140,7 +141,7 @@ export function Footer() {
 
               <div className="flex items-center gap-3">
                 <MessageSquare className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>WhatsApp: +880 1712 345 678</span>
+                <span>{isBn ? "হোয়াটসঅ্যাপ: +880 1712 345 678" : "WhatsApp: +880 1712 345 678"}</span>
               </div>
 
               <div className="flex items-center gap-3">
@@ -234,10 +235,10 @@ export function Footer() {
                 </div>
                 <div className="space-y-0.5 text-left">
                   <span className="text-[10px] font-mono text-accent font-semibold block">
-                    SILICON CITY TOWNSHIP
+                    {isBn ? "সিলিকন সিটি টাউনশিপ" : "SILICON CITY TOWNSHIP"}
                   </span>
                   <span className="text-xs font-heading text-white font-medium block">
-                    {isBn ? "কর্পোরেট প্রধান কার্যালয়" : "Corporate Head Office"}
+                    {isBn ? "কর্পোরেট প্রধান কার্যালয়" : "Corporate Head Office"}
                   </span>
                   <span className="text-[10px] text-white/60 font-light block">
                     {isBn ? "মোহাম্মদপুর, ঢাকা" : "Mohammadpur, Dhaka"}
@@ -249,20 +250,20 @@ export function Footer() {
         </div>
       </SectionContainer>
 
-      {/* ── 3. BOTTOM COPYRIGHT BAR ── */}
+      {/* ── 3. BOTTOM COPYRIGHT & DEVELOPER BAR ── */}
       <div className="border-t border-white/10 py-6 bg-black/30">
         <SectionContainer>
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-white/50">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-white/60">
             <span>
               © 2026 Silicon Real Estate (Pvt.) Ltd. {isBn ? "সর্বস্বত্ব সংরক্ষিত।" : "All Rights Reserved."}
             </span>
             <span>
-              Designed & Developed by{" "}
+              {isBn ? "ডিজাইন ও ডেভেলপমেন্টে " : "Designed & Developed by "}
               <a
                 href="https://www.exzazon.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 hover:text-accent font-medium text-white/70 transition-colors"
+                className="inline-flex items-center gap-1 hover:text-accent font-medium text-white/80 transition-colors"
               >
                 <span>Exzazon</span>
                 <ExternalLink className="w-3 h-3 shrink-0" />
@@ -281,6 +282,15 @@ export function Footer() {
                 className="hover:text-accent transition-colors"
               >
                 {isBn ? "গোপনীয়তা নীতি" : "Privacy Policy"}
+              </Link>
+              <span>•</span>
+              <Link
+                href="/admin/login"
+                className="hover:text-accent transition-colors inline-flex items-center gap-1 opacity-75 hover:opacity-100"
+                title={isBn ? "এডমিন লগইন" : "Admin Login"}
+              >
+                <Lock className="w-3 h-3" />
+                <span>{isBn ? "এডমিন" : "Admin"}</span>
               </Link>
             </div>
           </div>
