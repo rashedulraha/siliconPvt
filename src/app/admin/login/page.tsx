@@ -127,6 +127,10 @@ export default function AdminLoginPage() {
 					email: email.trim(),
 					loggedInAt: new Date().toISOString(),
 				});
+				if (typeof document !== "undefined") {
+					document.cookie = `silicon_jwt=${sessionToken}; path=/; max-age=604800; SameSite=Lax`;
+					document.cookie = `silicon_jwt_token=${sessionToken}; path=/; max-age=604800; SameSite=Lax`;
+				}
 				login(userData, sessionToken);
 				setIsSuccess(true);
 			} else {

@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { getAdminSession, ADMIN_SESSION_KEY } from "@/lib/admin-auth";
+import { getAdminSession } from "@/lib/admin-auth";
 import type { AdminSession } from "@/lib/admin-auth";
 
 const pageMeta: Record<string, { title: string; description: string }> = {
@@ -63,13 +63,13 @@ export default function AdminLayout({
 	useEffect(() => {
 		if (pathname === "/admin/login") return;
 		const s = getAdminSession();
-		if (!s) {
+		const jwt = typeof window !== "undefined" ? localStorage.getItem("silicon_jwt_token") : null;
+		if (!s && !jwt) {
 			router.replace("/admin/login");
 		} else {
-			setSession(s);
+			setSession(s || { email: "admin@afiaholdingsltd.com", loggedInAt: new Date().toISOString() });
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [ADMIN_SESSION_KEY, pathname, router]);
+	}, [pathname, router]);
 
 	if (pathname === "/admin/login") {
 		return <>{children}</>;
