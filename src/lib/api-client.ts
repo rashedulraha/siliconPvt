@@ -60,12 +60,24 @@ export async function apiFetch<T>(
 	options?: RequestInit,
 ): Promise<T> {
 	// Fallback to the production server if NEXT_PUBLIC_API_URL is not configured
-	const baseUrl =
+	let baseUrl = (
 		process.env.NEXT_PUBLIC_API_URL ||
-		"https://silicon-pvt-server.onrender.com/api/v1";
+		"https://silicon-pvt-server.onrender.com/api/v1"
+	)
+		.trim()
+		.replace(/\/+$/, "");
 
-	// Ensure the path is properly appended
-	const url = path.startsWith("http") ? path : `${baseUrl}${path}`;
+	// Normalize baseUrl if missing /api/v1 or /api when path doesn't start with /api
+	if (
+		!baseUrl.endsWith("/api/v1") &&
+		!baseUrl.endsWith("/api") &&
+		!path.startsWith("/api")
+	) {
+		baseUrl = `${baseUrl}/api/v1`;
+	}
+
+	const cleanPath = path.startsWith("/") ? path : `/${path}`;
+	const url = path.startsWith("http") ? path : `${baseUrl}${cleanPath}`;
 
 	// Prepare headers
 	const headers = new Headers(options?.headers);
