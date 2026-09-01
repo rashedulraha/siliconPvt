@@ -114,7 +114,8 @@ export function InvestmentProcess() {
 						href="/contact?type=visit"
 						className="text-xs font-semibold font-heading text-primary hover:underline inline-flex items-center gap-1 shrink-0"
 					>
-						{isBn ? "ফ্রি সাইট ভিজিট বুক করুন" : "Schedule Free Site Visit"} <ArrowRight className="w-3.5 h-3.5" />
+						{isBn ? "ফ্রি সাইট ভিজিট বুক করুন" : "Schedule Free Site Visit"}{" "}
+						<ArrowRight className="w-3.5 h-3.5" />
 					</Link>
 				</div>
 
@@ -157,8 +158,14 @@ export function InvestmentProcess() {
 							</div>
 
 							<div className="pt-3 border-t border-border/40 flex items-center justify-between text-[11px] font-heading text-muted-foreground font-medium">
-								<span>{isBn ? `ধাপ ${step.number} (মোট ৪টির মধ্যে)` : `Step 0${idx + 1} of 04`}</span>
-								<span className="text-primary font-semibold">{isBn ? "ভেরিফাইড" : "Verified Step"}</span>
+								<span>
+									{isBn
+										? `ধাপ ${step.number} (মোট ৪টির মধ্যে)`
+										: `Step 0${idx + 1} of 04`}
+								</span>
+								<span className="text-primary font-semibold">
+									{isBn ? "ভেরিফাইড" : "Verified Step"}
+								</span>
 							</div>
 						</motion.div>
 					))}
