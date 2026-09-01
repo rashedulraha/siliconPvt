@@ -3,8 +3,11 @@
 import { motion } from "framer-motion";
 import { Shield, MapPin, CreditCard, UserCheck } from "lucide-react";
 import { SectionContainer } from "@/components/layout/SectionContainer";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function WhyChooseUs() {
+	const { isBn } = useLanguage();
+
 	return (
 		<section className="py-20 sm:py-24 bg-background text-foreground relative overflow-hidden border-t border-border/50">
 			{/* Subtle Dot Grid */}
@@ -20,13 +23,17 @@ export function WhyChooseUs() {
 				{/* Section Header */}
 				<div className="max-w-3xl text-left space-y-2">
 					<span className="inline-block px-3.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium uppercase tracking-widest text-primary font-heading">
-						WHY CHOOSE SILICON
+						{isBn ? "কেন সিলিকন রিয়েল এস্টেট" : "WHY CHOOSE SILICON"}
 					</span>
 					<h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
-						Why Investors Trust Silicon Real Estate
+						{isBn
+							? "বিনিয়োগকারীরা কেন সিলিকন রিয়েল এস্টেটে আস্থা রাখেন"
+							: "Why Investors Trust Silicon Real Estate"}
 					</h2>
 					<p className="text-xs sm:text-sm md:text-base text-muted-foreground font-light leading-relaxed">
-						We prioritise disciplined, legally vetted development, 16–18ft high elevation, and transparent registry over empty promises.
+						{isBn
+							? "আমরা কোনো অসত্য প্রতিশ্রুতি নয়, বরং কঠোর নিয়মানুবর্তিতা, ১৬–১৮ ফুট উঁচু বালু ভরাট ও শতভাগ নিষ্কণ্টক আইনি মালিকানা নিশ্চিত করি।"
+							: "We prioritise disciplined, legally vetted development, 16–18ft high elevation, and transparent registry over empty promises."}
 					</p>
 				</div>
 
@@ -47,19 +54,32 @@ export function WhyChooseUs() {
 								<Shield className="h-6 w-6" />
 							</div>
 							<h3 className="text-xl font-bold font-heading text-foreground mb-3">
-								100% Legal Security &amp; Title Verification
+								{isBn
+									? "১০০% আইনগত নিরাপত্তা ও নির্ভেজাল দলিলপত্র"
+									: "100% Legal Security & Title Verification"}
 							</h3>
 							<p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-light max-w-xl">
-								Every project is strictly aligned with RAJUK's extended master plan and government planning guidelines. We guarantee clean CS, SA, RS, BS title deeds, mutation records, and completely dispute-free properties.
+								{isBn
+									? "প্রতিটি প্রজেক্ট রাজউকের মহাপরিকল্পনার সাথে সংগতিপূর্ণ। আমরা শতভাগ স্পষ্ট সিএস, এসএ, আরএস ও বিএস খতিয়ান ও মিউটেশনসহ নিষ্কণ্টক জমির নিশ্চয়তা দেই।"
+									: "Every project is strictly aligned with RAJUK's extended master plan and government planning guidelines. We guarantee clean CS, SA, RS, BS title deeds, mutation records, and completely dispute-free properties."}
 							</p>
 						</div>
 
 						{/* Visual Indicators */}
 						<div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 border-t border-border/40 pt-6">
 							{[
-								{ title: "RAJUK Compliant", desc: "100% compliant master layout" },
-								{ title: "Mutated Deeds", desc: "Clear chain of ownership" },
-								{ title: "Zero Dispute", desc: "Vetted by in-house legal team" },
+								{
+									title: isBn ? "রাজউক মাস্টারপ্ল্যান" : "RAJUK Compliant",
+									desc: isBn ? "১০০% কমপ্লায়েন্ট লেআউট" : "100% compliant layout",
+								},
+								{
+									title: isBn ? "মিউটেশন সম্পন্ন" : "Mutated Deeds",
+									desc: isBn ? "স্পষ্ট মালিকানা রেকর্ড" : "Clear chain of ownership",
+								},
+								{
+									title: isBn ? "নিষ্কণ্টক জমি" : "Zero Dispute",
+									desc: isBn ? "লিগ্যাল টিম দ্বারা যাচাইকৃত" : "Vetted by in-house legal team",
+								},
 							].map((item, idx) => (
 								<div
 									key={idx}
@@ -92,21 +112,23 @@ export function WhyChooseUs() {
 								<MapPin className="h-6 w-6" />
 							</div>
 							<h3 className="text-xl font-bold font-heading text-foreground mb-3">
-								Strategic Prime Locations
+								{isBn ? "কৌশলগত প্রাইম লোকেশন" : "Strategic Prime Locations"}
 							</h3>
 							<p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-light">
-								Positioned in high-growth corridors in Savar, adjacent to Mohammadpur, Dhaka, along the scenic Turag River.
+								{isBn
+									? "ঢাকার মোহাম্মদপুর বেড়িবাঁধ সংলগ্ন তুরাগ নদীর তীরে দ্রুত বিকাশমান বড় বাদেশী মৌজা, সাভারে অবস্থিত।"
+									: "Positioned in high-growth corridors in Savar, adjacent to Mohammadpur, Dhaka, along the scenic Turag River."}
 							</p>
 						</div>
 
 						{/* Visual Indicator */}
 						<div className="mt-8 bg-muted/40 rounded-2xl p-4 border border-border/40 flex flex-col gap-2">
 							<div className="text-[10px] font-bold uppercase tracking-wider text-accent font-heading">
-								Active Connectivity
+								{isBn ? "সরাসরি যোগাযোগ" : "Active Connectivity"}
 							</div>
 							<div className="flex items-center justify-between text-xs text-foreground font-medium font-heading">
-								<span>To Mohammadpur Beribadh</span>
-								<span className="font-mono text-primary font-bold">15 Mins</span>
+								<span>{isBn ? "মোহাম্মদপুর বেড়িবাঁধ থেকে" : "To Mohammadpur Beribadh"}</span>
+								<span className="font-mono text-primary font-bold">{isBn ? "১৫ মিনিট" : "15 Mins"}</span>
 							</div>
 							<div className="w-full bg-border/50 h-1.5 rounded-full overflow-hidden">
 								<div className="bg-primary h-full w-[90%] rounded-full" />
@@ -129,19 +151,21 @@ export function WhyChooseUs() {
 								<CreditCard className="h-6 w-6" />
 							</div>
 							<h3 className="text-xl font-bold font-heading text-foreground mb-3">
-								Flexible Payment Plans
+								{isBn ? "সহজ কিস্তি সুবিধা" : "Flexible Payment Plans"}
 							</h3>
 							<p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-light">
-								Customized installment schedules designed around your financial timeline with zero hidden fees.
+								{isBn
+									? "কোনো গোপন চার্জ ছাড়াই আপনার সুবিধাজনক বাজেট অনুযায়ী ২৪ থেকে ৬০ মাসের সহজ কিস্তি পরিকল্পনা।"
+									: "Customized installment schedules designed around your financial timeline with zero hidden fees."}
 							</p>
 						</div>
 
 						{/* Payment Milestone Trail */}
 						<div className="mt-8 flex items-center justify-between gap-2 relative pt-4 border-t border-border/40">
 							{[
-								{ name: "Booking", pct: "20%" },
-								{ name: "Installments", pct: "50%" },
-								{ name: "Deed", pct: "30%" },
+								{ name: isBn ? "বুকিং" : "Booking", pct: "20%" },
+								{ name: isBn ? "কিস্তিসমূহ" : "Installments", pct: "50%" },
+								{ name: isBn ? "রেজিস্ট্রেশন" : "Deed", pct: "30%" },
 							].map((mile, i) => (
 								<div key={i} className="flex-1 text-center bg-muted/40 rounded-xl p-2 border border-border/40">
 									<div className="text-xs font-bold text-primary font-mono">
@@ -170,19 +194,23 @@ export function WhyChooseUs() {
 								<UserCheck className="h-6 w-6" />
 							</div>
 							<h3 className="text-xl font-bold font-heading text-foreground mb-3">
-								Dedicated Advisory &amp; Free Site Visits
+								{isBn
+									? "অভিজ্ঞ পরামর্শ ও ফ্রি সাইট ভিজিট ব্যবস্থা"
+									: "Dedicated Advisory & Free Site Visits"}
 							</h3>
 							<p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-light max-w-xl">
-								Our experienced real estate advisors provide free executive transport from our Mohammadpur corporate office to conduct on-ground plot boundary walkthroughs and legal registry consultations.
+								{isBn
+									? "আমাদের মোহাম্মদপুর কর্পোরেট অফিস থেকে নিজস্ব গাড়িতে সম্পূর্ণ বিনামূল্যে সাইট ভিজিট এবং বিশেষজ্ঞ প্রপার্টি উপদেষ্টার মাধ্যমে সরাসরি প্লট পরিদর্শন ও দলিল যাচাই।"
+									: "Our experienced real estate advisors provide free executive transport from our Mohammadpur corporate office to conduct on-ground plot boundary walkthroughs and legal registry consultations."}
 							</p>
 						</div>
 
 						{/* Path Steps */}
 						<div className="mt-8 grid grid-cols-3 gap-3 border-t border-border/40 pt-6">
 							{[
-								{ step: "01", label: "Consultation" },
-								{ step: "02", label: "Site Visit" },
-								{ step: "03", label: "Deed Registry" },
+								{ step: "01", label: isBn ? "পরামর্শ" : "Consultation" },
+								{ step: "02", label: isBn ? "সাইট পরিদর্শন" : "Site Visit" },
+								{ step: "03", label: isBn ? "দলিল রেজিস্ট্রি" : "Deed Registry" },
 							].map((item, idx) => (
 								<div
 									key={idx}
@@ -203,4 +231,3 @@ export function WhyChooseUs() {
 		</section>
 	);
 }
-
