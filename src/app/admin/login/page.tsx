@@ -67,9 +67,7 @@ export default function AdminLoginPage() {
 				: "Please enter a valid email address";
 		}
 		if (!password) {
-			newErrors.password = isBn
-				? "পাসওয়ার্ড প্রয়োজন"
-				: "Password is required";
+			newErrors.password = isBn ? "পাসওয়ার্ড প্রয়োজন" : "Password is required";
 		}
 		setErrors(newErrors);
 		return Object.keys(newErrors).length === 0;
@@ -358,9 +356,7 @@ export default function AdminLoginPage() {
 							<div className="pt-2 flex items-center gap-2 text-xs font-mono text-primary">
 								<Loader2 className="w-4 h-4 animate-spin" />
 								<span>
-									{isBn
-										? "ড্যাশবোর্ড লোড হচ্ছে..."
-										: "Opening Admin Dashboard..."}
+									{isBn ? "ড্যাশবোর্ড লোড হচ্ছে..." : "Opening Admin Dashboard..."}
 								</span>
 							</div>
 						</div>
@@ -370,9 +366,7 @@ export default function AdminLoginPage() {
 							<div className="space-y-2">
 								<span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-semibold font-heading text-primary">
 									<ShieldCheck className="w-3.5 h-3.5 text-primary" />
-									<span>
-										{isBn ? "এডমিন পোর্টাল" : "ADMIN PORTAL SIGN IN"}
-									</span>
+									<span>{isBn ? "এডমিন পোর্টাল" : "ADMIN PORTAL SIGN IN"}</span>
 								</span>
 								<h2 className="text-2xl sm:text-3xl font-extrabold font-heading text-foreground tracking-tight">
 									{isBn ? "এডমিন সাইন ইন" : "Admin Sign In"}
