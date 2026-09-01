@@ -1,7 +1,8 @@
 import { MetadataRoute } from "next";
 import { initialState } from "@/context/CMSContext";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://siliconrealestatepvtltd.com";
+const SITE_URL =
+	process.env.NEXT_PUBLIC_SITE_URL || "https://siliconrealestatepvtltd.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
 	const staticPages = [
@@ -31,4 +32,3 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
 	return [...staticRoutes, ...projectRoutes];
 }
-
