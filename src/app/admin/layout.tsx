@@ -78,7 +78,7 @@ export default function AdminLayout({
 	return (
 		<AdminEditorProvider>
 			<TooltipProvider>
-				<div className="flex min-h-screen bg-background">
+				<div className="admin-scope flex min-h-screen bg-background font-roboto antialiased">
 					<AdminSidebar
 						open={sidebarOpen}
 						onClose={() => setSidebarOpen(false)}
