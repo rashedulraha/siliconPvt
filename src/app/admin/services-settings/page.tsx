@@ -172,23 +172,6 @@ export default function ServicesSettingsPage() {
 
 			<SectionContainer className="py-10">
 				<div className="max-w-5xl mx-auto space-y-8">
-					{/* Lock Notice Banner */}
-					{!isEditorUnlocked && (
-						<div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-500 text-xs font-medium flex items-center justify-between gap-4">
-							<div className="flex items-center gap-2">
-								<Lock className="w-4 h-4 shrink-0" />
-								<span>
-									<strong>Read-Only Mode Active:</strong> Service management is in view-only mode until Editor Mode is unlocked.
-								</span>
-							</div>
-							<button
-								onClick={unlockEditorMode}
-								className="px-3 py-1.5 rounded-lg bg-amber-500 text-black text-[11px] font-bold uppercase tracking-wider hover:bg-amber-400 shrink-0 cursor-pointer"
-							>
-								Unlock Editor
-							</button>
-						</div>
-					)}
 
 					<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-left">
 						<div>
