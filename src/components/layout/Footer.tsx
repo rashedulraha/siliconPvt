@@ -23,20 +23,14 @@ const QUICK_LINKS = [
   { label: "About Us", href: "/about" },
   { label: "Projects", href: "/projects" },
   { label: "Services", href: "/services" },
-  { label: "Gallery", href: "/gallery" },
-  { label: "Membership", href: "/membership" },
   { label: "Contact Us", href: "/contact" },
 ];
 
 const USEFUL_LINKS = [
-  { label: "Terms & Conditions", href: "/terms" },
-  { label: "Privacy Policy", href: "/privacy" },
-  { label: "Refund Policy", href: "/refund-policy" },
-  {
-    label: "Digital Application Form",
-    href: "/dashboard/user/membership-form",
-  },
-  { label: "Member Resources", href: "/dashboard/user/resources" },
+  { label: "Privacy Policy", href: "/privacy-terms" },
+  { label: "Terms of Service", href: "/privacy-terms" },
+  { label: "Schedule Site Visit", href: "/contact" },
+  { label: "Admin Portal", href: "/login" },
 ];
 
 export function Footer() {
@@ -269,14 +263,14 @@ export function Footer() {
             </span>
             <div className="flex items-center gap-4">
               <Link
-                href="/terms"
+                href="/privacy-terms"
                 className="hover:text-accent transition-colors"
               >
                 Terms of Governance
               </Link>
               <span>•</span>
               <Link
-                href="/privacy"
+                href="/privacy-terms"
                 className="hover:text-accent transition-colors"
               >
                 Privacy Protection

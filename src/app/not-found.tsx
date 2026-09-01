@@ -45,9 +45,9 @@ export default function NotFound() {
 						</Link>
 					</Button>
 					<Button asChild size="lg" variant="outline">
-						<Link href="/properties">
+						<Link href="/projects">
 							<Search className="h-4 w-4 mr-2" />
-							Browse Properties
+							Explore Projects
 						</Link>
 					</Button>
 					<Button asChild size="lg" variant="ghost">
@@ -64,10 +64,11 @@ export default function NotFound() {
 					<div className="flex flex-wrap gap-2 justify-center">
 						{[
 							{ href: "/", label: "Home" },
-							{ href: "/properties", label: "Properties" },
-							{ href: "/about", label: "About" },
-							{ href: "/blog", label: "Blog" },
+							{ href: "/about", label: "About Us" },
+							{ href: "/projects", label: "Projects" },
+							{ href: "/services", label: "Services" },
 							{ href: "/contact", label: "Contact" },
+							{ href: "/privacy-terms", label: "Privacy & Terms" },
 						].map((link) => (
 							<Link
 								key={link.href}

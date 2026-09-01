@@ -1,17 +1,17 @@
 import { MetadataRoute } from "next";
 import { initialState } from "@/context/CMSContext";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://estatehub.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://siliconrealestatepvtltd.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
 	const staticPages = [
 		"",
 		"/about",
-		"/properties",
-		"/blog",
+		"/projects",
+		"/services",
 		"/contact",
-		"/careers",
-		"/calculator",
+		"/privacy-terms",
+		"/login",
 	];
 
 	const staticRoutes = staticPages.map((path) => ({
@@ -21,21 +21,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
 		priority: path === "" ? 1.0 : 0.8,
 	}));
 
-	// Dynamic property routes
-	const propertyRoutes = (initialState.properties || []).map((property) => ({
-		url: `${SITE_URL}/properties/${property.slug}`,
+	// Dynamic project routes
+	const projectRoutes = (initialState.properties || []).map((property) => ({
+		url: `${SITE_URL}/projects/${property.slug}`,
 		lastModified: new Date(property.updatedAt),
 		changeFrequency: "weekly" as const,
 		priority: 0.7,
 	}));
 
-	// Dynamic blog routes
-	const blogRoutes = (initialState.blog || []).map((post) => ({
-		url: `${SITE_URL}/blog/${post.slug}`,
-		lastModified: new Date(post.publishedAt),
-		changeFrequency: "monthly" as const,
-		priority: 0.6,
-	}));
-
-	return [...staticRoutes, ...propertyRoutes, ...blogRoutes];
+	return [...staticRoutes, ...projectRoutes];
 }
+
