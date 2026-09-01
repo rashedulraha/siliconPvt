@@ -5,8 +5,9 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { SectionContainer } from "@/components/layout/SectionContainer";
+import { useLanguage } from "@/context/LanguageContext";
 
-const galleryItems = [
+const galleryItemsEn = [
 	{
 		id: 1,
 		title: "Silicon City Township Master Plan",
@@ -41,7 +42,7 @@ const galleryItems = [
 			"Scenic natural riverfront parklands and recreational green belts.",
 		category: "Green Spaces",
 		src: "https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?q=80&w=1400",
-		link: "/about#amenities",
+		link: "/about",
 	},
 	{
 		id: 5,
@@ -50,15 +51,66 @@ const galleryItems = [
 			"Modern central mosque, schools, healthcare center and community markets.",
 		category: "Civic Amenities",
 		src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1400",
-		link: "/about#civic",
+		link: "/about",
+	},
+];
+
+const galleryItemsBn = [
+	{
+		id: 1,
+		title: "সিলিকন সিটি মাস্টারপ্ল্যান লেআউট",
+		subtitle:
+			"ঢাকার মোহাম্মদপুর সংলগ্ন পরিকল্পিত আধুনিক পরিবেশবান্ধব টাউনশিপ জীবনযাত্রা।",
+		category: "মাস্টার লেআউট",
+		src: "https://images.unsplash.com/photo-1524813686514-a57563d77965?q=80&w=1400",
+		link: "/projects",
+	},
+	{
+		id: 2,
+		title: "৩০ ও ৪০ ফুট চওড়া আরসিসি অভ্যন্তরীণ রাস্তা",
+		subtitle:
+			"যানজটমুক্ত ও নির্বিঘ্ন চলাচলের জন্য সুপরিকল্পিত আরসিসি সড়ক নেটওয়ার্ক।",
+		category: "অবকাঠামো",
+		src: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1400",
+		link: "/projects",
+	},
+	{
+		id: 3,
+		title: "১৬–১৮ ফুট উঁচু বালু ভরাটকৃত নিরাপদ জমি",
+		subtitle:
+			"বন্যা প্রতিরোধী ও সুউচ্চ সমতল ভূমি যা স্থায়ী গৃহনির্মাণের জন্য সম্পূর্ণ প্রস্তুত।",
+		category: "ভূমি উন্নয়ন",
+		src: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1400",
+		link: "/projects",
+	},
+	{
+		id: 4,
+		title: "তুরাগ নদীর প্রাকৃতিক তীরবর্তী গ্রিন করিডোর",
+		subtitle:
+			"নদীতীরবর্তী মনোরম পার্কল্যান্ড, হাঁটার রাস্তা ও স্নিগ্ধ নির্মল পরিবেশ।",
+		category: "সবুজ চত্বর",
+		src: "https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?q=80&w=1400",
+		link: "/about",
+	},
+	{
+		id: 5,
+		title: "কেন্দ্রীয় জামে মসজিদ ও নাগরিক কমপ্লেক্স",
+		subtitle:
+			"দৃষ্টিনন্দন সেন্ট্রাল মসজিদ, আধুনিক শিক্ষা প্রতিষ্ঠান, হাসপাতাল ও বাজার জোন।",
+		category: "নাগরিক সুবিধা",
+		src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1400",
+		link: "/about",
 	},
 ];
 
 export function ProjectGallerySection() {
+	const { isBn } = useLanguage();
 	const sectionRef = useRef<HTMLDivElement>(null);
 	const [activeIndex, setActiveIndex] = useState(0);
 	const lastWheelTime = useRef(0);
 	const isCenteredRef = useRef(false);
+
+	const galleryItems = isBn ? galleryItemsBn : galleryItemsEn;
 
 	// ── BUTTER-SMOOTH WHEEL SCROLL LOCK WITH AUTO-CENTERING ──
 	useEffect(() => {
@@ -112,7 +164,7 @@ export function ProjectGallerySection() {
 
 		window.addEventListener("wheel", handleWindowWheel, { passive: false });
 		return () => window.removeEventListener("wheel", handleWindowWheel);
-	}, [activeIndex]);
+	}, [activeIndex, galleryItems.length]);
 
 	const handleNext = () => {
 		setActiveIndex((prev) => (prev + 1) % galleryItems.length);
@@ -142,17 +194,19 @@ export function ProjectGallerySection() {
 				{/* Section Header */}
 				<div className="text-center max-w-2xl mx-auto space-y-2">
 					<span className="inline-block px-3.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium uppercase tracking-widest text-primary font-heading">
-						DEVELOPMENT WORK & INFRASTRUCTURE
+						{isBn ? "উন্নয়ন কাজ ও অবকাঠামো" : "DEVELOPMENT WORK & INFRASTRUCTURE"}
 					</span>
 					<h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
-						On-Ground Progress Showcase
+						{isBn ? "বাস্তব উন্নয়ন কাজের গ্যালারি" : "On-Ground Progress Showcase"}
 					</h2>
 					<p className="text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
-						Scroll down to step through Silicon City's on-ground landmarks.
+						{isBn
+							? "সিলিকন সিটির বাস্তব উন্নয়ন অগ্রগতি ও ল্যান্ডমার্কসমূহ দেখুন।"
+							: "Scroll down to step through Silicon City's on-ground landmarks."}
 					</p>
 				</div>
 
-				{/* ── ULTRA-PREMIUM FROSTED GLASSMORPHISM FRAME (Reduced Compact Padding) ── */}
+				{/* ── ULTRA-PREMIUM FROSTED GLASSMORPHISM FRAME ── */}
 				<div className="bg-card/40 backdrop-blur-md border border-border/60 rounded-[32px] sm:rounded-[36px] p-3 sm:p-4 md:p-5 relative overflow-hidden">
 					{/* Ambient Radial Glow Gradients */}
 					<div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
@@ -173,7 +227,7 @@ export function ProjectGallerySection() {
 											: "flex-[0.65] rounded-full hover:scale-[1.02] opacity-90 hover:opacity-100 border border-white/20 dark:border-white/10"
 									}`}
 								>
-									{/* Background Photo Wrapper (Direct inline 100% height & width guarantees full cover) */}
+									{/* Background Photo Wrapper */}
 									<div className="absolute inset-0 w-full h-full pointer-events-none">
 										<img
 											src={item.src}
@@ -213,7 +267,7 @@ export function ProjectGallerySection() {
 												</span>
 											</div>
 
-											{/* Title, Subtitle & White Action Button */}
+											{/* Title, Subtitle & Action Button */}
 											<div className="flex items-end justify-between gap-4">
 												<div className="space-y-1.5 max-w-xl">
 													<h3 className="text-2xl sm:text-3xl font-extrabold font-heading text-white tracking-tight leading-tight drop-shadow-md">
