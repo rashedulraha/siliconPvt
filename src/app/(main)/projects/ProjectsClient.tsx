@@ -7,6 +7,7 @@ import { SectionContainer } from "@/components/ui/section-container";
 import { useProjects } from "@/hooks/useProjects";
 import { useProperties } from "@/hooks/useProperties";
 import { useProjectsContent } from "@/hooks/useProjectsContent";
+import { useLanguage } from "@/context/LanguageContext";
 import { formatCurrency } from "@/lib/utils";
 import type { Property } from "@/types";
 import {
@@ -23,39 +24,18 @@ import {
 	ShoppingBag,
 	Landmark,
 	ChevronRight,
-	Sparkles,
-	Building2,
+	Phone,
+	Mail,
 } from "lucide-react";
 
 type StatusFilter = "all" | Property["status"];
 type CategoryFilter = "all" | Property["category"];
 type SortOption = "newest" | "price-asc" | "price-desc" | "area-desc";
 
-const STATUS_FILTERS: { value: StatusFilter; label: string }[] = [
-	{ value: "all", label: "All Status" },
-	{ value: "available", label: "Ongoing" },
-	{ value: "pending", label: "Upcoming" },
-	{ value: "sold", label: "Completed" },
-];
-
-const CATEGORY_FILTERS: { value: CategoryFilter; label: string }[] = [
-	{ value: "all", label: "All Types" },
-	{ value: "land", label: "Residential Plots" },
-	{ value: "apartment", label: "Ready Flats" },
-	{ value: "commercial", label: "Commercial Plots" },
-];
-
-const STATUS_LABELS: Record<Property["status"], string> = {
-	available: "Ongoing Project",
-	pending: "Upcoming Project",
-	sold: "Completed",
-	rented: "Rented",
-};
-
 const AMENITY_ICONS: Record<number, any> = {
 	0: Landmark,
-	1: Compass,
-	2: Trees,
+	1: Trees,
+	2: Compass,
 	3: GraduationCap,
 	4: HeartPulse,
 	5: ShoppingBag,
@@ -65,12 +45,33 @@ export function ProjectsClient() {
 	const { data: content } = useProjectsContent();
 	const { projects } = useProjects();
 	const { properties } = useProperties();
+	const { isBn } = useLanguage();
 
 	// Inventory Filters State
 	const [searchQuery, setSearchQuery] = useState("");
 	const [activeStatus, setActiveStatus] = useState<StatusFilter>("all");
 	const [activeCategory, setActiveCategory] = useState<CategoryFilter>("all");
 	const [sortBy, setSortBy] = useState<SortOption>("newest");
+
+	const statusFilters = [
+		{ value: "all" as StatusFilter, label: isBn ? "সকল স্ট্যাটাস" : "All Status" },
+		{ value: "available" as StatusFilter, label: isBn ? "চলমান / বুকিং উন্মুক্ত" : "Ongoing / Open" },
+		{ value: "pending" as StatusFilter, label: isBn ? "আসন্ন প্রকল্প" : "Upcoming" },
+		{ value: "sold" as StatusFilter, label: isBn ? "সম্পন্ন প্রকল্প" : "Completed" },
+	];
+
+	const categoryFilters = [
+		{ value: "all" as CategoryFilter, label: isBn ? "সকল প্রকার" : "All Types" },
+		{ value: "residential" as CategoryFilter, label: isBn ? "আবাসিক প্লট" : "Residential Plots" },
+		{ value: "commercial" as CategoryFilter, label: isBn ? "বাণিজ্যিক প্লট" : "Commercial Plots" },
+	];
+
+	const sortOptions = [
+		{ value: "newest" as SortOption, label: isBn ? "নতুনতম" : "Newest" },
+		{ value: "price-asc" as SortOption, label: isBn ? "মূল্য: কম থেকে বেশি" : "Price: Low to High" },
+		{ value: "price-desc" as SortOption, label: isBn ? "মূল্য: বেশি থেকে কম" : "Price: High to Low" },
+		{ value: "area-desc" as SortOption, label: isBn ? "আয়তন: বড় থেকে ছোট" : "Area: Large to Small" },
+	];
 
 	// Filtered Inventory
 	const filteredProjects = useMemo(() => {
@@ -99,7 +100,7 @@ export function ProjectsClient() {
 		} else if (sortBy === "price-desc") {
 			result.sort((a, b) => b.price - a.price);
 		} else if (sortBy === "area-desc") {
-			result.sort((a, b) => b.area - a.area);
+			result.sort((a, b) => (b.area || 0) - (a.area || 0));
 		} else {
 			result.sort(
 				(a, b) =>
@@ -110,11 +111,85 @@ export function ProjectsClient() {
 		return result;
 	}, [properties, searchQuery, activeStatus, activeCategory, sortBy]);
 
+	const trustMetrics = isBn
+		? [
+				{ value: "১৫০+ একর", label: "পরিকল্পিত টাউনশিপ এলাকা" },
+				{ value: "১৬–১৮ ফুট", label: "উঁচু বালু ভরাটকৃত জমি" },
+				{ value: "৩০ ও ৪০ ফুট", label: "প্রশস্ত অভ্যন্তরীণ রাস্তা" },
+				{ value: "১০০% রেডি", label: "নিষ্কণ্টক মালিকানা ও মিউটেশন" },
+			]
+		: content.trustMetrics;
+
+	const specs = isBn
+		? [
+				{
+					num: "০১",
+					title: "১৬ থেকে ১৮ ফুট উঁচু মাটি ভরাট",
+					desc: "বন্যা সীমা থেকে ১৬–১৮ ফুট উঁচু বালু ভরাটকৃত স্থায়ী সমতল ভূমি যা সম্পূর্ণ জলাবদ্ধতামুক্ত।",
+				},
+				{
+					num: "০২",
+					title: "৩০ ও ৪০ ফুট প্রশস্ত আরসিসি সড়ক",
+					desc: "মসৃণ ও নিরবচ্ছিন্ন যানবাহন চলাচলের জন্য সুপরিকল্পিত আরসিসি রাস্তা নেটওয়ার্ক।",
+				},
+				{
+					num: "০৩",
+					title: "১০০% নিষ্কণ্টক নামজারি ও সাব-রেজিস্ট্রি",
+					desc: "সিএস, এসএ, আরএস ও বিএস রেকর্ড যাচাইকৃত স্বচ্ছ দলিল ও তাৎক্ষণিক রেজিস্ট্রেশন সুবিধা।",
+				},
+				{
+					num: "০৪",
+					title: "মোহাম্মদপুর থেকে মাত্র ১৫ মিনিটের দূরত্ব",
+					desc: "তুরাগ নদীর তীরে কৌশলগত যোগাযোগ করিডোরে অবস্থিত হওয়ায় ঢাকার কেন্দ্রস্থলে দ্রুত যাতায়াত।",
+				},
+			]
+		: content.specs;
+
+	const amenities = isBn
+		? [
+				{ title: "গ্র্যান্ড সেন্ট্রাল জামে মসজিদ", desc: "সুবিশাল দৃষ্টিনন্দন সেন্ট্রাল মসজিদ এবং প্রতিটি ব্লকে নামাজের পৃথক ব্যবস্থা।", tag: "আধ্যাত্মিক কেন্দ্র" },
+				{ title: "খেলার মাঠ ও বিনোদন পার্ক", desc: "সন্তানদের খেলাধুলা ও পারিবারিক বিনোদনের জন্য সবুজ খোলা মাঠ ও পার্ক।", tag: "শারীরিক বিকাশ" },
+				{ title: "নদীতীরবর্তী গ্রিন করিডোর", desc: "তুরাগ নদীর তীরে প্রাকৃতিক নির্মল পরিবেশ ও দৃষ্টিনন্দন ওয়াকওয়ে।", tag: "প্রাকৃতিক শোভা" },
+				{ title: "স্কুল ও কলেজ ক্যাম্পাস", desc: "টাউনশিপের অভ্যন্তরে মানসম্মত শিক্ষা নিশ্চিতকরণে সংরক্ষিত শিক্ষা জোন।", tag: "শিক্ষা সুবিধা" },
+				{ title: "হাসপাতাল ও ডায়াগনস্টিক সেন্টার", desc: "২৪/৭ জরুরি স্বাস্থ্যসেবা ও আধুনিক চিকিৎসা সুবিধা নিশ্চিত করার পরিকল্পনা।", tag: "চিকিৎসা কেন্দ্র" },
+				{ title: "শপিং মল ও কমিউনিটি মার্কেট", desc: "নিত্যপ্রয়োজনীয় কেনাকাটা ও বাণিজ্যিক কার্যক্রমের জন্য সুবিন্যস্ত শপিং কমপ্লেক্স।", tag: "বাণিজ্যিক জোন" },
+			]
+		: content.amenities;
+
+	const proximities = isBn
+		? [
+				{
+					category: "প্রধান সংযোগ সড়ক ও যোগাযোগ",
+					items: [
+						{ name: "মোহাম্মদপুর বেড়িবাঁধ ও বাস স্ট্যান্ড", dist: "১৫ মিনিট" },
+						{ name: "ধানমন্ডি ২৭ / সোবহানবাগ", dist: "২৫ মিনিট" },
+						{ name: "গাবতলী বাস টার্মিনাল", dist: "২০ মিনিট" },
+					],
+				},
+				{
+					category: "গুরুত্বপূর্ণ নগর কেন্দ্র",
+					items: [
+						{ name: "উত্তরা / শাহজালাল আন্তর্জাতিক বিমানবন্দর", dist: "৩৫ মিনিট" },
+						{ name: "মিরপুর ১০ মেট্রো রেল স্টেশন", dist: "২৫ মিনিট" },
+						{ name: "ঢাকা বিশ্ববিদ্যালয় ও মতিঝিল জোন", dist: "৪০ মিনিট" },
+					],
+				},
+			]
+		: content.proximities;
+
+	const roadmap = isBn
+		? [
+				{ step: "০১", title: "জমি অধিগ্রহণ ও নিষ্কণ্টককরণ", desc: "১০০% ভেরিফাইড দলিলপত্রসহ বড় বাদেশী মৌজায় জমি অধিগ্রহণ সম্পন্ন।" },
+				{ step: "০২", title: "মেগা বালু ভরাট ও ভূমি উন্নয়ন", desc: "১৬–১৮ ফুট উচ্চতায় মাটি ও বালু ভরাট করে নিরাপদ সমতল ভূমি তৈরি।" },
+				{ step: "০৩", title: "অভ্যন্তরীণ সড়ক ও ড্রেনেজ নেটওয়ার্ক", desc: "৩০ ও ৪০ ফুট প্রশস্ত আরসিসি সড়ক এবং উন্নত ড্রেনেজ কাঠামোর কাজ চলমান।" },
+				{ step: "০৪", title: "নাগরিক সুবিধা ও চূড়ান্ত হস্তান্তর", desc: "মসজিদ, পার্ক, বিদ্যুৎ সংযোগ এবং ব্লকভিত্তিক প্লট সীমানা ও দখল হস্তান্তর।" },
+			]
+		: content.roadmap;
+
 	return (
 		<div className="bg-background text-foreground min-h-screen pb-24 overflow-x-hidden text-left">
 			{/* ── 1. ARCHITECTURAL HERO HEADER ── */}
 			<section className="relative pt-28 pb-20 bg-dark-hero text-white overflow-hidden">
-				{/* Subtle Dot Grid Pattern */}
 				<div
 					className="absolute inset-0 opacity-[0.06] pointer-events-none"
 					style={{
@@ -133,19 +208,21 @@ export function ProjectsClient() {
 						{/* Breadcrumbs */}
 						<nav className="flex items-center gap-2 text-xs text-white/60 mb-4 font-heading uppercase tracking-wider">
 							<Link href="/" className="hover:text-accent transition-colors">
-								Home
+								{isBn ? "হোম" : "Home"}
 							</Link>
 							<ChevronRight className="w-3 h-3 text-white/40" />
-							<span className="text-accent font-semibold">Projects</span>
+							<span className="text-accent font-semibold">{isBn ? "প্রকল্পসমূহ" : "Projects"}</span>
 						</nav>
 
 						<h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-white tracking-tight leading-snug mb-3">
-							{content.heroTitle} <br />
-							<span className="text-gold">{content.heroSubtitle}</span>
+							{isBn ? "পরিকল্পিত আধুনিক মেগা টাউনশিপ ও" : content.heroTitle} <br />
+							<span className="text-gold">{isBn ? "নিরাপদ প্রাইম ল্যান্ড ডেভেলপমেন্ট" : content.heroSubtitle}</span>
 						</h1>
 
 						<p className="text-white/80 text-xs sm:text-sm md:text-base font-light leading-relaxed max-w-2xl mb-7">
-							{content.heroDesc}
+							{isBn
+								? "সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ আইনি সুরক্ষা, পরিবেশবান্ধব অবকাঠামো এবং বন্যা প্রতিরোধী আধুনিক মেগা টাউনশিপ বাস্তবায়নে শীর্ষস্থানীয়।"
+								: content.heroDesc}
 						</p>
 
 						{/* Action Buttons */}
@@ -154,14 +231,14 @@ export function ProjectsClient() {
 								href="#inventory-section"
 								className="inline-flex items-center justify-center bg-primary text-primary-foreground h-11 px-6 rounded-xl font-semibold font-heading text-xs sm:text-sm hover:bg-primary/90 transition-all border border-white/20 shadow-md gap-2"
 							>
-								BROWSE AVAILABLE PLOTS
+								{isBn ? "উপলব্ধ প্লটসমূহ দেখুন" : "BROWSE AVAILABLE PLOTS"}
 								<ArrowRight className="w-4 h-4" />
 							</a>
 							<Link
 								href="/contact"
 								className="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 h-11 px-6 rounded-xl font-semibold font-heading text-xs sm:text-sm transition-all gap-2"
 							>
-								SCHEDULE SITE VISIT
+								{isBn ? "সাইট ভিজিট বুক করুন" : "SCHEDULE SITE VISIT"}
 								<CalendarCheck className="w-4 h-4 text-accent" />
 							</Link>
 						</div>
@@ -169,7 +246,7 @@ export function ProjectsClient() {
 
 					{/* 4 Quick Value Trust Metrics Strip */}
 					<div className="pt-5 border-t border-white/15 grid grid-cols-2 md:grid-cols-4 gap-3.5">
-						{content.trustMetrics.map((tm, idx) => (
+						{trustMetrics.map((tm, idx) => (
 							<div
 								key={idx}
 								className="bg-white/[0.06] backdrop-blur-md border border-white/10 rounded-xl p-4 space-y-1"
@@ -188,7 +265,6 @@ export function ProjectsClient() {
 
 			{/* ── 2. FLAGSHIP SPOTLIGHT (SILICON CITY) ── */}
 			<section className="py-16 sm:py-20 bg-background overflow-hidden border-b border-border/50 relative">
-				{/* Subtle Dot Pattern */}
 				<div
 					className="absolute inset-0 opacity-[0.03] pointer-events-none"
 					style={{
@@ -200,13 +276,15 @@ export function ProjectsClient() {
 				<SectionContainer className="relative z-10 space-y-10">
 					<div className="max-w-3xl space-y-2">
 						<span className="text-xs font-semibold uppercase tracking-widest text-primary font-heading">
-							{content.spotlightBadge}
+							{isBn ? "ফ্ল্যাগশিপ মেগা প্রজেক্ট" : content.spotlightBadge}
 						</span>
 						<h2 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
-							{content.spotlightTitle}
+							{isBn ? "সিলিকন সিটি — পরিকল্পিত নিরাপদ আবাসন নগরী" : content.spotlightTitle}
 						</h2>
 						<p className="text-muted-foreground text-xs sm:text-sm font-light leading-relaxed">
-							{content.spotlightDesc}
+							{isBn
+								? "সাভার বড় বাদেশী মৌজায়, তুরাগ নদীর তীরে এবং মোহাম্মদপুর বেড়িবাঁধ সংলগ্ন সুরক্ষিত প্রাকৃতিক পরিবেশে অবস্থিত।"
+								: content.spotlightDesc}
 						</p>
 					</div>
 
@@ -222,30 +300,32 @@ export function ProjectsClient() {
 							/>
 							<div className="relative z-10 space-y-3.5">
 								<span className="inline-block px-3 py-0.5 rounded-full bg-accent/20 border border-accent/30 text-[10px] font-medium text-accent font-mono uppercase tracking-wider">
-									{content.spotlightTag}
+									{isBn ? "চলমান মেগা টাউনশিপ" : content.spotlightTag}
 								</span>
 								<h3 className="text-xl sm:text-2xl font-bold font-heading text-white">
-									{content.spotlightBoxTitle}
+									{isBn ? "রাজউক মাস্টারপ্ল্যান আওতাভুক্ত ও বাঁধ সুরক্ষিত" : content.spotlightBoxTitle}
 								</h3>
 								<p className="text-white/80 text-xs sm:text-sm font-light leading-relaxed">
-									{content.spotlightBoxDesc}
+									{isBn
+										? "সিলিকন সিটি রাজউকের প্রস্তাবিত সম্প্রসারিত নগর মহাপরিকল্পনার সাথে সংগতিপূর্ণ এবং ঢাকা বন্যা নিয়ন্ত্রণ বাঁধের সুরক্ষিত এলাকায় অবস্থিত।"
+										: content.spotlightBoxDesc}
 								</p>
 							</div>
 
 							<div className="relative z-10 pt-5 border-t border-white/15 flex flex-wrap items-center justify-between gap-3 text-xs font-heading">
 								<div className="flex items-center gap-1.5 text-white/70">
 									<MapPin className="w-3.5 h-3.5 text-accent shrink-0" />
-									<span>{content.spotlightLocation}</span>
+									<span>{isBn ? "সাভার (বড় বাদেশী মৌজা)" : content.spotlightLocation}</span>
 								</div>
 								<span className="px-2.5 py-0.5 rounded-full bg-primary text-primary-foreground font-semibold text-[11px]">
-									{content.spotlightBadge2}
+									{isBn ? "১০০% রেডি মিউটেশন" : content.spotlightBadge2}
 								</span>
 							</div>
 						</div>
 
 						{/* Right 4 Engineering & Legal Highlights */}
 						<div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-							{content.specs.map((spec) => (
+							{specs.map((spec) => (
 								<div
 									key={spec.num}
 									className="bg-card border border-border/60 rounded-2xl p-5 sm:p-6 shadow-xs flex flex-col justify-between space-y-2 hover:border-primary/40 transition-all"
@@ -268,18 +348,20 @@ export function ProjectsClient() {
 				</SectionContainer>
 			</section>
 
-			{/* ── 3. DYNAMIC TOWNSHIPS & PORTFOLIO PROJECTS (MANAGED VIA ADMIN CMS) ── */}
+			{/* ── 3. DYNAMIC TOWNSHIPS & PORTFOLIO PROJECTS ── */}
 			<section className="py-16 sm:py-20 bg-background overflow-hidden border-b border-border/50 relative">
 				<SectionContainer className="space-y-10">
 					<div className="max-w-3xl space-y-2">
 						<span className="text-xs font-semibold uppercase tracking-widest text-primary font-heading">
-							DEVELOPMENT PORTFOLIO
+							{isBn ? "ডেভেলপমেন্ট পোর্টফোলিও" : "DEVELOPMENT PORTFOLIO"}
 						</span>
 						<h2 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
-							Master Townships & Landmark Projects
+							{isBn ? "আমাদের মেগা টাউনশিপ ও প্রকল্পসমূহ" : "Master Townships & Landmark Projects"}
 						</h2>
 						<p className="text-muted-foreground text-xs sm:text-sm font-light leading-relaxed">
-							Discover our premier residential townships and commercial hubs under active execution.
+							{isBn
+								? "আমাদের চলমান ও আসন্ন আধুনিক আবাসন এবং বাণিজ্যিক প্রকল্পসমূহ দেখুন।"
+								: "Discover our premier residential townships and commercial hubs under active execution."}
 						</p>
 					</div>
 
@@ -302,7 +384,7 @@ export function ProjectsClient() {
 											className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
 										/>
 										<div className="absolute top-3 left-3 bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs">
-											{proj.num || `0${idx + 1}`}
+											{proj.num || (isBn ? `০${idx + 1}` : `0${idx + 1}`)}
 										</div>
 										<div className="absolute top-3 right-3 bg-dark-hero/85 backdrop-blur-md text-accent border border-white/15 text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs">
 											{proj.status}
@@ -340,13 +422,13 @@ export function ProjectsClient() {
 
 								<div className="p-6 pt-3 border-t border-border/40 flex items-center justify-between">
 									<span className="text-xs font-semibold text-primary font-heading">
-										{proj.type || "Township Development"}
+										{proj.type || (isBn ? "টাউনশিপ উন্নয়ন" : "Township Development")}
 									</span>
 									<a
 										href="#inventory-section"
 										className="text-xs font-semibold text-foreground hover:text-primary inline-flex items-center gap-1 font-heading"
 									>
-										View Available Plots <ArrowRight className="w-3.5 h-3.5" />
+										{isBn ? "উপলব্ধ প্লট দেখুন" : "View Available Plots"} <ArrowRight className="w-3.5 h-3.5" />
 									</a>
 								</div>
 							</div>
@@ -355,293 +437,40 @@ export function ProjectsClient() {
 				</SectionContainer>
 			</section>
 
-			{/* ── 4. LIVE SEARCHABLE INVENTORY & PLOT LISTINGS ── */}
-			<section
-				id="inventory-section"
-				className="py-16 sm:py-20 bg-background border-b border-border/50 scroll-mt-20 relative"
-			>
-				<SectionContainer className="space-y-7">
-					<div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
-						<div className="max-w-2xl space-y-1.5">
-							<span className="text-xs font-semibold uppercase tracking-widest text-primary font-heading">
-								LIVE PLOT INVENTORY
-							</span>
-							<h2 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
-								Explore Available Plots & Units
-							</h2>
-							<p className="text-muted-foreground text-xs sm:text-sm font-light">
-								Filter by property category, development status, or search by sector and plot size.
-							</p>
-						</div>
-
-						<div className="text-xs font-mono text-muted-foreground bg-muted/50 px-3.5 py-1.5 rounded-xl border border-border/60 self-start md:self-auto">
-							Showing <span className="font-bold text-primary">{filteredProjects.length}</span> plots
-						</div>
-					</div>
-
-					{/* Filter & Search Console */}
-					<div className="p-5 rounded-2xl border border-border/60 bg-card shadow-xs space-y-4">
-						<div className="grid grid-cols-1 md:grid-cols-[1fr_200px] gap-3">
-							<div className="relative">
-								<Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-								<input
-									type="text"
-									placeholder="Search plots by title, block, or location..."
-									value={searchQuery}
-									onChange={(e) => setSearchQuery(e.target.value)}
-									className="w-full h-10 pl-10 pr-9 rounded-xl border border-border/60 bg-background text-xs sm:text-sm font-light placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary"
-								/>
-								{searchQuery && (
-									<button
-										onClick={() => setSearchQuery("")}
-										className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-foreground cursor-pointer"
-									>
-										<X className="h-3.5 w-3.5" />
-									</button>
-								)}
-							</div>
-
-							<select
-								value={sortBy}
-								onChange={(e) => setSortBy(e.target.value as SortOption)}
-								className="w-full h-10 px-3.5 rounded-xl border border-border/60 bg-background text-xs font-medium text-foreground cursor-pointer focus:outline-none focus:border-primary"
-							>
-								<option value="newest">Sort: Newest First</option>
-								<option value="price-asc">Price: Low to High</option>
-								<option value="price-desc">Price: High to Low</option>
-								<option value="area-desc">Area: Largest Size</option>
-							</select>
-						</div>
-
-						<div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-border/40">
-							{/* Category Tabs */}
-							<div className="flex flex-wrap gap-1.5">
-								{CATEGORY_FILTERS.map(({ value, label }) => (
-									<button
-										key={value}
-										onClick={() => setActiveCategory(value)}
-										className={`h-8 px-3.5 rounded-xl text-xs font-medium font-heading transition-all cursor-pointer ${
-											activeCategory === value
-												? "bg-primary text-primary-foreground shadow-xs"
-												: "bg-background border border-border/60 text-muted-foreground hover:text-foreground hover:border-border"
-										}`}
-									>
-										{label}
-									</button>
-								))}
-							</div>
-
-							{/* Status Tabs */}
-							<div className="flex flex-wrap gap-1.5">
-								{STATUS_FILTERS.map(({ value, label }) => (
-									<button
-										key={value}
-										onClick={() => setActiveStatus(value)}
-										className={`h-8 px-3.5 rounded-xl text-xs font-medium font-heading transition-all cursor-pointer ${
-											activeStatus === value
-												? "bg-accent text-dark-hero font-semibold shadow-xs"
-												: "bg-background border border-border/60 text-muted-foreground hover:text-foreground hover:border-border"
-										}`}
-									>
-										{label}
-									</button>
-								))}
-							</div>
-						</div>
-					</div>
-
-					{/* Property / Plot Cards Grid */}
-					{filteredProjects.length === 0 ? (
-						<div className="py-12 text-center bg-card border border-border/60 rounded-2xl p-6 space-y-2">
-							<div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center mx-auto text-muted-foreground">
-								<Search className="w-5 h-5" />
-							</div>
-							<h3 className="text-sm font-bold font-heading text-foreground">
-								No Properties Match Your Search
-							</h3>
-							<p className="text-xs text-muted-foreground max-w-sm mx-auto font-light">
-								Try resetting your filters or adjusting your search term to see available plots.
-							</p>
-							<button
-								onClick={() => {
-									setSearchQuery("");
-									setActiveCategory("all");
-									setActiveStatus("all");
-								}}
-								className="mt-1 text-xs font-semibold text-primary underline cursor-pointer"
-							>
-								Reset All Filters
-							</button>
-						</div>
-					) : (
-						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-							<AnimatePresence mode="popLayout">
-								{filteredProjects.map((property) => (
-									<motion.div
-										key={property.id}
-										layout
-										initial={{ opacity: 0, y: 12 }}
-										animate={{ opacity: 1, y: 0 }}
-										exit={{ opacity: 0, y: 12 }}
-										className="bg-card border border-border/60 rounded-2xl overflow-hidden shadow-xs hover:shadow-sm hover:border-primary/40 transition-all duration-300 flex flex-col justify-between group"
-									>
-										<div className="space-y-3">
-											{/* Property Image Container */}
-											<div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
-												{property.images.length > 0 ? (
-													<img
-														src={property.images[0]}
-														alt={property.title}
-														className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-													/>
-												) : (
-													<div className="absolute inset-0 flex items-center justify-center text-xs text-muted-foreground">
-														Plot Image Unavailable
-													</div>
-												)}
-												<div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
-													<span className="text-[9px] font-semibold font-heading uppercase tracking-wider px-2.5 py-0.5 bg-primary text-primary-foreground rounded-full shadow-xs">
-														{property.category === "land" ? "Plot" : property.category}
-													</span>
-												</div>
-												<div className="absolute top-2.5 right-2.5">
-													<span className="text-[9px] font-semibold font-heading uppercase tracking-wider px-2.5 py-0.5 bg-dark-hero/85 backdrop-blur-md text-accent border border-white/15 rounded-full">
-														{STATUS_LABELS[property.status] || property.status}
-													</span>
-												</div>
-											</div>
-
-											{/* Property Details */}
-											<div className="px-5 space-y-1.5">
-												<h3 className="text-sm sm:text-base font-bold font-heading text-foreground group-hover:text-primary transition-colors line-clamp-1">
-													{property.title}
-												</h3>
-												<p className="text-xs text-muted-foreground flex items-center gap-1.5 font-light truncate">
-													<MapPin className="w-3.5 h-3.5 text-primary shrink-0" />
-													{property.location}
-												</p>
-												<p className="text-xs text-muted-foreground line-clamp-2 font-light leading-relaxed">
-													{property.description}
-												</p>
-											</div>
-										</div>
-
-										{/* Card Footer */}
-										<div className="p-5 pt-3.5 border-t border-border/40 mt-3 flex items-center justify-between">
-											<div>
-												<span className="text-[9px] font-mono text-muted-foreground uppercase block">
-													Starting Price
-												</span>
-												<span className="text-sm font-bold font-heading text-primary">
-													{formatCurrency(property.price)}
-												</span>
-											</div>
-											<Link
-												href={`/projects/${property.slug}`}
-												className="bg-primary text-primary-foreground h-8.5 px-3.5 rounded-lg text-xs font-semibold font-heading inline-flex items-center justify-center hover:bg-primary/90 transition-all shadow-xs gap-1"
-											>
-												View Details
-												<ArrowRight className="w-3 h-3" />
-											</Link>
-										</div>
-									</motion.div>
-								))}
-							</AnimatePresence>
-						</div>
-					)}
-				</SectionContainer>
-			</section>
-
-			{/* ── 5. OFFERED PROPERTY CATEGORIES & SPECIFICATIONS ── */}
-			<section className="py-16 sm:py-20 bg-muted/30 border-b border-border/50">
+			{/* ── 4. INTEGRATED CIVIC AMENITIES ── */}
+			<section className="py-16 sm:py-20 bg-muted/30 overflow-hidden border-b border-border/50 relative">
 				<SectionContainer className="space-y-10">
 					<div className="max-w-3xl space-y-2">
 						<span className="text-xs font-semibold uppercase tracking-widest text-primary font-heading">
-							OFFERED CATEGORIES
+							{isBn ? "নাগরিক সুবিধাসমূহ" : "LIFESTYLE & CIVIC AMENITIES"}
 						</span>
 						<h2 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
-							Property Types & Plot Specifications
+							{isBn ? "পরিপূর্ণ আধুনিক নাগরিক সুযোগ-সুবিধা" : "Integrated Modern Civic Infrastructure"}
 						</h2>
-						<p className="text-muted-foreground text-xs sm:text-sm font-light leading-relaxed">
-							Choose from tailored plot allocations matching individual family homes, commercial ventures, or ready luxury flats.
-						</p>
 					</div>
 
-					<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-						{content.categories.map((cat) => (
-							<div
-								key={cat.title}
-								className="bg-card border border-border/60 rounded-2xl p-6 sm:p-7 shadow-xs hover:border-primary/40 transition-all flex flex-col justify-between space-y-5"
-							>
-								<div className="space-y-3">
-									<div className="flex items-center justify-between">
-										<span className="text-[10px] font-mono font-semibold uppercase text-accent px-2.5 py-0.5 rounded-full bg-accent/10 border border-accent/20">
-											{cat.tag}
-										</span>
-										<Sparkles className="w-3.5 h-3.5 text-accent" />
-									</div>
-									<h3 className="text-base sm:text-lg font-bold font-heading text-foreground">
-										{cat.title}
-									</h3>
-									<p className="text-xs text-muted-foreground font-light leading-relaxed">
-										{cat.desc}
-									</p>
-								</div>
-
-								<div className="pt-3.5 border-t border-border/40 space-y-1.5">
-									{cat.features.map((feat) => (
-										<div
-											key={feat}
-											className="flex items-center gap-2 text-xs text-foreground/90 font-light"
-										>
-											<CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0" />
-											<span>{feat}</span>
-										</div>
-									))}
-								</div>
-							</div>
-						))}
-					</div>
-				</SectionContainer>
-			</section>
-
-			{/* ── 6. CIVIC AMENITIES & MASTER INFRASTRUCTURE ── */}
-			<section className="py-16 sm:py-20 bg-background border-b border-border/50">
-				<SectionContainer className="space-y-10">
-					<div className="max-w-3xl space-y-2">
-						<span className="text-xs font-semibold uppercase tracking-widest text-primary font-heading">
-							COMMUNITY FACILITIES
-						</span>
-						<h2 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
-							Integrated Civic Infrastructure
-						</h2>
-						<p className="text-muted-foreground text-xs sm:text-sm font-light leading-relaxed">
-							Silicon City incorporates comprehensive civic facilities ensuring a self-sufficient, high-standard community lifestyle.
-						</p>
-					</div>
-
-					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-						{content.amenities.map((am, idx) => {
-							const IconComponent = AMENITY_ICONS[idx % 6] || Landmark;
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+						{amenities.map((item, idx) => {
+							const IconComp = AMENITY_ICONS[idx % 6] || Landmark;
 							return (
 								<div
-									key={am.title}
-									className="bg-card border border-border/60 rounded-2xl p-6 shadow-xs flex flex-col justify-between space-y-3 hover:border-primary/40 transition-all"
+									key={item.title}
+									className="bg-card border border-border/60 rounded-2xl p-6 shadow-xs space-y-3 hover:border-primary/40 transition-all flex flex-col justify-between"
 								>
 									<div className="space-y-2.5">
 										<div className="flex items-center justify-between">
-											<div className="w-9 h-9 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
-												<IconComponent className="w-4 h-4" />
+											<div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+												<IconComp className="w-5 h-5" />
 											</div>
-											<span className="text-[10px] font-medium font-heading text-accent px-2 py-0.5 rounded-full bg-accent/10 border border-accent/20">
-												{am.tag}
+											<span className="text-[10px] font-semibold text-accent uppercase font-heading px-2 py-0.5 rounded-md bg-accent/10">
+												{item.tag}
 											</span>
 										</div>
-										<h3 className="text-sm sm:text-base font-bold font-heading text-foreground">
-											{am.title}
+										<h3 className="text-base font-bold font-heading text-foreground">
+											{item.title}
 										</h3>
 										<p className="text-xs text-muted-foreground font-light leading-relaxed">
-											{am.desc}
+											{item.desc}
 										</p>
 									</div>
 								</div>
@@ -651,161 +480,260 @@ export function ProjectsClient() {
 				</SectionContainer>
 			</section>
 
-			{/* ── 7. STRATEGIC LOCATION & PROXIMITY MATRIX ── */}
-			<section className="py-16 sm:py-20 bg-muted/30 border-b border-border/50">
+			{/* ── 5. STRATEGIC PROXIMITY & DISTANCE MATRIX ── */}
+			<section className="py-16 sm:py-20 bg-background overflow-hidden border-b border-border/50 relative">
 				<SectionContainer className="space-y-10">
 					<div className="max-w-3xl space-y-2">
 						<span className="text-xs font-semibold uppercase tracking-widest text-primary font-heading">
-							STRATEGIC CONNECTIVITY
+							{isBn ? "যোগাযোগ ও দূরত্ব" : "STRATEGIC PROXIMITY"}
 						</span>
 						<h2 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
-							Proximity to Central Dhaka & Landmarks
+							{isBn ? "ঢাকার প্রধান পয়েন্টসমূহ থেকে দূরত্ব" : "Travel Time & Key Connectivity Matrix"}
 						</h2>
-						<p className="text-muted-foreground text-xs sm:text-sm font-light leading-relaxed">
-							Positioned only 2 to 3.5 Kilometers from Mohammadpur and key national administrative, educational, and healthcare centers.
-						</p>
 					</div>
 
-					<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-						{content.proximities.map((group) => (
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+						{proximities.map((cat) => (
 							<div
-								key={group.category}
-								className="bg-card border border-border/60 rounded-2xl p-6 space-y-4 shadow-xs"
+								key={cat.category}
+								className="bg-card border border-border/60 rounded-2xl p-6 shadow-xs space-y-4"
 							>
-								<div className="border-b border-border/40 pb-2.5">
-									<span className="text-xs font-bold font-heading uppercase tracking-wider text-primary block">
-										{group.category}
-									</span>
-								</div>
-								<ul className="space-y-2.5 text-xs text-muted-foreground font-light">
-									{group.items.map((item, idx) => (
-										<li
-											key={item.name}
-											className={`flex items-center justify-between ${
-												idx !== group.items.length - 1
-													? "border-b border-border/30 pb-2"
-													: ""
-											}`}
+								<h3 className="text-sm font-bold font-heading text-primary uppercase tracking-wider border-b border-border/40 pb-3">
+									{cat.category}
+								</h3>
+								<div className="space-y-3">
+									{cat.items.map((it) => (
+										<div
+											key={it.name}
+											className="flex items-center justify-between text-xs py-1 border-b border-border/20 last:border-0"
 										>
-											<span className="text-foreground/90">{item.name}</span>
-											<span className="text-primary font-semibold font-mono shrink-0 ml-2">
-												{item.dist}
+											<span className="text-foreground font-medium">{it.name}</span>
+											<span className="font-mono font-bold text-accent px-2.5 py-0.5 rounded-md bg-muted">
+												{it.dist}
 											</span>
-										</li>
+										</div>
 									))}
-								</ul>
+								</div>
 							</div>
 						))}
 					</div>
 				</SectionContainer>
 			</section>
 
-			{/* ── 8. 4-STEP HASSLE-FREE PLOT ALLOTMENT ROADMAP ── */}
-			<section className="py-16 sm:py-20 bg-background border-b border-border/50">
+			{/* ── 6. DEVELOPMENT ROADMAP ── */}
+			<section className="py-16 sm:py-20 bg-muted/30 overflow-hidden border-b border-border/50 relative">
 				<SectionContainer className="space-y-10">
 					<div className="max-w-3xl space-y-2">
 						<span className="text-xs font-semibold uppercase tracking-widest text-primary font-heading">
-							ALLOTMENT ROADMAP
+							{isBn ? "উন্নয়ন রোডম্যাপ" : "DEVELOPMENT ROADMAP"}
 						</span>
 						<h2 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
-							4 Simple Steps to Plot Ownership
+							{isBn ? "ধাপে ধাপে প্রকল্প বাস্তবায়ন অগ্রগতি" : "Masterplan Execution Milestones"}
 						</h2>
-						<p className="text-muted-foreground text-xs sm:text-sm font-light leading-relaxed">
-							Our streamlined office allotment procedure ensures 100% legal security and on-time physical handover.
-						</p>
 					</div>
 
-					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-						{content.roadmap.map((st) => (
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+						{roadmap.map((st) => (
 							<div
 								key={st.step}
-								className="bg-card border border-border/60 rounded-2xl p-5 shadow-xs space-y-2 flex flex-col justify-between hover:border-primary/40 transition-all"
+								className="bg-card border border-border/60 rounded-2xl p-6 shadow-xs space-y-2.5 relative"
 							>
-								<div className="space-y-1.5">
-									<span className="text-xs font-mono font-bold text-accent block">
-										STEP {st.step}
-									</span>
-									<h3 className="text-sm sm:text-base font-bold font-heading text-foreground">
-										{st.title}
-									</h3>
-									<p className="text-xs text-muted-foreground font-light leading-relaxed">
-										{st.desc}
-									</p>
-								</div>
+								<span className="text-xs font-mono font-bold text-accent block">
+									{isBn ? `পর্যায় ${st.step}` : `Phase ${st.step}`}
+								</span>
+								<h3 className="text-base font-bold font-heading text-foreground">
+									{st.title}
+								</h3>
+								<p className="text-xs text-muted-foreground font-light leading-relaxed">
+									{st.desc}
+								</p>
 							</div>
 						))}
 					</div>
 				</SectionContainer>
 			</section>
 
-			{/* ── 9. GUIDED SITE VISIT & CORPORATE DESK CTA ── */}
-			<section className="py-16 sm:py-20 bg-background">
-				<SectionContainer>
-					<div className="bg-dark-hero rounded-2xl p-7 sm:p-10 text-white space-y-8 relative overflow-hidden border border-white/15 shadow-xl">
-						<div
-							className="absolute inset-0 opacity-[0.06] pointer-events-none"
-							style={{
-								backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px)`,
-								backgroundSize: "20px 20px",
-							}}
-						/>
-
-						<div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center border-b border-white/15 pb-7">
-							<div className="lg:col-span-8 space-y-2">
-								<span className="inline-block px-3 py-0.5 rounded-full bg-accent/20 border border-accent/30 text-[10px] font-mono font-medium text-accent uppercase tracking-wider">
-									{content.ctaBadge}
-								</span>
-								<h2 className="text-xl sm:text-2xl md:text-3xl font-bold font-heading text-white tracking-tight">
-									{content.ctaTitle}
-								</h2>
-								<p className="text-white/80 text-xs sm:text-sm font-light leading-relaxed max-w-xl">
-									{content.ctaDesc}
-								</p>
-							</div>
-
-							<div className="lg:col-span-4 flex flex-wrap items-center justify-start lg:justify-end gap-2.5">
-								<Link
-									href="/contact"
-									className="bg-primary text-primary-foreground h-11 px-5 rounded-xl font-semibold font-heading text-xs inline-flex items-center justify-center hover:bg-primary/90 transition-all border border-white/20 shadow-md gap-2"
-								>
-									BOOK SITE VISIT
-									<CalendarCheck className="w-4 h-4" />
-								</Link>
-								<Link
-									href="/contact"
-									className="bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/25 hover:border-accent h-11 px-5 rounded-xl font-semibold font-heading text-xs inline-flex items-center justify-center transition-all gap-1.5"
-								>
-									CONTACT LEGAL DESK
-									<ArrowRight className="w-3.5 h-3.5" />
-								</Link>
-							</div>
+			{/* ── 7. LIVE VERIFIED PLOT INVENTORY SECTION ── */}
+			<section id="inventory-section" className="py-16 sm:py-20 bg-background overflow-hidden relative">
+				<SectionContainer className="space-y-8">
+					<div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+						<div className="space-y-2 max-w-2xl">
+							<span className="text-xs font-semibold uppercase tracking-widest text-primary font-heading">
+								{isBn ? "লাইভ প্লট ইনভেন্টরি" : "LIVE PLOT INVENTORY"}
+							</span>
+							<h2 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
+								{isBn ? "উপলব্ধ ভেরিফাইড প্লটসমূহ" : "Available Verified Plots for Allotment"}
+							</h2>
+							<p className="text-muted-foreground text-xs sm:text-sm font-light">
+								{isBn
+									? "নিচের ফিল্টার ব্যবহার করে আপনার বাজেটের উপযুক্ত প্লট খুঁজুন।"
+									: "Filter by size, category, and price to find your perfect plot."}
+							</p>
 						</div>
 
-						<div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs text-white/80">
-							<div className="bg-white/10 backdrop-blur-md border border-white/15 rounded-xl p-4 space-y-1">
-								<span className="text-[10px] font-mono font-medium text-accent uppercase tracking-wider block">
-									DIRECT HOTLINE
-								</span>
-								<p className="font-semibold text-xs sm:text-sm text-white">
-									{content.ctaHotline}
-								</p>
-							</div>
-							<div className="bg-white/10 backdrop-blur-md border border-white/15 rounded-xl p-4 space-y-1">
-								<span className="text-[10px] font-mono font-medium text-accent uppercase tracking-wider block">
-									EMAIL ASSISTANCE
-								</span>
-								<p className="font-semibold text-xs sm:text-sm text-white">
-									{content.ctaEmail}
-								</p>
-							</div>
-							<div className="bg-white/10 backdrop-blur-md border border-white/15 rounded-xl p-4 space-y-1 sm:col-span-2 lg:col-span-1">
-								<span className="text-[10px] font-mono font-medium text-accent uppercase tracking-wider block">
-									CORPORATE OFFICE
-								</span>
-								<p className="font-light text-white/80 leading-relaxed text-xs">
-									{content.ctaOffice}
-								</p>
-							</div>
+						{/* Search Input */}
+						<div className="relative w-full md:w-72">
+							<Search className="w-4 h-4 text-muted-foreground absolute left-3.5 top-1/2 -translate-y-1/2" />
+							<input
+								type="text"
+								placeholder={isBn ? "প্লটের নাম বা লোকেশন খুঁজুন..." : "Search plots or location..."}
+								value={searchQuery}
+								onChange={(e) => setSearchQuery(e.target.value)}
+								className="w-full h-10 pl-9 pr-8 rounded-xl bg-card border border-border text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary"
+							/>
+							{searchQuery && (
+								<button
+									onClick={() => setSearchQuery("")}
+									className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+								>
+									<X className="w-3.5 h-3.5" />
+								</button>
+							)}
+						</div>
+					</div>
+
+					{/* Filter Pills */}
+					<div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-2xl bg-muted/40 border border-border/60">
+						<div className="flex flex-wrap items-center gap-2">
+							{categoryFilters.map((f) => (
+								<button
+									key={f.value}
+									onClick={() => setActiveCategory(f.value)}
+									className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+										activeCategory === f.value
+											? "bg-primary text-primary-foreground shadow-xs"
+											: "bg-card text-muted-foreground hover:text-foreground border border-border/60"
+									}`}
+								>
+									{f.label}
+								</button>
+							))}
+						</div>
+
+						{/* Sort Dropdown */}
+						<div className="flex items-center gap-2">
+							<span className="text-xs text-muted-foreground hidden sm:inline">
+								{isBn ? "সর্ট করুন:" : "Sort:"}
+							</span>
+							<select
+								value={sortBy}
+								onChange={(e) => setSortBy(e.target.value as SortOption)}
+								className="h-8 px-3 rounded-xl bg-card border border-border/80 text-xs font-medium text-foreground focus:outline-none"
+							>
+								{sortOptions.map((opt) => (
+									<option key={opt.value} value={opt.value}>
+										{opt.label}
+									</option>
+								))}
+							</select>
+						</div>
+					</div>
+
+					{/* Plot Cards Grid */}
+					{filteredProjects.length === 0 ? (
+						<div className="p-12 text-center bg-card rounded-2xl border border-border/60 space-y-3">
+							<p className="text-sm font-semibold text-foreground">
+								{isBn ? "কোনো প্লট পাওয়া যায়নি।" : "No plots matched your search criteria."}
+							</p>
+							<button
+								onClick={() => {
+									setSearchQuery("");
+									setActiveStatus("all");
+									setActiveCategory("all");
+								}}
+								className="px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-semibold"
+							>
+								{isBn ? "সব ফিল্টার রিসেট করুন" : "Reset All Filters"}
+							</button>
+						</div>
+					) : (
+						<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+							{filteredProjects.map((prop) => (
+								<div
+									key={prop.id}
+									className="group bg-card border border-border/60 rounded-3xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+								>
+									<div className="relative h-48 w-full overflow-hidden bg-muted">
+										<img
+											src={
+												prop.images[0] ||
+												"https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200"
+											}
+											alt={prop.title}
+											className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+										/>
+										<div className="absolute top-3 left-3 bg-primary text-primary-foreground text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs">
+											{prop.category}
+										</div>
+										<div className="absolute top-3 right-3 bg-emerald-500 text-white text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs">
+											{prop.status}
+										</div>
+									</div>
+
+									<div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
+										<div className="space-y-2">
+											<h3 className="text-base font-bold font-heading text-foreground group-hover:text-primary transition-colors line-clamp-1">
+												{prop.title}
+											</h3>
+											<p className="text-xs text-muted-foreground flex items-center gap-1 font-light truncate">
+												<MapPin className="w-3.5 h-3.5 text-primary shrink-0" />
+												{prop.location}
+											</p>
+											<p className="text-xs text-muted-foreground line-clamp-2 font-light">
+												{prop.description}
+											</p>
+										</div>
+
+										<div className="pt-3 border-t border-border/40 flex items-center justify-between">
+											<div>
+												<span className="text-[10px] text-muted-foreground block font-mono uppercase">
+													{isBn ? "মূল্য" : "PRICE"}
+												</span>
+												<span className="text-base font-bold font-heading text-primary">
+													{formatCurrency(prop.price)}
+												</span>
+											</div>
+											<Link
+												href="/contact"
+												className="px-4 py-2 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 text-xs font-semibold font-heading transition-all"
+											>
+												{isBn ? "বুকিং করুন" : "Book Plot"}
+											</Link>
+										</div>
+									</div>
+								</div>
+							))}
+						</div>
+					)}
+				</SectionContainer>
+			</section>
+
+			{/* ── 8. DIRECT CONSULTATION DESK CTA ── */}
+			<section className="py-16 bg-muted/40 border-t border-border/50">
+				<SectionContainer>
+					<div className="bg-dark-hero rounded-3xl p-8 sm:p-12 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-8 border border-white/15">
+						<div className="space-y-2 max-w-xl text-left">
+							<span className="text-xs font-mono font-bold text-accent uppercase tracking-wider block">
+								{isBn ? "সরাসরি পরামর্শ ডেস্ক" : content.ctaBadge}
+							</span>
+							<h3 className="text-2xl sm:text-3xl font-bold font-heading text-white tracking-tight">
+								{isBn ? "সিলিকন সিটিতে প্লট বরাদ্দ নিতে প্রস্তুত?" : content.ctaTitle}
+							</h3>
+							<p className="text-white/80 text-xs sm:text-sm font-light leading-relaxed">
+								{isBn
+									? "আমাদের মোহাম্মদপুর প্রধান কার্যালয়ে অভিজ্ঞ প্রপার্টি উপদেষ্টার সাথে সরাসরি কথা বলুন বা সাইট ভিজিট শিডিউল করুন।"
+									: content.ctaDesc}
+							</p>
+						</div>
+
+						<div className="flex flex-wrap items-center gap-3 shrink-0">
+							<Link
+								href="/contact"
+								className="h-12 px-7 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold font-heading text-xs sm:text-sm inline-flex items-center gap-2 transition-all shadow-md"
+							>
+								<span>{isBn ? "যোগাযোগ করুন" : "CONTACT US"}</span>
+								<ArrowRight className="w-4 h-4" />
+							</Link>
 						</div>
 					</div>
 				</SectionContainer>
