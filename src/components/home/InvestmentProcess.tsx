@@ -1,8 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Briefcase, Search, MapPinned, FileText, KeyRound } from "lucide-react";
-import { SectionContainer } from "../ui/section-container";
+import { Search, MapPin, FileText, KeyRound, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { SectionContainer } from "@/components/layout/SectionContainer";
 
 const steps = [
 	{
@@ -10,100 +11,117 @@ const steps = [
 		icon: Search,
 		title: "Discover & Shortlist",
 		description:
-			"Browse verified plots across our projects and shortlist what fits your budget and goals.",
+			"Browse verified residential and commercial plots across Silicon City and shortlist options tailored to your budget.",
+		tag: "Explore Plots",
 	},
 	{
 		number: "02",
-		icon: MapPinned,
-		title: "Site Visit & Verification",
+		icon: MapPin,
+		title: "Free Site Visit & Vetting",
 		description:
-			"Walk the plot boundary with our team and review the RAJUK approval and deed in person.",
+			"Walk the physical plot boundary with our team via free transport from Mohammadpur and review CS/SA/RS/BS deeds in person.",
+		tag: "On-Site Tour",
 	},
 	{
 		number: "03",
 		icon: FileText,
 		title: "Booking & Documentation",
 		description:
-			"Reserve your plot with a transparent agreement and a flexible installment plan.",
+			"Reserve your selected plot with a transparent agreement, clear payment milestones, and flexible monthly installment options.",
+		tag: "Transparent Terms",
 	},
 	{
 		number: "04",
 		icon: KeyRound,
-		title: "Registration & Handover",
+		title: "Sub-Registry & Deed Handover",
 		description:
-			"Our legal team completes registration and hands over your deed with full support.",
+			"Our in-house legal team completes the mutation, land tax clearance, and official registration deed handover with zero hassle.",
+		tag: "100% Mutation Ready",
 	},
 ];
 
 export function InvestmentProcess() {
 	return (
-		<section className="section-y  relative overflow-hidden">
-			<div className="absolute inset-0 pointer-events-none" />
+		<section className="py-20 sm:py-24 bg-muted/30 text-foreground relative overflow-hidden border-t border-border/50">
+			{/* Subtle Dot Grid */}
+			<div
+				className="absolute inset-0 opacity-[0.03] pointer-events-none"
+				style={{
+					backgroundImage: `radial-gradient(rgba(26, 95, 168, 0.8) 1px, transparent 1px)`,
+					backgroundSize: "24px 24px",
+				}}
+			/>
 
-			<SectionContainer className="relative">
-				{/* Header */}
-				<div className="text-center max-w-2xl mx-auto mb-16 space-y-5">
-					<motion.h2
-						initial={{ opacity: 0, y: 20 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true }}
-						transition={{ delay: 0.08 }}
-						className="text-display-md font-medium text-foreground"
-					>
-						From First Visit to{" "}
-						<span className="text-gold">Registered Deed</span>
-					</motion.h2>
+			<SectionContainer className="relative z-10 space-y-12">
+				{/* Section Header */}
+				<div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 text-left">
+					<div className="space-y-2 max-w-2xl">
+						<span className="inline-block px-3.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium uppercase tracking-widest text-primary font-heading">
+							TRANSPARENT PROCESS
+						</span>
+						<h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
+							From First Visit to Registered Deed
+						</h2>
+						<p className="text-xs sm:text-sm md:text-base text-muted-foreground font-light leading-relaxed">
+							Four simple steps to secure, legally verified land ownership with complete peace of mind.
+						</p>
+					</div>
 
-					<motion.p
-						initial={{ opacity: 0, y: 14 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true }}
-						transition={{ delay: 0.15 }}
-						className="text-muted-foreground text-lg font-light leading-relaxed"
+					<Link
+						href="/contact?type=visit"
+						className="text-xs font-semibold font-heading text-primary hover:underline inline-flex items-center gap-1 shrink-0"
 					>
-						Four clear steps — the same transparent process for every client.
-					</motion.p>
+						Schedule Free Site Visit <ArrowRight className="w-3.5 h-3.5" />
+					</Link>
 				</div>
 
-				{/* Steps */}
-				<div className="relative">
-					{/* Connector line — desktop */}
-					<div className="hidden lg:block absolute top-8 left-[calc(12.5%+24px)] right-[calc(12.5%+24px)] h-px bg-gradient-to-r from-border via-accent/30 to-border" />
+				{/* Steps Grid with Visual Cards */}
+				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
+					{steps.map((step, idx) => (
+						<motion.div
+							key={step.number}
+							initial={{ opacity: 0, y: 20 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true }}
+							transition={{ duration: 0.4, delay: idx * 0.08 }}
+							whileHover={{ y: -4, transition: { duration: 0.2 } }}
+							className="bg-card border border-border/60 rounded-3xl p-7 shadow-xs hover:border-primary/40 transition-all duration-300 flex flex-col justify-between space-y-6 relative overflow-hidden group"
+						>
+							{/* Top Accent Line on Hover */}
+							<div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-accent to-primary opacity-0 group-hover:opacity-100 transition-opacity" />
 
-					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
-						{steps.map((step, i) => (
-							<motion.div
-								key={step.number}
-								initial={{ opacity: 0, y: 28 }}
-								whileInView={{ opacity: 1, y: 0 }}
-								viewport={{ once: true }}
-								transition={{ duration: 0.55, delay: i * 0.12 }}
-								className="relative group"
-							>
-								{/* Step icon — sits on connector line */}
-								<div className="flex items-center gap-4 mb-5">
-									<div className="relative z-10 w-12 h-12 rounded-xl bg-primary flex items-center justify-center shadow-luxury group-hover:bg-accent transition-colors duration-500 flex-shrink-0">
-										<step.icon className="h-5 w-5 text-primary-foreground" />
+							<div className="space-y-4">
+								<div className="flex items-center justify-between">
+									<div className="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+										<step.icon className="h-6 w-6" />
 									</div>
-									<span className="text-4xl font-medium text-border/60 select-none">
+									<span className="font-mono text-2xl font-bold text-muted-foreground/40 group-hover:text-accent transition-colors">
 										{step.number}
 									</span>
 								</div>
 
-								<h3 className="font-medium text-base text-foreground mb-2">
-									{step.title}
-								</h3>
-								<p className="text-sm text-muted-foreground leading-relaxed font-light">
-									{step.description}
-								</p>
+								<div className="space-y-1.5">
+									<span className="text-[10px] font-semibold uppercase tracking-wider text-accent font-heading block">
+										{step.tag}
+									</span>
+									<h3 className="text-lg font-bold font-heading text-foreground">
+										{step.title}
+									</h3>
+									<p className="text-xs text-muted-foreground font-light leading-relaxed">
+										{step.description}
+									</p>
+								</div>
+							</div>
 
-								{/* Bottom gold accent on hover */}
-								<div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-							</motion.div>
-						))}
-					</div>
+							<div className="pt-3 border-t border-border/40 flex items-center justify-between text-[11px] font-heading text-muted-foreground font-medium">
+								<span>Step 0{idx + 1} of 04</span>
+								<span className="text-primary font-semibold">Verified Step</span>
+							</div>
+						</motion.div>
+					))}
 				</div>
 			</SectionContainer>
 		</section>
 	);
 }
+
