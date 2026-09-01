@@ -77,7 +77,9 @@ export default function ContactPage() {
 	const { isBn } = useLanguage();
 
 	// Form State
-	const [inquiryType, setInquiryType] = useState(isBn ? "প্লট বুকিং" : "Plot Booking");
+	const [inquiryType, setInquiryType] = useState(
+		isBn ? "প্লট বুকিং" : "Plot Booking",
+	);
 	const [fullName, setFullName] = useState("");
 	const [phone, setPhone] = useState("");
 	const [email, setEmail] = useState("");
@@ -94,7 +96,12 @@ export default function ContactPage() {
 
 	const inquiryOptions = isBn
 		? ["প্লট বুকিং", "সাইট পরিদর্শন বুকিং", "দলিলপত্র যাচাই", "সাধারণ অনুসন্ধান"]
-		: ["Plot Booking", "Schedule Site Visit", "Legal Paper Vetting", "General Query"];
+		: [
+				"Plot Booking",
+				"Schedule Site Visit",
+				"Legal Paper Vetting",
+				"General Query",
+			];
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -108,7 +115,8 @@ export default function ContactPage() {
 					name: fullName,
 					phone: phone,
 					email: email || undefined,
-					message: `[Inquiry: ${inquiryType}] [Plot: ${plotSize}] ${visitDate ? `[Visit Date: ${visitDate}] ` : ""}${message}`.trim(),
+					message:
+						`[Inquiry: ${inquiryType}] [Plot: ${plotSize}] ${visitDate ? `[Visit Date: ${visitDate}] ` : ""}${message}`.trim(),
 				}),
 			});
 		} catch (err) {
@@ -130,8 +138,16 @@ export default function ContactPage() {
 	return (
 		<>
 			<PageSEO
-				title={isBn ? "যোগাযোগ | সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ" : "Contact Us | Silicon Real Estate (Pvt.) Ltd."}
-				description={isBn ? "সিলিকন রিয়েল এস্টেটের সাথে যোগাযোগ করুন। প্লট বুকিং ও সাইট ভিজিটের জন্য আমাদের মোহাম্মদপুর অফিসে আসুন।" : contactInfo.heroDescription}
+				title={
+					isBn
+						? "যোগাযোগ | সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ"
+						: "Contact Us | Silicon Real Estate (Pvt.) Ltd."
+				}
+				description={
+					isBn
+						? "সিলিকন রিয়েল এস্টেটের সাথে যোগাযোগ করুন। প্লট বুকিং ও সাইট ভিজিটের জন্য আমাদের মোহাম্মদপুর অফিসে আসুন।"
+						: contactInfo.heroDescription
+				}
 			/>
 
 			{/* ── BLOCK 1: Hero Header ── */}
@@ -157,12 +173,16 @@ export default function ContactPage() {
 								{isBn ? "হোম" : "Home"}
 							</Link>
 							<ChevronRight className="w-3 h-3 text-white/40" />
-							<span className="text-accent font-semibold">{isBn ? "যোগাযোগ" : "Contact Us"}</span>
+							<span className="text-accent font-semibold">
+								{isBn ? "যোগাযোগ" : "Contact Us"}
+							</span>
 						</nav>
 
 						<h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-white tracking-tight leading-snug mb-3">
 							{isBn ? "আমাদের প্রপার্টি ও আইনি " : "Connect with Our "} <br />
-							<span className="text-gold">{isBn ? "পরামর্শক দলের সাথে যোগাযোগ করুন" : "Property Advisory Team"}</span>
+							<span className="text-gold">
+								{isBn ? "পরামর্শক দলের সাথে যোগাযোগ করুন" : "Property Advisory Team"}
+							</span>
 						</h1>
 
 						<p className="text-white/80 text-xs sm:text-sm md:text-base font-light leading-relaxed max-w-2xl mb-7">
@@ -255,7 +275,9 @@ export default function ContactPage() {
 									{isBn ? "অনলাইন পরামর্শ ও সাইট বুকিং" : "ONLINE CONSULTATION"}
 								</span>
 								<h2 className="text-xl sm:text-2xl font-bold font-heading text-foreground tracking-tight">
-									{isBn ? "অনুসন্ধান পাঠান বা সাইট ভিজিট শিডিউল করুন" : "Send an Inquiry or Schedule a Site Tour"}
+									{isBn
+										? "অনুসন্ধান পাঠান বা সাইট ভিজিট শিডিউল করুন"
+										: "Send an Inquiry or Schedule a Site Tour"}
 								</h2>
 								<p className="text-xs text-muted-foreground font-light leading-relaxed">
 									{isBn
@@ -298,7 +320,9 @@ export default function ContactPage() {
 									<CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-600" />
 									<div>
 										<p className="font-semibold text-emerald-800">
-											{isBn ? "আপনার তথ্য সফলভাবে জমা হয়েছে!" : "Inquiry Received Successfully!"}
+											{isBn
+												? "আপনার তথ্য সফলভাবে জমা হয়েছে!"
+												: "Inquiry Received Successfully!"}
 										</p>
 										<p className="text-emerald-700 font-light">
 											{isBn
@@ -315,12 +339,15 @@ export default function ContactPage() {
 									{/* Name */}
 									<div className="space-y-1.5">
 										<label className="text-xs font-semibold font-heading text-foreground flex items-center gap-1">
-											{isBn ? "আপনার পূর্ণ নাম" : "Full Name"} <span className="text-destructive">*</span>
+											{isBn ? "আপনার পূর্ণ নাম" : "Full Name"}{" "}
+											<span className="text-destructive">*</span>
 										</label>
 										<input
 											type="text"
 											required
-											placeholder={isBn ? "যেমন: মো: রফিকুল ইসলাম" : "e.g. Md. Rafiqul Islam"}
+											placeholder={
+												isBn ? "যেমন: মো: রফিকুল ইসলাম" : "e.g. Md. Rafiqul Islam"
+											}
 											value={fullName}
 											onChange={(e) => setFullName(e.target.value)}
 											className="w-full h-10 px-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary transition-all placeholder:text-muted-foreground/50"
@@ -330,12 +357,15 @@ export default function ContactPage() {
 									{/* Phone */}
 									<div className="space-y-1.5">
 										<label className="text-xs font-semibold font-heading text-foreground flex items-center gap-1">
-											{isBn ? "মোবাইল / হোয়াটসঅ্যাপ" : "Mobile / WhatsApp"} <span className="text-destructive">*</span>
+											{isBn ? "মোবাইল / হোয়াটসঅ্যাপ" : "Mobile / WhatsApp"}{" "}
+											<span className="text-destructive">*</span>
 										</label>
 										<input
 											type="tel"
 											required
-											placeholder={isBn ? "যেমন: ০১৭১২ ৩৪৫৬৭৮" : "e.g. +880 1712 345678"}
+											placeholder={
+												isBn ? "যেমন: ০১৭১২ ৩৪৫৬৭৮" : "e.g. +880 1712 345678"
+											}
 											value={phone}
 											onChange={(e) => setPhone(e.target.value)}
 											className="w-full h-10 px-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary transition-all placeholder:text-muted-foreground/50"
@@ -359,7 +389,9 @@ export default function ContactPage() {
 									{/* Plot Size */}
 									<div className="space-y-1.5">
 										<label className="text-xs font-semibold font-heading text-foreground">
-											{isBn ? "আগ্রহী প্লটের ক্যাটাগরি" : "Interested Plot / Property"}
+											{isBn
+												? "আগ্রহী প্লটের ক্যাটাগরি"
+												: "Interested Plot / Property"}
 										</label>
 										<select
 											value={plotSize}
@@ -376,7 +408,9 @@ export default function ContactPage() {
 												{isBn ? "১০ কাঠা আবাসিক প্লট" : "10 Katha Residential Plot"}
 											</option>
 											<option value={isBn ? "বাণিজ্যিক প্লট" : "Commercial Plot"}>
-												{isBn ? "বাণিজ্যিক এভিনিউ প্লট" : "Commercial Boulevard Plot"}
+												{isBn
+													? "বাণিজ্যিক এভিনিউ প্লট"
+													: "Commercial Boulevard Plot"}
 											</option>
 											<option value={isBn ? "রেডি ফ্ল্যাট" : "Ready Luxury Flat"}>
 												{isBn ? "রেডি বিলাসবহুল ফ্ল্যাট" : "Ready Luxury Flat"}
@@ -389,14 +423,18 @@ export default function ContactPage() {
 								</div>
 
 								{/* Site Visit Preferred Date */}
-								{(inquiryType === "Schedule Site Visit" || inquiryType === "সাইট পরিদর্শন বুকিং") && (
+								{(inquiryType === "Schedule Site Visit" ||
+									inquiryType === "সাইট পরিদর্শন বুকিং") && (
 									<motion.div
 										initial={{ opacity: 0, height: 0 }}
 										animate={{ opacity: 1, height: "auto" }}
 										className="space-y-1.5 p-3.5 rounded-xl bg-primary/5 border border-primary/20"
 									>
 										<label className="text-xs font-semibold font-heading text-primary flex items-center gap-1.5">
-											<Calendar className="w-3.5 h-3.5" /> {isBn ? "সাইট ভিজিটের পছন্দসই তারিখ:" : "Preferred Date of Visit:"}
+											<Calendar className="w-3.5 h-3.5" />{" "}
+											{isBn
+												? "সাইট ভিজিটের পছন্দসই তারিখ:"
+												: "Preferred Date of Visit:"}
 										</label>
 										<input
 											type="date"
@@ -415,11 +453,17 @@ export default function ContactPage() {
 								{/* Message */}
 								<div className="space-y-1.5">
 									<label className="text-xs font-semibold font-heading text-foreground">
-										{isBn ? "বিশেষ প্রশ্ন বা বিবরণ:" : "Specific Questions / Notes:"}
+										{isBn
+											? "বিশেষ প্রশ্ন বা বিবরণ:"
+											: "Specific Questions / Notes:"}
 									</label>
 									<textarea
 										rows={3}
-										placeholder={isBn ? "পছন্দের ব্লক, রাস্তার প্রশস্ততা বা কিস্তির সময়সীমা সম্পর্কে লিখুন..." : "Describe your preferred sector, road width, or installment timeline..."}
+										placeholder={
+											isBn
+												? "পছন্দের ব্লক, রাস্তার প্রশস্ততা বা কিস্তির সময়সীমা সম্পর্কে লিখুন..."
+												: "Describe your preferred sector, road width, or installment timeline..."
+										}
 										value={message}
 										onChange={(e) => setMessage(e.target.value)}
 										className="w-full p-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary transition-all placeholder:text-muted-foreground/50"
@@ -464,7 +508,9 @@ export default function ContactPage() {
 												{isBn ? "হেডকোয়ার্টার" : "HEADQUARTERS"}
 											</span>
 											<h3 className="text-sm font-bold font-heading text-foreground">
-												{isBn ? "মোহাম্মদপুর কর্পোরেট অফিস" : "Mohammadpur Corporate Office"}
+												{isBn
+													? "মোহাম্মদপুর কর্পোরেট অফিস"
+													: "Mohammadpur Corporate Office"}
 											</h3>
 										</div>
 									</div>
@@ -485,7 +531,11 @@ export default function ContactPage() {
 
 									<div className="flex items-center gap-3">
 										<Clock className="w-4 h-4 text-primary shrink-0" />
-										<span>{isBn ? "শনিবার – বৃহস্পতিবার: সকাল ৯:০০ – বিকাল ৫:০০" : "Saturday – Thursday: 9:00 AM – 5:00 PM"}</span>
+										<span>
+											{isBn
+												? "শনিবার – বৃহস্পতিবার: সকাল ৯:০০ – বিকাল ৫:০০"
+												: "Saturday – Thursday: 9:00 AM – 5:00 PM"}
+										</span>
 									</div>
 
 									<div className="flex items-center gap-3">
@@ -518,11 +568,15 @@ export default function ContactPage() {
 								<div className="relative z-10 flex items-center gap-2.5 text-accent">
 									<Car className="w-5 h-5" />
 									<span className="text-xs font-mono font-bold uppercase tracking-wider">
-										{isBn ? "ফ্রি সাইট ভিজিট সার্ভিস" : "COMPLIMENTARY SITE TRANSPORT"}
+										{isBn
+											? "ফ্রি সাইট ভিজিট সার্ভিস"
+											: "COMPLIMENTARY SITE TRANSPORT"}
 									</span>
 								</div>
 								<h4 className="relative z-10 text-base font-bold font-heading text-white">
-									{isBn ? "মোহাম্মদপুর অফিস থেকে সরাসরি সাইট পরিদর্শন" : "Free Transport From Mohammadpur Office"}
+									{isBn
+										? "মোহাম্মদপুর অফিস থেকে সরাসরি সাইট পরিদর্শন"
+										: "Free Transport From Mohammadpur Office"}
 								</h4>
 								<p className="relative z-10 text-xs text-white/80 font-light leading-relaxed">
 									{isBn
@@ -546,7 +600,9 @@ export default function ContactPage() {
 									</span>
 								</div>
 								<h4 className="text-sm font-bold font-heading text-foreground">
-									{isBn ? "১০০% যাচাইকৃত ও নিষ্কণ্টক দলিল" : "Verify Authenticity In Person"}
+									{isBn
+										? "১০০% যাচাইকৃত ও নিষ্কণ্টক দলিল"
+										: "Verify Authenticity In Person"}
 								</h4>
 								<p className="text-xs text-muted-foreground font-light leading-relaxed">
 									{isBn
@@ -568,7 +624,9 @@ export default function ContactPage() {
 								{isBn ? "লোকেশন ও মানচিত্র" : "OFFICE DIRECTIONS"}
 							</span>
 							<h3 className="text-lg sm:text-xl font-bold font-heading text-foreground">
-								{isBn ? "আমাদের প্রধান কার্যালয়ের অবস্থান" : "Find Us at Mohammadpur Iqbal Road"}
+								{isBn
+									? "আমাদের প্রধান কার্যালয়ের অবস্থান"
+									: "Find Us at Mohammadpur Iqbal Road"}
 							</h3>
 						</div>
 						<a
@@ -602,7 +660,9 @@ export default function ContactPage() {
 							{isBn ? "সাধারণ প্রশ্নোত্তর" : "FREQUENTLY ASKED QUESTIONS"}
 						</span>
 						<h2 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
-							{isBn ? "বিনিয়োগকারীদের সচরাচর জিজ্ঞাসিত প্রশ্নসমূহ" : "Everything You Need to Know"}
+							{isBn
+								? "বিনিয়োগকারীদের সচরাচর জিজ্ঞাসিত প্রশ্নসমূহ"
+								: "Everything You Need to Know"}
 						</h2>
 					</div>
 
