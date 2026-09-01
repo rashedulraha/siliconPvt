@@ -6,42 +6,38 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   Menu,
   X,
-  CalendarCheck,
-  ChevronDown,
-  LogOut,
-  User,
   LayoutDashboard,
+  LogOut,
+  CalendarCheck,
 } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useCMS } from "@/context/CMSContext";
 import { useUserAuth } from "@/context/UserAuthContext";
+import { useLanguage } from "@/context/LanguageContext";
+import { LanguageToggle } from "./LanguageToggle";
 import { SectionContainer } from "../ui/section-container";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [userMenuOpen, setUserMenuOpen] = useState(false);
-
-  const userMenuRef = useRef<HTMLDivElement>(null);
-
   const pathname = usePathname();
   const router = useRouter();
   const { state } = useCMS();
   const { user, isLoggedIn, logout } = useUserAuth();
+  const { isBn } = useLanguage();
 
-  // Solid public nav links
+  // Public nav links with conditional rendering
   const navItems = [
-    { label: "HOME", href: "/" },
-    { label: "ABOUT", href: "/about" },
-    { label: "PROJECTS", href: "/projects" },
-    { label: "SERVICES", href: "/services" },
-    { label: "CONTACT", href: "/contact" },
-    { label: "PRIVACY & TERMS", href: "/privacy-terms" },
+    { label: isBn ? "হোম" : "HOME", href: "/" },
+    { label: isBn ? "আমাদের সম্পর্কে" : "ABOUT", href: "/about" },
+    { label: isBn ? "প্রকল্পসমূহ" : "PROJECTS", href: "/projects" },
+    { label: isBn ? "সেবাসমূহ" : "SERVICES", href: "/services" },
+    { label: isBn ? "যোগাযোগ" : "CONTACT", href: "/contact" },
+    { label: isBn ? "শর্তাবলী ও নীতিমালা" : "PRIVACY & TERMS", href: "/privacy-terms" },
   ];
 
   useEffect(() => {
     setIsOpen(false);
-    setUserMenuOpen(false);
   }, [pathname]);
 
   // Lock body scroll when mobile side drawer is open
@@ -67,19 +63,6 @@ export function Navbar() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  useEffect(() => {
-    function handler(e: MouseEvent) {
-      if (
-        userMenuRef.current &&
-        !userMenuRef.current.contains(e.target as Node)
-      ) {
-        setUserMenuOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
-
   function handleLogout() {
     logout();
     router.push("/");
@@ -87,50 +70,52 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 w-full duration-300 ease-out border-b shadow-xs bg-background/80 backdrop-blur-md border-border/40">
+      <header className="fixed top-0 left-0 right-0 z-50 w-full duration-300 ease-out border-b shadow-xs bg-background/90 backdrop-blur-md border-border/50">
         <SectionContainer>
-          <div className="flex h-16 items-center justify-between gap-6">
-            {/* ── Logo Section ───────────── */}
-            <Link href="/" className="flex items-center gap-3 shrink-0 group">
-              <div
-                className="
-                  relative
-                  h-11 w-11
-                  overflow-hidden
-                  rounded-full
-                  border border-primary/15
-                  bg-background/60
-                  backdrop-blur-md
-                  transition-all duration-300
-                  group-hover:scale-[1.03]
-                  group-hover:border-primary/30
-                  flex items-center justify-center
-                  shrink-0
-                "
-              >
-                <Image
-                  src="/silicon.png"
-                  alt={`${state.siteSettings.siteName} Logo`}
-                  width={44}
-                  height={44}
-                  priority
-                  sizes="44px"
-                  className="object-cover rounded-full overflow-hidden p-1 select-none"
-                />
-              </div>
+          <div className="relative flex h-16 items-center justify-between gap-4">
+            {/* ── 1. Left: Logo Section ───────────── */}
+            <div className="flex items-center justify-start shrink-0">
+              <Link href="/" className="flex items-center gap-3 group">
+                <div
+                  className="
+                    relative
+                    h-11 w-11
+                    overflow-hidden
+                    rounded-full
+                    border border-primary/15
+                    bg-background/60
+                    backdrop-blur-md
+                    transition-all duration-300
+                    group-hover:scale-[1.03]
+                    group-hover:border-primary/30
+                    flex items-center justify-center
+                    shrink-0
+                  "
+                >
+                  <Image
+                    src="/silicon.png"
+                    alt={`${state.siteSettings.siteName} Logo`}
+                    width={44}
+                    height={44}
+                    priority
+                    sizes="44px"
+                    className="object-cover rounded-full overflow-hidden p-1 select-none"
+                  />
+                </div>
 
-              <div className="hidden sm:flex flex-col text-left">
-                <span className="font-heading font-bold text-sm tracking-tight leading-tight text-foreground">
-                  Silicon
-                </span>
-                <span className="text-[10px] tracking-[0.2em] uppercase font-medium leading-none text-muted-foreground">
-                  Real Estate Pvt. Ltd.
-                </span>
-              </div>
-            </Link>
+                <div className="hidden sm:flex flex-col text-left">
+                  <span className="font-heading font-bold text-sm tracking-tight leading-tight text-foreground">
+                    Silicon
+                  </span>
+                  <span className="text-[10px] tracking-[0.18em] uppercase font-medium leading-none text-muted-foreground">
+                    {isBn ? "রিয়েল এস্টেট প্রাঃ লিঃ" : "Real Estate Pvt. Ltd."}
+                  </span>
+                </div>
+              </Link>
+            </div>
 
-            {/* ── Desktop Nav with Solid Nav Links ──────────────────────────── */}
-            <nav className="hidden lg:flex items-center gap-1 px-3 py-1 bg-muted/40 backdrop-blur-xs rounded-full border border-border/50 w-fit">
+            {/* ── 2. Center: Navigation Links ─────────── */}
+            <nav className="hidden lg:flex items-center absolute left-1/2 -translate-x-1/2 gap-1 px-3 py-1 bg-muted/40 backdrop-blur-xs rounded-full border border-border/50 shadow-2xs">
               {navItems.map((item) => {
                 const isActive =
                   pathname === item.href ||
@@ -138,10 +123,10 @@ export function Navbar() {
 
                 return (
                   <Link
-                    key={item.label}
+                    key={item.href}
                     href={item.href}
                     className={cn(
-                      "px-3.5 py-1.5 text-[13px] font-medium rounded-full transition-all duration-200 select-none cursor-pointer",
+                      "px-3.5 py-1.5 text-[13px] font-medium rounded-full transition-all duration-200 select-none cursor-pointer whitespace-nowrap",
                       isActive
                         ? "bg-background text-primary border border-border/60 shadow-xs font-semibold"
                         : "text-muted-foreground hover:text-foreground hover:bg-background/50",
@@ -153,89 +138,46 @@ export function Navbar() {
               })}
             </nav>
 
-            {/* ── Desktop Right Actions ────────────────── */}
-            <div className="hidden lg:flex items-center gap-2.5 shrink-0">
-              {isLoggedIn && user ? (
-                <div className="relative" ref={userMenuRef}>
-                  <button
-                    onClick={() => setUserMenuOpen((v) => !v)}
-                    className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl border border-border bg-muted/50 hover:bg-muted shadow-xs transition-all duration-300 cursor-pointer"
-                    aria-expanded={userMenuOpen}
-                    aria-haspopup="true"
-                  >
-                    {user.avatar ? (
-                      <div className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-primary/20">
-                        <Image
-                          src={user.avatar}
-                          alt={user.name}
-                          width={32}
-                          height={32}
-                          sizes="32px"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    ) : (
-                      <div className="w-8 h-8 rounded-lg bg-linear-to-br from-primary/20 to-primary/10 flex items-center justify-center ring-2 ring-primary/20">
-                        <User className="w-4 h-4 text-primary" />
-                      </div>
-                    )}
-                    <div className="text-left hidden xl:block">
-                      <p className="text-xs font-semibold font-heading leading-tight text-foreground">
-                        {user.name}
-                      </p>
-                      <p className="text-[10px] leading-tight text-muted-foreground">
-                        {user.email}
-                      </p>
-                    </div>
-                    <ChevronDown
-                      className={cn(
-                        "w-3.5 h-3.5 transition-transform duration-300 hidden xl:block text-muted-foreground",
-                        userMenuOpen && "rotate-180",
-                      )}
-                    />
-                  </button>
+            {/* ── 3. Right: Single Compact Language Button & Single Admin Button ───── */}
+            <div className="hidden lg:flex items-center justify-end gap-2.5 shrink-0">
+              {/* Single Compact Language Toggle Button */}
+              <LanguageToggle />
 
-                  {userMenuOpen && (
-                    <div className="absolute right-0 top-full mt-2 w-56 rounded-xl overflow-hidden shadow-2xl py-1.5 z-50 border border-border/60 bg-popover text-popover-foreground">
-                      <div className="px-4 py-3 border-b border-border/60">
-                        <p className="text-sm font-semibold text-foreground truncate">
-                          {user.name}
-                        </p>
-                        <p className="text-xs text-muted-foreground truncate">
-                          {user.email}
-                        </p>
-                      </div>
-                      <Link
-                        href="/admin"
-                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-primary/6 hover:text-primary transition-colors"
-                      >
-                        <LayoutDashboard className="w-4 h-4" /> My Dashboard
-                      </Link>
-                      <div className="border-t border-border/60 my-1.5" />
-                      <button
-                        onClick={handleLogout}
-                        className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-destructive hover:bg-destructive/6 transition-colors text-left cursor-pointer"
-                      >
-                        <LogOut className="w-4 h-4" /> Sign Out
-                      </button>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <Link
-                    href="/contact"
-                    className="bg-primary text-primary-foreground h-9 px-4 rounded-lg text-sm font-medium font-heading inline-flex items-center gap-1.5 hover:bg-primary/90 transition-all duration-300 shadow-md shadow-primary/25"
-                  >
-                    <CalendarCheck className="w-3.5 h-3.5" />
-                    Book Visit
-                  </Link>
-                </div>
+              {/* Single Clean Admin Button */}
+              <Link
+                href={isLoggedIn ? "/admin" : "/admin/login"}
+                className={cn(
+                  "inline-flex items-center gap-1.5 h-8 px-3.5 rounded-full text-xs font-semibold font-heading transition-all duration-200 shadow-2xs cursor-pointer border",
+                  isLoggedIn
+                    ? "bg-primary text-primary-foreground border-primary hover:bg-primary/90"
+                    : "bg-primary/10 text-primary border-primary/25 hover:bg-primary hover:text-primary-foreground hover:border-primary",
+                )}
+                title={
+                  isLoggedIn
+                    ? (isBn ? "এডমিন প্যানেলে যান" : "Go to Admin Dashboard")
+                    : (isBn ? "এডমিন লগইন" : "Admin Login")
+                }
+              >
+                <LayoutDashboard className="w-3.5 h-3.5" />
+                <span>{isBn ? "এডমিন" : "Admin"}</span>
+              </Link>
+
+              {/* Optional Logout icon if already logged in */}
+              {isLoggedIn && (
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="w-8 h-8 rounded-full border border-border/60 bg-muted/50 hover:bg-destructive/10 text-muted-foreground hover:text-destructive flex items-center justify-center transition-all cursor-pointer shadow-2xs"
+                  title={isBn ? "লগআউট" : "Log out"}
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                </button>
               )}
             </div>
 
-            {/* ── Mobile Hamburger Button ──────────────────────── */}
+            {/* ── Mobile Right Actions ──────────────────────── */}
             <div className="flex lg:hidden items-center gap-2 ml-auto">
+              <LanguageToggle compact />
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 aria-label="Toggle menu"
@@ -292,8 +234,8 @@ export function Navbar() {
                 <span className="font-heading font-bold text-sm tracking-tight leading-tight text-foreground">
                   Silicon
                 </span>
-                <span className="text-[9px] tracking-[0.2em] uppercase font-medium leading-none text-muted-foreground">
-                  Real Estate Pvt. Ltd.
+                <span className="text-[9px] tracking-[0.18em] uppercase font-medium leading-none text-muted-foreground">
+                  {isBn ? "রিয়েল এস্টেট প্রাঃ লিঃ" : "Real Estate Pvt. Ltd."}
                 </span>
               </div>
             </Link>
@@ -308,9 +250,13 @@ export function Navbar() {
 
           {/* Navigation Links inside Drawer */}
           <div className="p-4 space-y-1">
-            <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider px-3 mb-2 text-left">
-              Navigation
-            </p>
+            <div className="flex items-center justify-between px-3 mb-2">
+              <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider text-left">
+                {isBn ? "মেনু" : "Navigation"}
+              </p>
+              <LanguageToggle compact />
+            </div>
+
             {navItems.map((item) => {
               const isActive =
                 pathname === item.href ||
@@ -318,7 +264,7 @@ export function Navbar() {
 
               return (
                 <Link
-                  key={item.label}
+                  key={item.href}
                   href={item.href}
                   onClick={() => setIsOpen(false)}
                   className={cn(
@@ -335,72 +281,41 @@ export function Navbar() {
           </div>
         </div>
 
-        {/* Footer / Call To Action Area inside Drawer */}
+        {/* Footer inside Drawer */}
         <div className="p-4 border-t border-border/40 space-y-3 bg-muted/20">
           <Link
             href="/contact"
             onClick={() => setIsOpen(false)}
-            className="w-full bg-primary text-primary-foreground h-10 rounded-xl text-sm font-medium font-heading inline-flex items-center justify-center gap-2 hover:bg-primary/90 transition-all duration-300 shadow-md shadow-primary/25"
+            className="w-full bg-primary text-primary-foreground h-10 rounded-xl text-sm font-semibold font-heading inline-flex items-center justify-center gap-2 hover:bg-primary/90 transition-all duration-300 shadow-md"
           >
             <CalendarCheck className="w-4 h-4" />
-            BOOK SITE VISIT
+            {isBn ? "সাইট ভিজিট বুক করুন" : "BOOK SITE VISIT"}
           </Link>
 
-          {isLoggedIn && user ? (
-            <div className="space-y-2 pt-2 border-t border-border/40">
-              <div className="flex items-center gap-3 px-3 py-2 rounded-xl bg-background border border-border/40">
-                {user.avatar ? (
-                  <Image
-                    src={user.avatar}
-                    alt={user.name}
-                    width={32}
-                    height={32}
-                    className="w-8 h-8 rounded-full object-cover shrink-0"
-                  />
-                ) : (
-                  <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <User className="w-4 h-4 text-primary" />
-                  </div>
-                )}
-                <div className="text-left overflow-hidden">
-                  <p className="text-xs font-semibold text-foreground truncate">
-                    {user.name}
-                  </p>
-                  <p className="text-[10px] text-muted-foreground truncate">
-                    {user.email}
-                  </p>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                <Link
-                  href="/admin"
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center justify-center gap-2 h-9 rounded-lg bg-muted text-foreground text-xs font-medium hover:bg-muted/80 transition-all"
-                >
-                  <LayoutDashboard className="w-3.5 h-3.5" /> Dashboard
-                </Link>
-                <button
-                  onClick={() => {
-                    handleLogout();
-                    setIsOpen(false);
-                  }}
-                  className="flex items-center justify-center gap-2 h-9 rounded-lg border border-destructive/20 text-destructive text-xs font-medium hover:bg-destructive/4 transition-all cursor-pointer"
-                >
-                  <LogOut className="w-3.5 h-3.5" /> Sign Out
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className="pt-2 border-t border-border/40">
-              <Link
-                href="/contact"
-                onClick={() => setIsOpen(false)}
-                className="w-full h-9 rounded-xl border border-border text-foreground hover:bg-muted inline-flex items-center justify-center text-xs font-semibold"
+          <div className="pt-2 border-t border-border/40 flex items-center gap-2">
+            <Link
+              href={isLoggedIn ? "/admin" : "/admin/login"}
+              onClick={() => setIsOpen(false)}
+              className="flex-1 h-9 rounded-xl bg-primary/10 border border-primary/20 hover:bg-primary hover:text-primary-foreground text-primary inline-flex items-center justify-center gap-1.5 text-xs font-semibold font-heading transition-all"
+            >
+              <LayoutDashboard className="w-3.5 h-3.5" />
+              <span>{isBn ? "এডমিন প্যানেল" : "Admin Panel"}</span>
+            </Link>
+
+            {isLoggedIn && (
+              <button
+                type="button"
+                onClick={() => {
+                  handleLogout();
+                  setIsOpen(false);
+                }}
+                className="w-9 h-9 rounded-xl border border-destructive/20 text-destructive hover:bg-destructive/10 inline-flex items-center justify-center transition-all"
+                title={isBn ? "লগআউট" : "Log out"}
               >
-                Contact Us
-              </Link>
-            </div>
-          )}
+                <LogOut className="w-4 h-4" />
+              </button>
+            )}
+          </div>
         </div>
       </aside>
     </>
