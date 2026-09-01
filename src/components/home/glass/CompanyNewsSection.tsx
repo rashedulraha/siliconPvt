@@ -103,10 +103,10 @@ export function CompanyNewsSection() {
 						</p>
 					</div>
 					<Link
-						href="/blog"
+						href="/about"
 						className="text-xs font-semibold font-heading text-primary hover:underline inline-flex items-center gap-1 shrink-0"
 					>
-						Read All News <ArrowRight className="w-3.5 h-3.5" />
+						Explore Company Story <ArrowRight className="w-3.5 h-3.5" />
 					</Link>
 				</div>
 
@@ -152,10 +152,10 @@ export function CompanyNewsSection() {
 
 								<div className="pt-4 border-t border-border/40">
 									<Link
-										href={`/blog/${post.slug}`}
+										href="/about"
 										className="text-xs font-semibold font-heading text-primary hover:underline inline-flex items-center gap-1"
 									>
-										Read Full Update <ArrowRight className="w-3.5 h-3.5" />
+										Learn More <ArrowRight className="w-3.5 h-3.5" />
 									</Link>
 								</div>
 							</div>

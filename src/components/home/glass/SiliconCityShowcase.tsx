@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { SectionContainer } from "@/components/layout/SectionContainer";
 import { ArrowRight, ArrowUpRight, CheckCircle2 } from "lucide-react";
+import { useHomeContent } from "@/hooks/useHomeContent";
 
 const specifications = [
 	{
@@ -100,10 +101,14 @@ const servicesList = [
 ];
 
 export function SiliconCityShowcase() {
+	const { data } = useHomeContent();
+	const [activeTab, setActiveTab] = useState<"residential" | "commercial">(
+		"residential",
+	);
 	const [activeService, setActiveService] = useState(0);
 
 	return (
-		<section className="relative py-20 sm:py-24 bg-muted/30 border-y border-border/50 overflow-hidden">
+		<section className="py-20 sm:py-24 bg-background text-foreground relative overflow-hidden">
 			{/* Subtle Dot Grid Overlay */}
 			<div
 				className="absolute inset-0 opacity-[0.03] pointer-events-none"
@@ -119,15 +124,14 @@ export function SiliconCityShowcase() {
 					{/* Header */}
 					<div className="max-w-3xl text-left space-y-3">
 						<span className="inline-block px-3.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium uppercase tracking-widest text-primary font-heading">
-							FLAGSHIP TOWNSHIP
+							{data.showcaseBadge || "FLAGSHIP TOWNSHIP"}
 						</span>
 						<h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
-							Silicon City – The Ideal Housing Township
+							{data.showcaseTitle || "Silicon City – The Ideal Housing Township"}
 						</h2>
 						<p className="text-muted-foreground text-xs sm:text-sm md:text-base leading-relaxed font-light">
-							Located in Savar (Bara Badeshi Mouza), inside the proposed RAJUK
-							extended master plan and protected by the Dhaka Flood Protection
-							Embankment.
+							{data.showcaseDesc ||
+								"Located in Savar (Bara Badeshi Mouza), inside the proposed RAJUK extended master plan and protected by the Dhaka Flood Protection Embankment."}
 						</p>
 					</div>
 

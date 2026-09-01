@@ -3,9 +3,12 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { SectionContainer } from "@/components/layout/SectionContainer";
-import { Download } from "lucide-react";
+import { Download, ArrowRight } from "lucide-react";
+import { useHomeContent } from "@/hooks/useHomeContent";
 
 export function OfflineMembershipGlassBanner() {
+	const { data } = useHomeContent();
+
 	return (
 		<section className="relative py-20 sm:py-24 bg-muted/30 border-t border-border/50 overflow-hidden">
 			{/* Subtle Dot Grid Background Pattern */}
@@ -35,32 +38,32 @@ export function OfflineMembershipGlassBanner() {
 					/>
 
 					<div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border-b border-white/15 pb-8">
-						<div className="lg:col-span-8 space-y-3">
+						<div className="lg:col-span-8 space-y-3 text-left">
 							<span className="inline-block px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-medium uppercase tracking-widest text-accent font-heading">
 								OFFLINE MEMBERSHIP GUIDE
 							</span>
 							<h2 className="text-2xl sm:text-3xl font-semibold font-heading text-white tracking-tight">
-								How to Apply for Silicon City Membership
+								{data.ctaTitle || "Ready to Secure Your Plot in Silicon City?"}
 							</h2>
 							<p className="text-white/80 text-xs sm:text-sm font-light leading-relaxed max-w-xl">
-								Follow our simple 3-step physical office registration guide to
-								secure your plot allocation.
+								{data.ctaDesc ||
+									"Follow our simple 3-step physical office registration guide or schedule a physical site visit with free transport from our Mohammadpur corporate office."}
 							</p>
 						</div>
 
 						<div className="lg:col-span-4 flex justify-start lg:justify-end">
 							<Link
-								href="/membership"
+								href={data.ctaButtonLink || "/contact?type=visit"}
 								className="group bg-primary text-primary-foreground h-12 px-7 rounded-xl font-medium text-xs sm:text-sm font-heading inline-flex items-center justify-center hover:bg-primary/90 transition-all border border-white/10 shadow-md gap-2"
 							>
-								DOWNLOAD PRINTABLE FORM (PDF)
-								<Download className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
+								{data.ctaButtonText || "SCHEDULE OFFICE VISIT"}
+								<ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
 							</Link>
 						</div>
 					</div>
 
 					{/* 3 Step Timeline */}
-					<div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+					<div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
 						<div className="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-6 space-y-2">
 							<span className="text-xs font-mono font-medium text-accent block">
 								STEP 01
@@ -69,8 +72,7 @@ export function OfflineMembershipGlassBanner() {
 								Download PDF Form
 							</h3>
 							<p className="text-xs text-white/70 font-light leading-relaxed">
-								Click the 'Download PDF Form' button below and print out the
-								official application.
+								Download and print out the official plot application & membership form.
 							</p>
 						</div>
 
@@ -82,8 +84,7 @@ export function OfflineMembershipGlassBanner() {
 								Fill Form Details
 							</h3>
 							<p className="text-xs text-white/70 font-light leading-relaxed">
-								Fill out the printable form with NID number,
-								representative/nominee details, and land RS/BS plot numbers.
+								Fill out the form with NID number, representative/nominee details, and desired plot category.
 							</p>
 						</div>
 
@@ -95,9 +96,7 @@ export function OfflineMembershipGlassBanner() {
 								Office Submission
 							</h3>
 							<p className="text-xs text-white/70 font-light leading-relaxed">
-								Bring 2 passport-sized photographs, land deed photocopies, and
-								the official BDT 1,000 application fee to our Corporate Office
-								to secure your plot allocation.
+								Bring photographs, NID copies, and visit our Mohammadpur Corporate Office to finalize your plot allotment.
 							</p>
 						</div>
 					</div>

@@ -9,8 +9,11 @@ import {
 	Gamepad2,
 } from "lucide-react";
 import { SectionContainer } from "@/components/layout/SectionContainer";
+import { useHomeContent } from "@/hooks/useHomeContent";
 
 export function MasterPlanAmenities() {
+	const { data } = useHomeContent();
+
 	return (
 		<section className="py-16 sm:py-20 bg-muted/30 text-foreground border-y border-border/50 relative overflow-hidden">
 			{/* Subtle Dot Grid Overlay */}
@@ -30,15 +33,14 @@ export function MasterPlanAmenities() {
 						<div className="p-8 sm:p-10 flex-1 flex flex-col justify-between space-y-6 text-left">
 							<div className="space-y-3">
 								<span className="text-xs font-semibold font-heading uppercase tracking-widest text-accent">
-									MASTER PLAN
+									{data.masterPlanBadge || "MASTER PLAN"}
 								</span>
 								<h3 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight leading-tight">
-									At a Glance: Township Layout
+									{data.masterPlanTitle || "At a Glance: Township Layout"}
 								</h3>
 								<p className="text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
-									Meticulously planned master layout featuring 30ft & 40ft wide
-									avenues, optimal sunlight orientation, and eco-zoning for
-									every plot.
+									{data.masterPlanDesc ||
+										"Meticulously planned master layout featuring 30ft & 40ft wide avenues, optimal sunlight orientation, and eco-zoning for every plot."}
 								</p>
 							</div>
 
@@ -52,10 +54,13 @@ export function MasterPlanAmenities() {
 							</div>
 						</div>
 
-						{/* Aerial Master Plan Image Side (100% Full Height Coverage) */}
+						{/* Aerial Master Plan Image Side */}
 						<div className="relative w-full md:w-1/2 min-h-[300px] overflow-hidden bg-transparent">
 							<img
-								src="https://images.unsplash.com/photo-1524813686514-a57563d77965?q=80&w=1200"
+								src={
+									data.masterPlanImage ||
+									"https://images.unsplash.com/photo-1524813686514-a57563d77965?q=80&w=1200"
+								}
 								alt="Silicon City Master Plan Layout Top View"
 								style={{
 									width: "100%",
@@ -75,10 +80,10 @@ export function MasterPlanAmenities() {
 						<div className="p-8 sm:p-10 flex-1 flex flex-col justify-between space-y-6 text-left">
 							<div className="space-y-4">
 								<span className="text-xs font-semibold font-heading uppercase tracking-widest text-accent">
-									LIFESTYLE AMENITIES
+									{data.amenitiesBadge || "LIFESTYLE AMENITIES"}
 								</span>
 								<h3 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight leading-tight">
-									All Modern Lifestyle Amenities
+									{data.amenitiesTitle || "All Modern Lifestyle Amenities"}
 								</h3>
 
 								{/* 4 Amenities Icon Grid */}
@@ -123,7 +128,7 @@ export function MasterPlanAmenities() {
 
 							<div>
 								<Link
-									href="/about#amenities"
+									href="/projects"
 									className="inline-flex items-center justify-center h-11 px-7 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-medium font-heading text-xs tracking-wider uppercase transition-all gap-2"
 								>
 									VIEW ALL AMENITIES <ArrowRight className="w-3.5 h-3.5" />
@@ -131,7 +136,7 @@ export function MasterPlanAmenities() {
 							</div>
 						</div>
 
-						{/* Residential Park Image Side (100% Full Height Coverage) */}
+						{/* Residential Park Image Side */}
 						<div className="relative w-full md:w-1/2 min-h-[300px] overflow-hidden bg-transparent">
 							<img
 								src="https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?q=80&w=1200"
