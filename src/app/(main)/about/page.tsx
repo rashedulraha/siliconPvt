@@ -162,33 +162,97 @@ export default function AboutPage() {
 	];
 
 	const timelineEn = [
-		{ year: "2014", title: "Inception & Foundation", desc: "Started ethical real estate development with transparency." },
-		{ year: "2017", title: "Silicon City Acquisition", desc: "Acquired prime riverside lands in Bara Badeshi, Savar." },
-		{ year: "2020", title: "Mega Soil Earthwork", desc: "Executed 16-18ft high elevation and 40ft road foundations." },
-		{ year: "2023", title: "Block A Handover", desc: "Successfully handed over demarcation possession to 500+ clients." },
-		{ year: "2026", title: "Expanded Township", desc: "Implementing Turag Bridge link & civic amenity complexes." },
+		{
+			year: "2014",
+			title: "Inception & Foundation",
+			desc: "Started ethical real estate development with transparency.",
+		},
+		{
+			year: "2017",
+			title: "Silicon City Acquisition",
+			desc: "Acquired prime riverside lands in Bara Badeshi, Savar.",
+		},
+		{
+			year: "2020",
+			title: "Mega Soil Earthwork",
+			desc: "Executed 16-18ft high elevation and 40ft road foundations.",
+		},
+		{
+			year: "2023",
+			title: "Block A Handover",
+			desc: "Successfully handed over demarcation possession to 500+ clients.",
+		},
+		{
+			year: "2026",
+			title: "Expanded Township",
+			desc: "Implementing Turag Bridge link & civic amenity complexes.",
+		},
 	];
 
 	const timelineBn = [
-		{ year: "২০১৪", title: "প্রতিষ্ঠা ও সূচনা", desc: "সততা ও স্বচ্ছতার অঙ্গীকার নিয়ে রিয়েল এস্টেট খাতে যাত্রা শুরু।" },
-		{ year: "২০১৭", title: "সিলিকন সিটি অধিগ্রহণ", desc: "সাভার বড় বাদেশী মৌজায় তুরাগ নদীতীরবর্তী প্রাইম জমি অধিগ্রহণ।" },
-		{ year: "২০২০", title: "মেগা বালু ভরাট", desc: "১৬–১৮ ফুট উঁচু বালু ভরাট ও ৪০ ফুট প্রধান সড়কের অবকাঠামো নির্মাণ।" },
-		{ year: "২০২৩", title: "ব্লক-এ প্লট হস্তান্তর", desc: "৫০০+ সম্মানিত গ্রাহকের নিকট রেজিস্ট্রেশন ও বাউন্ডারি হস্তান্তর সম্পন্ন।" },
-		{ year: "২০২৬", title: "সম্প্রসারিত মেগা টাউনশিপ", desc: "তুরাগ সেতু সংযোগ ও পূর্ণাঙ্গ আধুনিক নাগরিক সুযোগ-সুবিধা বাস্তবায়ন।" },
+		{
+			year: "২০১৪",
+			title: "প্রতিষ্ঠা ও সূচনা",
+			desc: "সততা ও স্বচ্ছতার অঙ্গীকার নিয়ে রিয়েল এস্টেট খাতে যাত্রা শুরু।",
+		},
+		{
+			year: "২০১৭",
+			title: "সিলিকন সিটি অধিগ্রহণ",
+			desc: "সাভার বড় বাদেশী মৌজায় তুরাগ নদীতীরবর্তী প্রাইম জমি অধিগ্রহণ।",
+		},
+		{
+			year: "২০২০",
+			title: "মেগা বালু ভরাট",
+			desc: "১৬–১৮ ফুট উঁচু বালু ভরাট ও ৪০ ফুট প্রধান সড়কের অবকাঠামো নির্মাণ।",
+		},
+		{
+			year: "২০২৩",
+			title: "ব্লক-এ প্লট হস্তান্তর",
+			desc: "৫০০+ সম্মানিত গ্রাহকের নিকট রেজিস্ট্রেশন ও বাউন্ডারি হস্তান্তর সম্পন্ন।",
+		},
+		{
+			year: "২০২৬",
+			title: "সম্প্রসারিত মেগা টাউনশিপ",
+			desc: "তুরাগ সেতু সংযোগ ও পূর্ণাঙ্গ আধুনিক নাগরিক সুযোগ-সুবিধা বাস্তবায়ন।",
+		},
 	];
 
 	const whyChooseUsEn = [
-		{ title: "100% Legal Ownership", desc: "Dispute-free plots with complete CS, SA, RS, BS mutation deeds." },
-		{ title: "Flood-Protected Ground", desc: "16 to 18 feet elevated soil filling above historical flood marks." },
-		{ title: "Spacious Road Network", desc: "30ft & 40ft wide internal concrete roads for effortless access." },
-		{ title: "Flexible Installments", desc: "Zero hidden cost installment facilities tailored to your income." },
+		{
+			title: "100% Legal Ownership",
+			desc: "Dispute-free plots with complete CS, SA, RS, BS mutation deeds.",
+		},
+		{
+			title: "Flood-Protected Ground",
+			desc: "16 to 18 feet elevated soil filling above historical flood marks.",
+		},
+		{
+			title: "Spacious Road Network",
+			desc: "30ft & 40ft wide internal concrete roads for effortless access.",
+		},
+		{
+			title: "Flexible Installments",
+			desc: "Zero hidden cost installment facilities tailored to your income.",
+		},
 	];
 
 	const whyChooseUsBn = [
-		{ title: "১০০% নিষ্কণ্টক মালিকানা", desc: "সিএস, এসএ, আরএস ও বিএস নামজারি সম্পন্ন নির্ভেজাল প্লট।" },
-		{ title: "বন্যা সুরক্ষিত উঁচু জমি", desc: "বন্যা সীমা থেকে ১৬–১৮ ফুট উঁচু বালু ভরাটকৃত স্থায়ী জমি।" },
-		{ title: "প্রশস্ত অভ্যন্তরীণ সড়ক", desc: "৩০ ও ৪০ ফুট চওড়া অভ্যন্তরীণ আরসিসি রাস্তা নেটওয়ার্ক।" },
-		{ title: "সহজ দীর্ঘমেয়াদী কিস্তি", desc: "কোনো গোপন চার্জ ছাড়া সুবিধাজনক কিস্তিতে প্লট ক্রয়ের সুযোগ।" },
+		{
+			title: "১০০% নিষ্কণ্টক মালিকানা",
+			desc: "সিএস, এসএ, আরএস ও বিএস নামজারি সম্পন্ন নির্ভেজাল প্লট।",
+		},
+		{
+			title: "বন্যা সুরক্ষিত উঁচু জমি",
+			desc: "বন্যা সীমা থেকে ১৬–১৮ ফুট উঁচু বালু ভরাটকৃত স্থায়ী জমি।",
+		},
+		{
+			title: "প্রশস্ত অভ্যন্তরীণ সড়ক",
+			desc: "৩০ ও ৪০ ফুট চওড়া অভ্যন্তরীণ আরসিসি রাস্তা নেটওয়ার্ক।",
+		},
+		{
+			title: "সহজ দীর্ঘমেয়াদী কিস্তি",
+			desc: "কোনো গোপন চার্জ ছাড়া সুবিধাজনক কিস্তিতে প্লট ক্রয়ের সুযোগ।",
+		},
 	];
 
 	const trustBadges = isBn ? trustBadgesBn : trustBadgesEn;
@@ -201,8 +265,16 @@ export default function AboutPage() {
 	return (
 		<>
 			<PageSEO
-				title={isBn ? "আমাদের সম্পর্কে | সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ" : "About Us | Silicon Real Estate (Pvt.) Ltd."}
-				description={isBn ? "আস্থা ও নির্ভরযোগ্যতার প্রতীক। সিলিকন রিয়েল এস্টেটের লক্ষ্য, নেতৃত্ব ও পথচলা সম্পর্কে জানুন।" : "Building Trust. Creating Sustainable Communities. Learn about Silicon Real Estate's mission, leadership, core values, and journey."}
+				title={
+					isBn
+						? "আমাদের সম্পর্কে | সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ"
+						: "About Us | Silicon Real Estate (Pvt.) Ltd."
+				}
+				description={
+					isBn
+						? "আস্থা ও নির্ভরযোগ্যতার প্রতীক। সিলিকন রিয়েল এস্টেটের লক্ষ্য, নেতৃত্ব ও পথচলা সম্পর্কে জানুন।"
+						: "Building Trust. Creating Sustainable Communities. Learn about Silicon Real Estate's mission, leadership, core values, and journey."
+				}
 			/>
 
 			{/* ── BLOCK 1: Page Header (Hero with Subtle Dot Grid) ───────────────── */}
@@ -229,13 +301,17 @@ export default function AboutPage() {
 								{isBn ? "হোম" : "Home"}
 							</Link>
 							<ChevronRight className="w-3 h-3 text-white/40" />
-							<span className="text-accent font-semibold">{isBn ? "আমাদের সম্পর্কে" : "About Us"}</span>
+							<span className="text-accent font-semibold">
+								{isBn ? "আমাদের সম্পর্কে" : "About Us"}
+							</span>
 						</nav>
 
 						<h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-white tracking-tight leading-snug mb-4">
 							{isBn ? "আস্থার সাথে এগিয়ে চলা।" : data.heroTitle} <br />
 							<span className="text-gold">
-								{isBn ? "একটি পরিকল্পিত ও টেকসই আগামীর অঙ্গীকার।" : data.heroSubtitle}
+								{isBn
+									? "একটি পরিকল্পিত ও টেকসই আগামীর অঙ্গীকার।"
+									: data.heroSubtitle}
 							</span>
 						</h1>
 
@@ -271,7 +347,9 @@ export default function AboutPage() {
 							{isBn ? "আমরা কারা" : "WHO WE ARE"}
 						</span>
 						<h2 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
-							{isBn ? "পরিকল্পিত ও পরিবেশবান্ধব আবাসন উন্নয়নের অগ্রদূত" : data.whoWeAreTitle}
+							{isBn
+								? "পরিকল্পিত ও পরিবেশবান্ধব আবাসন উন্নয়নের অগ্রদূত"
+								: data.whoWeAreTitle}
 						</h2>
 						<p className="text-muted-foreground text-xs sm:text-sm leading-relaxed font-light max-w-2xl mx-auto">
 							{isBn
@@ -368,7 +446,9 @@ export default function AboutPage() {
 							{isBn ? "মূল স্তম্ভসমূহ" : "CORE VALUES"}
 						</span>
 						<h3 className="text-2xl font-bold font-heading text-foreground tracking-tight">
-							{isBn ? "আমাদের উৎকর্ষের ৪টি মূল ভিত্তি" : "Our Pillars of Excellence"}
+							{isBn
+								? "আমাদের উৎকর্ষের ৪টি মূল ভিত্তি"
+								: "Our Pillars of Excellence"}
 						</h3>
 					</div>
 
@@ -405,7 +485,9 @@ export default function AboutPage() {
 							{isBn ? "আমাদের পথচলা" : "OUR JOURNEY"}
 						</span>
 						<h2 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
-							{isBn ? "আস্থা ও অগ্রগতির অনন্য মাইলফলক" : "Milestones of Trust & Growth"}
+							{isBn
+								? "আস্থা ও অগ্রগতির অনন্য মাইলফলক"
+								: "Milestones of Trust & Growth"}
 						</h2>
 					</div>
 
@@ -475,7 +557,11 @@ export default function AboutPage() {
 
 						<div className="lg:col-span-8 bg-card border border-border/60 rounded-2xl p-7 sm:p-9 space-y-4 shadow-xs">
 							<blockquote className="text-xs sm:text-sm font-semibold font-heading text-primary italic border-l-2 border-primary pl-4">
-								"{isBn ? "গ্রাহকের বিনিয়োগকে শতভাগ ঝুঁকিমুক্ত ও সমৃদ্ধিময় করাই আমাদের প্রধান ব্রত।" : `${data.chairmanSpeech.slice(0, 100)}...`}"
+								"
+								{isBn
+									? "গ্রাহকের বিনিয়োগকে শতভাগ ঝুঁকিমুক্ত ও সমৃদ্ধিময় করাই আমাদের প্রধান ব্রত।"
+									: `${data.chairmanSpeech.slice(0, 100)}...`}
+								"
 							</blockquote>
 							<p className="text-xs sm:text-sm text-foreground/90 font-light leading-relaxed whitespace-pre-line">
 								{isBn
@@ -496,7 +582,11 @@ export default function AboutPage() {
 					<div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 						<div className="lg:col-span-8 bg-card border border-border/60 rounded-2xl p-7 sm:p-9 space-y-4 shadow-xs order-2 lg:order-1">
 							<blockquote className="text-xs sm:text-sm font-semibold font-heading text-primary italic border-l-2 border-primary pl-4">
-								"{isBn ? "আমরা শুধু জমি বিক্রি নয়, ভবিষ্যৎ প্রজন্মের জন্য একটি পরিকল্পিত স্বপ্নের আবাস গড়ে তুলছি।" : `${data.mdSpeech.slice(0, 100)}...`}"
+								"
+								{isBn
+									? "আমরা শুধু জমি বিক্রি নয়, ভবিষ্যৎ প্রজন্মের জন্য একটি পরিকল্পিত স্বপ্নের আবাস গড়ে তুলছি।"
+									: `${data.mdSpeech.slice(0, 100)}...`}
+								"
 							</blockquote>
 							<p className="text-xs sm:text-sm text-foreground/90 font-light leading-relaxed whitespace-pre-line">
 								{isBn
@@ -517,7 +607,9 @@ export default function AboutPage() {
 							</div>
 							<div>
 								<span className="text-[11px] font-semibold uppercase tracking-widest text-primary font-heading block">
-									{isBn ? "ব্যবস্থাপনা পরিচালকের বার্তা" : "MESSAGE FROM MANAGING DIRECTOR"}
+									{isBn
+										? "ব্যবস্থাপনা পরিচালকের বার্তা"
+										: "MESSAGE FROM MANAGING DIRECTOR"}
 								</span>
 								<h3 className="text-lg font-bold font-heading text-foreground">
 									{isBn ? "ইঞ্জি. মো: সরোয়ার খালেদ" : data.mdName}
@@ -547,16 +639,30 @@ export default function AboutPage() {
 							{isBn ? "এক নজরে কোম্পানি" : "COMPANY AT A GLANCE"}
 						</span>
 						<h3 className="text-xl sm:text-2xl font-bold font-heading text-white">
-							{isBn ? "সাফল্য ও সুনামের দৃঢ় পদচিহ্ন" : "Proven Track Record of Excellence"}
+							{isBn
+								? "সাফল্য ও সুনামের দৃঢ় পদচিহ্ন"
+								: "Proven Track Record of Excellence"}
 						</h3>
 					</div>
 
 					<div className="grid grid-cols-2 md:grid-cols-4 gap-6">
 						{[
-							{ value: isBn ? "১৫+" : "15+", label: isBn ? "সম্পন্ন প্রকল্প" : "Projects Completed" },
-							{ value: isBn ? "১,০০০+" : "1000+", label: isBn ? "সন্তুষ্ট গ্রাহক" : "Happy Clients" },
-							{ value: isBn ? "১২+" : "12+", label: isBn ? "প্রাইম লোকেশন" : "Prime Locations" },
-							{ value: isBn ? "১০+" : "10+", label: isBn ? "বছরের অভিজ্ঞতা" : "Years Experience" },
+							{
+								value: isBn ? "১৫+" : "15+",
+								label: isBn ? "সম্পন্ন প্রকল্প" : "Projects Completed",
+							},
+							{
+								value: isBn ? "১,০০০+" : "1000+",
+								label: isBn ? "সন্তুষ্ট গ্রাহক" : "Happy Clients",
+							},
+							{
+								value: isBn ? "১২+" : "12+",
+								label: isBn ? "প্রাইম লোকেশন" : "Prime Locations",
+							},
+							{
+								value: isBn ? "১০+" : "10+",
+								label: isBn ? "বছরের অভিজ্ঞতা" : "Years Experience",
+							},
 						].map((s) => (
 							<div
 								key={s.label}
@@ -579,10 +685,14 @@ export default function AboutPage() {
 				<SectionContainer>
 					<div className="max-w-2xl mx-auto text-center space-y-3 mb-14">
 						<span className="text-xs font-semibold uppercase tracking-widest text-primary font-heading">
-							{isBn ? "কেন সিলিকন বেছে নেবেন?" : "WHY CHOOSE SILICON REAL ESTATE?"}
+							{isBn
+								? "কেন সিলিকন বেছে নেবেন?"
+								: "WHY CHOOSE SILICON REAL ESTATE?"}
 						</span>
 						<h2 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
-							{isBn ? "আমাদের স্বাতন্ত্র্য ও বিশেষ সুবিধাসমূহ" : "Our Distinctive Advantages"}
+							{isBn
+								? "আমাদের স্বাতন্ত্র্য ও বিশেষ সুবিধাসমূহ"
+								: "Our Distinctive Advantages"}
 						</h2>
 					</div>
 
@@ -657,7 +767,9 @@ export default function AboutPage() {
 							{isBn ? "অনুমোদন ও সনদসমূহ" : "CERTIFICATIONS & RECOGNITIONS"}
 						</span>
 						<h3 className="text-base sm:text-lg font-bold font-heading text-foreground">
-							{isBn ? "আইনি স্বীকৃতি ও সরকারি অনুমোদন" : "Official Approvals & Regulatory Compliance"}
+							{isBn
+								? "আইনি স্বীকৃতি ও সরকারি অনুমোদন"
+								: "Official Approvals & Regulatory Compliance"}
 						</h3>
 					</div>
 
