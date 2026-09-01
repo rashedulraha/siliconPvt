@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
-import { ensureAdminUser, generateAuthToken, errorResponse } from "@/lib/server-auth";
+import {
+	ensureAdminUser,
+	generateAuthToken,
+	errorResponse,
+} from "@/lib/server-auth";
 
 export async function POST(req: Request) {
 	try {
@@ -23,7 +27,9 @@ export async function POST(req: Request) {
 		});
 
 		// Fallback auto-provision for default admin
-		const defaultAdminEmail = (process.env.ADMIN_EMAIL || "admin@afiaholdingsltd.com").toLowerCase();
+		const defaultAdminEmail = (
+			process.env.ADMIN_EMAIL || "admin@afiaholdingsltd.com"
+		).toLowerCase();
 		const defaultAdminPass = process.env.ADMIN_PASSWORD || "admin123456";
 
 		if (!admin && email === defaultAdminEmail) {

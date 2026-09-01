@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { POST as loginHandler } from "./login/route";
-import { verifyAdminSession, unauthorizedResponse, errorResponse } from "@/lib/server-auth";
+import {
+	verifyAdminSession,
+	unauthorizedResponse,
+	errorResponse,
+} from "@/lib/server-auth";
 import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
