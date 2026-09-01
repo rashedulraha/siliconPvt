@@ -5,7 +5,6 @@ import Link from "next/link";
 import {
 	ArrowLeft,
 	Save,
-	Lock,
 	Loader2,
 	CheckCircle2,
 	FileText,
@@ -15,19 +14,25 @@ import {
 	Users,
 	Plus,
 	Trash2,
-	Image as ImageIcon,
+	Eye,
+	RefreshCw,
+	Sparkles,
+	HelpCircle,
+	Quote,
 } from "lucide-react";
 import { SectionContainer } from "@/components/layout/SectionContainer";
-import { useAdminEditor } from "@/context/AdminEditorContext";
 import { useAboutContent, AboutContentData } from "@/hooks/useAboutContent";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function AboutSettingsPage() {
-	const { isEditorUnlocked, unlockEditorMode } = useAdminEditor();
-	const { data: initialData, loading, updateContent } = useAboutContent();
+	const { data: initialData, loading, updateContent, refetch } = useAboutContent();
 
 	const [formData, setFormData] = useState<AboutContentData>(initialData);
 	const [activeTab, setActiveTab] = useState<
-		"hero" | "bio" | "leadership" | "stats" | "values" | "team"
+		"hero" | "mission" | "leadership" | "stats" | "whyChooseUs" | "team"
 	>("hero");
 	const [saving, setSaving] = useState(false);
 	const [savedMessage, setSavedMessage] = useState("");
@@ -42,19 +47,16 @@ export default function AboutSettingsPage() {
 		setFormData((prev) => ({ ...prev, [field]: value }));
 	};
 
-	const handleSave = async (e: React.FormEvent) => {
-		e.preventDefault();
-		if (!isEditorUnlocked) {
-			unlockEditorMode();
-			return;
-		}
+	const handleSave = async (e?: React.FormEvent) => {
+		if (e) e.preventDefault();
 		setSaving(true);
 		try {
 			await updateContent(formData);
-			setSavedMessage("About page settings updated successfully!");
+			setSavedMessage("About page content saved and synced to PostgreSQL!");
 			setTimeout(() => setSavedMessage(""), 3500);
-		} catch (e) {
-			console.error("Failed to update about content:", e);
+		} catch (err: any) {
+			console.error("Failed to update about content:", err);
+			alert("Error saving: " + err.message);
 		} finally {
 			setSaving(false);
 		}
@@ -62,82 +64,87 @@ export default function AboutSettingsPage() {
 
 	return (
 		<div className="bg-background text-foreground min-h-screen pb-24 text-left">
-			{/* Top Bar */}
-			<div className="border-b border-border/50 bg-card/60 backdrop-blur-md sticky top-0 z-30 py-4">
+			{/* ── TOP ACTION BAR ── */}
+			<div className="border-b border-border/60 bg-card/80 backdrop-blur-md sticky top-0 z-30 py-3.5">
 				<SectionContainer>
-					<div className="flex items-center justify-between">
+					<div className="flex items-center justify-between gap-4">
 						<Link
 							href="/admin"
-							className="text-xs font-medium font-heading text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5"
+							className="text-xs font-medium font-heading text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 transition-colors"
 						>
 							<ArrowLeft className="w-4 h-4" />
-							Back to Admin Panel
+							Back to Admin Overview
 						</Link>
-						<button
-							onClick={handleSave}
-							disabled={saving || !isEditorUnlocked}
-							className="px-5 h-9 rounded-xl bg-primary text-primary-foreground text-xs font-bold font-heading inline-flex items-center gap-2 transition-all shadow-none hover:bg-primary/90 cursor-pointer disabled:opacity-50"
-						>
-							{saving ? (
-								<Loader2 className="w-3.5 h-3.5 animate-spin" />
-							) : (
-								<Save className="w-3.5 h-3.5" />
-							)}
-							Save Changes
-						</button>
+
+						<div className="flex items-center gap-2.5">
+							<button
+								onClick={() => refetch()}
+								disabled={loading}
+								className="px-3.5 h-9 rounded-xl border border-border/80 text-foreground hover:bg-muted text-xs font-semibold font-heading inline-flex items-center gap-1.5 transition-all cursor-pointer"
+							>
+								<RefreshCw
+									className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`}
+								/>
+								<span>Refresh</span>
+							</button>
+
+							<Link
+								href="/about"
+								target="_blank"
+								className="px-3.5 h-9 rounded-xl border border-border/80 text-foreground hover:bg-muted text-xs font-semibold font-heading inline-flex items-center gap-1.5 transition-all"
+							>
+								<Eye className="w-3.5 h-3.5 text-muted-foreground" />
+								<span>Live About Page</span>
+							</Link>
+
+							<button
+								onClick={() => handleSave()}
+								disabled={saving || loading}
+								className="px-4 h-9 rounded-xl bg-primary text-primary-foreground text-xs font-bold font-heading inline-flex items-center gap-1.5 transition-all shadow-xs hover:bg-primary/90 cursor-pointer disabled:opacity-50"
+							>
+								{saving ? (
+									<Loader2 className="w-3.5 h-3.5 animate-spin" />
+								) : (
+									<Save className="w-3.5 h-3.5" />
+								)}
+								<span>Save Changes</span>
+							</button>
+						</div>
 					</div>
 				</SectionContainer>
 			</div>
 
-			<SectionContainer className="py-10">
-				<div className="max-w-5xl mx-auto space-y-8">
-					{/* Lock Notice Banner */}
-					{!isEditorUnlocked && (
-						<div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-500 text-xs font-medium flex items-center justify-between gap-4">
-							<div className="flex items-center gap-2">
-								<Lock className="w-4 h-4 shrink-0" />
-								<span>
-									<strong>Read-Only Mode Active:</strong> Content editing is in view-only mode until Editor Mode is unlocked.
-								</span>
-							</div>
-							<button
-								onClick={unlockEditorMode}
-								className="px-3 py-1.5 rounded-lg bg-amber-500 text-black text-[11px] font-bold uppercase tracking-wider hover:bg-amber-400 shrink-0 cursor-pointer"
-							>
-								Unlock Editor
-							</button>
-						</div>
-					)}
-
-					<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-left">
-						<div>
-							<span className="text-xs font-semibold uppercase tracking-widest text-primary font-heading">
-								COMPANY STORY & LEADERSHIP CONTROL
-							</span>
-							<h1 className="text-3xl font-semibold font-heading text-foreground tracking-tight">
-								About Page Settings
-							</h1>
-							<p className="text-xs sm:text-sm text-muted-foreground font-light mt-0.5">
-								Edit company bio, mission, vision, chairman/MD addresses, and management team.
-							</p>
-						</div>
+			<SectionContainer className="py-8">
+				<div className="max-w-5xl mx-auto space-y-6">
+					{/* Header Title */}
+					<div className="space-y-1 text-left">
+						<span className="text-xs font-semibold uppercase tracking-wider text-primary font-heading inline-flex items-center gap-1.5">
+							<Sparkles className="w-3.5 h-3.5" /> PUBLIC ABOUT PAGE CONTENT CONTROL
+						</span>
+						<h1 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
+							About & Leadership Settings
+						</h1>
+						<p className="text-xs sm:text-sm text-muted-foreground font-light">
+							Manage company bio, mission, vision, chairman and MD addresses, milestones timeline, and executive board members.
+						</p>
 					</div>
 
+					{/* Notification Toast */}
 					{savedMessage && (
-						<div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-xs font-medium flex items-center gap-2">
-							<CheckCircle2 className="w-4 h-4 shrink-0" />
+						<div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 text-xs font-semibold font-heading flex items-center gap-2 shadow-xs">
+							<CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-500" />
 							<span>{savedMessage}</span>
 						</div>
 					)}
 
-					{/* Navigation Tabs */}
-					<div className="flex flex-wrap gap-2 border-b border-border/50 pb-3">
+					{/* ── 6 SECTION TABS ── */}
+					<div className="flex flex-wrap gap-2 border-b border-border/60 pb-3">
 						{[
-							{ id: "hero", label: "Hero & Bio", icon: FileText },
-							{ id: "bio", label: "Mission & Vision", icon: Target },
+							{ id: "hero", label: "Hero & Who We Are", icon: FileText },
+							{ id: "mission", label: "Mission, Vision & Values", icon: Target },
 							{ id: "leadership", label: "Chairman & MD Speeches", icon: UserCheck },
 							{ id: "stats", label: "Stats & Milestones", icon: Award },
-							{ id: "values", label: "Core Values", icon: Target },
+							{ id: "whyChooseUs", label: "Why Choose Us", icon: HelpCircle },
 							{ id: "team", label: "Executive Team", icon: Users },
 						].map((tab) => {
 							const Icon = tab.icon;
@@ -145,351 +152,456 @@ export default function AboutSettingsPage() {
 							return (
 								<button
 									key={tab.id}
+									type="button"
 									onClick={() => setActiveTab(tab.id as any)}
-									className={`px-4 py-2 rounded-xl text-xs font-medium font-heading inline-flex items-center gap-2 transition-all cursor-pointer ${
+									className={`px-3.5 py-2 rounded-xl text-xs font-semibold font-heading inline-flex items-center gap-1.5 transition-all cursor-pointer ${
 										isActive
 											? "bg-primary text-primary-foreground shadow-xs"
-											: "bg-card hover:bg-card/80 text-muted-foreground border border-border/50"
+											: "bg-card hover:bg-muted text-muted-foreground border border-border/60"
 									}`}
 								>
 									<Icon className="w-3.5 h-3.5" />
-									{tab.label}
+									<span>{tab.label}</span>
 								</button>
 							);
 						})}
 					</div>
 
 					{loading ? (
-						<div className="p-12 text-center text-muted-foreground text-sm flex items-center justify-center gap-2">
-							<Loader2 className="w-5 h-5 animate-spin text-primary" />
-							<span>Loading about page content...</span>
+						<div className="p-16 text-center text-muted-foreground text-xs flex items-center justify-center gap-2">
+							<Loader2 className="w-4 h-4 animate-spin text-primary" />
+							<span>Loading about page content from PostgreSQL...</span>
 						</div>
 					) : (
 						<form onSubmit={handleSave} className="space-y-6">
-							{/* TAB 1: HERO & BIO */}
+							{/* ── TAB 1: HERO & WHO WE ARE ── */}
 							{activeTab === "hero" && (
-								<div className="bg-card border border-border/70 rounded-3xl p-6 sm:p-8 space-y-6">
-									<h3 className="text-base font-bold font-heading text-foreground border-b border-border/50 pb-3">
-										Hero Banner & Company Overview
-									</h3>
+								<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-5">
+									<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
+										Header Banner & Company Bio
+									</h2>
 
-									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+									<div className="grid sm:grid-cols-2 gap-4">
 										<div className="space-y-1.5">
-											<label className="text-xs font-semibold text-foreground">
+											<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
 												Hero Title *
-											</label>
-											<input
-												type="text"
+											</Label>
+											<Input
+												required
 												value={formData.heroTitle}
 												onChange={(e) => handleChange("heroTitle", e.target.value)}
-												className="w-full h-10 px-3 rounded-xl bg-background border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
+												placeholder="e.g. Building Trust."
 											/>
 										</div>
 										<div className="space-y-1.5">
-											<label className="text-xs font-semibold text-foreground">
-												Hero Subtitle *
-											</label>
-											<input
-												type="text"
+											<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+												Hero Subtitle Highlight *
+											</Label>
+											<Input
+												required
 												value={formData.heroSubtitle}
 												onChange={(e) => handleChange("heroSubtitle", e.target.value)}
-												className="w-full h-10 px-3 rounded-xl bg-background border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
+												placeholder="e.g. Creating Sustainable Communities."
 											/>
 										</div>
 									</div>
 
 									<div className="space-y-1.5">
-										<label className="text-xs font-semibold text-foreground">
+										<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
 											Hero Description *
-										</label>
-										<textarea
+										</Label>
+										<Textarea
 											rows={3}
 											value={formData.heroDesc}
 											onChange={(e) => handleChange("heroDesc", e.target.value)}
-											className="w-full p-3 rounded-xl bg-background border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
+											placeholder="Overview description..."
 										/>
 									</div>
 
-									<div className="space-y-1.5 pt-2">
-										<label className="text-xs font-semibold text-foreground">
+									<div className="space-y-1.5 pt-3 border-t border-border/50">
+										<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
 											"Who We Are" Section Title *
-										</label>
-										<input
-											type="text"
+										</Label>
+										<Input
+											required
 											value={formData.whoWeAreTitle}
 											onChange={(e) => handleChange("whoWeAreTitle", e.target.value)}
-											className="w-full h-10 px-3 rounded-xl bg-background border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
+											placeholder="e.g. Pioneering Planned & Eco-Friendly Development"
 										/>
 									</div>
 
 									<div className="space-y-1.5">
-										<label className="text-xs font-semibold text-foreground">
-											"Who We Are" Full Bio Description *
-										</label>
-										<textarea
+										<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+											"Who We Are" Full Story *
+										</Label>
+										<Textarea
 											rows={4}
 											value={formData.whoWeAreDesc}
 											onChange={(e) => handleChange("whoWeAreDesc", e.target.value)}
-											className="w-full p-3 rounded-xl bg-background border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
+											placeholder="Comprehensive company narrative..."
 										/>
 									</div>
 								</div>
 							)}
 
-							{/* TAB 2: MISSION & VISION */}
-							{activeTab === "bio" && (
-								<div className="bg-card border border-border/70 rounded-3xl p-6 sm:p-8 space-y-6">
-									<h3 className="text-base font-bold font-heading text-foreground border-b border-border/50 pb-3">
-										Mission & Vision Statements
-									</h3>
+							{/* ── TAB 2: MISSION, VISION & CORE VALUES ── */}
+							{activeTab === "mission" && (
+								<div className="space-y-6">
+									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-5">
+										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
+											Mission & Vision Statements
+										</h2>
 
-									<div className="space-y-4">
-										<div className="space-y-1.5">
-											<label className="text-xs font-semibold text-foreground">
-												Mission Heading *
-											</label>
-											<input
-												type="text"
-												value={formData.missionTitle}
-												onChange={(e) => handleChange("missionTitle", e.target.value)}
-												className="w-full h-10 px-3 rounded-xl bg-background border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
-											/>
-										</div>
-										<div className="space-y-1.5">
-											<label className="text-xs font-semibold text-foreground">
-												Mission Statement Description *
-											</label>
-											<textarea
-												rows={3}
-												value={formData.missionDesc}
-												onChange={(e) => handleChange("missionDesc", e.target.value)}
-												className="w-full p-3 rounded-xl bg-background border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
-											/>
+										<div className="grid sm:grid-cols-2 gap-4">
+											<div className="space-y-3 p-4 rounded-xl bg-muted/30 border border-border/60">
+												<div className="space-y-1.5">
+													<Label className="text-xs font-semibold font-heading uppercase text-primary">
+														Mission Title *
+													</Label>
+													<Input
+														value={formData.missionTitle}
+														onChange={(e) => handleChange("missionTitle", e.target.value)}
+													/>
+												</div>
+												<div className="space-y-1.5">
+													<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+														Mission Description *
+													</Label>
+													<Textarea
+														rows={3}
+														value={formData.missionDesc}
+														onChange={(e) => handleChange("missionDesc", e.target.value)}
+													/>
+												</div>
+											</div>
+
+											<div className="space-y-3 p-4 rounded-xl bg-muted/30 border border-border/60">
+												<div className="space-y-1.5">
+													<Label className="text-xs font-semibold font-heading uppercase text-amber-500">
+														Vision Title *
+													</Label>
+													<Input
+														value={formData.visionTitle}
+														onChange={(e) => handleChange("visionTitle", e.target.value)}
+													/>
+												</div>
+												<div className="space-y-1.5">
+													<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+														Vision Description *
+													</Label>
+													<Textarea
+														rows={3}
+														value={formData.visionDesc}
+														onChange={(e) => handleChange("visionDesc", e.target.value)}
+													/>
+												</div>
+											</div>
 										</div>
 									</div>
 
-									<div className="space-y-4 pt-4 border-t border-border/50">
-										<div className="space-y-1.5">
-											<label className="text-xs font-semibold text-foreground">
-												Vision Heading *
-											</label>
-											<input
-												type="text"
-												value={formData.visionTitle}
-												onChange={(e) => handleChange("visionTitle", e.target.value)}
-												className="w-full h-10 px-3 rounded-xl bg-background border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
-											/>
-										</div>
-										<div className="space-y-1.5">
-											<label className="text-xs font-semibold text-foreground">
-												Vision Statement Description *
-											</label>
-											<textarea
-												rows={3}
-												value={formData.visionDesc}
-												onChange={(e) => handleChange("visionDesc", e.target.value)}
-												className="w-full p-3 rounded-xl bg-background border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
-											/>
+									{/* Core Values */}
+									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-4">
+										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
+											Core Value Pillars
+										</h2>
+
+										<div className="grid sm:grid-cols-2 gap-4">
+											{formData.coreValues.map((cv, idx) => (
+												<div key={idx} className="p-4 rounded-xl bg-muted/30 border border-border/60 space-y-2">
+													<div className="space-y-1">
+														<Label className="text-[11px] font-semibold font-mono text-primary">
+															Pillar 0{idx + 1} Title
+														</Label>
+														<Input
+															value={cv.title}
+															onChange={(e) => {
+																const updated = [...formData.coreValues];
+																updated[idx].title = e.target.value;
+																handleChange("coreValues", updated);
+															}}
+														/>
+													</div>
+													<div className="space-y-1">
+														<Label className="text-[11px] font-semibold text-muted-foreground">
+															Description
+														</Label>
+														<Textarea
+															rows={2}
+															value={cv.desc}
+															onChange={(e) => {
+																const updated = [...formData.coreValues];
+																updated[idx].desc = e.target.value;
+																handleChange("coreValues", updated);
+															}}
+														/>
+													</div>
+												</div>
+											))}
 										</div>
 									</div>
 								</div>
 							)}
 
-							{/* TAB 3: LEADERSHIP SPEECHES */}
+							{/* ── TAB 3: CHAIRMAN & MD ADDRESSES ── */}
 							{activeTab === "leadership" && (
 								<div className="space-y-6">
-									{/* Chairman Section */}
-									<div className="bg-card border border-border/70 rounded-3xl p-6 sm:p-8 space-y-4">
-										<h3 className="text-base font-bold font-heading text-foreground border-b border-border/50 pb-3">
+									{/* Chairman */}
+									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-4">
+										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
 											Chairman's Address & Profile
-										</h3>
-										<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										</h2>
+
+										<div className="grid sm:grid-cols-2 gap-4">
 											<div className="space-y-1.5">
-												<label className="text-xs font-semibold text-foreground">
+												<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
 													Chairman Name *
-												</label>
-												<input
-													type="text"
+												</Label>
+												<Input
 													value={formData.chairmanName}
 													onChange={(e) => handleChange("chairmanName", e.target.value)}
-													className="w-full h-10 px-3 rounded-xl bg-background border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
 												/>
 											</div>
 											<div className="space-y-1.5">
-												<label className="text-xs font-semibold text-foreground">
-													Title / Role *
-												</label>
-												<input
-													type="text"
+												<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+													Designation Title *
+												</Label>
+												<Input
 													value={formData.chairmanRole}
 													onChange={(e) => handleChange("chairmanRole", e.target.value)}
-													className="w-full h-10 px-3 rounded-xl bg-background border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
 												/>
 											</div>
 										</div>
-										<div className="space-y-1.5">
-											<label className="text-xs font-semibold text-foreground">
-												Chairman Photo URL *
-											</label>
-											<input
-												type="text"
-												value={formData.chairmanImage}
-												onChange={(e) => handleChange("chairmanImage", e.target.value)}
-												className="w-full h-10 px-3 rounded-xl bg-background border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
-											/>
+
+										<div className="grid sm:grid-cols-12 gap-4 items-center">
+											<div className="sm:col-span-8 space-y-1.5">
+												<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+													Chairman Photo URL *
+												</Label>
+												<Input
+													value={formData.chairmanImage}
+													onChange={(e) => handleChange("chairmanImage", e.target.value)}
+												/>
+											</div>
+											{formData.chairmanImage && (
+												<div className="sm:col-span-4 flex items-center gap-3">
+													<img
+														src={formData.chairmanImage}
+														alt="Chairman"
+														className="w-14 h-14 rounded-full object-cover border-2 border-primary shadow-xs"
+													/>
+													<span className="text-[11px] text-muted-foreground">Live Photo Preview</span>
+												</div>
+											)}
 										</div>
+
 										<div className="space-y-1.5">
-											<label className="text-xs font-semibold text-foreground">
+											<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
 												Chairman's Full Speech Address *
-											</label>
-											<textarea
+											</Label>
+											<Textarea
 												rows={5}
 												value={formData.chairmanSpeech}
 												onChange={(e) => handleChange("chairmanSpeech", e.target.value)}
-												className="w-full p-3 rounded-xl bg-background border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
 											/>
 										</div>
 									</div>
 
-									{/* MD Section */}
-									<div className="bg-card border border-border/70 rounded-3xl p-6 sm:p-8 space-y-4">
-										<h3 className="text-base font-bold font-heading text-foreground border-b border-border/50 pb-3">
+									{/* Managing Director */}
+									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-4">
+										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
 											Managing Director's Address & Profile
-										</h3>
-										<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										</h2>
+
+										<div className="grid sm:grid-cols-2 gap-4">
 											<div className="space-y-1.5">
-												<label className="text-xs font-semibold text-foreground">
+												<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
 													MD Name *
-												</label>
-												<input
-													type="text"
+												</Label>
+												<Input
 													value={formData.mdName}
 													onChange={(e) => handleChange("mdName", e.target.value)}
-													className="w-full h-10 px-3 rounded-xl bg-background border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
 												/>
 											</div>
 											<div className="space-y-1.5">
-												<label className="text-xs font-semibold text-foreground">
-													Title / Role *
-												</label>
-												<input
-													type="text"
+												<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+													Designation Title *
+												</Label>
+												<Input
 													value={formData.mdRole}
 													onChange={(e) => handleChange("mdRole", e.target.value)}
-													className="w-full h-10 px-3 rounded-xl bg-background border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
 												/>
 											</div>
 										</div>
-										<div className="space-y-1.5">
-											<label className="text-xs font-semibold text-foreground">
-												MD Photo URL *
-											</label>
-											<input
-												type="text"
-												value={formData.mdImage}
-												onChange={(e) => handleChange("mdImage", e.target.value)}
-												className="w-full h-10 px-3 rounded-xl bg-background border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
-											/>
+
+										<div className="grid sm:grid-cols-12 gap-4 items-center">
+											<div className="sm:col-span-8 space-y-1.5">
+												<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+													MD Photo URL *
+												</Label>
+												<Input
+													value={formData.mdImage}
+													onChange={(e) => handleChange("mdImage", e.target.value)}
+												/>
+											</div>
+											{formData.mdImage && (
+												<div className="sm:col-span-4 flex items-center gap-3">
+													<img
+														src={formData.mdImage}
+														alt="MD"
+														className="w-14 h-14 rounded-full object-cover border-2 border-primary shadow-xs"
+													/>
+													<span className="text-[11px] text-muted-foreground">Live Photo Preview</span>
+												</div>
+											)}
 										</div>
+
 										<div className="space-y-1.5">
-											<label className="text-xs font-semibold text-foreground">
+											<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
 												MD's Full Speech Address *
-											</label>
-											<textarea
+											</Label>
+											<Textarea
 												rows={5}
 												value={formData.mdSpeech}
 												onChange={(e) => handleChange("mdSpeech", e.target.value)}
-												className="w-full p-3 rounded-xl bg-background border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
 											/>
 										</div>
 									</div>
 								</div>
 							)}
 
-							{/* TAB 4: STATS */}
+							{/* ── TAB 4: STATS & MILESTONES ── */}
 							{activeTab === "stats" && (
-								<div className="bg-card border border-border/70 rounded-3xl p-6 sm:p-8 space-y-6">
-									<h3 className="text-base font-bold font-heading text-foreground border-b border-border/50 pb-3">
-										Company Stats & Milestones
-									</h3>
+								<div className="space-y-6">
+									{/* Company Stats */}
+									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-4">
+										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
+											Company At A Glance Metrics (4 Stats)
+										</h2>
 
-									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-										{formData.stats.map((st, idx) => (
-											<div key={idx} className="p-4 rounded-2xl bg-background border border-border/60 space-y-2">
-												<div className="space-y-1">
-													<label className="text-[11px] font-semibold text-muted-foreground">
-														Metric #{idx + 1} Value
-													</label>
-													<input
-														type="text"
-														value={st.value}
-														onChange={(e) => {
-															const updated = [...formData.stats];
-															updated[idx].value = e.target.value;
-															handleChange("stats", updated);
-														}}
-														className="w-full h-9 px-3 rounded-lg bg-card border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
-													/>
+										<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+											{formData.stats.map((st, idx) => (
+												<div key={idx} className="p-4 rounded-xl bg-muted/30 border border-border/60 space-y-2">
+													<div className="space-y-1">
+														<Label className="text-[11px] font-semibold text-primary font-mono">
+															Metric #{idx + 1} Value
+														</Label>
+														<Input
+															value={st.value}
+															onChange={(e) => {
+																const updated = [...formData.stats];
+																updated[idx].value = e.target.value;
+																handleChange("stats", updated);
+															}}
+														/>
+													</div>
+													<div className="space-y-1">
+														<Label className="text-[11px] font-semibold text-muted-foreground">
+															Label
+														</Label>
+														<Input
+															value={st.label}
+															onChange={(e) => {
+																const updated = [...formData.stats];
+																updated[idx].label = e.target.value;
+																handleChange("stats", updated);
+															}}
+														/>
+													</div>
 												</div>
-												<div className="space-y-1">
-													<label className="text-[11px] font-semibold text-muted-foreground">
-														Label Title
-													</label>
-													<input
-														type="text"
-														value={st.label}
-														onChange={(e) => {
-															const updated = [...formData.stats];
-															updated[idx].label = e.target.value;
-															handleChange("stats", updated);
-														}}
-														className="w-full h-9 px-3 rounded-lg bg-card border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
-													/>
+											))}
+										</div>
+									</div>
+
+									{/* Milestones Timeline */}
+									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-4">
+										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
+											Milestones of Trust Timeline
+										</h2>
+
+										<div className="space-y-3">
+											{formData.timeline.map((item, idx) => (
+												<div key={idx} className="p-4 rounded-xl bg-muted/30 border border-border/60 grid sm:grid-cols-12 gap-3 items-center">
+													<div className="sm:col-span-2">
+														<Label className="text-[10px] font-mono text-primary uppercase">
+															Year
+														</Label>
+														<Input
+															value={item.year}
+															onChange={(e) => {
+																const updated = [...formData.timeline];
+																updated[idx].year = e.target.value;
+																handleChange("timeline", updated);
+															}}
+														/>
+													</div>
+													<div className="sm:col-span-4">
+														<Label className="text-[10px] font-semibold text-muted-foreground uppercase">
+															Milestone Title
+														</Label>
+														<Input
+															value={item.title}
+															onChange={(e) => {
+																const updated = [...formData.timeline];
+																updated[idx].title = e.target.value;
+																handleChange("timeline", updated);
+															}}
+														/>
+													</div>
+													<div className="sm:col-span-6">
+														<Label className="text-[10px] font-semibold text-muted-foreground uppercase">
+															Description
+														</Label>
+														<Input
+															value={item.desc}
+															onChange={(e) => {
+																const updated = [...formData.timeline];
+																updated[idx].desc = e.target.value;
+																handleChange("timeline", updated);
+															}}
+														/>
+													</div>
 												</div>
-											</div>
-										))}
+											))}
+										</div>
 									</div>
 								</div>
 							)}
 
-							{/* TAB 5: CORE VALUES */}
-							{activeTab === "values" && (
-								<div className="bg-card border border-border/70 rounded-3xl p-6 sm:p-8 space-y-6">
-									<h3 className="text-base font-bold font-heading text-foreground border-b border-border/50 pb-3">
-										Core Values & Pillars
-									</h3>
+							{/* ── TAB 5: WHY CHOOSE US ── */}
+							{activeTab === "whyChooseUs" && (
+								<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-4">
+									<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
+										Why Choose Silicon Real Estate (4 Distinctive Advantages)
+									</h2>
 
-									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-										{formData.coreValues.map((cv, idx) => (
-											<div key={idx} className="p-4 rounded-2xl bg-background border border-border/60 space-y-2">
+									<div className="grid sm:grid-cols-2 gap-4">
+										{formData.whyChooseUs.map((item, idx) => (
+											<div key={idx} className="p-4 rounded-xl bg-muted/30 border border-border/60 space-y-2">
 												<div className="space-y-1">
-													<label className="text-[11px] font-semibold text-muted-foreground">
-														Pillar #{idx + 1} Title
-													</label>
-													<input
-														type="text"
-														value={cv.title}
+													<Label className="text-[11px] font-semibold text-primary font-mono">
+														Advantage 0{idx + 1} Title
+													</Label>
+													<Input
+														value={item.title}
 														onChange={(e) => {
-															const updated = [...formData.coreValues];
+															const updated = [...formData.whyChooseUs];
 															updated[idx].title = e.target.value;
-															handleChange("coreValues", updated);
+															handleChange("whyChooseUs", updated);
 														}}
-														className="w-full h-9 px-3 rounded-lg bg-card border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
 													/>
 												</div>
 												<div className="space-y-1">
-													<label className="text-[11px] font-semibold text-muted-foreground">
+													<Label className="text-[11px] font-semibold text-muted-foreground">
 														Description
-													</label>
-													<textarea
+													</Label>
+													<Textarea
 														rows={2}
-														value={cv.desc}
+														value={item.desc}
 														onChange={(e) => {
-															const updated = [...formData.coreValues];
+															const updated = [...formData.whyChooseUs];
 															updated[idx].desc = e.target.value;
-															handleChange("coreValues", updated);
+															handleChange("whyChooseUs", updated);
 														}}
-														className="w-full p-2.5 rounded-lg bg-card border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
 													/>
 												</div>
 											</div>
@@ -498,75 +610,128 @@ export default function AboutSettingsPage() {
 								</div>
 							)}
 
-							{/* TAB 6: EXECUTIVE MANAGEMENT TEAM */}
+							{/* ── TAB 6: EXECUTIVE MANAGEMENT TEAM ── */}
 							{activeTab === "team" && (
-								<div className="bg-card border border-border/70 rounded-3xl p-6 sm:p-8 space-y-6">
-									<h3 className="text-base font-bold font-heading text-foreground border-b border-border/50 pb-3">
-										Executive Leadership Team
-									</h3>
+								<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-5">
+									<div className="flex items-center justify-between border-b border-border/50 pb-2.5">
+										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground">
+											Executive Management Team ({formData.managementTeam.length})
+										</h2>
+										<Button
+											type="button"
+											size="sm"
+											onClick={() => {
+												handleChange("managementTeam", [
+													...formData.managementTeam,
+													{
+														name: "NEW EXECUTIVE",
+														role: "Director",
+														philosophy: "Committed to excellence.",
+														image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80",
+													},
+												]);
+											}}
+											className="gap-1 text-xs"
+										>
+											<Plus className="w-3.5 h-3.5" />
+											Add Member
+										</Button>
+									</div>
 
-									<div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+									<div className="grid sm:grid-cols-2 gap-4">
 										{formData.managementTeam.map((mem, idx) => (
-											<div key={idx} className="p-5 rounded-2xl bg-background border border-border/60 space-y-3">
-												<div className="space-y-1">
-													<label className="text-[11px] font-semibold text-muted-foreground">
-														Member Name
-													</label>
-													<input
-														type="text"
-														value={mem.name}
-														onChange={(e) => {
-															const updated = [...formData.managementTeam];
-															updated[idx].name = e.target.value;
+											<div key={idx} className="p-4 rounded-xl bg-muted/30 border border-border/60 space-y-3 relative group">
+												<div className="flex items-start justify-between gap-3">
+													<div className="flex items-center gap-3">
+														<img
+															src={mem.image}
+															alt={mem.name}
+															className="w-12 h-12 rounded-full object-cover border border-primary/40"
+															onError={(e) => {
+																(e.target as HTMLElement).style.display = "none";
+															}}
+														/>
+														<div>
+															<h4 className="text-xs font-bold font-heading text-foreground">
+																{mem.name || "Member Name"}
+															</h4>
+															<p className="text-[10px] text-primary font-semibold uppercase">
+																{mem.role || "Role"}
+															</p>
+														</div>
+													</div>
+
+													<Button
+														type="button"
+														variant="ghost"
+														size="icon"
+														onClick={() => {
+															const updated = formData.managementTeam.filter((_, i) => i !== idx);
 															handleChange("managementTeam", updated);
 														}}
-														className="w-full h-9 px-3 rounded-lg bg-card border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
-													/>
+														className="h-7 w-7 text-destructive hover:bg-destructive/10 cursor-pointer"
+													>
+														<Trash2 className="w-3.5 h-3.5" />
+													</Button>
 												</div>
-												<div className="space-y-1">
-													<label className="text-[11px] font-semibold text-muted-foreground">
-														Role Title
-													</label>
-													<input
-														type="text"
-														value={mem.role}
-														onChange={(e) => {
-															const updated = [...formData.managementTeam];
-															updated[idx].role = e.target.value;
-															handleChange("managementTeam", updated);
-														}}
-														className="w-full h-9 px-3 rounded-lg bg-card border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
-													/>
-												</div>
-												<div className="space-y-1">
-													<label className="text-[11px] font-semibold text-muted-foreground">
-														Image URL
-													</label>
-													<input
-														type="text"
-														value={mem.image}
-														onChange={(e) => {
-															const updated = [...formData.managementTeam];
-															updated[idx].image = e.target.value;
-															handleChange("managementTeam", updated);
-														}}
-														className="w-full h-9 px-3 rounded-lg bg-card border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
-													/>
-												</div>
-												<div className="space-y-1">
-													<label className="text-[11px] font-semibold text-muted-foreground">
-														Philosophy / Quote
-													</label>
-													<input
-														type="text"
-														value={mem.philosophy || ""}
-														onChange={(e) => {
-															const updated = [...formData.managementTeam];
-															updated[idx].philosophy = e.target.value;
-															handleChange("managementTeam", updated);
-														}}
-														className="w-full h-9 px-3 rounded-lg bg-card border border-border/80 text-xs text-foreground focus:outline-none focus:border-primary"
-													/>
+
+												<div className="space-y-2 pt-2 border-t border-border/40 text-left">
+													<div className="grid grid-cols-2 gap-2">
+														<div className="space-y-1">
+															<Label className="text-[10px] text-muted-foreground uppercase">
+																Name
+															</Label>
+															<Input
+																value={mem.name}
+																onChange={(e) => {
+																	const updated = [...formData.managementTeam];
+																	updated[idx].name = e.target.value;
+																	handleChange("managementTeam", updated);
+																}}
+															/>
+														</div>
+														<div className="space-y-1">
+															<Label className="text-[10px] text-muted-foreground uppercase">
+																Role Title
+															</Label>
+															<Input
+																value={mem.role}
+																onChange={(e) => {
+																	const updated = [...formData.managementTeam];
+																	updated[idx].role = e.target.value;
+																	handleChange("managementTeam", updated);
+																}}
+															/>
+														</div>
+													</div>
+
+													<div className="space-y-1">
+														<Label className="text-[10px] text-muted-foreground uppercase">
+															Image URL
+														</Label>
+														<Input
+															value={mem.image}
+															onChange={(e) => {
+																const updated = [...formData.managementTeam];
+																updated[idx].image = e.target.value;
+																handleChange("managementTeam", updated);
+															}}
+														/>
+													</div>
+
+													<div className="space-y-1">
+														<Label className="text-[10px] text-muted-foreground uppercase">
+															Philosophy / Statement Quote
+														</Label>
+														<Input
+															value={mem.philosophy}
+															onChange={(e) => {
+																const updated = [...formData.managementTeam];
+																updated[idx].philosophy = e.target.value;
+																handleChange("managementTeam", updated);
+															}}
+														/>
+													</div>
 												</div>
 											</div>
 										))}
@@ -574,20 +739,20 @@ export default function AboutSettingsPage() {
 								</div>
 							)}
 
-							{/* Save Bar */}
-							<div className="pt-4 flex justify-end">
-								<button
+							{/* Bottom Save Button */}
+							<div className="flex items-center justify-end gap-3 pt-4 border-t border-border/50">
+								<Button
 									type="submit"
-									disabled={saving || !isEditorUnlocked}
-									className="px-6 py-3 rounded-xl bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2 cursor-pointer hover:bg-primary/90 disabled:opacity-50"
+									disabled={saving}
+									className="gap-2 px-6 h-10 font-bold font-heading text-xs"
 								>
 									{saving ? (
 										<Loader2 className="w-4 h-4 animate-spin" />
 									) : (
 										<Save className="w-4 h-4" />
 									)}
-									Save About Settings
-								</button>
+									Save All About Settings
+								</Button>
 							</div>
 						</form>
 					)}
