@@ -13,11 +13,10 @@ export interface EditorGuardProps {
 /**
  * EditorGuard — Direct wrapper component allowing full access to edit controls.
  */
-export function EditorGuard({
-	children,
-	className = "",
-}: EditorGuardProps) {
-	return <div className={`inline-flex items-center ${className}`}>{children}</div>;
+export function EditorGuard({ children, className = "" }: EditorGuardProps) {
+	return (
+		<div className={`inline-flex items-center ${className}`}>{children}</div>
+	);
 }
 
 /**

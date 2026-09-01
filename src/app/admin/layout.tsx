@@ -63,11 +63,19 @@ export default function AdminLayout({
 	useEffect(() => {
 		if (pathname === "/admin/login") return;
 		const s = getAdminSession();
-		const jwt = typeof window !== "undefined" ? localStorage.getItem("silicon_jwt_token") : null;
+		const jwt =
+			typeof window !== "undefined"
+				? localStorage.getItem("silicon_jwt_token")
+				: null;
 		if (!s && !jwt) {
 			router.replace("/admin/login");
 		} else {
-			setSession(s || { email: "admin@afiaholdingsltd.com", loggedInAt: new Date().toISOString() });
+			setSession(
+				s || {
+					email: "admin@afiaholdingsltd.com",
+					loggedInAt: new Date().toISOString(),
+				},
+			);
 		}
 	}, [pathname, router]);
 
