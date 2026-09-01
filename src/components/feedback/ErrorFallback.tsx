@@ -57,9 +57,9 @@ export function ErrorFallback({
 						</Link>
 					</Button>
 					<Button variant="ghost" asChild>
-						<Link href="/properties">
+						<Link href="/projects">
 							<ArrowLeft className="h-4 w-4 mr-2" />
-							Browse Properties
+							Browse Projects
 						</Link>
 					</Button>
 				</div>
