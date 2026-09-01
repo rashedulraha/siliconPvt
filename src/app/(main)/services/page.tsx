@@ -165,7 +165,11 @@ export default function ServicesPage() {
 			: "Our Services | Silicon Real Estate (Pvt.) Ltd.";
 	}, [isBn]);
 
-	const services = isBn ? SERVICES_BN : (rawServices && rawServices.length > 0 ? rawServices : SERVICES_BN);
+	const services = isBn
+		? SERVICES_BN
+		: rawServices && rawServices.length > 0
+			? rawServices
+			: SERVICES_BN;
 	const currentService = services[activeTab] || services[0];
 	const serviceFeatures = isBn ? SERVICE_FEATURES_BN : SERVICE_FEATURES_EN;
 
@@ -190,7 +194,9 @@ export default function ServicesPage() {
 								{isBn ? "হোম" : "Home"}
 							</Link>
 							<ChevronRight className="w-3.5 h-3.5 text-white/40" />
-							<span className="text-accent font-semibold">{isBn ? "সেবাসমূহ" : "Services"}</span>
+							<span className="text-accent font-semibold">
+								{isBn ? "সেবাসমূহ" : "Services"}
+							</span>
 						</div>
 
 						<h1 className="text-3xl sm:text-4xl md:text-5xl font-medium font-heading text-white tracking-tight leading-tight">
@@ -227,7 +233,9 @@ export default function ServicesPage() {
 							{isBn ? "প্রধান সেবাসমূহ" : "CORE OFFERINGS"}
 						</span>
 						<h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
-							{isBn ? "পূর্ণাঙ্গ রিয়েল এস্টেট সেবাসমূহ" : "Comprehensive Real Estate Services"}
+							{isBn
+								? "পূর্ণাঙ্গ রিয়েল এস্টেট সেবাসমূহ"
+								: "Comprehensive Real Estate Services"}
 						</h2>
 						<p className="text-muted-foreground text-xs sm:text-sm md:text-base font-light leading-relaxed">
 							{isBn
@@ -320,26 +328,29 @@ export default function ServicesPage() {
 										</div>
 
 										{/* Key Benefits */}
-										{currentService.benefits && currentService.benefits.length > 0 && (
-											<div className="space-y-3 pt-2">
-												<span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground font-heading block">
-													{isBn ? "প্রধান সুবিধাসমূহ ও বৈশিষ্ট্য:" : "KEY HIGHLIGHTS & BENEFITS:"}
-												</span>
-												<div className="space-y-2">
-													{currentService.benefits.map((b) => (
-														<div
-															key={b}
-															className="bg-muted/40 border border-border/40 rounded-2xl p-3.5 flex items-start gap-2.5"
-														>
-															<CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-															<span className="text-xs text-foreground font-light leading-relaxed">
-																{b}
-															</span>
-														</div>
-													))}
+										{currentService.benefits &&
+											currentService.benefits.length > 0 && (
+												<div className="space-y-3 pt-2">
+													<span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground font-heading block">
+														{isBn
+															? "প্রধান সুবিধাসমূহ ও বৈশিষ্ট্য:"
+															: "KEY HIGHLIGHTS & BENEFITS:"}
+													</span>
+													<div className="space-y-2">
+														{currentService.benefits.map((b) => (
+															<div
+																key={b}
+																className="bg-muted/40 border border-border/40 rounded-2xl p-3.5 flex items-start gap-2.5"
+															>
+																<CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+																<span className="text-xs text-foreground font-light leading-relaxed">
+																	{b}
+																</span>
+															</div>
+														))}
+													</div>
 												</div>
-											</div>
-										)}
+											)}
 
 										{/* Action Button */}
 										<div className="pt-4 border-t border-border/40">
@@ -347,7 +358,9 @@ export default function ServicesPage() {
 												href="/contact"
 												className="group bg-primary text-primary-foreground h-11 px-6 rounded-xl font-medium font-heading text-xs sm:text-sm inline-flex items-center justify-center hover:bg-primary/90 transition-all border border-white/10 shadow-xs gap-2"
 											>
-												{isBn ? "এই সেবা সম্পর্কে জানতে চান?" : "ENQUIRE ABOUT THIS SERVICE"}
+												{isBn
+													? "এই সেবা সম্পর্কে জানতে চান?"
+													: "ENQUIRE ABOUT THIS SERVICE"}
 												<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
 											</Link>
 										</div>
@@ -367,7 +380,9 @@ export default function ServicesPage() {
 							{isBn ? "আমাদের বিশেষত্ব" : "WHY CHOOSE US"}
 						</span>
 						<h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
-							{isBn ? "কার্যকরী সুবিধা ও সেবার শক্তি" : "Service Features & Ultimate Benefits"}
+							{isBn
+								? "কার্যকরী সুবিধা ও সেবার শক্তি"
+								: "Service Features & Ultimate Benefits"}
 						</h2>
 						<p className="text-muted-foreground text-xs sm:text-sm md:text-base font-light leading-relaxed">
 							{isBn
@@ -407,7 +422,9 @@ export default function ServicesPage() {
 							{isBn ? "অফলাইন বুকিং নির্দেশিকা" : "OFFLINE BOOKING GUIDELINE"}
 						</span>
 						<h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
-							{isBn ? "আপনার নিরাপদ জমির যাত্রা শুরু করতে প্রস্তুত?" : "Ready to Start Your Secure Property Journey?"}
+							{isBn
+								? "আপনার নিরাপদ জমির যাত্রা শুরু করতে প্রস্তুত?"
+								: "Ready to Start Your Secure Property Journey?"}
 						</h2>
 						<p className="text-muted-foreground text-xs sm:text-sm md:text-base font-light leading-relaxed">
 							{isBn
@@ -486,12 +503,16 @@ export default function ServicesPage() {
 							<div className="lg:col-span-8 space-y-3">
 								<div className="flex items-center gap-2">
 									<span className="inline-block px-3.5 py-1 rounded-full bg-accent/15 border border-accent/30 text-xs font-mono font-medium text-accent uppercase tracking-wider">
-										{isBn ? "তাৎক্ষণিক সহায়তা ডেস্ক" : "IMMEDIATE SERVICE ASSISTANCE"}
+										{isBn
+											? "তাৎক্ষণিক সহায়তা ডেস্ক"
+											: "IMMEDIATE SERVICE ASSISTANCE"}
 									</span>
 								</div>
 
 								<h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold font-heading text-white tracking-tight">
-									{isBn ? "জরুরি প্রপার্টি ও আইনি সহায়তা প্রয়োজন?" : "Need Immediate Property & Legal Support?"}
+									{isBn
+										? "জরুরি প্রপার্টি ও আইনি সহায়তা প্রয়োজন?"
+										: "Need Immediate Property & Legal Support?"}
 								</h2>
 								<p className="text-white/80 text-xs sm:text-sm md:text-base font-light leading-relaxed max-w-xl">
 									{isBn
