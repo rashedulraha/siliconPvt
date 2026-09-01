@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Poppins, Roboto } from "next/font/google";
 import "./globals.css";
 import "@/styles/a11y.css";
 
@@ -8,23 +8,26 @@ import { AnalyticsProvider } from "@/components/analytics/AnalyticsProvider";
 import { ToastProvider } from "@/components/feedback/ToastProvider";
 import { defaultMetadata } from "@/lib/metadata";
 import { CMSProvider } from "@/context/CMSContext";
-import { ThemeProvider } from "@/components/Providers/ThemeProvider";
 import { UserAuthProvider } from "@/context/UserAuthContext";
 
-const inter = Inter({
-	weight: ["300", "400", "500", "600", "700", "800"],
+const poppins = Poppins({
+	weight: ["300", "400", "500", "600", "700", "800", "900"],
 	subsets: ["latin"],
-	variable: "--font-sans",
+	variable: "--font-poppins",
+	display: "swap",
+});
+
+const roboto = Roboto({
+	weight: ["300", "400", "500", "700", "900"],
+	subsets: ["latin"],
+	variable: "--font-roboto",
 	display: "swap",
 });
 
 export const metadata: Metadata = defaultMetadata;
 
 export const viewport: Viewport = {
-	themeColor: [
-		{ media: "(prefers-color-scheme: light)", color: "hsl(221, 83%, 24%)" },
-		{ media: "(prefers-color-scheme: dark)", color: "hsl(222, 47%, 6%)" },
-	],
+	themeColor: "hsl(221, 83%, 24%)",
 	width: "device-width",
 	initialScale: 1,
 	maximumScale: 5,
@@ -47,26 +50,20 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="en" suppressHydrationWarning>
+		<html lang="en" className="light" suppressHydrationWarning>
 			<body
-				className={`${inter.variable} font-sans antialiased min-h-screen bg-background text-foreground`}
+				className={`${poppins.variable} ${roboto.variable} font-sans antialiased min-h-screen bg-background text-foreground`}
 			>
-				<ThemeProvider
-					attribute="class"
-					defaultTheme="light"
-					enableSystem
-					disableTransitionOnChange
-				>
-					<CMSProvider>
-						<UserAuthProvider>
-							<AnalyticsProvider />
-							<ToastProvider />
-							{children}
-							<CookieConsent />
-						</UserAuthProvider>
-					</CMSProvider>
-				</ThemeProvider>
+				<CMSProvider>
+					<UserAuthProvider>
+						<AnalyticsProvider />
+						<ToastProvider />
+						{children}
+						<CookieConsent />
+					</UserAuthProvider>
+				</CMSProvider>
 			</body>
 		</html>
 	);
 }
+
