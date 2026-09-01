@@ -25,27 +25,15 @@ import { useUserAuth } from "@/context/UserAuthContext";
 const navItems = [
 	{ href: "/admin", label: "Dashboard Overview", icon: LayoutDashboard },
 	{
-		href: "/admin/inventory",
-		label: "Land Plots & Inventory",
-		icon: Building2,
+		href: "/admin/home-settings",
+		label: "Home Page Settings",
+		icon: HomeIcon,
 	},
 	{ href: "/admin/manage-slides", label: "Hero Banners", icon: ImageIcon },
-	{ href: "/admin/home-settings", label: "Home Page Settings", icon: LayoutDashboard },
-	{ href: "/admin/gallery", label: "Gallery Manager", icon: ImageIcon },
 	{
-		href: "/admin/site-settings",
-		label: "Site Contact & Info",
-		icon: Settings,
-	},
-	{
-		href: "/admin/membership-settings",
-		label: "Membership Settings",
-		icon: FileCode,
-	},
-	{
-		href: "/admin/services-settings",
-		label: "Services & Products",
-		icon: Briefcase,
+		href: "/admin/about-settings",
+		label: "About & Leadership",
+		icon: FileText,
 	},
 	{
 		href: "/admin/projects-settings",
@@ -53,9 +41,19 @@ const navItems = [
 		icon: Building2,
 	},
 	{
-		href: "/admin/about-settings",
-		label: "About & Leadership",
-		icon: FileText,
+		href: "/admin/inventory",
+		label: "Plots & Inventory",
+		icon: Building2,
+	},
+	{
+		href: "/admin/services-settings",
+		label: "Services & Solutions",
+		icon: Briefcase,
+	},
+	{
+		href: "/admin/site-settings",
+		label: "Site Contact & Info",
+		icon: Settings,
 	},
 	{ href: "/admin/leads", label: "Client Inquiries", icon: Users },
 ];
