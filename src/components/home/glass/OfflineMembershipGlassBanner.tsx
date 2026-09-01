@@ -42,18 +42,21 @@ export function OfflineMembershipGlassBanner() {
 					<div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border-b border-white/15 pb-8">
 						<div className="lg:col-span-8 space-y-3 text-left">
 							<span className="inline-block px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-medium uppercase tracking-widest text-accent font-heading">
-								{isBn ? "অফলাইন মেম্বারশিপ ও বুকিং গাইড" : "OFFLINE MEMBERSHIP GUIDE"}
+								{isBn
+									? "অফলাইন মেম্বারশিপ ও বুকিং গাইড"
+									: "OFFLINE MEMBERSHIP GUIDE"}
 							</span>
 							<h2 className="text-2xl sm:text-3xl font-semibold font-heading text-white tracking-tight">
 								{isBn
 									? "সিলিকন সিটিতে আপনার প্লট বুক করতে প্রস্তুত?"
-									: (data.ctaTitle || "Ready to Secure Your Plot in Silicon City?")}
+									: data.ctaTitle ||
+										"Ready to Secure Your Plot in Silicon City?"}
 							</h2>
 							<p className="text-white/80 text-xs sm:text-sm font-light leading-relaxed max-w-xl">
 								{isBn
 									? "আমাদের ৩ ধাপের সহজ অফিস বুকিং গাইড অনুসরণ করুন অথবা মোহাম্মদপুর কর্পোরেট অফিস থেকে ফ্রি পরিবহনে সাইট ভিজিট করুন।"
-									: (data.ctaDesc ||
-										"Follow our simple 3-step physical office registration guide or schedule a physical site visit with free transport from our Mohammadpur corporate office.")}
+									: data.ctaDesc ||
+										"Follow our simple 3-step physical office registration guide or schedule a physical site visit with free transport from our Mohammadpur corporate office."}
 							</p>
 						</div>
 
@@ -62,7 +65,9 @@ export function OfflineMembershipGlassBanner() {
 								href={data.ctaButtonLink || "/contact?type=visit"}
 								className="group bg-primary text-primary-foreground h-12 px-7 rounded-xl font-medium text-xs sm:text-sm font-heading inline-flex items-center justify-center hover:bg-primary/90 transition-all border border-white/10 shadow-md gap-2"
 							>
-								{isBn ? "অফিস ভিজিট বুক করুন" : (data.ctaButtonText || "SCHEDULE OFFICE VISIT")}
+								{isBn
+									? "অফিস ভিজিট বুক করুন"
+									: data.ctaButtonText || "SCHEDULE OFFICE VISIT"}
 								<ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
 							</Link>
 						</div>
