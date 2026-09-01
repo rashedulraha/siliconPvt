@@ -78,11 +78,21 @@
   --sidebar-ring:               #C9911A;
 
   /* Fonts */
+  --font-hind-siliguri: var(--font-hind-siliguri, "Hind Siliguri", sans-serif);
   --font-heading: var(--font-poppins, "Poppins", sans-serif);
   --font-body:    var(--font-roboto, "Roboto", sans-serif);
   --font-mono:    "JetBrains Mono", monospace;
   --font-sans:    var(--font-roboto, "Roboto", sans-serif);
   --font-serif:   var(--font-poppins, "Poppins", sans-serif);
+}
+
+html[lang="bn"],
+html[data-lang="bn"],
+[data-lang="bn"] {
+  --font-heading: var(--font-hind-siliguri), "Hind Siliguri", -apple-system, sans-serif;
+  --font-body:    var(--font-hind-siliguri), "Hind Siliguri", -apple-system, sans-serif;
+  --font-sans:    var(--font-hind-siliguri), "Hind Siliguri", -apple-system, sans-serif;
+  font-family:    var(--font-hind-siliguri), "Hind Siliguri", -apple-system, sans-serif;
 }
 
 @theme inline {
@@ -132,6 +142,7 @@
   --font-mono:    var(--font-mono);
   --font-poppins: var(--font-heading);
   --font-roboto:  var(--font-body);
+  --font-bengali: var(--font-hind-siliguri);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: var(--radius);
@@ -144,6 +155,9 @@
 }
 @utility font-body {
   font-family: var(--font-body);
+}
+@utility font-bengali {
+  font-family: var(--font-hind-siliguri), "Hind Siliguri", sans-serif;
 }
 @utility font-poppins {
   font-family: var(--font-heading);

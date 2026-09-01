@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Poppins, Roboto } from "next/font/google";
+import { Hind_Siliguri, Poppins, Roboto } from "next/font/google";
 import "./globals.css";
 import "@/styles/a11y.css";
 
@@ -9,6 +9,14 @@ import { ToastProvider } from "@/components/feedback/ToastProvider";
 import { defaultMetadata } from "@/lib/metadata";
 import { CMSProvider } from "@/context/CMSContext";
 import { UserAuthProvider } from "@/context/UserAuthContext";
+import { LanguageProvider } from "@/context/LanguageContext";
+
+const hindSiliguri = Hind_Siliguri({
+	weight: ["300", "400", "500", "600", "700"],
+	subsets: ["bengali", "latin"],
+	variable: "--font-hind-siliguri",
+	display: "swap",
+});
 
 const poppins = Poppins({
 	weight: ["300", "400", "500", "600", "700", "800", "900"],
@@ -50,20 +58,23 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="en" className="light" suppressHydrationWarning>
+		<html lang="bn" data-lang="bn" className="light" suppressHydrationWarning>
 			<body
-				className={`${poppins.variable} ${roboto.variable} font-sans antialiased min-h-screen bg-background text-foreground`}
+				className={`${hindSiliguri.variable} ${poppins.variable} ${roboto.variable} font-sans antialiased min-h-screen bg-background text-foreground`}
 			>
-				<CMSProvider>
-					<UserAuthProvider>
-						<AnalyticsProvider />
-						<ToastProvider />
-						{children}
-						<CookieConsent />
-					</UserAuthProvider>
-				</CMSProvider>
+				<LanguageProvider>
+					<CMSProvider>
+						<UserAuthProvider>
+							<AnalyticsProvider />
+							<ToastProvider />
+							{children}
+							<CookieConsent />
+						</UserAuthProvider>
+					</CMSProvider>
+				</LanguageProvider>
 			</body>
 		</html>
 	);
 }
+
 
