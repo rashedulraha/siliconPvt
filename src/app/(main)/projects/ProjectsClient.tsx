@@ -55,22 +55,46 @@ export function ProjectsClient() {
 
 	const statusFilters = [
 		{ value: "all" as StatusFilter, label: isBn ? "সকল স্ট্যাটাস" : "All Status" },
-		{ value: "available" as StatusFilter, label: isBn ? "চলমান / বুকিং উন্মুক্ত" : "Ongoing / Open" },
-		{ value: "pending" as StatusFilter, label: isBn ? "আসন্ন প্রকল্প" : "Upcoming" },
-		{ value: "sold" as StatusFilter, label: isBn ? "সম্পন্ন প্রকল্প" : "Completed" },
+		{
+			value: "available" as StatusFilter,
+			label: isBn ? "চলমান / বুকিং উন্মুক্ত" : "Ongoing / Open",
+		},
+		{
+			value: "pending" as StatusFilter,
+			label: isBn ? "আসন্ন প্রকল্প" : "Upcoming",
+		},
+		{
+			value: "sold" as StatusFilter,
+			label: isBn ? "সম্পন্ন প্রকল্প" : "Completed",
+		},
 	];
 
 	const categoryFilters = [
 		{ value: "all" as CategoryFilter, label: isBn ? "সকল প্রকার" : "All Types" },
-		{ value: "residential" as CategoryFilter, label: isBn ? "আবাসিক প্লট" : "Residential Plots" },
-		{ value: "commercial" as CategoryFilter, label: isBn ? "বাণিজ্যিক প্লট" : "Commercial Plots" },
+		{
+			value: "residential" as CategoryFilter,
+			label: isBn ? "আবাসিক প্লট" : "Residential Plots",
+		},
+		{
+			value: "commercial" as CategoryFilter,
+			label: isBn ? "বাণিজ্যিক প্লট" : "Commercial Plots",
+		},
 	];
 
 	const sortOptions = [
 		{ value: "newest" as SortOption, label: isBn ? "নতুনতম" : "Newest" },
-		{ value: "price-asc" as SortOption, label: isBn ? "মূল্য: কম থেকে বেশি" : "Price: Low to High" },
-		{ value: "price-desc" as SortOption, label: isBn ? "মূল্য: বেশি থেকে কম" : "Price: High to Low" },
-		{ value: "area-desc" as SortOption, label: isBn ? "আয়তন: বড় থেকে ছোট" : "Area: Large to Small" },
+		{
+			value: "price-asc" as SortOption,
+			label: isBn ? "মূল্য: কম থেকে বেশি" : "Price: Low to High",
+		},
+		{
+			value: "price-desc" as SortOption,
+			label: isBn ? "মূল্য: বেশি থেকে কম" : "Price: High to Low",
+		},
+		{
+			value: "area-desc" as SortOption,
+			label: isBn ? "আয়তন: বড় থেকে ছোট" : "Area: Large to Small",
+		},
 	];
 
 	// Filtered Inventory
@@ -147,12 +171,36 @@ export function ProjectsClient() {
 
 	const amenities = isBn
 		? [
-				{ title: "গ্র্যান্ড সেন্ট্রাল জামে মসজিদ", desc: "সুবিশাল দৃষ্টিনন্দন সেন্ট্রাল মসজিদ এবং প্রতিটি ব্লকে নামাজের পৃথক ব্যবস্থা।", tag: "আধ্যাত্মিক কেন্দ্র" },
-				{ title: "খেলার মাঠ ও বিনোদন পার্ক", desc: "সন্তানদের খেলাধুলা ও পারিবারিক বিনোদনের জন্য সবুজ খোলা মাঠ ও পার্ক।", tag: "শারীরিক বিকাশ" },
-				{ title: "নদীতীরবর্তী গ্রিন করিডোর", desc: "তুরাগ নদীর তীরে প্রাকৃতিক নির্মল পরিবেশ ও দৃষ্টিনন্দন ওয়াকওয়ে।", tag: "প্রাকৃতিক শোভা" },
-				{ title: "স্কুল ও কলেজ ক্যাম্পাস", desc: "টাউনশিপের অভ্যন্তরে মানসম্মত শিক্ষা নিশ্চিতকরণে সংরক্ষিত শিক্ষা জোন।", tag: "শিক্ষা সুবিধা" },
-				{ title: "হাসপাতাল ও ডায়াগনস্টিক সেন্টার", desc: "২৪/৭ জরুরি স্বাস্থ্যসেবা ও আধুনিক চিকিৎসা সুবিধা নিশ্চিত করার পরিকল্পনা।", tag: "চিকিৎসা কেন্দ্র" },
-				{ title: "শপিং মল ও কমিউনিটি মার্কেট", desc: "নিত্যপ্রয়োজনীয় কেনাকাটা ও বাণিজ্যিক কার্যক্রমের জন্য সুবিন্যস্ত শপিং কমপ্লেক্স।", tag: "বাণিজ্যিক জোন" },
+				{
+					title: "গ্র্যান্ড সেন্ট্রাল জামে মসজিদ",
+					desc: "সুবিশাল দৃষ্টিনন্দন সেন্ট্রাল মসজিদ এবং প্রতিটি ব্লকে নামাজের পৃথক ব্যবস্থা।",
+					tag: "আধ্যাত্মিক কেন্দ্র",
+				},
+				{
+					title: "খেলার মাঠ ও বিনোদন পার্ক",
+					desc: "সন্তানদের খেলাধুলা ও পারিবারিক বিনোদনের জন্য সবুজ খোলা মাঠ ও পার্ক।",
+					tag: "শারীরিক বিকাশ",
+				},
+				{
+					title: "নদীতীরবর্তী গ্রিন করিডোর",
+					desc: "তুরাগ নদীর তীরে প্রাকৃতিক নির্মল পরিবেশ ও দৃষ্টিনন্দন ওয়াকওয়ে।",
+					tag: "প্রাকৃতিক শোভা",
+				},
+				{
+					title: "স্কুল ও কলেজ ক্যাম্পাস",
+					desc: "টাউনশিপের অভ্যন্তরে মানসম্মত শিক্ষা নিশ্চিতকরণে সংরক্ষিত শিক্ষা জোন।",
+					tag: "শিক্ষা সুবিধা",
+				},
+				{
+					title: "হাসপাতাল ও ডায়াগনস্টিক সেন্টার",
+					desc: "২৪/৭ জরুরি স্বাস্থ্যসেবা ও আধুনিক চিকিৎসা সুবিধা নিশ্চিত করার পরিকল্পনা।",
+					tag: "চিকিৎসা কেন্দ্র",
+				},
+				{
+					title: "শপিং মল ও কমিউনিটি মার্কেট",
+					desc: "নিত্যপ্রয়োজনীয় কেনাকাটা ও বাণিজ্যিক কার্যক্রমের জন্য সুবিন্যস্ত শপিং কমপ্লেক্স।",
+					tag: "বাণিজ্যিক জোন",
+				},
 			]
 		: content.amenities;
 
@@ -179,10 +227,26 @@ export function ProjectsClient() {
 
 	const roadmap = isBn
 		? [
-				{ step: "০১", title: "জমি অধিগ্রহণ ও নিষ্কণ্টককরণ", desc: "১০০% ভেরিফাইড দলিলপত্রসহ বড় বাদেশী মৌজায় জমি অধিগ্রহণ সম্পন্ন।" },
-				{ step: "০২", title: "মেগা বালু ভরাট ও ভূমি উন্নয়ন", desc: "১৬–১৮ ফুট উচ্চতায় মাটি ও বালু ভরাট করে নিরাপদ সমতল ভূমি তৈরি।" },
-				{ step: "০৩", title: "অভ্যন্তরীণ সড়ক ও ড্রেনেজ নেটওয়ার্ক", desc: "৩০ ও ৪০ ফুট প্রশস্ত আরসিসি সড়ক এবং উন্নত ড্রেনেজ কাঠামোর কাজ চলমান।" },
-				{ step: "০৪", title: "নাগরিক সুবিধা ও চূড়ান্ত হস্তান্তর", desc: "মসজিদ, পার্ক, বিদ্যুৎ সংযোগ এবং ব্লকভিত্তিক প্লট সীমানা ও দখল হস্তান্তর।" },
+				{
+					step: "০১",
+					title: "জমি অধিগ্রহণ ও নিষ্কণ্টককরণ",
+					desc: "১০০% ভেরিফাইড দলিলপত্রসহ বড় বাদেশী মৌজায় জমি অধিগ্রহণ সম্পন্ন।",
+				},
+				{
+					step: "০২",
+					title: "মেগা বালু ভরাট ও ভূমি উন্নয়ন",
+					desc: "১৬–১৮ ফুট উচ্চতায় মাটি ও বালু ভরাট করে নিরাপদ সমতল ভূমি তৈরি।",
+				},
+				{
+					step: "০৩",
+					title: "অভ্যন্তরীণ সড়ক ও ড্রেনেজ নেটওয়ার্ক",
+					desc: "৩০ ও ৪০ ফুট প্রশস্ত আরসিসি সড়ক এবং উন্নত ড্রেনেজ কাঠামোর কাজ চলমান।",
+				},
+				{
+					step: "০৪",
+					title: "নাগরিক সুবিধা ও চূড়ান্ত হস্তান্তর",
+					desc: "মসজিদ, পার্ক, বিদ্যুৎ সংযোগ এবং ব্লকভিত্তিক প্লট সীমানা ও দখল হস্তান্তর।",
+				},
 			]
 		: content.roadmap;
 
@@ -211,12 +275,16 @@ export function ProjectsClient() {
 								{isBn ? "হোম" : "Home"}
 							</Link>
 							<ChevronRight className="w-3 h-3 text-white/40" />
-							<span className="text-accent font-semibold">{isBn ? "প্রকল্পসমূহ" : "Projects"}</span>
+							<span className="text-accent font-semibold">
+								{isBn ? "প্রকল্পসমূহ" : "Projects"}
+							</span>
 						</nav>
 
 						<h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-white tracking-tight leading-snug mb-3">
 							{isBn ? "পরিকল্পিত আধুনিক মেগা টাউনশিপ ও" : content.heroTitle} <br />
-							<span className="text-gold">{isBn ? "নিরাপদ প্রাইম ল্যান্ড ডেভেলপমেন্ট" : content.heroSubtitle}</span>
+							<span className="text-gold">
+								{isBn ? "নিরাপদ প্রাইম ল্যান্ড ডেভেলপমেন্ট" : content.heroSubtitle}
+							</span>
 						</h1>
 
 						<p className="text-white/80 text-xs sm:text-sm md:text-base font-light leading-relaxed max-w-2xl mb-7">
@@ -279,7 +347,9 @@ export function ProjectsClient() {
 							{isBn ? "ফ্ল্যাগশিপ মেগা প্রজেক্ট" : content.spotlightBadge}
 						</span>
 						<h2 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
-							{isBn ? "সিলিকন সিটি — পরিকল্পিত নিরাপদ আবাসন নগরী" : content.spotlightTitle}
+							{isBn
+								? "সিলিকন সিটি — পরিকল্পিত নিরাপদ আবাসন নগরী"
+								: content.spotlightTitle}
 						</h2>
 						<p className="text-muted-foreground text-xs sm:text-sm font-light leading-relaxed">
 							{isBn
@@ -303,7 +373,9 @@ export function ProjectsClient() {
 									{isBn ? "চলমান মেগা টাউনশিপ" : content.spotlightTag}
 								</span>
 								<h3 className="text-xl sm:text-2xl font-bold font-heading text-white">
-									{isBn ? "রাজউক মাস্টারপ্ল্যান আওতাভুক্ত ও বাঁধ সুরক্ষিত" : content.spotlightBoxTitle}
+									{isBn
+										? "রাজউক মাস্টারপ্ল্যান আওতাভুক্ত ও বাঁধ সুরক্ষিত"
+										: content.spotlightBoxTitle}
 								</h3>
 								<p className="text-white/80 text-xs sm:text-sm font-light leading-relaxed">
 									{isBn
@@ -315,7 +387,9 @@ export function ProjectsClient() {
 							<div className="relative z-10 pt-5 border-t border-white/15 flex flex-wrap items-center justify-between gap-3 text-xs font-heading">
 								<div className="flex items-center gap-1.5 text-white/70">
 									<MapPin className="w-3.5 h-3.5 text-accent shrink-0" />
-									<span>{isBn ? "সাভার (বড় বাদেশী মৌজা)" : content.spotlightLocation}</span>
+									<span>
+										{isBn ? "সাভার (বড় বাদেশী মৌজা)" : content.spotlightLocation}
+									</span>
 								</div>
 								<span className="px-2.5 py-0.5 rounded-full bg-primary text-primary-foreground font-semibold text-[11px]">
 									{isBn ? "১০০% রেডি মিউটেশন" : content.spotlightBadge2}
@@ -356,7 +430,9 @@ export function ProjectsClient() {
 							{isBn ? "ডেভেলপমেন্ট পোর্টফোলিও" : "DEVELOPMENT PORTFOLIO"}
 						</span>
 						<h2 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
-							{isBn ? "আমাদের মেগা টাউনশিপ ও প্রকল্পসমূহ" : "Master Townships & Landmark Projects"}
+							{isBn
+								? "আমাদের মেগা টাউনশিপ ও প্রকল্পসমূহ"
+								: "Master Townships & Landmark Projects"}
 						</h2>
 						<p className="text-muted-foreground text-xs sm:text-sm font-light leading-relaxed">
 							{isBn
@@ -422,13 +498,15 @@ export function ProjectsClient() {
 
 								<div className="p-6 pt-3 border-t border-border/40 flex items-center justify-between">
 									<span className="text-xs font-semibold text-primary font-heading">
-										{proj.type || (isBn ? "টাউনশিপ উন্নয়ন" : "Township Development")}
+										{proj.type ||
+											(isBn ? "টাউনশিপ উন্নয়ন" : "Township Development")}
 									</span>
 									<a
 										href="#inventory-section"
 										className="text-xs font-semibold text-foreground hover:text-primary inline-flex items-center gap-1 font-heading"
 									>
-										{isBn ? "উপলব্ধ প্লট দেখুন" : "View Available Plots"} <ArrowRight className="w-3.5 h-3.5" />
+										{isBn ? "উপলব্ধ প্লট দেখুন" : "View Available Plots"}{" "}
+										<ArrowRight className="w-3.5 h-3.5" />
 									</a>
 								</div>
 							</div>
@@ -445,7 +523,9 @@ export function ProjectsClient() {
 							{isBn ? "নাগরিক সুবিধাসমূহ" : "LIFESTYLE & CIVIC AMENITIES"}
 						</span>
 						<h2 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
-							{isBn ? "পরিপূর্ণ আধুনিক নাগরিক সুযোগ-সুবিধা" : "Integrated Modern Civic Infrastructure"}
+							{isBn
+								? "পরিপূর্ণ আধুনিক নাগরিক সুযোগ-সুবিধা"
+								: "Integrated Modern Civic Infrastructure"}
 						</h2>
 					</div>
 
@@ -488,7 +568,9 @@ export function ProjectsClient() {
 							{isBn ? "যোগাযোগ ও দূরত্ব" : "STRATEGIC PROXIMITY"}
 						</span>
 						<h2 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
-							{isBn ? "ঢাকার প্রধান পয়েন্টসমূহ থেকে দূরত্ব" : "Travel Time & Key Connectivity Matrix"}
+							{isBn
+								? "ঢাকার প্রধান পয়েন্টসমূহ থেকে দূরত্ব"
+								: "Travel Time & Key Connectivity Matrix"}
 						</h2>
 					</div>
 
@@ -507,7 +589,9 @@ export function ProjectsClient() {
 											key={it.name}
 											className="flex items-center justify-between text-xs py-1 border-b border-border/20 last:border-0"
 										>
-											<span className="text-foreground font-medium">{it.name}</span>
+											<span className="text-foreground font-medium">
+												{it.name}
+											</span>
 											<span className="font-mono font-bold text-accent px-2.5 py-0.5 rounded-md bg-muted">
 												{it.dist}
 											</span>
@@ -528,7 +612,9 @@ export function ProjectsClient() {
 							{isBn ? "উন্নয়ন রোডম্যাপ" : "DEVELOPMENT ROADMAP"}
 						</span>
 						<h2 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
-							{isBn ? "ধাপে ধাপে প্রকল্প বাস্তবায়ন অগ্রগতি" : "Masterplan Execution Milestones"}
+							{isBn
+								? "ধাপে ধাপে প্রকল্প বাস্তবায়ন অগ্রগতি"
+								: "Masterplan Execution Milestones"}
 						</h2>
 					</div>
 
@@ -554,7 +640,10 @@ export function ProjectsClient() {
 			</section>
 
 			{/* ── 7. LIVE VERIFIED PLOT INVENTORY SECTION ── */}
-			<section id="inventory-section" className="py-16 sm:py-20 bg-background overflow-hidden relative">
+			<section
+				id="inventory-section"
+				className="py-16 sm:py-20 bg-background overflow-hidden relative"
+			>
 				<SectionContainer className="space-y-8">
 					<div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
 						<div className="space-y-2 max-w-2xl">
@@ -562,7 +651,9 @@ export function ProjectsClient() {
 								{isBn ? "লাইভ প্লট ইনভেন্টরি" : "LIVE PLOT INVENTORY"}
 							</span>
 							<h2 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
-								{isBn ? "উপলব্ধ ভেরিফাইড প্লটসমূহ" : "Available Verified Plots for Allotment"}
+								{isBn
+									? "উপলব্ধ ভেরিফাইড প্লটসমূহ"
+									: "Available Verified Plots for Allotment"}
 							</h2>
 							<p className="text-muted-foreground text-xs sm:text-sm font-light">
 								{isBn
@@ -576,7 +667,11 @@ export function ProjectsClient() {
 							<Search className="w-4 h-4 text-muted-foreground absolute left-3.5 top-1/2 -translate-y-1/2" />
 							<input
 								type="text"
-								placeholder={isBn ? "প্লটের নাম বা লোকেশন খুঁজুন..." : "Search plots or location..."}
+								placeholder={
+									isBn
+										? "প্লটের নাম বা লোকেশন খুঁজুন..."
+										: "Search plots or location..."
+								}
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
 								className="w-full h-10 pl-9 pr-8 rounded-xl bg-card border border-border text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary"
@@ -633,7 +728,9 @@ export function ProjectsClient() {
 					{filteredProjects.length === 0 ? (
 						<div className="p-12 text-center bg-card rounded-2xl border border-border/60 space-y-3">
 							<p className="text-sm font-semibold text-foreground">
-								{isBn ? "কোনো প্লট পাওয়া যায়নি।" : "No plots matched your search criteria."}
+								{isBn
+									? "কোনো প্লট পাওয়া যায়নি।"
+									: "No plots matched your search criteria."}
 							</p>
 							<button
 								onClick={() => {
