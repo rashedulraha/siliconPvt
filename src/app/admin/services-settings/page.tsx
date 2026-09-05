@@ -193,7 +193,7 @@ export default function ServicesSettingsPage() {
 							<Sparkles className="w-3.5 h-3.5" /> SERVICES & SOLUTIONS
 							MANAGEMENT
 						</span>
-						<h1 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
+						<h1 className="text-2xl sm:text-3xl font-semibold font-heading text-foreground tracking-tight">
 							Professional Corporate Services
 						</h1>
 						<p className="text-xs sm:text-sm text-muted-foreground font-light">
@@ -224,7 +224,7 @@ export default function ServicesSettingsPage() {
 								>
 									<div className="space-y-3">
 										<div className="flex items-center justify-between">
-											<span className="text-xs font-mono font-bold text-primary px-2.5 py-0.5 rounded-lg bg-primary/10 border border-primary/20">
+											<span className="text-xs font-mono font-medium text-primary px-2.5 py-0.5 rounded-lg bg-primary/10 border border-primary/20">
 												{item.num || `0${idx + 1}`}
 											</span>
 											<span className="text-[11px] font-semibold font-heading text-accent px-2.5 py-0.5 rounded-full bg-accent/10 border border-accent/20">
@@ -232,7 +232,7 @@ export default function ServicesSettingsPage() {
 											</span>
 										</div>
 
-										<h3 className="text-base sm:text-lg font-bold font-heading text-foreground group-hover:text-primary transition-colors">
+										<h3 className="text-base sm:text-lg font-semibold font-heading text-foreground group-hover:text-primary transition-colors">
 											{item.title}
 										</h3>
 
@@ -242,7 +242,7 @@ export default function ServicesSettingsPage() {
 
 										{item.benefits && item.benefits.length > 0 && (
 											<div className="space-y-1.5 pt-2 border-t border-border/40">
-												<span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground font-mono block">
+												<span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground font-mono block">
 													Highlights ({item.benefits.length}):
 												</span>
 												<ul className="space-y-1 text-xs text-foreground/85 font-light">
@@ -262,7 +262,7 @@ export default function ServicesSettingsPage() {
 
 									<div className="flex items-center justify-between pt-4 border-t border-border/50">
 										<span
-											className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border ${
+											className={`text-[10px] font-mono font-medium px-2.5 py-0.5 rounded-full border ${
 												item.active
 													? "bg-emerald-500/10 text-emerald-600 border-emerald-500/20"
 													: "bg-muted text-muted-foreground border-border/60"
@@ -312,7 +312,7 @@ export default function ServicesSettingsPage() {
 						>
 							<div className="sticky top-0 bg-card border-b border-border/60 px-6 py-4 flex items-center justify-between rounded-t-3xl z-10">
 								<div>
-									<h3 className="text-base font-bold font-heading text-foreground">
+									<h3 className="text-base font-semibold font-heading text-foreground">
 										{editingItem
 											? "Edit Service Offering"
 											: "Add New Service Offering"}
@@ -412,7 +412,7 @@ export default function ServicesSettingsPage() {
 										<button
 											type="button"
 											onClick={addBenefit}
-											className="text-xs text-primary font-bold hover:underline cursor-pointer"
+											className="text-xs text-primary font-medium hover:underline cursor-pointer"
 										>
 											+ Add Highlight
 										</button>
@@ -455,7 +455,7 @@ export default function ServicesSettingsPage() {
 									<button
 										type="submit"
 										disabled={saving}
-										className="px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-xs font-bold font-heading uppercase tracking-wider cursor-pointer hover:bg-primary/90 inline-flex items-center gap-2 disabled:opacity-50 shadow-md shadow-primary/20"
+										className="px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-xs font-medium font-heading uppercase tracking-wider cursor-pointer hover:bg-primary/90 inline-flex items-center gap-2 disabled:opacity-50 shadow-md shadow-primary/20"
 									>
 										{saving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
 										{editingItem ? "Update Service" : "Create Service"}
