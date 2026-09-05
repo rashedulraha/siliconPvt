@@ -19,9 +19,11 @@ import { useUserAuth } from "@/context/UserAuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { LanguageToggle } from "./LanguageToggle";
 import { SectionContainer } from "../ui/section-container";
+import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 
 export function Navbar() {
 	const [isOpen, setIsOpen] = useState(false);
+	const [showLogoutModal, setShowLogoutModal] = useState(false);
 	const pathname = usePathname();
 	const router = useRouter();
 	const { state } = useCMS();
@@ -164,7 +166,7 @@ export function Navbar() {
 
 									<button
 										type="button"
-										onClick={handleLogout}
+										onClick={() => setShowLogoutModal(true)}
 										className="w-8 h-8 rounded-full hover:bg-destructive/10 text-muted-foreground hover:text-destructive flex items-center justify-center transition-all cursor-pointer"
 										title={isBn ? "লগআউট" : "Sign Out"}
 									>
@@ -314,10 +316,10 @@ export function Navbar() {
 							<button
 								type="button"
 								onClick={() => {
-									handleLogout();
+									setShowLogoutModal(true);
 									setIsOpen(false);
 								}}
-								className="w-9 h-9 rounded-xl border border-destructive/20 text-destructive hover:bg-destructive/10 inline-flex items-center justify-center transition-all"
+								className="w-9 h-9 rounded-xl border border-destructive/20 text-destructive hover:bg-destructive/10 inline-flex items-center justify-center transition-all cursor-pointer"
 								title={isBn ? "লগআউট" : "Sign Out"}
 							>
 								<LogOut className="w-4 h-4" />
@@ -343,6 +345,22 @@ export function Navbar() {
 					)}
 				</div>
 			</aside>
+
+			{/* ── NAVBAR LOGOUT CONFIRMATION MODAL ── */}
+			<ConfirmDialog
+				open={showLogoutModal}
+				onOpenChange={setShowLogoutModal}
+				title={isBn ? "লগআউট নিশ্চিতকরণ" : "Confirm Sign Out"}
+				description={
+					isBn
+						? "আপনি কি নিশ্চিত যে আপনি আপনার এডমিন একাউন্ট থেকে সাইন আউট করতে চান?"
+						: "Are you sure you want to log out from the administrative session? You will need to log in again to access the dashboard."
+				}
+				confirmText={isBn ? "লগআউট করুন" : "Yes, Sign Out"}
+				cancelText={isBn ? "বাতিল" : "Cancel"}
+				variant="destructive"
+				onConfirm={handleLogout}
+			/>
 		</>
 	);
 }
