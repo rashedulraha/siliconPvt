@@ -28,8 +28,8 @@
  * `loggedInAt` is an ISO 8601 timestamp (e.g. `new Date().toISOString()`).
  */
 export interface AdminSession {
-	email: string;
-	loggedInAt: string; // ISO 8601
+  email: string;
+  loggedInAt: string; // ISO 8601
 }
 
 // ---------------------------------------------------------------------------
@@ -39,15 +39,15 @@ export interface AdminSession {
 /** The localStorage key under which the AdminSession JSON is stored. */
 export const ADMIN_SESSION_KEY = "silicon_admin_session";
 
-export const DEFAULT_ADMIN_EMAIL = "admin@afiaholdingsltd.com";
+export const DEFAULT_ADMIN_EMAIL = "admin@siliconrealestatepvtltd.com";
 export const DEFAULT_ADMIN_PASSWORD = "admin123456";
 
 export function getAdminEmail(): string {
-	return process.env.NEXT_PUBLIC_ADMIN_EMAIL || DEFAULT_ADMIN_EMAIL;
+  return process.env.NEXT_PUBLIC_ADMIN_EMAIL || DEFAULT_ADMIN_EMAIL;
 }
 
 export function getAdminPassword(): string {
-	return process.env.NEXT_PUBLIC_ADMIN_PASSWORD || DEFAULT_ADMIN_PASSWORD;
+  return process.env.NEXT_PUBLIC_ADMIN_PASSWORD || DEFAULT_ADMIN_PASSWORD;
 }
 
 // ---------------------------------------------------------------------------
@@ -63,26 +63,32 @@ export function getAdminPassword(): string {
  * - localStorage is unavailable (SSR, private browsing, quota exceeded)
  */
 export function getAdminSession(): AdminSession | null {
-	try {
-		const raw = localStorage.getItem(ADMIN_SESSION_KEY);
-		if (!raw) return null;
-		const parsed = JSON.parse(raw) as unknown;
-		// Validate the minimal shape before trusting it
-		if (
-			parsed !== null &&
-			typeof parsed === "object" &&
-			"email" in parsed &&
-			"loggedInAt" in parsed &&
-			typeof (parsed as Record<string, unknown>)["email"] === "string" &&
-			typeof (parsed as Record<string, unknown>)["loggedInAt"] === "string"
-		) {
-			return parsed as AdminSession;
-		}
-		return null;
-	} catch {
-		// localStorage unavailable or JSON.parse failed — treat as no session
-		return null;
-	}
+  try {
+    const raw = localStorage.getItem(ADMIN_SESSION_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as unknown;
+    // Validate the minimal shape before trusting it
+    if (
+      parsed !== null &&
+      typeof parsed === "object" &&
+      "email" in parsed &&
+      "loggedInAt" in parsed &&
+      typeof (parsed as Record<string, unknown>)["email"] === "string" &&
+      typeof (parsed as Record<string, unknown>)["loggedInAt"] === "string"
+    ) {
+      const session = parsed as AdminSession;
+      // Auto-migrate legacy email to current brand email
+      if (session.email.includes("afiaholdingsltd.com")) {
+        session.email = DEFAULT_ADMIN_EMAIL;
+        setAdminSession(session);
+      }
+      return session;
+    }
+    return null;
+  } catch {
+    // localStorage unavailable or JSON.parse failed — treat as no session
+    return null;
+  }
 }
 
 /**
@@ -92,12 +98,12 @@ export function getAdminSession(): AdminSession | null {
  * is unavailable or the write throws (e.g. storage quota exceeded).
  */
 export function setAdminSession(session: AdminSession): void {
-	try {
-		localStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify(session));
-	} catch {
-		// Storage unavailable or quota exceeded — caller will handle absence
-		// of session on the next read
-	}
+  try {
+    localStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify(session));
+  } catch {
+    // Storage unavailable or quota exceeded — caller will handle absence
+    // of session on the next read
+  }
 }
 
 /**
@@ -106,9 +112,9 @@ export function setAdminSession(session: AdminSession): void {
  * Safe to call even when no session exists or localStorage is unavailable.
  */
 export function clearAdminSession(): void {
-	try {
-		localStorage.removeItem(ADMIN_SESSION_KEY);
-	} catch {
-		// localStorage unavailable — nothing to remove
-	}
+  try {
+    localStorage.removeItem(ADMIN_SESSION_KEY);
+  } catch {
+    // localStorage unavailable — nothing to remove
+  }
 }
