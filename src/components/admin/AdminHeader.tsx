@@ -45,7 +45,7 @@ export function AdminHeader({
 				<div className="flex items-center gap-3">
 					{userEmail && (
 						<div className="hidden md:flex flex-col items-end text-right">
-							<span className="text-xs font-bold font-heading text-foreground">
+							<span className="text-xs font-semibold font-heading text-foreground">
 								Administrator
 							</span>
 							<span className="text-[11px] font-mono text-muted-foreground">
