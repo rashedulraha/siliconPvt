@@ -149,7 +149,7 @@ export default function LeadsPage() {
 								</div>
 							</div>
 							<div className="flex items-baseline gap-2">
-								<p className="text-2xl font-extrabold font-heading text-foreground">
+								<p className="text-2xl font-semibold font-heading text-foreground">
 									{s.value}
 								</p>
 								{s.pulse && (
@@ -207,7 +207,7 @@ export default function LeadsPage() {
 							<MessageSquare className="h-6 w-6" />
 						</div>
 						<div className="space-y-1">
-							<p className="text-sm font-bold font-heading text-foreground">
+							<p className="text-sm font-semibold font-heading text-foreground">
 								No Customer Inquiries Found
 							</p>
 							<p className="text-xs text-muted-foreground font-light max-w-sm mx-auto">
@@ -222,22 +222,22 @@ export default function LeadsPage() {
 						<Table>
 							<TableHeader className="bg-muted/40 border-b border-border/60">
 								<TableRow className="hover:bg-transparent">
-									<TableHead className="font-heading font-bold text-xs text-muted-foreground uppercase py-3.5 pl-5">
+									<TableHead className="font-heading font-medium text-xs text-muted-foreground uppercase py-3.5 pl-5">
 										Customer Name
 									</TableHead>
-									<TableHead className="font-heading font-bold text-xs text-muted-foreground uppercase hidden md:table-cell">
+									<TableHead className="font-heading font-medium text-xs text-muted-foreground uppercase hidden md:table-cell">
 										Contact Details
 									</TableHead>
-									<TableHead className="font-heading font-bold text-xs text-muted-foreground uppercase hidden lg:table-cell">
+									<TableHead className="font-heading font-medium text-xs text-muted-foreground uppercase hidden lg:table-cell">
 										Inquiry Message
 									</TableHead>
-									<TableHead className="font-heading font-bold text-xs text-muted-foreground uppercase">
+									<TableHead className="font-heading font-medium text-xs text-muted-foreground uppercase">
 										Lead Status
 									</TableHead>
-									<TableHead className="font-heading font-bold text-xs text-muted-foreground uppercase hidden sm:table-cell">
+									<TableHead className="font-heading font-medium text-xs text-muted-foreground uppercase hidden sm:table-cell">
 										Date Received
 									</TableHead>
-									<TableHead className="font-heading font-bold text-xs text-muted-foreground uppercase text-right pr-5">
+									<TableHead className="font-heading font-medium text-xs text-muted-foreground uppercase text-right pr-5">
 										Actions
 									</TableHead>
 								</TableRow>
@@ -252,11 +252,11 @@ export default function LeadsPage() {
 									>
 										<TableCell className="py-3.5 pl-5">
 											<div className="flex items-center gap-3">
-												<div className="h-9 w-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs border border-primary/20 shrink-0">
+												<div className="h-9 w-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-medium text-xs border border-primary/20 shrink-0">
 													{lead.name.charAt(0).toUpperCase()}
 												</div>
 												<div className="min-w-0">
-													<p className="font-bold text-sm text-foreground truncate">
+													<p className="font-medium text-sm text-foreground truncate">
 														{lead.name}
 													</p>
 													<p className="text-xs text-muted-foreground md:hidden truncate font-light">
@@ -326,7 +326,7 @@ export default function LeadsPage() {
 									>
 										Previous
 									</Button>
-									<span className="px-2 font-bold text-foreground">
+									<span className="px-2 font-medium text-foreground">
 										{safePage} / {totalPages}
 									</span>
 									<Button
@@ -354,7 +354,7 @@ export default function LeadsPage() {
 			>
 				<SheetContent className="sm:max-w-md space-y-6 font-roboto">
 					<SheetHeader className="text-left border-b border-border/50 pb-4">
-						<SheetTitle className="font-heading text-lg font-bold">
+						<SheetTitle className="font-heading text-lg font-semibold">
 							Inquiry Details
 						</SheetTitle>
 					</SheetHeader>
@@ -365,7 +365,7 @@ export default function LeadsPage() {
 								<span className="text-[11px] font-mono text-muted-foreground uppercase">
 									Lead Name
 								</span>
-								<p className="font-bold text-base text-foreground">
+								<p className="font-semibold text-base text-foreground">
 									{selectedLead.name}
 								</p>
 							</div>
