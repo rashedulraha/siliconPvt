@@ -247,7 +247,7 @@ export default function ProjectsSettingsPage() {
 							<Sparkles className="w-3.5 h-3.5" /> PUBLIC PROJECTS PAGE COMPLETE
 							CONTROL
 						</span>
-						<h1 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
+						<h1 className="text-2xl sm:text-3xl font-semibold font-heading text-foreground tracking-tight">
 							Projects & Township Settings
 						</h1>
 						<p className="text-xs sm:text-sm text-muted-foreground font-light">
@@ -316,9 +316,9 @@ export default function ProjectsSettingsPage() {
 							{/* ── TAB 1: HEADER & TRUST METRICS ── */}
 							{activeTab === "hero" && (
 								<form onSubmit={handleSaveContent} className="space-y-6">
-									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-5">
-										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
-											Hero Header Narrative
+									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-4">
+										<h2 className="text-sm font-medium font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
+											Projects Page Header Overlay
 										</h2>
 
 										<div className="grid sm:grid-cols-2 gap-4">
@@ -361,9 +361,9 @@ export default function ProjectsSettingsPage() {
 									</div>
 
 									{/* 4 Trust Metrics */}
-									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-4">
-										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
-											4 Value Trust Metrics (Under Hero)
+									<div className="space-y-4 pt-4 border-t border-border/50">
+										<h2 className="text-sm font-medium font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
+											Mega Township Trust Metrics (3 Counters)
 										</h2>
 
 										<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -423,9 +423,9 @@ export default function ProjectsSettingsPage() {
 							{/* ── TAB 2: FLAGSHIP SPOTLIGHT & SPECS ── */}
 							{activeTab === "spotlight" && (
 								<form onSubmit={handleSaveContent} className="space-y-6">
-									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-5">
-										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
-											Flagship Master Development Spotlight
+									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-4">
+										<h2 className="text-sm font-medium font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
+											Digital Master Plan PDF / File Asset
 										</h2>
 
 										<div className="grid sm:grid-cols-2 gap-4">
@@ -598,8 +598,8 @@ export default function ProjectsSettingsPage() {
 								<div className="space-y-5">
 									<div className="flex items-center justify-between border-b border-border/50 pb-2.5">
 										<div>
-											<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground">
-												Active Portfolio Projects ({projects.length})
+											<h2 className="text-sm font-medium font-heading uppercase tracking-wider text-muted-foreground">
+												Township Projects Portfolio ({projects.length})
 											</h2>
 											<p className="text-xs text-muted-foreground font-light">
 												These projects appear directly in the Development
@@ -650,7 +650,7 @@ export default function ProjectsSettingsPage() {
 														)}
 
 													<div>
-														<h3 className="text-base font-bold font-heading text-foreground">
+														<h3 className="text-base font-semibold font-heading text-foreground">
 															{item.title}
 														</h3>
 														<p className="text-xs text-muted-foreground flex items-center gap-1 font-light mt-1">
@@ -665,7 +665,7 @@ export default function ProjectsSettingsPage() {
 
 													{item.highlights && item.highlights.length > 0 && (
 														<div className="space-y-1.5 pt-1">
-															<span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground font-heading block">
+															<span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground font-heading block">
 																Highlights ({item.highlights.length}):
 															</span>
 															<div className="flex flex-wrap gap-1.5">
@@ -719,9 +719,9 @@ export default function ProjectsSettingsPage() {
 							{/* ── TAB 4: PROPERTY CATEGORIES ── */}
 							{activeTab === "categories" && (
 								<form onSubmit={handleSaveContent} className="space-y-6">
-									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-4">
-										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
-											Offered Categories & Specifications (3 Cards)
+									<div className="space-y-4 pt-4 border-t border-border/50">
+										<h2 className="text-sm font-medium font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
+											Project Specifications Grid (6 Key Specs)
 										</h2>
 
 										<div className="grid sm:grid-cols-3 gap-4">
@@ -812,9 +812,9 @@ export default function ProjectsSettingsPage() {
 							{activeTab === "amenities" && (
 								<form onSubmit={handleSaveContent} className="space-y-6">
 									{/* 6 Amenities */}
-									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-4">
-										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
-											Civic Amenities & Community Facilities (6 Items)
+									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-5">
+										<h2 className="text-sm font-medium font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
+											Civic & Lifestyle Amenities (6 Features)
 										</h2>
 
 										<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -869,9 +869,9 @@ export default function ProjectsSettingsPage() {
 									</div>
 
 									{/* Proximity Matrix */}
-									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-4">
-										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
-											Strategic Connectivity & Proximity Matrix (3 Clusters)
+									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-5">
+										<h2 className="text-sm font-medium font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
+											Connectivity & Location Advantages Matrix (6 Hubs)
 										</h2>
 
 										<div className="grid sm:grid-cols-3 gap-4">
@@ -966,9 +966,9 @@ export default function ProjectsSettingsPage() {
 							{activeTab === "roadmap" && (
 								<form onSubmit={handleSaveContent} className="space-y-6">
 									{/* 4 Steps */}
-									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-4">
-										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
-											4-Step Allotment Roadmap
+									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-5">
+										<h2 className="text-sm font-medium font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
+											Township Spotlight Banner Info
 										</h2>
 
 										<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -1103,12 +1103,10 @@ export default function ProjectsSettingsPage() {
 			{/* ── CREATE / EDIT PROJECT MODAL ── */}
 			{projectModalOpen && (
 				<div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-					<div className="bg-card border border-border/80 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl my-8 text-left">
-						<div className="flex items-center justify-between p-5 border-b border-border/60">
-							<h3 className="text-base font-bold font-heading text-foreground">
-								{editingProject
-									? "Edit Project Details"
-									: "Add New Showcase Project"}
+					<div className="bg-card border border-border/80 rounded-2xl max-w-2xl w-full p-6 sm:p-7 space-y-5 max-h-[90vh] overflow-y-auto">
+						<div className="flex items-center justify-between border-b border-border/50 pb-3">
+							<h3 className="text-base font-semibold font-heading text-foreground">
+								{editingProject ? "Edit Project" : "Add New Township Project"}
 							</h3>
 							<button
 								onClick={() => setProjectModalOpen(false)}
@@ -1386,7 +1384,7 @@ export default function ProjectsSettingsPage() {
 				<button
 					onClick={() => handleSaveContent()}
 					disabled={saving || isGlobalLoading}
-					className="h-11 px-6 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground text-xs sm:text-sm font-bold font-heading inline-flex items-center gap-2 shadow-md shadow-primary/25 hover:shadow-lg transition-all active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+					className="h-11 px-6 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground text-xs sm:text-sm font-medium font-heading inline-flex items-center gap-2 shadow-md shadow-primary/25 hover:shadow-lg transition-all active:scale-[0.98] disabled:opacity-50 cursor-pointer"
 				>
 					{saving ? (
 						<Loader2 className="w-4 h-4 animate-spin" />
