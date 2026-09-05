@@ -28,7 +28,7 @@ export async function POST(req: Request) {
 
 		// Fallback auto-provision for default admin
 		const defaultAdminEmail = (
-			process.env.ADMIN_EMAIL || "admin@afiaholdingsltd.com"
+			process.env.ADMIN_EMAIL || "admin@siliconrealestatepvtltd.com"
 		).toLowerCase();
 		const defaultAdminPass = process.env.ADMIN_PASSWORD || "admin123456";
 
