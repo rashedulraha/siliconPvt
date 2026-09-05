@@ -26,10 +26,15 @@ import {
 	ChevronRight,
 	Phone,
 	Mail,
+	Flame,
+	Building2,
+	Sparkles,
+	Layers,
+	Tag,
 } from "lucide-react";
 
 type StatusFilter = "all" | Property["status"];
-type CategoryFilter = "all" | Property["category"];
+type CategoryFilter = "all" | "residential" | "commercial" | "featured";
 type SortOption = "newest" | "price-asc" | "price-desc" | "area-desc";
 
 const AMENITY_ICONS: Record<number, any> = {
@@ -57,20 +62,20 @@ export function ProjectsClient() {
 		{ value: "all" as StatusFilter, label: isBn ? "সকল স্ট্যাটাস" : "All Status" },
 		{
 			value: "available" as StatusFilter,
-			label: isBn ? "চলমান / বুকিং উন্মুক্ত" : "Ongoing / Open",
+			label: isBn ? "বুকিং উন্মুক্ত" : "Available",
 		},
 		{
 			value: "pending" as StatusFilter,
-			label: isBn ? "আসন্ন প্রকল্প" : "Upcoming",
+			label: isBn ? "বুকড / প্রক্রিয়াধীন" : "Booked / In Process",
 		},
 		{
 			value: "sold" as StatusFilter,
-			label: isBn ? "সম্পন্ন প্রকল্প" : "Completed",
+			label: isBn ? "হস্তান্তরিত / সোল্ড" : "Sold Out",
 		},
 	];
 
 	const categoryFilters = [
-		{ value: "all" as CategoryFilter, label: isBn ? "সকল প্রকার" : "All Types" },
+		{ value: "all" as CategoryFilter, label: isBn ? "সকল প্লট" : "All Plots" },
 		{
 			value: "residential" as CategoryFilter,
 			label: isBn ? "আবাসিক প্লট" : "Residential Plots",
@@ -78,6 +83,10 @@ export function ProjectsClient() {
 		{
 			value: "commercial" as CategoryFilter,
 			label: isBn ? "বাণিজ্যিক প্লট" : "Commercial Plots",
+		},
+		{
+			value: "featured" as CategoryFilter,
+			label: isBn ? "ফিচার্ড প্লট" : "Featured Plots",
 		},
 	];
 
@@ -107,6 +116,13 @@ export function ProjectsClient() {
 				(p) =>
 					p.title.toLowerCase().includes(q) ||
 					p.location.toLowerCase().includes(q) ||
+					(p.block && p.block.toLowerCase().includes(q)) ||
+					(p.roadWidth && p.roadWidth.toLowerCase().includes(q)) ||
+					(p.facing && p.facing.toLowerCase().includes(q)) ||
+					(p.katha && String(p.katha).includes(q)) ||
+					(p.bedrooms && String(p.bedrooms).includes(q)) ||
+					(Array.isArray(p.features) &&
+						p.features.some((f) => f.toLowerCase().includes(q))) ||
 					p.description.toLowerCase().includes(q),
 			);
 		}
@@ -116,7 +132,18 @@ export function ProjectsClient() {
 		}
 
 		if (activeCategory !== "all") {
-			result = result.filter((p) => p.category === activeCategory);
+			if (activeCategory === "residential") {
+				result = result.filter(
+					(p) =>
+						p.category === "residential" ||
+						p.category === "land" ||
+						p.category === "house",
+				);
+			} else if (activeCategory === "commercial") {
+				result = result.filter((p) => p.category === "commercial");
+			} else if (activeCategory === "featured") {
+				result = result.filter((p) => p.featured === true);
+			}
 		}
 
 		if (sortBy === "price-asc") {
@@ -687,14 +714,15 @@ export function ProjectsClient() {
 						</div>
 					</div>
 
-					{/* Filter Pills */}
-					<div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-2xl bg-muted/40 border border-border/60">
-						<div className="flex flex-wrap items-center gap-2">
+					{/* Filter Pills & Controls */}
+					<div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 p-3 rounded-2xl bg-muted/40 border border-border/60">
+						{/* Category Pills */}
+						<div className="flex flex-wrap items-center gap-1.5">
 							{categoryFilters.map((f) => (
 								<button
 									key={f.value}
 									onClick={() => setActiveCategory(f.value)}
-									className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+									className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
 										activeCategory === f.value
 											? "bg-primary text-primary-foreground shadow-xs"
 											: "bg-card text-muted-foreground hover:text-foreground border border-border/60"
@@ -705,32 +733,56 @@ export function ProjectsClient() {
 							))}
 						</div>
 
-						{/* Sort Dropdown */}
-						<div className="flex items-center gap-2">
-							<span className="text-xs text-muted-foreground hidden sm:inline">
-								{isBn ? "সর্ট করুন:" : "Sort:"}
-							</span>
-							<select
-								value={sortBy}
-								onChange={(e) => setSortBy(e.target.value as SortOption)}
-								className="h-8 px-3 rounded-xl bg-card border border-border/80 text-xs font-medium text-foreground focus:outline-none"
-							>
-								{sortOptions.map((opt) => (
-									<option key={opt.value} value={opt.value}>
-										{opt.label}
-									</option>
+						{/* Status Pills & Sort Controls */}
+						<div className="flex flex-wrap items-center gap-2">
+							<div className="flex items-center gap-1">
+								{statusFilters.map((sf) => (
+									<button
+										key={sf.value}
+										onClick={() => setActiveStatus(sf.value)}
+										className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all cursor-pointer ${
+											activeStatus === sf.value
+												? "bg-foreground text-background font-bold shadow-xs"
+												: "bg-card/70 text-muted-foreground hover:text-foreground border border-border/50"
+										}`}
+									>
+										{sf.label}
+									</button>
 								))}
-							</select>
+							</div>
+
+							<div className="flex items-center gap-1.5 pl-2 border-l border-border/50">
+								<span className="text-xs text-muted-foreground hidden sm:inline">
+									{isBn ? "সর্ট:" : "Sort:"}
+								</span>
+								<select
+									value={sortBy}
+									onChange={(e) => setSortBy(e.target.value as SortOption)}
+									className="h-8 px-2.5 rounded-xl bg-card border border-border/80 text-xs font-medium text-foreground focus:outline-none cursor-pointer"
+								>
+									{sortOptions.map((opt) => (
+										<option key={opt.value} value={opt.value}>
+											{opt.label}
+										</option>
+									))}
+								</select>
+							</div>
 						</div>
 					</div>
 
 					{/* Plot Cards Grid */}
 					{filteredProjects.length === 0 ? (
 						<div className="p-12 text-center bg-card rounded-2xl border border-border/60 space-y-3">
+							<Building2 className="w-10 h-10 text-muted-foreground/50 mx-auto" />
 							<p className="text-sm font-semibold text-foreground">
 								{isBn
 									? "কোনো প্লট পাওয়া যায়নি।"
 									: "No plots matched your search criteria."}
+							</p>
+							<p className="text-xs text-muted-foreground font-light max-w-sm mx-auto">
+								{isBn
+									? "সার্চ ফিল্টার রিসেট করে আবার চেষ্টা করুন।"
+									: "Try clearing search keywords or selecting all categories."}
 							</p>
 							<button
 								onClick={() => {
@@ -738,68 +790,175 @@ export function ProjectsClient() {
 									setActiveStatus("all");
 									setActiveCategory("all");
 								}}
-								className="px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-semibold"
+								className="px-4 py-2 rounded-xl bg-primary text-primary-foreground text-xs font-semibold cursor-pointer"
 							>
 								{isBn ? "সব ফিল্টার রিসেট করুন" : "Reset All Filters"}
 							</button>
 						</div>
 					) : (
-						<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-							{filteredProjects.map((prop) => (
-								<div
-									key={prop.id}
-									className="group bg-card border border-border/60 rounded-3xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between"
-								>
-									<div className="relative h-48 w-full overflow-hidden bg-muted">
-										<img
-											src={
-												prop.images[0] ||
-												"https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200"
-											}
-											alt={prop.title}
-											className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-										/>
-										<div className="absolute top-3 left-3 bg-primary text-primary-foreground text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs">
-											{prop.category}
-										</div>
-										<div className="absolute top-3 right-3 bg-emerald-500 text-white text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs">
-											{prop.status}
-										</div>
-									</div>
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+							{filteredProjects.map((prop) => {
+								const kathaCount =
+									prop.katha || (prop.bedrooms && prop.bedrooms > 0 ? prop.bedrooms : 3);
+								const sqftArea = prop.area || (prop as any)?.areaSqFt || kathaCount * 720;
+								const pricePerKathaCalc =
+									kathaCount > 0 ? Math.round(prop.price / kathaCount) : null;
+								const blockName =
+									prop.block ||
+									prop.location.match(/Block-[A-D]|Main Boulevard/i)?.[0] ||
+									"Block-A";
 
-									<div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
-										<div className="space-y-2">
-											<h3 className="text-base font-bold font-heading text-foreground group-hover:text-primary transition-colors line-clamp-1">
-												{prop.title}
-											</h3>
-											<p className="text-xs text-muted-foreground flex items-center gap-1 font-light truncate">
-												<MapPin className="w-3.5 h-3.5 text-primary shrink-0" />
-												{prop.location}
-											</p>
-											<p className="text-xs text-muted-foreground line-clamp-2 font-light">
-												{prop.description}
-											</p>
-										</div>
-
-										<div className="pt-3 border-t border-border/40 flex items-center justify-between">
-											<div>
-												<span className="text-[10px] text-muted-foreground block font-mono uppercase">
-													{isBn ? "মূল্য" : "PRICE"}
+								return (
+									<div
+										key={prop.id}
+										className="group bg-card border border-border/60 rounded-3xl overflow-hidden shadow-xs hover:shadow-md hover:border-primary/40 transition-all duration-300 flex flex-col justify-between"
+									>
+										{/* Plot Image Container */}
+										<div className="relative h-52 w-full overflow-hidden bg-muted">
+											<img
+												src={
+													prop.images && prop.images[0]
+														? prop.images[0]
+														: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200"
+												}
+												alt={prop.title}
+												className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+											/>
+											{/* Top Badges */}
+											<div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
+												<span className="bg-dark-hero/90 backdrop-blur-md text-white text-[10px] font-bold font-heading uppercase tracking-wider px-2.5 py-1 rounded-full border border-white/20 shadow-xs">
+													{blockName}
 												</span>
-												<span className="text-base font-bold font-heading text-primary">
-													{formatCurrency(prop.price)}
+												<span className="bg-primary text-primary-foreground text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs">
+													{isBn
+														? `${kathaCount} কাঠা`
+														: `${kathaCount} Katha`}
 												</span>
 											</div>
-											<Link
-												href="/contact"
-												className="px-4 py-2 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 text-xs font-semibold font-heading transition-all"
-											>
-												{isBn ? "বুকিং করুন" : "Book Plot"}
-											</Link>
+
+											{/* Top Right Status & Featured */}
+											<div className="absolute top-3 right-3 flex items-center gap-1.5">
+												{prop.featured && (
+													<span className="bg-amber-500 text-black text-[10px] font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1 shadow-xs">
+														<Flame className="w-3 h-3 fill-current" />
+														<span>Featured</span>
+													</span>
+												)}
+												<span
+													className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs ${
+														prop.status === "available"
+															? "bg-emerald-600 text-white"
+															: prop.status === "pending"
+																? "bg-amber-600 text-white"
+																: "bg-rose-600 text-white"
+													}`}
+												>
+													{prop.status === "available"
+														? isBn
+															? "বুকিং উন্মুক্ত"
+															: "Available"
+														: prop.status === "pending"
+															? isBn
+																? "বুকড"
+																: "Booked"
+															: isBn
+																? "সোল্ড"
+																: "Sold"}
+												</span>
+											</div>
+
+											{/* Bottom Sqft Pill */}
+											<div className="absolute bottom-3 right-3 bg-black/75 backdrop-blur-md px-2.5 py-1 rounded-lg text-white font-mono text-[11px] font-bold shadow-xs">
+												{sqftArea} {isBn ? "বর্গফুট" : "sq. ft."}
+											</div>
+										</div>
+
+										{/* Plot Content Body */}
+										<div className="p-5 sm:p-6 space-y-3.5 flex-1 flex flex-col justify-between">
+											<div className="space-y-2">
+												<div className="flex items-center gap-1.5 text-xs text-muted-foreground font-light">
+													<MapPin className="w-3.5 h-3.5 text-primary shrink-0" />
+													<span className="truncate">{prop.location}</span>
+												</div>
+
+												<Link
+													href={`/projects/${prop.slug}`}
+													className="block group-hover:text-primary transition-colors"
+												>
+													<h3 className="text-base font-bold font-heading text-foreground line-clamp-1">
+														{prop.title}
+													</h3>
+												</Link>
+
+												{/* Road & Facing Specifications */}
+												<div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+													{prop.roadWidth && (
+														<span className="text-[10px] px-2.5 py-0.5 rounded-md bg-muted text-foreground font-medium border border-border/50">
+															{prop.roadWidth}
+														</span>
+													)}
+													{prop.facing && (
+														<span className="text-[10px] px-2.5 py-0.5 rounded-md bg-muted text-foreground font-medium border border-border/50">
+															{prop.facing}
+														</span>
+													)}
+												</div>
+
+												<p className="text-xs text-muted-foreground line-clamp-2 font-light leading-relaxed pt-1">
+													{prop.description}
+												</p>
+
+												{/* Feature Highlights */}
+												{Array.isArray(prop.features) && prop.features.length > 0 && (
+													<div className="flex flex-wrap gap-1 pt-1">
+														{prop.features.slice(0, 2).map((feat, fi) => (
+															<span
+																key={fi}
+																className="text-[10px] px-2 py-0.5 rounded-md bg-primary/10 text-primary font-medium border border-primary/20"
+															>
+																✓ {feat}
+															</span>
+														))}
+													</div>
+												)}
+											</div>
+
+											{/* Price & Action Buttons */}
+											<div className="pt-3.5 border-t border-border/40 flex items-end justify-between gap-3">
+												<div>
+													<span className="text-[10px] text-muted-foreground block font-mono uppercase">
+														{isBn ? "মোট মূল্য" : "TOTAL PRICE"}
+													</span>
+													<span className="text-base sm:text-lg font-bold font-heading text-primary block leading-tight">
+														{formatCurrency(prop.price)}
+													</span>
+													{pricePerKathaCalc && (
+														<span className="text-[10px] text-muted-foreground block font-light">
+															~{formatCurrency(pricePerKathaCalc)}/
+															{isBn ? "কাঠা" : "katha"}
+														</span>
+													)}
+												</div>
+
+												<div className="flex items-center gap-2">
+													<Link
+														href={`/projects/${prop.slug}`}
+														className="px-3 py-2 rounded-xl bg-muted hover:bg-muted/80 text-foreground text-xs font-semibold font-heading transition-all"
+													>
+														{isBn ? "বিস্তারিত" : "Details"}
+													</Link>
+													<Link
+														href={`/contact?plot=${encodeURIComponent(prop.title)}`}
+														className="px-3.5 py-2 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 text-xs font-semibold font-heading transition-all shadow-xs"
+													>
+														{isBn ? "বুকিং" : "Book"}
+													</Link>
+												</div>
+											</div>
 										</div>
 									</div>
-								</div>
-							))}
+								);
+							})}
 						</div>
 					)}
 				</SectionContainer>
