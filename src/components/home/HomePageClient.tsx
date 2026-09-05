@@ -41,7 +41,11 @@ export function HomePageClient() {
 		return <div className="min-h-screen bg-background" />;
 	}
 
-	const featuredPlots = properties.slice(0, 3);
+	const featuredList = properties.filter((p) => p.featured);
+	const featuredPlots =
+		featuredList.length >= 3
+			? featuredList.slice(0, 3)
+			: properties.slice(0, 3);
 	const trustCounters = homeData.trustCounters;
 	const accreditations = homeData.accreditations;
 
@@ -268,61 +272,85 @@ export function HomePageClient() {
 
 					{/* Plots Grid */}
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-						{featuredPlots.map((prop) => (
-							<div
-								key={prop.id}
-								className="group bg-card border border-border/60 rounded-3xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between text-left"
-							>
-								<div className="relative h-48 w-full overflow-hidden bg-muted">
-									<img
-										src={
-											prop.images[0] ||
-											"https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200"
-										}
-										alt={prop.title}
-										className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-									/>
-									<div className="absolute top-3 left-3 bg-primary text-primary-foreground text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs">
-										{prop.category}
-									</div>
-									<div className="absolute top-3 right-3 bg-emerald-500 text-white text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs">
-										{prop.status}
-									</div>
-								</div>
+						{featuredPlots.map((prop) => {
+							const kathaCount =
+								prop.katha || (prop.bedrooms && prop.bedrooms > 0 ? prop.bedrooms : 3);
+							const blockName =
+								prop.block ||
+								prop.location.match(/Block-[A-D]|Main Boulevard/i)?.[0] ||
+								"Block-A";
 
-								<div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
-									<div className="space-y-2">
-										<h3 className="text-base font-bold font-heading text-foreground group-hover:text-primary transition-colors line-clamp-1">
-											{prop.title}
-										</h3>
-										<p className="text-xs text-muted-foreground flex items-center gap-1 font-light truncate">
-											<MapPin className="w-3.5 h-3.5 text-primary shrink-0" />
-											{prop.location}
-										</p>
-										<p className="text-xs text-muted-foreground line-clamp-2 font-light">
-											{prop.description}
-										</p>
-									</div>
-
-									<div className="pt-3 border-t border-border/40 flex items-center justify-between">
-										<div>
-											<span className="text-[10px] text-muted-foreground block font-mono uppercase">
-												{isBn ? "মূল্য" : "PRICE"}
+							return (
+								<div
+									key={prop.id}
+									className="group bg-card border border-border/60 rounded-3xl overflow-hidden shadow-xs hover:shadow-md hover:border-primary/40 transition-all duration-300 flex flex-col justify-between text-left"
+								>
+									<div className="relative h-52 w-full overflow-hidden bg-muted">
+										<img
+											src={
+												prop.images[0] ||
+												"https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200"
+											}
+											alt={prop.title}
+											className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+										/>
+										<div className="absolute top-3 left-3 flex items-center gap-1.5">
+											<span className="bg-dark-hero/90 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border border-white/20 shadow-xs">
+												{blockName}
 											</span>
-											<span className="text-base font-bold font-heading text-primary">
-												{formatCurrency(prop.price)}
+											<span className="bg-primary text-primary-foreground text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs">
+												{isBn ? `${kathaCount} কাঠা` : `${kathaCount} Katha`}
 											</span>
 										</div>
-										<Link
-											href={`/projects`}
-											className="px-4 py-2 rounded-xl bg-muted hover:bg-primary hover:text-primary-foreground text-xs font-semibold font-heading transition-all"
-										>
-											{isBn ? "বিস্তারিত দেখুন" : "Details"}
-										</Link>
+										<div className="absolute top-3 right-3">
+											<span
+												className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs ${
+													prop.status === "available"
+														? "bg-emerald-600 text-white"
+														: prop.status === "pending"
+															? "bg-amber-600 text-white"
+															: "bg-rose-600 text-white"
+												}`}
+											>
+												{prop.status}
+											</span>
+										</div>
+									</div>
+
+									<div className="p-6 space-y-3.5 flex-1 flex flex-col justify-between">
+										<div className="space-y-2">
+											<h3 className="text-base font-bold font-heading text-foreground group-hover:text-primary transition-colors line-clamp-1">
+												{prop.title}
+											</h3>
+											<p className="text-xs text-muted-foreground flex items-center gap-1 font-light truncate">
+												<MapPin className="w-3.5 h-3.5 text-primary shrink-0" />
+												{prop.location}
+											</p>
+											<p className="text-xs text-muted-foreground line-clamp-2 font-light">
+												{prop.description}
+											</p>
+										</div>
+
+										<div className="pt-3 border-t border-border/40 flex items-center justify-between">
+											<div>
+												<span className="text-[10px] text-muted-foreground block font-mono uppercase">
+													{isBn ? "মূল্য" : "PRICE"}
+												</span>
+												<span className="text-base font-bold font-heading text-primary">
+													{formatCurrency(prop.price)}
+												</span>
+											</div>
+											<Link
+												href={`/projects/${prop.slug}`}
+												className="px-4 py-2 rounded-xl bg-muted hover:bg-primary hover:text-primary-foreground text-xs font-semibold font-heading transition-all"
+											>
+												{isBn ? "বিস্তারিত দেখুন" : "Details"}
+											</Link>
+										</div>
 									</div>
 								</div>
-							</div>
-						))}
+							);
+						})}
 					</div>
 				</SectionContainer>
 			</section>
