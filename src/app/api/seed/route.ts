@@ -19,7 +19,7 @@ export async function POST() {
 async function handleSeed() {
 	try {
 		const defaultAdminEmail = (
-			process.env.ADMIN_EMAIL || "admin@afiaholdingsltd.com"
+			process.env.ADMIN_EMAIL || "admin@siliconrealestatepvtltd.com"
 		).toLowerCase();
 		const defaultAdminPassword = process.env.ADMIN_PASSWORD || "admin123456";
 		const passwordHash = bcrypt.hashSync(defaultAdminPassword, 10);
