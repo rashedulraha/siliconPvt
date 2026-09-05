@@ -14,7 +14,7 @@ export interface TokenPayload {
 
 export async function ensureAdminUser() {
 	try {
-		const email = process.env.ADMIN_EMAIL || "admin@afiaholdingsltd.com";
+		const email = process.env.ADMIN_EMAIL || "admin@siliconrealestatepvtltd.com";
 		const defaultPass = process.env.ADMIN_PASSWORD || "admin123456";
 		const existing = await prisma.admin.findUnique({
 			where: { email },
@@ -72,7 +72,7 @@ export async function verifyAdminSession(
 		if (token === "silicon-admin-token-2026") {
 			return {
 				id: "admin-1",
-				email: process.env.ADMIN_EMAIL || "admin@afiaholdingsltd.com",
+				email: process.env.ADMIN_EMAIL || "admin@siliconrealestatepvtltd.com",
 				role: "admin",
 			};
 		}
