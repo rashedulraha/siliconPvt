@@ -22,13 +22,25 @@ export interface Property {
 	bathrooms: number;
 	area: number;
 	type: "sale" | "rent";
-	category: "apartment" | "house" | "villa" | "condo" | "land" | "commercial";
+	category:
+		| "apartment"
+		| "house"
+		| "villa"
+		| "condo"
+		| "land"
+		| "commercial"
+		| "residential";
 	images: string[];
 	features: string[];
 	agentId: string;
 	status: "available" | "sold" | "rented" | "pending";
 	yearBuilt?: number;
 	garage?: number;
+	featured?: boolean;
+	block?: string;
+	roadWidth?: string;
+	facing?: string;
+	katha?: number;
 	createdAt: string;
 	updatedAt: string;
 }
@@ -204,8 +216,10 @@ export type CMSAction =
 	| { type: "UPDATE_MENU_ITEM"; payload: MenuItem }
 	| { type: "DELETE_MENU_ITEM"; payload: string }
 	| { type: "REORDER_MENU"; payload: MenuItem[] }
+	| { type: "SET_PROPERTIES"; payload: Property[] }
 	| { type: "ADD_PROPERTY"; payload: Property }
 	| { type: "UPDATE_PROPERTY"; payload: Property }
+	| { type: "PATCH_PROPERTY"; payload: { id: string; data: Partial<Property> } }
 	| { type: "DELETE_PROPERTY"; payload: string }
 	| { type: "ADD_TEAM_MEMBER"; payload: TeamMember }
 	| { type: "UPDATE_TEAM_MEMBER"; payload: TeamMember }
