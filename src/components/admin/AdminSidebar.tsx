@@ -108,7 +108,7 @@ export function AdminSidebar({ open, onClose }: AdminSidebarProps) {
 							/>
 						</div>
 						<div className="text-left">
-							<p className="font-heading text-sm font-bold leading-tight text-foreground group-hover:text-primary transition-colors">
+							<p className="font-heading text-sm font-semibold leading-tight text-foreground group-hover:text-primary transition-colors">
 								Silicon RE
 							</p>
 							<p className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
@@ -129,7 +129,7 @@ export function AdminSidebar({ open, onClose }: AdminSidebarProps) {
 				{/* Middle Navigation items */}
 				<ScrollArea className="flex-1">
 					<nav className="p-3.5 space-y-1 text-left">
-						<p className="px-3 mb-2 text-[10px] font-bold uppercase font-mono text-muted-foreground/80 tracking-wider">
+						<p className="px-3 mb-2 text-[10px] font-medium uppercase font-mono text-muted-foreground/80 tracking-wider">
 							Management
 						</p>
 						{navItems.map((item) => {
@@ -145,7 +145,7 @@ export function AdminSidebar({ open, onClose }: AdminSidebarProps) {
 									className={cn(
 										"flex items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-medium font-heading transition-all",
 										isActive
-											? "bg-primary text-primary-foreground font-bold shadow-xs"
+											? "bg-primary text-primary-foreground font-semibold shadow-xs"
 											: "text-muted-foreground hover:bg-muted hover:text-foreground",
 									)}
 								>
