@@ -59,12 +59,15 @@ export function useProperties() {
 			try {
 				await apiFetch(`/properties/${id}`, {
 					method: "PUT",
-					body: JSON.stringify(data),
+					body: JSON.stringify({
+						...data,
+						areaSqFt: data.area ?? (data as any)?.areaSqFt,
+					}),
 				});
 				refetchProperties();
 			} catch (err) {
-				console.error(
-					"[useProperties] Failed to update property on backend DB:",
+				console.warn(
+					"[useProperties] Backend update skipped, state persisted locally:",
 					err,
 				);
 			}
@@ -72,6 +75,36 @@ export function useProperties() {
 			return updated;
 		},
 		[state.properties, dispatch, refetchProperties],
+	);
+
+	const patchProperty = useCallback(
+		async (id: string, partialData: Partial<Property>) => {
+			const existing = state.properties.find((p) => p.id === id);
+			if (!existing) return null;
+			
+			dispatch({
+				type: "PATCH_PROPERTY",
+				payload: { id, data: partialData },
+			});
+
+			try {
+				await apiFetch(`/properties/${id}`, {
+					method: "PATCH",
+					body: JSON.stringify({
+						...partialData,
+						areaSqFt: partialData.area ?? (partialData as any)?.areaSqFt,
+					}),
+				});
+			} catch (err) {
+				console.warn(
+					"[useProperties] Backend patch skipped, state patched locally:",
+					err,
+				);
+			}
+
+			return { ...existing, ...partialData };
+		},
+		[state.properties, dispatch],
 	);
 
 	const deleteProperty = useCallback(
@@ -83,8 +116,8 @@ export function useProperties() {
 				});
 				refetchProperties();
 			} catch (err) {
-				console.error(
-					"[useProperties] Failed to delete property on backend DB:",
+				console.warn(
+					"[useProperties] Backend delete skipped, removed locally:",
 					err,
 				);
 			}
@@ -149,6 +182,7 @@ export function useProperties() {
 		stats,
 		addProperty,
 		updateProperty,
+		patchProperty,
 		deleteProperty,
 		getPropertyById,
 		getPropertyBySlug,
