@@ -44,7 +44,7 @@ export default function AdminLoginPage() {
 		}
 	}, [router]);
 
-	const [email, setEmail] = useState("admin@afiaholdingsltd.com");
+	const [email, setEmail] = useState("admin@siliconrealestatepvtltd.com");
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
 	const [rememberMe, setRememberMe] = useState(true);
@@ -233,7 +233,7 @@ export default function AdminLoginPage() {
 						</span>
 					</div>
 
-					<h1 className="text-3xl sm:text-4xl xl:text-5xl font-extrabold font-heading text-white tracking-tight leading-tight">
+					<h1 className="text-3xl sm:text-4xl xl:text-5xl font-semibold font-heading text-white tracking-tight leading-tight">
 						{isBn ? (
 							<>
 								আপনার প্রপার্টি ও টাউনশিপ পরিচালনার{" "}
@@ -368,7 +368,7 @@ export default function AdminLoginPage() {
 									<ShieldCheck className="w-3.5 h-3.5 text-primary" />
 									<span>{isBn ? "এডমিন পোর্টাল" : "ADMIN PORTAL SIGN IN"}</span>
 								</span>
-								<h2 className="text-2xl sm:text-3xl font-extrabold font-heading text-foreground tracking-tight">
+								<h2 className="text-2xl sm:text-3xl font-semibold font-heading text-foreground tracking-tight">
 									{isBn ? "এডমিন সাইন ইন" : "Admin Sign In"}
 								</h2>
 								<p className="text-xs text-muted-foreground font-light leading-relaxed">
@@ -399,7 +399,7 @@ export default function AdminLoginPage() {
 											type="email"
 											value={email}
 											onChange={(e) => setEmail(e.target.value)}
-											placeholder="admin@afiaholdingsltd.com"
+											placeholder="admin@siliconrealestatepvtltd.com"
 											className="w-full h-11 pl-10 pr-4 rounded-xl bg-background border border-border/80 text-foreground text-xs sm:text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-light"
 										/>
 									</div>
