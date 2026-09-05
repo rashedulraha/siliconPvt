@@ -174,7 +174,7 @@ export default function ManageSlidesPage() {
 
 							<button
 								onClick={openCreateModal}
-								className="px-4 h-8 rounded-full bg-primary text-primary-foreground text-xs font-bold font-heading inline-flex items-center gap-1.5 transition-all shadow-xs hover:bg-primary/90 cursor-pointer"
+								className="px-4 h-8 rounded-full bg-primary text-primary-foreground text-xs font-medium font-heading inline-flex items-center gap-1.5 transition-all shadow-xs hover:bg-primary/90 cursor-pointer"
 							>
 								<Plus className="w-3.5 h-3.5" />
 								<span>Add Slide</span>
@@ -191,7 +191,7 @@ export default function ManageSlidesPage() {
 						<span className="text-xs font-semibold uppercase tracking-wider text-primary font-heading inline-flex items-center gap-1.5">
 							<Sparkles className="w-3.5 h-3.5" /> 3D RING CAROUSEL DATABASE
 						</span>
-						<h1 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
+						<h1 className="text-2xl sm:text-3xl font-semibold font-heading text-foreground tracking-tight">
 							Hero Banner & Ring Carousel Slides
 						</h1>
 						<p className="text-xs sm:text-sm text-muted-foreground font-light">
@@ -204,7 +204,7 @@ export default function ManageSlidesPage() {
 					<div className="p-4 rounded-2xl bg-primary/5 border border-primary/20 text-foreground text-xs flex items-start gap-3">
 						<Layers className="w-4.5 h-4.5 text-primary shrink-0 mt-0.5" />
 						<div className="space-y-1 text-left">
-							<p className="font-bold font-heading text-primary">
+							<p className="font-medium font-heading text-primary">
 								Dynamic 3D Ring Multiplication System
 							</p>
 							<p className="text-muted-foreground font-light leading-relaxed">
@@ -228,7 +228,7 @@ export default function ManageSlidesPage() {
 					{/* ── SLIDES LIST GRID ── */}
 					<div className="space-y-3">
 						<div className="flex items-center justify-between">
-							<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground">
+							<h2 className="text-sm font-medium font-heading uppercase tracking-wider text-muted-foreground">
 								Configured Database Slides ({slides.length})
 							</h2>
 							<span className="text-xs text-muted-foreground font-light">
@@ -274,17 +274,17 @@ export default function ManageSlidesPage() {
 
 											{/* Top Badges */}
 											<div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-												<span className="px-2.5 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/20 text-[10px] font-bold font-mono text-white uppercase tracking-wider">
+												<span className="px-2.5 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/20 text-[10px] font-medium font-mono text-white uppercase tracking-wider">
 													#{index + 1}
 												</span>
-												<span className="px-2.5 py-0.5 rounded-md bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider shadow-xs">
+												<span className="px-2.5 py-0.5 rounded-md bg-primary text-primary-foreground text-[10px] font-medium uppercase tracking-wider shadow-xs">
 													{slide.badge || "FEATURED"}
 												</span>
 											</div>
 
 											{/* Bottom Image Title */}
 											<div className="absolute bottom-3 left-3 right-3 text-left">
-												<h3 className="text-sm font-bold font-heading text-white line-clamp-1">
+												<h3 className="text-sm font-medium font-heading text-white line-clamp-1">
 													{slide.title}
 												</h3>
 												{slide.subtitle && (
@@ -354,7 +354,7 @@ export default function ManageSlidesPage() {
 			<Dialog open={modalOpen} onOpenChange={setModalOpen}>
 				<DialogContent className="max-w-xl max-h-[90vh] overflow-y-auto">
 					<DialogHeader>
-						<DialogTitle className="text-lg font-bold font-heading">
+						<DialogTitle className="text-lg font-semibold font-heading">
 							{editingSlide
 								? "Edit Hero Banner Slide"
 								: "Add New Hero Banner Slide"}
@@ -441,7 +441,7 @@ export default function ManageSlidesPage() {
 							{/* Live Image URL Preview Box */}
 							{formData.image && (
 								<div className="mt-3 p-3 rounded-2xl bg-muted/40 border border-border/70 space-y-2">
-									<span className="text-[10px] font-bold font-mono uppercase text-muted-foreground block">
+									<span className="text-[10px] font-medium font-mono uppercase text-muted-foreground block">
 										Live URL Image Preview:
 									</span>
 									<div className="h-36 w-full rounded-xl overflow-hidden bg-black/10 border border-border/50 relative">
