@@ -12,6 +12,8 @@ import React, {
 import { apiFetch } from "@/lib/api-client";
 import { STORAGE_KEYS } from "@/utils/constants";
 import { storage } from "@/utils/storage";
+import { seedProperties } from "@/utils/seed";
+import { mapApiPropertyToProperty } from "@/utils/dataSync";
 import { initialState } from "./cms-state";
 import type { CMSAction, CMSState } from "@/types";
 export { initialState } from "./cms-state";
@@ -60,16 +62,34 @@ function cmsReducer(state: CMSState, action: CMSAction): CMSState {
 				...state,
 				menu: action.payload,
 			};
+		case "SET_PROPERTIES":
+			return {
+				...state,
+				properties: action.payload,
+			};
 		case "ADD_PROPERTY":
 			return {
 				...state,
-				properties: [...state.properties, action.payload],
+				properties: [action.payload, ...state.properties],
 			};
 		case "UPDATE_PROPERTY":
 			return {
 				...state,
 				properties: state.properties.map((property) =>
 					property.id === action.payload.id ? action.payload : property,
+				),
+			};
+		case "PATCH_PROPERTY":
+			return {
+				...state,
+				properties: state.properties.map((property) =>
+					property.id === action.payload.id
+						? {
+								...property,
+								...action.payload.data,
+								updatedAt: new Date().toISOString(),
+							}
+						: property,
 				),
 			};
 		case "DELETE_PROPERTY":
@@ -218,6 +238,12 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
 			STORAGE_KEYS.CMS_DATA,
 			initialState,
 		);
+
+		// Ensure properties are populated with seed data if storage is empty
+		if (!storedState.properties || storedState.properties.length === 0) {
+			storedState.properties = seedProperties;
+		}
+
 		dispatch({ type: "SET_STATE", payload: storedState });
 		setHydrated(true);
 	}, []);
@@ -235,19 +261,27 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
 	const refetchProperties = useCallback(async () => {
 		try {
 			const response = await apiFetch<unknown>("/properties");
-			const properties = Array.isArray((response as any).properties)
+			const rawProps = Array.isArray((response as any)?.properties)
 				? (response as any).properties
 				: Array.isArray(response)
 					? (response as any)
 					: undefined;
 
-			if (properties) {
-				dispatch({ type: "SET_STATE", payload: { ...state, properties } });
+			if (Array.isArray(rawProps) && rawProps.length > 0) {
+				const mapped = rawProps.map(mapApiPropertyToProperty);
+				dispatch({ type: "SET_PROPERTIES", payload: mapped });
 			}
 		} catch (error) {
-			console.error("[CMSContext] Failed to fetch properties:", error);
+			console.warn("[CMSContext] Backend offline or fetch skipped, using local state:", error);
 		}
-	}, [state]);
+	}, []);
+
+	// Background initial fetch to sync latest database properties if available
+	useEffect(() => {
+		if (hydrated) {
+			refetchProperties();
+		}
+	}, [hydrated, refetchProperties]);
 
 	const value = useMemo(
 		() => ({ state, dispatch, resetAll, refetchProperties }),
