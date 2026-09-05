@@ -114,7 +114,7 @@ export default function AboutSettingsPage() {
 							<Sparkles className="w-3.5 h-3.5" /> PUBLIC ABOUT PAGE CONTENT
 							CONTROL
 						</span>
-						<h1 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
+						<h1 className="text-2xl sm:text-3xl font-semibold font-heading text-foreground tracking-tight">
 							About & Leadership Settings
 						</h1>
 						<p className="text-xs sm:text-sm text-muted-foreground font-light">
@@ -179,7 +179,7 @@ export default function AboutSettingsPage() {
 							{/* ── TAB 1: HERO & WHO WE ARE ── */}
 							{activeTab === "hero" && (
 								<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-5">
-									<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
+									<h2 className="text-sm font-medium font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
 										Header Banner & Company Bio
 									</h2>
 
@@ -258,8 +258,8 @@ export default function AboutSettingsPage() {
 							{activeTab === "mission" && (
 								<div className="space-y-6">
 									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-5">
-										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
-											Mission & Vision Statements
+										<h2 className="text-sm font-medium font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
+											Mission, Vision & Core Values
 										</h2>
 
 										<div className="grid sm:grid-cols-2 gap-4">
@@ -318,8 +318,8 @@ export default function AboutSettingsPage() {
 									</div>
 
 									{/* Core Values */}
-									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-4">
-										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
+									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-6">
+										<h2 className="text-sm font-medium font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
 											Core Value Pillars
 										</h2>
 
@@ -367,9 +367,9 @@ export default function AboutSettingsPage() {
 							{activeTab === "leadership" && (
 								<div className="space-y-6">
 									{/* Chairman */}
-									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-4">
-										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
-											Chairman's Address & Profile
+									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-6">
+										<h2 className="text-sm font-medium font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
+											Chairman's Message & Bio
 										</h2>
 
 										<div className="grid sm:grid-cols-2 gap-4">
@@ -438,9 +438,9 @@ export default function AboutSettingsPage() {
 									</div>
 
 									{/* Managing Director */}
-									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-4">
-										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
-											Managing Director's Address & Profile
+									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-6">
+										<h2 className="text-sm font-medium font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
+											Managing Director (MD)'s Message & Bio
 										</h2>
 
 										<div className="grid sm:grid-cols-2 gap-4">
@@ -515,7 +515,7 @@ export default function AboutSettingsPage() {
 								<div className="space-y-6">
 									{/* Company Stats */}
 									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-4">
-										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
+										<h2 className="text-sm font-medium font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
 											Company At A Glance Metrics (4 Stats)
 										</h2>
 
@@ -558,7 +558,7 @@ export default function AboutSettingsPage() {
 
 									{/* Milestones Timeline */}
 									<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-4">
-										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
+										<h2 className="text-sm font-medium font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
 											Milestones of Trust Timeline
 										</h2>
 
@@ -616,9 +616,9 @@ export default function AboutSettingsPage() {
 
 							{/* ── TAB 5: WHY CHOOSE US ── */}
 							{activeTab === "whyChooseUs" && (
-								<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-4">
-									<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
-										Why Choose Silicon Real Estate (4 Distinctive Advantages)
+								<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-5">
+									<h2 className="text-sm font-medium font-heading uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2.5">
+										Why Choose Silicon Real Estate?
 									</h2>
 
 									<div className="grid sm:grid-cols-2 gap-4">
@@ -664,7 +664,7 @@ export default function AboutSettingsPage() {
 							{activeTab === "team" && (
 								<div className="bg-card border border-border/70 rounded-2xl p-6 sm:p-7 space-y-5">
 									<div className="flex items-center justify-between border-b border-border/50 pb-2.5">
-										<h2 className="text-sm font-bold font-heading uppercase tracking-wider text-muted-foreground">
+										<h2 className="text-sm font-medium font-heading uppercase tracking-wider text-muted-foreground">
 											Executive Management Team (
 											{formData.managementTeam.length})
 										</h2>
@@ -708,7 +708,7 @@ export default function AboutSettingsPage() {
 															}}
 														/>
 														<div>
-															<h4 className="text-xs font-bold font-heading text-foreground">
+															<h4 className="text-xs font-semibold font-heading text-foreground">
 																{mem.name || "Member Name"}
 															</h4>
 															<p className="text-[10px] text-primary font-semibold uppercase">
@@ -802,7 +802,7 @@ export default function AboutSettingsPage() {
 								<Button
 									type="submit"
 									disabled={saving}
-									className="gap-2 px-6 h-10 font-bold font-heading text-xs"
+									className="gap-2 px-6 h-10 font-medium font-heading text-xs"
 								>
 									{saving ? (
 										<Loader2 className="w-4 h-4 animate-spin" />
@@ -822,7 +822,7 @@ export default function AboutSettingsPage() {
 				<button
 					onClick={() => handleSave()}
 					disabled={saving || loading}
-					className="h-11 px-6 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground text-xs sm:text-sm font-bold font-heading inline-flex items-center gap-2 shadow-md shadow-primary/25 hover:shadow-lg transition-all active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+					className="h-11 px-6 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground text-xs sm:text-sm font-medium font-heading inline-flex items-center gap-2 shadow-md shadow-primary/25 hover:shadow-lg transition-all active:scale-[0.98] disabled:opacity-50 cursor-pointer"
 				>
 					{saving ? (
 						<Loader2 className="w-4 h-4 animate-spin" />
