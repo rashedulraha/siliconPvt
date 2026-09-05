@@ -12,6 +12,17 @@ export function mapApiPropertyToProperty(apiProp: any): Property {
 		? apiProp.features
 		: ["30ft Wide Road", "Ready Registration", "Gas & Electricity"];
 
+	// Detect block from location if not explicitly present
+	let block = apiProp.block || "";
+	if (!block && apiProp.location) {
+		const match = apiProp.location.match(/Block-[A-D]|Main Boulevard/i);
+		if (match) block = match[0];
+	}
+	if (!block) block = "Block-A";
+
+	const katha =
+		apiProp.katha ?? (apiProp.bedrooms && apiProp.bedrooms > 0 ? apiProp.bedrooms : 3);
+
 	return {
 		id: apiProp.id || String(Math.random()),
 		title: apiProp.title || "",
@@ -21,11 +32,11 @@ export function mapApiPropertyToProperty(apiProp: any): Property {
 			typeof apiProp.price === "number"
 				? apiProp.price
 				: Number(apiProp.price || 0),
-		location: apiProp.location || "Dhaka",
-		address: apiProp.location || apiProp.address || "",
-		bedrooms: apiProp.bedrooms ?? 0,
+		location: apiProp.location || "Silicon City, Savar, Dhaka",
+		address: apiProp.address || apiProp.location || "Silicon City, Savar, Dhaka",
+		bedrooms: katha,
 		bathrooms: apiProp.bathrooms ?? 0,
-		area: apiProp.areaSqFt ?? apiProp.area ?? 0,
+		area: apiProp.areaSqFt ?? apiProp.area ?? katha * 720,
 		garage: apiProp.garage ?? 0,
 		type: (apiProp.type === "rent" ? "rent" : "sale") as "sale" | "rent",
 		category: (apiProp.category || "land") as Property["category"],
@@ -39,6 +50,11 @@ export function mapApiPropertyToProperty(apiProp: any): Property {
 		agentId: apiProp.agentId || "agent-1",
 		status: apiProp.status || "available",
 		yearBuilt: apiProp.yearBuilt,
+		block,
+		katha,
+		roadWidth: apiProp.roadWidth || "30ft Avenue",
+		facing: apiProp.facing || "South Facing",
+		featured: Boolean(apiProp.featured),
 		createdAt: apiProp.createdAt || new Date().toISOString(),
 		updatedAt: apiProp.updatedAt || new Date().toISOString(),
 	};
