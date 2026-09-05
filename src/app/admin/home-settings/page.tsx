@@ -206,7 +206,7 @@ export default function HomeSettingsPage() {
 						<span className="text-xs font-semibold uppercase tracking-wider text-primary font-heading inline-flex items-center gap-1.5">
 							<Sparkles className="w-3.5 h-3.5" /> LIVE DATABASE SYNC
 						</span>
-						<h1 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
+						<h1 className="text-2xl sm:text-3xl font-semibold font-heading text-foreground tracking-tight">
 							Home Page Section Manager
 						</h1>
 						<p className="text-xs sm:text-sm text-muted-foreground font-light">
@@ -248,7 +248,7 @@ export default function HomeSettingsPage() {
 										<Icon className="w-4 h-4" />
 									</div>
 									<div>
-										<span className="text-xs font-bold font-heading line-clamp-1 block">
+										<span className="text-xs font-medium font-heading line-clamp-1 block">
 											{tab.label}
 										</span>
 										<span
@@ -270,7 +270,7 @@ export default function HomeSettingsPage() {
 					{activeTab === "hero" && (
 						<Card className="border border-border/70 rounded-2xl shadow-xs overflow-hidden">
 							<CardHeader className="bg-muted/20 border-b border-border/40 pb-4">
-								<CardTitle className="text-base font-bold font-heading flex items-center gap-2">
+								<CardTitle className="text-base font-semibold font-heading flex items-center gap-2">
 									<Layout className="w-4.5 h-4.5 text-primary" />
 									Hero Carousel & Main Headline Overlay
 								</CardTitle>
@@ -316,7 +316,7 @@ export default function HomeSettingsPage() {
 										value={formData.heroTitle || ""}
 										onChange={(e) => handleChange("heroTitle", e.target.value)}
 										placeholder="e.g. Silicon City — Master Planned Township"
-										className="font-bold font-heading"
+										className="font-medium font-heading"
 									/>
 								</div>
 
@@ -366,7 +366,7 @@ export default function HomeSettingsPage() {
 					{activeTab === "masterplan" && (
 						<Card className="border border-border/70 rounded-2xl shadow-xs overflow-hidden">
 							<CardHeader className="bg-muted/20 border-b border-border/40 pb-4">
-								<CardTitle className="text-base font-bold font-heading flex items-center gap-2">
+								<CardTitle className="text-base font-semibold font-heading flex items-center gap-2">
 									<Compass className="w-4.5 h-4.5 text-primary" />
 									Master Plan & Lifestyle Amenities Section
 								</CardTitle>
@@ -378,7 +378,7 @@ export default function HomeSettingsPage() {
 							<CardContent className="p-6 sm:p-8 space-y-6">
 								{/* Left Card: Master Plan Layout */}
 								<div className="space-y-4 p-5 sm:p-6 rounded-2xl bg-muted/20 border border-border/70">
-									<div className="flex items-center gap-2 text-primary font-bold font-heading text-xs uppercase tracking-wider">
+									<div className="flex items-center gap-2 text-primary font-medium font-heading text-xs uppercase tracking-wider">
 										<Layers className="w-4 h-4" /> Card 1: Master Plan Layout
 									</div>
 
@@ -440,7 +440,7 @@ export default function HomeSettingsPage() {
 
 								{/* Right Card: Lifestyle Amenities */}
 								<div className="space-y-4 p-5 sm:p-6 rounded-2xl bg-muted/20 border border-border/70">
-									<div className="flex items-center gap-2 text-primary font-bold font-heading text-xs uppercase tracking-wider">
+									<div className="flex items-center gap-2 text-primary font-medium font-heading text-xs uppercase tracking-wider">
 										<Layers className="w-4 h-4" /> Card 2: Lifestyle Amenities
 									</div>
 
@@ -480,13 +480,12 @@ export default function HomeSettingsPage() {
 					{activeTab === "showcase" && (
 						<Card className="border border-border/70 rounded-2xl shadow-xs overflow-hidden">
 							<CardHeader className="bg-muted/20 border-b border-border/40 pb-4">
-								<CardTitle className="text-base font-bold font-heading flex items-center gap-2">
+								<CardTitle className="text-base font-semibold font-heading flex items-center gap-2">
 									<Building2 className="w-4.5 h-4.5 text-primary" />
-									Silicon City Flagship Township Spotlight
+									Silicon City Spotlight Showcase
 								</CardTitle>
 								<CardDescription className="text-xs text-muted-foreground font-light">
-									Update the mega township presentation section title and
-									geographic summary.
+									Spotlight details displayed under the main township banner.
 								</CardDescription>
 							</CardHeader>
 							<CardContent className="p-6 space-y-5">
@@ -540,7 +539,7 @@ export default function HomeSettingsPage() {
 							<CardHeader className="bg-muted/20 border-b border-border/40 pb-4">
 								<div className="flex items-center justify-between">
 									<div>
-										<CardTitle className="text-base font-bold font-heading flex items-center gap-2">
+										<CardTitle className="text-base font-semibold font-heading flex items-center gap-2">
 											<Award className="w-4.5 h-4.5 text-primary" />
 											Our Track Record & Trust Counters
 										</CardTitle>
@@ -602,7 +601,7 @@ export default function HomeSettingsPage() {
 												className="p-4 rounded-2xl bg-card border border-border/70 space-y-3 relative group"
 											>
 												<div className="flex items-center justify-between">
-													<span className="text-[11px] font-bold font-mono text-primary">
+													<span className="text-[11px] font-medium font-mono text-primary">
 														STAT CARD #{idx + 1}
 													</span>
 													{formData.trustCounters.length > 1 && (
@@ -632,7 +631,7 @@ export default function HomeSettingsPage() {
 																)
 															}
 															placeholder="e.g. 150+ Acres / 16–18 ft / 100%"
-															className="font-bold font-heading text-base"
+															className="font-medium font-heading text-base"
 														/>
 													</div>
 													<div>
@@ -682,7 +681,7 @@ export default function HomeSettingsPage() {
 							<CardHeader className="bg-muted/20 border-b border-border/40 pb-4">
 								<div className="flex items-center justify-between">
 									<div>
-										<CardTitle className="text-base font-bold font-heading flex items-center gap-2">
+										<CardTitle className="text-base font-semibold font-heading flex items-center gap-2">
 											<ShieldCheck className="w-4.5 h-4.5 text-primary" />
 											Regulatory Compliance & Accreditations
 										</CardTitle>
@@ -707,7 +706,7 @@ export default function HomeSettingsPage() {
 								<div className="space-y-3">
 									{formData.accreditations.map((badge, idx) => (
 										<div key={idx} className="flex items-center gap-2.5">
-											<div className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-mono font-bold shrink-0">
+											<div className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-mono font-medium shrink-0">
 												{idx + 1}
 											</div>
 											<Input
@@ -736,7 +735,7 @@ export default function HomeSettingsPage() {
 					{activeTab === "cta" && (
 						<Card className="border border-border/70 rounded-2xl shadow-xs overflow-hidden">
 							<CardHeader className="bg-muted/20 border-b border-border/40 pb-4">
-								<CardTitle className="text-base font-bold font-heading flex items-center gap-2">
+								<CardTitle className="text-base font-semibold font-heading flex items-center gap-2">
 									<Link2 className="w-4.5 h-4.5 text-primary" />
 									Offline Membership & Site Visit Booking CTA
 								</CardTitle>
@@ -754,7 +753,7 @@ export default function HomeSettingsPage() {
 										value={formData.ctaTitle || ""}
 										onChange={(e) => handleChange("ctaTitle", e.target.value)}
 										placeholder="e.g. Ready to Secure Your Plot in Silicon City?"
-										className="font-bold font-heading text-base"
+										className="font-medium font-heading text-base"
 									/>
 								</div>
 
@@ -807,7 +806,7 @@ export default function HomeSettingsPage() {
 				<button
 					onClick={handleSave}
 					disabled={saving}
-					className="h-11 px-6 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground text-xs sm:text-sm font-bold font-heading inline-flex items-center gap-2 shadow-md shadow-primary/25 hover:shadow-lg transition-all active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+					className="h-11 px-6 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground text-xs sm:text-sm font-medium font-heading inline-flex items-center gap-2 shadow-md shadow-primary/25 hover:shadow-lg transition-all active:scale-[0.98] disabled:opacity-50 cursor-pointer"
 				>
 					{saving ? (
 						<Loader2 className="w-4 h-4 animate-spin" />
