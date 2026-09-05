@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { getAdminSession } from "@/lib/admin-auth";
+import { getAdminSession, DEFAULT_ADMIN_EMAIL } from "@/lib/admin-auth";
 import type { AdminSession } from "@/lib/admin-auth";
 
 const pageMeta: Record<string, { title: string; description: string }> = {
@@ -72,7 +72,7 @@ export default function AdminLayout({
 		} else {
 			setSession(
 				s || {
-					email: "admin@afiaholdingsltd.com",
+					email: DEFAULT_ADMIN_EMAIL,
 					loggedInAt: new Date().toISOString(),
 				},
 			);
