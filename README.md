@@ -333,3 +333,53 @@ npx prisma db push
 
 # (Optional) Seed initial records
 # Access http://localhost:3000/api/seed
+```
+
+### 5. Run the Development Server
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) to view the public website.  
+Access [http://localhost:3000/admin](http://localhost:3000/admin) for the administrative CMS.
+
+### 6. Build for Production
+```bash
+npm run build
+npm start
+```
+
+---
+
+## 🧪 Code Quality & Testing
+
+```bash
+# Run Biome Linter & Formatter check
+npm run format:check
+
+# Fix formatting issues automatically
+npm run format:fix
+
+# Run unit tests via Vitest
+npm run test
+
+# Launch Vitest Interactive UI
+npm run test:ui
+```
+
+---
+
+## 🏢 Corporate Headquarters
+
+**Silicon Real Estate (Pvt.) Ltd.**  
+2/3 (2nd Floor), Block # A, Iqbal Road,  
+Mohammadpur, Dhaka-1207, Bangladesh *(Near Mohammadpur Town Hall)*  
+- **Hotlines:** +880 12 345 678, +880 1712 345 678  
+- **Email:** info@siliconrealestatepvtltd.com  
+- **Web:** [siliconrealestatepvtltd.com](https://siliconrealestatepvtltd.com)  
+
+---
+
+<div align="center">
+  <sub>Developed with pride for the Silicon City Master Planned Township. All rights reserved &copy; 2026.</sub>
+</div>
+
