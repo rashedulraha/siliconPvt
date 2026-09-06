@@ -193,3 +193,43 @@ const { isBn, language, setLanguage } = useLanguage();
 
 // Graceful fallback architecture:
 const title = isBn ? data.titleBn || data.title : data.title;
+const speech = isBn ? data.speechBn || data.speech : data.speech;
+```
+
+- **Instant Switching**: Persisted in local storage and distributed across all navigation bars, footers, bento cards, and interactive 3D elements.
+- **Graceful Fallbacks**: If a Bengali translation field is not yet entered in the CMS, the platform gracefully falls back to the English master text without broken UI states.
+
+---
+
+## 📁 Repository Structure
+
+```
+silicon/
+├── prisma/
+│   ├── schema.prisma              # Neon PostgreSQL schema definition
+│   └── migrations/                # Version-controlled DB migrations
+├── src/
+│   ├── app/
+│   │   ├── (main)/                # Public front-facing portal
+│   │   │   ├── page.tsx           # Home page wrapper
+│   │   │   ├── about/             # Corporate overview & story
+│   │   │   ├── projects/          # Township sectors & plot catalog
+│   │   │   ├── services/          # Real estate & civic amenities
+│   │   │   ├── contact/           # Corporate headquarters & site visit booking
+│   │   │   └── privacy-terms/     # Legal disclaimers & compliance
+│   │   ├── admin/                 # Dedicated No-Code Admin Suite
+│   │   │   ├── page.tsx           # Main CMS dashboard & lead metrics
+│   │   │   ├── home-settings/     # 8-section live home content manager
+│   │   │   ├── manage-slides/     # Multi-format 3D cylinder slide studio
+│   │   │   ├── about-settings/    # Story, mission, leadership & timeline
+│   │   │   ├── projects-settings/ # Project sectors, amenities & roadmap
+│   │   │   ├── services-settings/ # Citizen service cards & pricing
+│   │   │   ├── inventory/         # Property listings CRUD
+│   │   │   ├── leads/             # Lead management & pipeline
+│   │   │   ├── site-settings/     # Office addresses, hotline & social
+│   │   │   └── login/             # Admin authentication portal
+│   │   └── api/                   # REST API Edge routes
+│   │       ├── home-content/      # GET / PUT home page sections
+│   │       ├── slides/            # GET / POST / PUT / DELETE hero slides
+│   │       ├── upload/            # Secure ImgBB multipart media gateway
+│   │       ├── properties/        # Plot inventory management
