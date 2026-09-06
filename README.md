@@ -273,3 +273,63 @@ silicon/
 | `/api/slides` | `GET` | No | Fetches active 3D cylinder carousel slides |
 | `/api/slides` | `POST` | **Yes (Admin)** | Creates a new hero carousel slide |
 | `/api/slides/[id]` | `PUT` / `DELETE` | **Yes (Admin)** | Updates or deletes an existing slide |
+| `/api/upload` | `POST` | **Yes (Admin)** | Multipart/JSON proxy to upload images directly to ImgBB CDN |
+| `/api/properties` | `GET` | No | Fetches property and plot inventory with filters |
+| `/api/properties` | `POST` | **Yes (Admin)** | Adds a new property/plot to the database |
+| `/api/leads` | `POST` | No | Submits a new customer inquiry or site booking |
+| `/api/leads` | `GET` | **Yes (Admin)** | Fetches all customer leads for the CRM pipeline |
+| `/api/about-content` | `GET` / `PUT` | Admin (PUT) | Manages corporate story, mission, vision, and timeline |
+| `/api/projects-content` | `GET` / `PUT` | Admin (PUT) | Manages flagship project spotlight, specs, and roadmap |
+| `/api/contact-info` | `GET` / `PUT` | Admin (PUT) | Manages corporate office address, hotline, and Google Map |
+| `/api/auth/login` | `POST` | No | Authenticates admin credentials and issues signed JWT cookie |
+
+---
+
+## 🚀 Installation & Setup
+
+### Prerequisites
+- **Node.js**: v20.x or higher (Node 22+ recommended)
+- **npm** or **pnpm**
+- **PostgreSQL Database** (e.g., [Neon Serverless](https://neon.tech))
+- **ImgBB Account** (Free API Key from [api.imgbb.com](https://api.imgbb.com/))
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/your-username/silicon.git
+cd silicon
+```
+
+### 2. Install Dependencies
+```bash
+npm install
+```
+
+### 3. Configure Environment Variables
+Create a `.env` file in the root directory:
+
+```env
+# Server & Database Configuration
+DATABASE_URL="postgresql://user:password@your-neon-host.neon.tech/neondb?sslmode=require"
+
+# Admin Authentication
+ADMIN_EMAIL="admin@siliconrealestatepvtltd.com"
+ADMIN_PASSWORD="your_secure_password"
+JWT_SECRET="your_custom_jwt_secret_key"
+
+# ImgBB Cloud CDN (For dynamic image uploads)
+IMGBB_API_KEY="your_imgbb_api_key"
+
+# Client Configuration
+NEXT_PUBLIC_API_URL="/api/v1"
+```
+
+### 4. Database Setup & Prisma Generation
+```bash
+# Generate Prisma Client
+npx prisma generate
+
+# Push schema to Neon PostgreSQL
+npx prisma db push
+
+# (Optional) Seed initial records
+# Access http://localhost:3000/api/seed
