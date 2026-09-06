@@ -1398,6 +1398,406 @@ export default function HomeSettingsPage() {
 														{/* Middle: Content Info */}
 														<div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3">
 															<div className="space-y-1.5">
+																<h4 className="font-semibold font-heading text-sm text-foreground group-hover:text-primary transition-colors line-clamp-1">
+																	{item.title || `Landmark #${index + 1}`}
+																</h4>
+																{item.titleBn && (
+																	<p className="text-xs text-muted-foreground/90 font-bangla line-clamp-1">
+																		{item.titleBn}
+																	</p>
+																)}
+																<p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed pt-1">
+																	{item.subtitle || "No description provided."}
+																</p>
+															</div>
+
+															{/* Bottom: Action Buttons */}
+															<div className="pt-3 border-t border-border/40 flex items-center gap-2">
+																<Button
+																	type="button"
+																	onClick={() => setEditingGalleryIndex(index)}
+																	className="flex-1 min-w-0 text-xs font-heading cursor-pointer gap-1.5"
+																	size="sm"
+																>
+																	<Pencil className="w-3.5 h-3.5" />
+																	Edit Landmark
+																</Button>
+																{formData.galleryItems &&
+																	formData.galleryItems.length > 1 && (
+																		<Button
+																			type="button"
+																			variant="outline"
+																			size="icon"
+																			onClick={() => removeGalleryItem(index)}
+																			className="h-8 w-8 shrink-0 text-destructive border-destructive/30 hover:bg-destructive/10 cursor-pointer"
+																			title="Delete Landmark Card"
+																		>
+																			<Trash2 className="w-3.5 h-3.5" />
+																		</Button>
+																	)}
+															</div>
+														</div>
+													</div>
+												))}
+											</div>
+										)}
+									</div>
+								) : (
+									/* ── IN-PLACE DEDICATED LANDMARK CARD EDITOR ── */
+									(() => {
+										const currentItem = (formData.galleryItems || [])[
+											editingGalleryIndex
+										];
+										if (!currentItem) {
+											return (
+												<div className="text-center py-10 space-y-3">
+													<p className="text-xs text-muted-foreground">
+														Landmark card not found.
+													</p>
+													<Button
+														type="button"
+														onClick={() => setEditingGalleryIndex(null)}
+														size="sm"
+													>
+														Back to Overview
+													</Button>
+												</div>
+											);
+										}
+
+										return (
+											<div className="space-y-6">
+												{/* Editor Navigation Bar */}
+												<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-muted/40 border border-border/70">
+													<div className="flex items-center gap-3">
+														<Button
+															type="button"
+															variant="outline"
+															size="sm"
+															onClick={() => setEditingGalleryIndex(null)}
+															className="gap-1.5 text-xs font-heading cursor-pointer shadow-2xs hover:bg-background"
+														>
+															<ArrowLeft className="w-3.5 h-3.5" />
+															Back to Cards Overview
+														</Button>
+														<div className="h-4 w-px bg-border/60 hidden sm:block" />
+														<div className="flex items-center gap-2">
+															<span className="w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-bold font-heading flex items-center justify-center">
+																#{editingGalleryIndex + 1}
+															</span>
+															<span className="font-semibold font-heading text-sm text-foreground truncate max-w-[200px] sm:max-w-xs">
+																{currentItem.title ||
+																	`Landmark Card #${editingGalleryIndex + 1}`}
+															</span>
+														</div>
+													</div>
+
+													{/* Prev / Next Card Navigator */}
+													<div className="flex items-center gap-1.5 self-end sm:self-auto">
+														<Button
+															type="button"
+															variant="ghost"
+															size="sm"
+															disabled={editingGalleryIndex === 0}
+															onClick={() =>
+																setEditingGalleryIndex(editingGalleryIndex - 1)
+															}
+															className="h-8 px-2 text-xs gap-1 cursor-pointer"
+															title="Previous Landmark Card"
+														>
+															<ChevronLeft className="w-4 h-4" />
+															<span className="hidden sm:inline">Prev</span>
+														</Button>
+														<span className="text-[11px] font-mono text-muted-foreground px-1">
+															{editingGalleryIndex + 1} /{" "}
+															{(formData.galleryItems || []).length}
+														</span>
+														<Button
+															type="button"
+															variant="ghost"
+															size="sm"
+															disabled={
+																editingGalleryIndex >=
+																(formData.galleryItems || []).length - 1
+															}
+															onClick={() =>
+																setEditingGalleryIndex(editingGalleryIndex + 1)
+															}
+															className="h-8 px-2 text-xs gap-1 cursor-pointer"
+															title="Next Landmark Card"
+														>
+															<span className="hidden sm:inline">Next</span>
+															<ChevronRight className="w-4 h-4" />
+														</Button>
+													</div>
+												</div>
+
+												{/* TOP ROW: Photo on Left (5 cols), Basic Info on Right (7 cols) */}
+												<div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+													{/* Left Column: Photo Upload */}
+													<div className="lg:col-span-5 p-5 sm:p-6 rounded-2xl bg-muted/20 border border-border/70 space-y-4">
+														<div className="flex items-center justify-between pb-2 border-b border-border/40">
+															<Label className="text-xs font-semibold font-heading uppercase tracking-wider text-primary">
+																Landmark Photo (ImgBB CDN)
+															</Label>
+															<span className="text-[11px] font-mono text-muted-foreground">
+																16:9 Aspect Ratio
+															</span>
+														</div>
+
+														<ImageUpload
+															label="Landmark Photograph"
+															description="Upload project photo directly to ImgBB CDN with instant live preview."
+															value={currentItem.src || ""}
+															onChange={(url) =>
+																handleGalleryItemChange(
+																	editingGalleryIndex,
+																	"src",
+																	url,
+																)
+															}
+															aspectRatio="video"
+														/>
+
+														{/* Destination URL with quick presets */}
+														<div className="space-y-2 pt-2 border-t border-border/40">
+															<Label className="text-xs font-semibold font-heading text-muted-foreground">
+																Click Destination URL
+															</Label>
+															<Input
+																value={currentItem.link || ""}
+																onChange={(e) =>
+																	handleGalleryItemChange(
+																		editingGalleryIndex,
+																		"link",
+																		e.target.value,
+																	)
+																}
+																placeholder="e.g. /projects or /about"
+																className="font-mono text-xs"
+															/>
+															<div className="flex flex-wrap gap-1.5 pt-1">
+																{[
+																	"/projects",
+																	"/about",
+																	"/contact",
+																	"/services",
+																].map((preset) => (
+																	<button
+																		key={preset}
+																		type="button"
+																		onClick={() =>
+																			handleGalleryItemChange(
+																				editingGalleryIndex,
+																				"link",
+																				preset,
+																			)
+																		}
+																		className={`text-[10px] font-mono px-2 py-0.5 rounded border transition-colors cursor-pointer ${
+																			currentItem.link === preset
+																				? "bg-primary text-primary-foreground border-primary"
+																				: "bg-muted text-muted-foreground border-border hover:border-primary/50"
+																		}`}
+																	>
+																		{preset}
+																	</button>
+																))}
+															</div>
+														</div>
+													</div>
+
+													{/* Right Column: Titles & Categories */}
+													<div className="lg:col-span-7 p-5 sm:p-6 rounded-2xl bg-muted/20 border border-border/70 space-y-4 flex flex-col justify-between">
+														<div className="space-y-4">
+															<div className="pb-2 border-b border-border/40">
+																<Label className="text-xs font-semibold font-heading uppercase tracking-wider text-primary">
+																	Titles & Category Classification
+																</Label>
+															</div>
+
+															{/* Titles EN & BN */}
+															<div className="grid sm:grid-cols-2 gap-4">
+																<div className="space-y-2">
+																	<div className="flex items-center justify-between">
+																		<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+																			Card Title
+																		</Label>
+																		<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
+																			EN
+																		</span>
+																	</div>
+																	<Input
+																		value={currentItem.title || ""}
+																		onChange={(e) =>
+																			handleGalleryItemChange(
+																				editingGalleryIndex,
+																				"title",
+																				e.target.value,
+																			)
+																		}
+																		placeholder="e.g. Central Grand Mosque"
+																		className="font-medium font-heading"
+																	/>
+																</div>
+																<div className="space-y-2">
+																	<div className="flex items-center justify-between">
+																		<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+																			কার্ড শিরোনাম
+																		</Label>
+																		<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+																			বাংলা (BN)
+																		</span>
+																	</div>
+																	<Input
+																		value={currentItem.titleBn || ""}
+																		onChange={(e) =>
+																			handleGalleryItemChange(
+																				editingGalleryIndex,
+																				"titleBn",
+																				e.target.value,
+																			)
+																		}
+																		placeholder="যেমনঃ আধুনিক কেন্দ্রীয় মসজিদ"
+																		className="font-medium font-heading"
+																	/>
+																</div>
+															</div>
+
+															{/* Category Pill Tag EN & BN */}
+															<div className="grid sm:grid-cols-2 gap-4">
+																<div className="space-y-2">
+																	<div className="flex items-center justify-between">
+																		<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+																			Category Tag
+																		</Label>
+																		<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
+																			EN
+																		</span>
+																	</div>
+																	<Input
+																		value={currentItem.category || ""}
+																		onChange={(e) =>
+																			handleGalleryItemChange(
+																				editingGalleryIndex,
+																				"category",
+																				e.target.value,
+																			)
+																		}
+																		placeholder="e.g. INFRASTRUCTURE, MOSQUE"
+																	/>
+																</div>
+																<div className="space-y-2">
+																	<div className="flex items-center justify-between">
+																		<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+																			ক্যাটাগরি ট্যাগ
+																		</Label>
+																		<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+																			বাংলা (BN)
+																		</span>
+																	</div>
+																	<Input
+																		value={currentItem.categoryBn || ""}
+																		onChange={(e) =>
+																			handleGalleryItemChange(
+																				editingGalleryIndex,
+																				"categoryBn",
+																				e.target.value,
+																			)
+																		}
+																		placeholder="যেমনঃ অবকাঠামো, ধর্মীয় স্থাপনা"
+																	/>
+																</div>
+															</div>
+														</div>
+
+														{/* Quick Card Status Info */}
+														<div className="p-3 rounded-xl bg-muted/40 border border-border/40 flex items-center justify-between text-xs text-muted-foreground">
+															<span className="font-heading">
+																Order Position: #{editingGalleryIndex + 1} of{" "}
+																{(formData.galleryItems || []).length}
+															</span>
+															<span className="text-emerald-500 font-medium flex items-center gap-1">
+																<CheckCircle2 className="w-3.5 h-3.5" />
+																Auto-synced to form state
+															</span>
+														</div>
+													</div>
+												</div>
+
+												{/* BOTTOM ROW: Subtitle & Description in Full Width Split */}
+												<div className="p-5 sm:p-6 rounded-2xl bg-muted/20 border border-border/70 space-y-4">
+													<div className="pb-2 border-b border-border/40">
+														<Label className="text-xs font-semibold font-heading uppercase tracking-wider text-primary">
+															Overview & Landmark Description (বিবরণ ও উন্নয়ন
+															অগ্রগতি বার্তা)
+														</Label>
+													</div>
+
+													<div className="grid sm:grid-cols-2 gap-4">
+														<div className="space-y-2">
+															<div className="flex items-center justify-between">
+																<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+																	Subtitle / Narrative Description
+																</Label>
+																<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
+																	English
+																</span>
+															</div>
+															<Textarea
+																rows={4}
+																value={currentItem.subtitle || ""}
+																onChange={(e) =>
+																	handleGalleryItemChange(
+																		editingGalleryIndex,
+																		"subtitle",
+																		e.target.value,
+																	)
+																}
+																placeholder="Enter landmark description and development progress details in English..."
+																className="leading-relaxed"
+															/>
+														</div>
+														<div className="space-y-2">
+															<div className="flex items-center justify-between">
+																<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+																	সাবটাইটেল ও উন্নয়ন অগ্রগতি বিবরণ
+																</Label>
+																<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+																	বাংলা (BN)
+																</span>
+															</div>
+															<Textarea
+																rows={4}
+																value={currentItem.subtitleBn || ""}
+																onChange={(e) =>
+																	handleGalleryItemChange(
+																		editingGalleryIndex,
+																		"subtitleBn",
+																		e.target.value,
+																	)
+																}
+																placeholder="উন্নয়ন কাজের সার্বিক অগ্রগতি ও সংক্ষিপ্ত বিবরণ বাংলায় লিখুন..."
+																className="leading-relaxed font-bangla"
+															/>
+														</div>
+													</div>
+												</div>
+
+												{/* ACTION FOOTER */}
+												<div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+													<Button
+														type="button"
+														variant="outline"
+														onClick={() => setEditingGalleryIndex(null)}
+														className="w-full sm:w-auto text-xs font-heading cursor-pointer gap-1.5"
+													>
+														<ArrowLeft className="w-3.5 h-3.5" />
+														Return to Landmark Cards Overview
+													</Button>
+
+													<div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+														{formData.galleryItems &&
+															formData.galleryItems.length > 1 && (
 				</div>
 			</SectionContainer>
 		</div>
