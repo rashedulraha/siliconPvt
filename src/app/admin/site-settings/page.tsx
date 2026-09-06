@@ -2,28 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import {
-	ArrowLeft,
-	Save,
-	Phone,
-	Mail,
-	MapPin,
-	Clock,
-	CheckCircle2,
-	Loader2,
-	Lock,
-	Globe,
-	MessageSquare,
-	ImageIcon,
-	Map,
-	Heading,
-	FileText,
-	Eye,
-} from "lucide-react";
+import { ArrowLeft, Save, CheckCircle2, Loader2, Eye } from "lucide-react";
 import { SectionContainer } from "@/components/layout/SectionContainer";
 import { useAdminEditor } from "@/context/AdminEditorContext";
 import { useContactInfo, ContactInfoData } from "@/hooks/useContactInfo";
-import { EditorGuard } from "@/components/admin/EditorGuard";
 
 export default function SiteSettingsPage() {
 	const { isEditorUnlocked, unlockEditorMode } = useAdminEditor();
@@ -46,8 +28,8 @@ export default function SiteSettingsPage() {
 		setFormData((prev) => ({ ...prev, [name]: value }));
 	};
 
-	const handleSave = async (e: React.FormEvent) => {
-		e.preventDefault();
+	const handleSave = async (e?: React.FormEvent) => {
+		if (e) e.preventDefault();
 		if (!isEditorUnlocked) {
 			unlockEditorMode();
 			return;
@@ -68,7 +50,7 @@ export default function SiteSettingsPage() {
 
 	return (
 		<div className="bg-background text-foreground min-h-screen pb-24 text-left">
-			{/* Top Header (Non-sticky) */}
+			{/* Top Header */}
 			<div className="border-b border-border/50 py-3 mb-6">
 				<SectionContainer>
 					<div className="flex items-center justify-between">
@@ -102,7 +84,7 @@ export default function SiteSettingsPage() {
 						</h1>
 						<p className="text-xs sm:text-sm text-muted-foreground font-light">
 							Manage hero titles, corporate office address, contact numbers,
-							email addresses, business hours, and map locations.
+							business hours, and map locations in English and Bengali.
 						</p>
 					</div>
 
@@ -119,21 +101,17 @@ export default function SiteSettingsPage() {
 							<span>Loading contact settings from database...</span>
 						</div>
 					) : (
-						<form
-							onSubmit={handleSave}
-							className="bg-card border border-border/80 rounded-3xl p-6 sm:p-8 shadow-none space-y-8"
-						>
+						<div className="bg-card border border-border/80 rounded-3xl p-6 sm:p-8 shadow-none space-y-8">
 							{/* Section 1: Hero & Header Content */}
 							<div className="space-y-4 border-b border-border/60 pb-6">
-								<h3 className="text-sm font-semibold font-heading text-foreground uppercase tracking-wider flex items-center gap-2">
-									<Heading className="w-4 h-4 text-primary" /> 1. Contact Page
-									Hero Banner
+								<h3 className="text-sm font-semibold font-heading text-foreground uppercase tracking-wider">
+									1. Contact Page Hero Banner
 								</h3>
 
-								<div className="space-y-3">
-									<div className="space-y-1.5 text-left">
+								<div className="grid sm:grid-cols-2 gap-4">
+									<div className="space-y-1.5">
 										<label className="text-xs font-medium font-heading text-foreground">
-											Hero Page Title
+											Hero Page Title (EN)
 										</label>
 										<input
 											type="text"
@@ -144,10 +122,25 @@ export default function SiteSettingsPage() {
 											className="w-full h-11 px-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
 										/>
 									</div>
-
-									<div className="space-y-1.5 text-left">
+									<div className="space-y-1.5">
 										<label className="text-xs font-medium font-heading text-foreground">
-											Hero Description
+											হিরো পেজ শিরোনাম (BN)
+										</label>
+										<input
+											type="text"
+											name="heroTitleBn"
+											disabled={!isEditorUnlocked}
+											value={formData.heroTitleBn || ""}
+											onChange={handleChange}
+											className="w-full h-11 px-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
+										/>
+									</div>
+								</div>
+
+								<div className="grid sm:grid-cols-2 gap-4">
+									<div className="space-y-1.5">
+										<label className="text-xs font-medium font-heading text-foreground">
+											Hero Description (EN)
 										</label>
 										<textarea
 											rows={3}
@@ -158,21 +151,61 @@ export default function SiteSettingsPage() {
 											className="w-full p-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
 										/>
 									</div>
+									<div className="space-y-1.5">
+										<label className="text-xs font-medium font-heading text-foreground">
+											হিরো বিবরণ (BN)
+										</label>
+										<textarea
+											rows={3}
+											name="heroDescriptionBn"
+											disabled={!isEditorUnlocked}
+											value={formData.heroDescriptionBn || ""}
+											onChange={handleChange}
+											className="w-full p-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
+										/>
+									</div>
 								</div>
 							</div>
 
-							{/* Section 2: Contact Information */}
+							{/* Section 2: Contact Channels & Location */}
 							<div className="space-y-4 border-b border-border/60 pb-6">
-								<h3 className="text-sm font-semibold font-heading text-foreground uppercase tracking-wider flex items-center gap-2">
-									<Phone className="w-4 h-4 text-primary" /> 2. Corporate
-									Contact Details
+								<h3 className="text-sm font-semibold font-heading text-foreground uppercase tracking-wider">
+									2. Corporate Office & Direct Channels
 								</h3>
 
-								<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-									<div className="space-y-1.5 text-left">
-										<label className="text-xs font-medium font-heading text-foreground flex items-center gap-1.5">
-											<Phone className="w-3.5 h-3.5 text-muted-foreground" />{" "}
-											Phone & Mobile Numbers
+								<div className="grid sm:grid-cols-2 gap-4">
+									<div className="space-y-1.5">
+										<label className="text-xs font-medium font-heading text-foreground">
+											Office Address (EN)
+										</label>
+										<textarea
+											rows={2}
+											name="address"
+											disabled={!isEditorUnlocked}
+											value={formData.address || ""}
+											onChange={handleChange}
+											className="w-full p-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
+										/>
+									</div>
+									<div className="space-y-1.5">
+										<label className="text-xs font-medium font-heading text-foreground">
+											অফিসের ঠিকানা (BN)
+										</label>
+										<textarea
+											rows={2}
+											name="addressBn"
+											disabled={!isEditorUnlocked}
+											value={formData.addressBn || ""}
+											onChange={handleChange}
+											className="w-full p-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
+										/>
+									</div>
+								</div>
+
+								<div className="grid sm:grid-cols-2 gap-4">
+									<div className="space-y-1.5">
+										<label className="text-xs font-medium font-heading text-foreground">
+											Phone Numbers
 										</label>
 										<input
 											type="text"
@@ -183,11 +216,9 @@ export default function SiteSettingsPage() {
 											className="w-full h-11 px-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
 										/>
 									</div>
-
-									<div className="space-y-1.5 text-left">
-										<label className="text-xs font-medium font-heading text-foreground flex items-center gap-1.5">
-											<MessageSquare className="w-3.5 h-3.5 text-emerald-500" />{" "}
-											Official WhatsApp
+									<div className="space-y-1.5">
+										<label className="text-xs font-medium font-heading text-foreground">
+											WhatsApp Number
 										</label>
 										<input
 											type="text"
@@ -198,11 +229,12 @@ export default function SiteSettingsPage() {
 											className="w-full h-11 px-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
 										/>
 									</div>
+								</div>
 
-									<div className="space-y-1.5 text-left">
-										<label className="text-xs font-medium font-heading text-foreground flex items-center gap-1.5">
-											<Mail className="w-3.5 h-3.5 text-muted-foreground" />{" "}
-											Primary Email
+								<div className="grid sm:grid-cols-2 gap-4">
+									<div className="space-y-1.5">
+										<label className="text-xs font-medium font-heading text-foreground">
+											Primary Email Address
 										</label>
 										<input
 											type="email"
@@ -213,11 +245,9 @@ export default function SiteSettingsPage() {
 											className="w-full h-11 px-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
 										/>
 									</div>
-
-									<div className="space-y-1.5 text-left">
-										<label className="text-xs font-medium font-heading text-foreground flex items-center gap-1.5">
-											<Mail className="w-3.5 h-3.5 text-muted-foreground" />{" "}
-											Secondary Email
+									<div className="space-y-1.5">
+										<label className="text-xs font-medium font-heading text-foreground">
+											Secondary Email Address
 										</label>
 										<input
 											type="email"
@@ -228,35 +258,61 @@ export default function SiteSettingsPage() {
 											className="w-full h-11 px-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
 										/>
 									</div>
+								</div>
 
-									<div className="sm:col-span-2 space-y-1.5 text-left">
-										<label className="text-xs font-medium font-heading text-foreground flex items-center gap-1.5">
-											<MapPin className="w-3.5 h-3.5 text-muted-foreground" />{" "}
-											Corporate Office Address
+								<div className="grid sm:grid-cols-3 gap-4">
+									<div className="space-y-1.5">
+										<label className="text-xs font-medium font-heading text-foreground">
+											Official Website
 										</label>
-										<textarea
-											rows={2}
-											name="address"
+										<input
+											type="text"
+											name="website"
 											disabled={!isEditorUnlocked}
-											value={formData.address || ""}
+											value={formData.website || ""}
 											onChange={handleChange}
-											className="w-full p-3 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
+											className="w-full h-11 px-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
+										/>
+									</div>
+									<div className="space-y-1.5">
+										<label className="text-xs font-medium font-heading text-foreground">
+											Facebook URL
+										</label>
+										<input
+											type="text"
+											name="facebookUrl"
+											disabled={!isEditorUnlocked}
+											value={formData.facebookUrl || ""}
+											onChange={handleChange}
+											className="w-full h-11 px-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
+										/>
+									</div>
+									<div className="space-y-1.5">
+										<label className="text-xs font-medium font-heading text-foreground">
+											YouTube URL
+										</label>
+										<input
+											type="text"
+											name="youtubeUrl"
+											disabled={!isEditorUnlocked}
+											value={formData.youtubeUrl || ""}
+											onChange={handleChange}
+											className="w-full h-11 px-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
 										/>
 									</div>
 								</div>
 							</div>
 
-							{/* Section 3: Hours & Site Visit Notice */}
+							{/* Section 3: Schedule & Site Visit Info */}
 							<div className="space-y-4 border-b border-border/60 pb-6">
-								<h3 className="text-sm font-semibold font-heading text-foreground uppercase tracking-wider flex items-center gap-2">
-									<Clock className="w-4 h-4 text-primary" /> 3. Schedule & Site
-									Visit Info
+								<h3 className="text-sm font-semibold font-heading text-foreground uppercase tracking-wider">
+									3. Schedule & Site Visit Info
 								</h3>
 
-								<div className="space-y-3">
-									<div className="space-y-1.5 text-left">
+								<div className="grid sm:grid-cols-2 gap-4">
+									<div className="space-y-1.5">
 										<label className="text-xs font-medium font-heading text-foreground">
-											Business Hours & Weekly Holidays
+											Business Hours (EN)
 										</label>
 										<input
 											type="text"
@@ -267,10 +323,25 @@ export default function SiteSettingsPage() {
 											className="w-full h-11 px-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
 										/>
 									</div>
-
-									<div className="space-y-1.5 text-left">
+									<div className="space-y-1.5">
 										<label className="text-xs font-medium font-heading text-foreground">
-											Site Guided Visit Notice Text
+											কার্যকাল ও ছুটির দিন (BN)
+										</label>
+										<input
+											type="text"
+											name="businessHoursBn"
+											disabled={!isEditorUnlocked}
+											value={formData.businessHoursBn || ""}
+											onChange={handleChange}
+											className="w-full h-11 px-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
+										/>
+									</div>
+								</div>
+
+								<div className="grid sm:grid-cols-2 gap-4">
+									<div className="space-y-1.5">
+										<label className="text-xs font-medium font-heading text-foreground">
+											Site Visit Notice Text (EN)
 										</label>
 										<textarea
 											rows={3}
@@ -281,20 +352,31 @@ export default function SiteSettingsPage() {
 											className="w-full p-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
 										/>
 									</div>
+									<div className="space-y-1.5">
+										<label className="text-xs font-medium font-heading text-foreground">
+											সাইট পরিদর্শনের বিজ্ঞপ্তি (BN)
+										</label>
+										<textarea
+											rows={3}
+											name="siteVisitNoticeBn"
+											disabled={!isEditorUnlocked}
+											value={formData.siteVisitNoticeBn || ""}
+											onChange={handleChange}
+											className="w-full p-3.5 rounded-xl bg-background border border-border/60 text-xs font-light text-foreground focus:outline-none focus:border-primary disabled:opacity-60"
+										/>
+									</div>
 								</div>
 							</div>
 
 							{/* Section 4: Map & Media */}
 							<div className="space-y-4">
-								<h3 className="text-sm font-semibold font-heading text-foreground uppercase tracking-wider flex items-center gap-2">
-									<Map className="w-4 h-4 text-primary" /> 4. Location Map &
-									Images
+								<h3 className="text-sm font-semibold font-heading text-foreground uppercase tracking-wider">
+									4. Location Map & Media
 								</h3>
 
 								<div className="space-y-3">
-									<div className="space-y-1.5 text-left">
-										<label className="text-xs font-medium font-heading text-foreground flex items-center gap-1.5">
-											<Map className="w-3.5 h-3.5 text-muted-foreground" />{" "}
+									<div className="space-y-1.5">
+										<label className="text-xs font-medium font-heading text-foreground">
 											Google Map Embed iframe URL
 										</label>
 										<input
@@ -307,9 +389,8 @@ export default function SiteSettingsPage() {
 										/>
 									</div>
 
-									<div className="space-y-1.5 text-left">
-										<label className="text-xs font-medium font-heading text-foreground flex items-center gap-1.5">
-											<ImageIcon className="w-3.5 h-3.5 text-muted-foreground" />{" "}
+									<div className="space-y-1.5">
+										<label className="text-xs font-medium font-heading text-foreground">
 											Office Banner Image URL (Optional)
 										</label>
 										<input
@@ -324,29 +405,16 @@ export default function SiteSettingsPage() {
 									</div>
 								</div>
 							</div>
-
-							<button
-								type="submit"
-								disabled={saving}
-								className="w-full h-12 rounded-xl bg-primary text-primary-foreground font-medium font-heading text-xs sm:text-sm inline-flex items-center justify-center gap-2 hover:bg-primary/90 transition-all cursor-pointer shadow-md"
-							>
-								{saving ? (
-									<Loader2 className="w-4 h-4 animate-spin" />
-								) : (
-									<Save className="w-4 h-4" />
-								)}
-								SAVE CONTACT SETTINGS TO DATABASE
-							</button>
-						</form>
+						</div>
 					)}
 				</div>
 			</SectionContainer>
 
-			{/* ── FLOATING BOTTOM-RIGHT SAVE CAPSULE ── */}
+			{/* Single Floating Bottom-Right Save Capsule */}
 			<div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 p-1.5 rounded-full bg-card/90 backdrop-blur-xl border border-border/80 shadow-[0_12px_36px_rgba(0,0,0,0.25)]">
 				<button
-					onClick={handleSave}
-					disabled={saving}
+					onClick={() => handleSave()}
+					disabled={saving || loading}
 					className="h-11 px-6 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground text-xs sm:text-sm font-medium font-heading inline-flex items-center gap-2 shadow-md shadow-primary/25 hover:shadow-lg transition-all active:scale-[0.98] disabled:opacity-50 cursor-pointer"
 				>
 					{saving ? (
