@@ -14,7 +14,8 @@ export interface TokenPayload {
 
 export async function ensureAdminUser() {
 	try {
-		const email = process.env.ADMIN_EMAIL || "admin@siliconrealestatepvtltd.com";
+		const email =
+			process.env.ADMIN_EMAIL || "admin@siliconrealestatepvtltd.com";
 		const defaultPass = process.env.ADMIN_PASSWORD || "admin123456";
 		const existing = await prisma.admin.findUnique({
 			where: { email },
