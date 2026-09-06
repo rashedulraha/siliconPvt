@@ -81,7 +81,7 @@ export function useProperties() {
 		async (id: string, partialData: Partial<Property>) => {
 			const existing = state.properties.find((p) => p.id === id);
 			if (!existing) return null;
-			
+
 			dispatch({
 				type: "PATCH_PROPERTY",
 				payload: { id, data: partialData },
