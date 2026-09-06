@@ -215,18 +215,20 @@ export function SiliconCityShowcase() {
 					<div className="max-w-3xl text-left space-y-3">
 						<span className="inline-block px-3.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium uppercase tracking-widest text-primary font-heading">
 							{isBn
-								? "ফ্ল্যাগশিপ টাউনশিপ"
+								? data.showcaseBadgeBn || "ফ্ল্যাগশিপ টাউনশিপ"
 								: data.showcaseBadge || "FLAGSHIP TOWNSHIP"}
 						</span>
 						<h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
 							{isBn
-								? "সিলিকন সিটি – পরিকল্পিত নিরাপদ আবাসন নগরী"
+								? data.showcaseTitleBn ||
+									"সিলিকন সিটি – পরিকল্পিত নিরাপদ আবাসন নগরী"
 								: data.showcaseTitle ||
 									"Silicon City – The Ideal Housing Township"}
 						</h2>
 						<p className="text-muted-foreground text-xs sm:text-sm md:text-base leading-relaxed font-light">
 							{isBn
-								? "ঢাকার মোহাম্মদপুর সংলগ্ন সাভার বড় বাদেশী মৌজায়, রাজউকের সম্প্রসারিত মহাপরিকল্পনার আওতাভুক্ত ও ঢাকা বন্যা নিয়ন্ত্রণ বাঁধ সুরক্ষিত অঞ্চলে অবস্থিত।"
+								? data.showcaseDescBn ||
+									"ঢাকার মোহাম্মদপুর সংলগ্ন সাভার বড় বাদেশী মৌজায়, রাজউকের সম্প্রসারিত মহাপরিকল্পনার আওতাভুক্ত ও ঢাকা বন্যা নিয়ন্ত্রণ বাঁধ সুরক্ষিত অঞ্চলে অবস্থিত।"
 								: data.showcaseDesc ||
 									"Located in Savar (Bara Badeshi Mouza), inside the proposed RAJUK extended master plan and protected by the Dhaka Flood Protection Embankment."}
 						</p>
