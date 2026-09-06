@@ -1098,6 +1098,306 @@ export default function HomeSettingsPage() {
 													onChange={(url) =>
 														handleChange("amenitiesImage", url)
 													}
+													aspectRatio="video"
+												/>
+											</div>
+
+											{/* Right Column: Titles & Badges */}
+											<div className="lg:col-span-7 p-5 sm:p-6 rounded-2xl bg-muted/20 border border-border/70 space-y-4 flex flex-col justify-between">
+												<div className="space-y-4">
+													<div className="pb-2 border-b border-border/40">
+														<Label className="text-xs font-semibold font-heading uppercase tracking-wider text-primary">
+															Titles & Badge Tag
+														</Label>
+													</div>
+
+													{/* Badge Tag EN & BN */}
+													<div className="grid sm:grid-cols-2 gap-4">
+														<div className="space-y-2">
+															<div className="flex items-center justify-between">
+																<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+																	Badge Tag
+																</Label>
+																<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
+																	EN
+																</span>
+															</div>
+															<Input
+																value={formData.amenitiesBadge || ""}
+																onChange={(e) =>
+																	handleChange("amenitiesBadge", e.target.value)
+																}
+																placeholder="e.g. LIFESTYLE AMENITIES"
+																className="font-medium font-heading"
+															/>
+														</div>
+														<div className="space-y-2">
+															<div className="flex items-center justify-between">
+																<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+																	ব্যাজ ট্যাগ
+																</Label>
+																<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+																	বাংলা (BN)
+																</span>
+															</div>
+															<Input
+																value={formData.amenitiesBadgeBn || ""}
+																onChange={(e) =>
+																	handleChange(
+																		"amenitiesBadgeBn",
+																		e.target.value,
+																	)
+																}
+																placeholder="যেমনঃ নাগরিক সুবিধা"
+																className="font-medium font-heading"
+															/>
+														</div>
+													</div>
+
+													{/* Titles EN & BN */}
+													<div className="grid sm:grid-cols-2 gap-4">
+														<div className="space-y-2">
+															<div className="flex items-center justify-between">
+																<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+																	Card Title
+																</Label>
+																<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
+																	EN
+																</span>
+															</div>
+															<Input
+																value={formData.amenitiesTitle || ""}
+																onChange={(e) =>
+																	handleChange("amenitiesTitle", e.target.value)
+																}
+																placeholder="e.g. All Modern Lifestyle Amenities"
+																className="font-bold font-heading"
+															/>
+														</div>
+														<div className="space-y-2">
+															<div className="flex items-center justify-between">
+																<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+																	কার্ড শিরোনাম
+																</Label>
+																<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+																	বাংলা (BN)
+																</span>
+															</div>
+															<Input
+																value={formData.amenitiesTitleBn || ""}
+																onChange={(e) =>
+																	handleChange(
+																		"amenitiesTitleBn",
+																		e.target.value,
+																	)
+																}
+																placeholder="যেমনঃ আধুনিক জীবনযাত্রার সকল নাগরিক সুযোগ-সুবিধা"
+																className="font-bold font-heading"
+															/>
+														</div>
+													</div>
+												</div>
+
+												{/* Quick Status Info */}
+												<div className="p-3 rounded-xl bg-muted/40 border border-border/40 flex items-center justify-between text-xs text-muted-foreground">
+													<span className="font-heading">
+														Position: Right Card (#2 of 2)
+													</span>
+													<span className="text-emerald-500 font-medium flex items-center gap-1">
+														<CheckCircle2 className="w-3.5 h-3.5" />
+														Auto-synced to form state
+													</span>
+												</div>
+											</div>
+										</div>
+
+										{/* BOTTOM ROW: Description in Full Width Split */}
+										<div className="p-5 sm:p-6 rounded-2xl bg-muted/20 border border-border/70 space-y-4">
+											<div className="pb-2 border-b border-border/40">
+												<Label className="text-xs font-semibold font-heading uppercase tracking-wider text-primary">
+													Civic Amenities Narrative Description (নাগরিক সুবিধা
+													বিবরণ)
+												</Label>
+											</div>
+
+											<div className="grid sm:grid-cols-2 gap-4">
+												<div className="space-y-2">
+													<div className="flex items-center justify-between">
+														<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+															Amenities Description
+														</Label>
+														<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
+															English
+														</span>
+													</div>
+													<Textarea
+														rows={4}
+														value={formData.amenitiesDesc || ""}
+														onChange={(e) =>
+															handleChange("amenitiesDesc", e.target.value)
+														}
+														placeholder="Enter civic amenities and facilities description in English..."
+														className="leading-relaxed"
+													/>
+												</div>
+												<div className="space-y-2">
+													<div className="flex items-center justify-between">
+														<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+															নাগরিক সুযোগ-সুবিধার বিবরণ
+														</Label>
+														<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+															বাংলা (BN)
+														</span>
+													</div>
+													<Textarea
+														rows={4}
+														value={formData.amenitiesDescBn || ""}
+														onChange={(e) =>
+															handleChange("amenitiesDescBn", e.target.value)
+														}
+														placeholder="নাগরিক ও লাইফস্টাইল সুবিধার বিবরণ বাংলায় লিখুন..."
+														className="leading-relaxed font-bangla"
+													/>
+												</div>
+											</div>
+										</div>
+
+										{/* ACTION FOOTER */}
+										<div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+											<Button
+												type="button"
+												variant="outline"
+												onClick={() => setEditingMasterPlan(null)}
+												className="w-full sm:w-auto text-xs font-heading cursor-pointer gap-1.5"
+											>
+												<ArrowLeft className="w-3.5 h-3.5" />
+												Return to Cards Overview
+											</Button>
+
+											<Button
+												type="button"
+												onClick={() => setEditingMasterPlan(null)}
+												className="w-full sm:w-auto text-xs font-heading cursor-pointer gap-1.5"
+											>
+												<CheckCircle2 className="w-3.5 h-3.5" />
+												Done & Return
+											</Button>
+										</div>
+									</div>
+								)}
+							</CardContent>
+						</Card>
+					)}
+
+					{/* 3. PROGRESS SHOWCASE (LANDMARK CAROUSEL) */}
+					{activeTab === "gallery" && (
+						<Card className="border border-border/70 rounded-2xl shadow-xs overflow-hidden">
+							<CardHeader className="bg-muted/20 border-b border-border/40 pb-4">
+								<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+									<div>
+										<CardTitle className="text-base font-semibold font-heading">
+											On-Ground Progress Showcase (
+											{(formData.galleryItems || []).length} Landmark Cards)
+										</CardTitle>
+										<CardDescription className="text-xs text-muted-foreground font-light">
+											{editingGalleryIndex === null
+												? 'Preview all landmark development cards shown on the landing page carousel. Click "Edit Landmark" on any card to update photos via ImgBB and edit details.'
+												: "Update photo on ImgBB CDN, bilingual titles, category tags, and development progress details."}
+										</CardDescription>
+									</div>
+									{editingGalleryIndex === null && (
+										<Button
+											type="button"
+											onClick={addGalleryItem}
+											size="sm"
+											variant="outline"
+											className="gap-1 text-xs shrink-0 self-start sm:self-auto cursor-pointer"
+										>
+											<Plus className="w-3.5 h-3.5" />
+											Add Landmark Card
+										</Button>
+									)}
+								</div>
+							</CardHeader>
+							<CardContent className="p-6 space-y-6">
+								{editingGalleryIndex === null ? (
+									/* ── CARDS GRID OVERVIEW ── */
+									<div>
+										{!formData.galleryItems ||
+										formData.galleryItems.length === 0 ? (
+											<div className="text-center py-16 border-2 border-dashed border-border/60 rounded-2xl p-8 space-y-4">
+												<div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center mx-auto text-muted-foreground">
+													<ImageIcon className="w-6 h-6" />
+												</div>
+												<div className="space-y-1">
+													<h4 className="text-sm font-semibold font-heading">
+														No Landmark Cards Configured
+													</h4>
+													<p className="text-xs text-muted-foreground max-w-sm mx-auto">
+														Click &quot;Add Landmark Card&quot; to showcase
+														on-ground development progress on the landing page.
+													</p>
+												</div>
+												<Button
+													type="button"
+													onClick={addGalleryItem}
+													size="sm"
+													className="gap-1.5 text-xs font-heading cursor-pointer"
+												>
+													<Plus className="w-3.5 h-3.5" />
+													Add First Landmark Card
+												</Button>
+											</div>
+										) : (
+											<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+												{formData.galleryItems.map((item, index) => (
+													<div
+														key={item.id || index}
+														className="group bg-card/60 hover:bg-card border border-border/70 hover:border-primary/50 rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+													>
+														{/* Top: Landmark Photo with Badge Overlays */}
+														<div className="relative h-44 w-full bg-muted/40 overflow-hidden border-b border-border/40">
+															{item.src ? (
+																<img
+																	src={item.src}
+																	alt={item.title || "Landmark"}
+																	className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+																/>
+															) : (
+																<div className="w-full h-full flex flex-col items-center justify-center gap-1.5 text-muted-foreground">
+																	<ImageIcon className="w-8 h-8 opacity-40" />
+																	<span className="text-[11px] font-mono">
+																		No Image Uploaded
+																	</span>
+																</div>
+															)}
+															<div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/30 pointer-events-none" />
+
+															{/* Top Left: Number & Category Badge */}
+															<div className="absolute top-3 left-3 flex items-center gap-1.5">
+																<span className="w-6 h-6 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-white text-[11px] font-bold font-heading flex items-center justify-center shadow-xs">
+																	#{index + 1}
+																</span>
+																<span className="px-2.5 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-semibold uppercase tracking-wider shadow-xs">
+																	{item.category || "LANDMARK"}
+																</span>
+															</div>
+
+															{/* Bottom on Image: Destination link preview */}
+															<div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-white/90 text-[10px] font-mono">
+																<span className="truncate bg-black/50 backdrop-blur-xs px-2 py-0.5 rounded border border-white/10 max-w-[80%]">
+																	{item.link || "/projects"}
+																</span>
+																<span className="text-white/60 text-[10px]">
+																	Card {index + 1} of{" "}
+																	{(formData.galleryItems || []).length}
+																</span>
+															</div>
+														</div>
+
+														{/* Middle: Content Info */}
+														<div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3">
+															<div className="space-y-1.5">
 				</div>
 			</SectionContainer>
 		</div>
