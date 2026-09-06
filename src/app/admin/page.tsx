@@ -93,7 +93,8 @@ export default function AdminDashboard() {
 			tag: "Page 1 • Home",
 			badgeColor: "bg-blue-50 text-blue-700 border-blue-200/70",
 			accentColor: "group-hover:border-blue-400/50",
-			iconBg: "bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white",
+			iconBg:
+				"bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white",
 		},
 		{
 			title: "Hero Banner Slides",
@@ -104,7 +105,8 @@ export default function AdminDashboard() {
 			tag: "3D Carousel",
 			badgeColor: "bg-amber-50 text-amber-700 border-amber-200/70",
 			accentColor: "group-hover:border-amber-400/50",
-			iconBg: "bg-amber-50 text-amber-600 group-hover:bg-amber-600 group-hover:text-white",
+			iconBg:
+				"bg-amber-50 text-amber-600 group-hover:bg-amber-600 group-hover:text-white",
 			stat: `${slides.length || 6} Slides Active`,
 		},
 		{
@@ -116,7 +118,8 @@ export default function AdminDashboard() {
 			tag: "Page 2 • About",
 			badgeColor: "bg-emerald-50 text-emerald-700 border-emerald-200/70",
 			accentColor: "group-hover:border-emerald-400/50",
-			iconBg: "bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white",
+			iconBg:
+				"bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white",
 		},
 		{
 			title: "Projects & Townships",
@@ -127,7 +130,8 @@ export default function AdminDashboard() {
 			tag: "Page 3 • Projects",
 			badgeColor: "bg-purple-50 text-purple-700 border-purple-200/70",
 			accentColor: "group-hover:border-purple-400/50",
-			iconBg: "bg-purple-50 text-purple-600 group-hover:bg-purple-600 group-hover:text-white",
+			iconBg:
+				"bg-purple-50 text-purple-600 group-hover:bg-purple-600 group-hover:text-white",
 			stat: `${projects.length || 1} Township Active`,
 		},
 		{
@@ -139,7 +143,8 @@ export default function AdminDashboard() {
 			tag: "Plot Inventory",
 			badgeColor: "bg-indigo-50 text-indigo-700 border-indigo-200/70",
 			accentColor: "group-hover:border-indigo-400/50",
-			iconBg: "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white",
+			iconBg:
+				"bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white",
 			stat: `${propStats.total || 0} Plots Recorded`,
 		},
 		{
@@ -151,7 +156,8 @@ export default function AdminDashboard() {
 			tag: "Page 4 • Services",
 			badgeColor: "bg-teal-50 text-teal-700 border-teal-200/70",
 			accentColor: "group-hover:border-teal-400/50",
-			iconBg: "bg-teal-50 text-teal-600 group-hover:bg-teal-600 group-hover:text-white",
+			iconBg:
+				"bg-teal-50 text-teal-600 group-hover:bg-teal-600 group-hover:text-white",
 		},
 		{
 			title: "Site Contact & Info",
@@ -162,7 +168,8 @@ export default function AdminDashboard() {
 			tag: "Page 5 • Contact",
 			badgeColor: "bg-rose-50 text-rose-700 border-rose-200/70",
 			accentColor: "group-hover:border-rose-400/50",
-			iconBg: "bg-rose-50 text-rose-600 group-hover:bg-rose-600 group-hover:text-white",
+			iconBg:
+				"bg-rose-50 text-rose-600 group-hover:bg-rose-600 group-hover:text-white",
 		},
 		{
 			title: "Client Inquiries CRM",
@@ -173,7 +180,8 @@ export default function AdminDashboard() {
 			tag: "Leads & CRM",
 			badgeColor: "bg-cyan-50 text-cyan-700 border-cyan-200/70",
 			accentColor: "group-hover:border-cyan-400/50",
-			iconBg: "bg-cyan-50 text-cyan-600 group-hover:bg-cyan-600 group-hover:text-white",
+			iconBg:
+				"bg-cyan-50 text-cyan-600 group-hover:bg-cyan-600 group-hover:text-white",
 			stat: `${leadStats.total || 0} Inquiries Received`,
 		},
 	];
@@ -297,8 +305,8 @@ export default function AdminDashboard() {
 							{projects.length || 1}
 						</div>
 						<p className="text-xs text-muted-foreground font-normal">
-							<span className="text-purple-600 font-medium">Silicon City</span> •
-							Mega Township Active
+							<span className="text-purple-600 font-medium">Silicon City</span>{" "}
+							• Mega Township Active
 						</p>
 					</div>
 				</div>
@@ -564,4 +572,3 @@ export default function AdminDashboard() {
 		</div>
 	);
 }
-
