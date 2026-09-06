@@ -197,3 +197,103 @@ model Service {
   updatedAt     DateTime @updatedAt
 }
 
+model AboutContent {
+  id              String   @id @default(cuid())
+  heroTitle       String
+  heroTitleBn     String?
+  heroSubtitle    String
+  heroSubtitleBn  String?
+  heroDesc        String
+  heroDescBn      String?
+  whoWeAreTitle   String
+  whoWeAreTitleBn String?
+  whoWeAreDesc    String
+  whoWeAreDescBn  String?
+  missionTitle    String
+  missionTitleBn  String?
+  missionDesc     String
+  missionDescBn   String?
+  visionTitle     String
+  visionTitleBn   String?
+  visionDesc      String
+  visionDescBn    String?
+  chairmanName    String
+  chairmanNameBn  String?
+  chairmanRole    String
+  chairmanRoleBn  String?
+  chairmanSpeech  String
+  chairmanSpeechBn String?
+  chairmanImage   String
+  mdName          String
+  mdNameBn        String?
+  mdRole          String
+  mdRoleBn        String?
+  mdSpeech        String
+  mdSpeechBn      String?
+  mdImage         String
+  stats           Json?
+  statsBn         Json?
+  coreValues      Json?
+  coreValuesBn    Json?
+  timeline        Json?
+  timelineBn      Json?
+  whyChooseUs     Json?
+  whyChooseUsBn   Json?
+  managementTeam  Json?
+  managementTeamBn Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model HomeContent {
+  id                 String   @id @default(cuid())
+  heroBadge          String
+  heroBadgeBn        String?
+  heroTitle          String
+  heroTitleBn        String?
+  heroSubtitle       String
+  heroSubtitleBn     String?
+  heroDesc           String
+  heroDescBn         String?
+  heroCtaText        String
+  heroCtaTextBn      String?
+  heroCtaLink        String
+  masterPlanBadge    String?  @default("MASTER PLAN")
+  masterPlanBadgeBn  String?  @default("মাস্টার প্ল্যান")
+  masterPlanTitle    String?  @default("At a Glance: Township Layout")
+  masterPlanTitleBn  String?  @default("এক নজরে: আধুনিক টাউনশিপ লেআউট")
+  masterPlanDesc     String?  @default("Meticulously planned master layout featuring 30ft & 40ft wide avenues, optimal sunlight orientation, and eco-zoning for every plot.")
+  masterPlanDescBn   String?  @default("৩০ ও ৪০ ফুট প্রশস্ত অভ্যন্তরীণ রাস্তা, পর্যাপ্ত আলো-বাতাস চলাচলের নিশ্চয়তা এবং প্রতিটি প্লটের জন্য পরিবেশবান্ধব জোনিং সহ সুপরিকল্পিত লেআউট।")
+  masterPlanImage    String?  @default("https://images.unsplash.com/photo-1524813686514-a57563d77965?q=80&w=1200")
+  amenitiesBadge     String?  @default("LIFESTYLE AMENITIES")
+  amenitiesBadgeBn   String?  @default("নাগরিক সুযোগ-সুবিধা")
+  amenitiesTitle     String?  @default("Integrated Modern Civic Amenities")
+  amenitiesTitleBn   String?  @default("সকল আধুনিক নাগরিক ও লাইফস্টাইল সুবিধা")
+  amenitiesDesc      String?  @default("Dedicated Central Mosque, Grand Athletics Sports Ground, Riverfront Green Eco Parks, School & Medical Centers inside the boundary.")
+  amenitiesDescBn    String?  @default("কেন্দ্রীয় মসজিদ, প্রশস্ত খেলার মাঠ, নদীতীরবর্তী গ্রিন পার্ক, স্কুল ও মেডিকেল সেন্টার সমৃদ্ধ পরিবেশ।")
+  showcaseBadge      String?  @default("FLAGSHIP TOWNSHIP")
+  showcaseBadgeBn    String?  @default("ফ্ল্যাগশিপ টাউনশিপ")
+  showcaseTitle      String?  @default("Silicon City — Planned Eco-Township")
+  showcaseTitleBn    String?  @default("সিলিকন সিটি – পরিকল্পিত নিরাপদ আবাসন নগরী")
+  showcaseDesc       String?  @default("Located at Bara Badeshi Mouza, Savar, Dhaka — strategically positioned adjacent to Mohammadpur Beribadh along the scenic Turag River.")
+  showcaseDescBn     String?  @default("ঢাকার মোহাম্মদপুর সংলগ্ন সাভার বড় বাদেশী মৌজায়, রাজউকের সম্প্রসারিত মহাপরিকল্পনার আওতাভুক্ত ও ঢাকা বন্যা নিয়ন্ত্রণ বাঁধ সুরক্ষিত অঞ্চলে অবস্থিত।")
+  trackRecordTitle   String
+  trackRecordTitleBn String?
+  trackRecordDesc    String
+  trackRecordDescBn  String?
+  trustCounters      Json?
+  trustCountersBn    Json?
+  accreditations     Json?
+  accreditationsBn   Json?
+  ctaTitle           String
+  ctaTitleBn         String?
+  ctaDesc            String
+  ctaDescBn          String?
+  ctaButtonText      String
+  ctaButtonTextBn    String?
+  ctaButtonLink      String
+  sectionsConfig     Json?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
