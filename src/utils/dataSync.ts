@@ -21,7 +21,8 @@ export function mapApiPropertyToProperty(apiProp: any): Property {
 	if (!block) block = "Block-A";
 
 	const katha =
-		apiProp.katha ?? (apiProp.bedrooms && apiProp.bedrooms > 0 ? apiProp.bedrooms : 3);
+		apiProp.katha ??
+		(apiProp.bedrooms && apiProp.bedrooms > 0 ? apiProp.bedrooms : 3);
 
 	return {
 		id: apiProp.id || String(Math.random()),
@@ -33,7 +34,8 @@ export function mapApiPropertyToProperty(apiProp: any): Property {
 				? apiProp.price
 				: Number(apiProp.price || 0),
 		location: apiProp.location || "Silicon City, Savar, Dhaka",
-		address: apiProp.address || apiProp.location || "Silicon City, Savar, Dhaka",
+		address:
+			apiProp.address || apiProp.location || "Silicon City, Savar, Dhaka",
 		bedrooms: katha,
 		bathrooms: apiProp.bathrooms ?? 0,
 		area: apiProp.areaSqFt ?? apiProp.area ?? katha * 720,
