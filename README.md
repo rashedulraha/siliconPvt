@@ -233,3 +233,43 @@ silicon/
 │   │       ├── slides/            # GET / POST / PUT / DELETE hero slides
 │   │       ├── upload/            # Secure ImgBB multipart media gateway
 │   │       ├── properties/        # Plot inventory management
+│   │       ├── leads/             # Customer inquiry intake
+│   │       ├── about-content/     # Corporate story & leadership
+│   │       ├── projects-content/  # Spotlight & roadmap content
+│   │       ├── contact-info/      # Contact info & headquarters
+│   │       └── auth/              # JWT admin login & session verification
+│   ├── components/
+│   │   ├── home/                  # Home page section assemblies
+│   │   │   ├── HomePageClient.tsx # Master home client orchestrator
+│   │   │   ├── WhyChooseUs.tsx    # Bento grid for trust pillars
+│   │   │   ├── InvestmentProcess.tsx # 4-step acquisition guide
+│   │   │   └── glass/             # Glassmorphic component modules
+│   │   │       ├── InteractiveCarouselRing.tsx # 3D rotating cylinder
+│   │   │       ├── MasterPlanAmenities.tsx     # Master plan layout
+│   │   │       ├── SiliconCityShowcase.tsx     # Savar & Turag spotlight
+│   │   │       ├── ProjectGallerySection.tsx   # Landmark progress cards
+│   │   │       ├── LeadershipGlassBlocks.tsx   # Chairman & MD addresses
+│   │   │       ├── CompanyNewsSection.tsx      # Editorial press & news
+│   │   │       └── OfflineMembershipGlassBanner.tsx # Application guide
+│   │   ├── layout/                # Global Navbar, Footer, Containers
+│   │   └── ui/                    # Radix & Tailwind reusable UI primitives
+│   ├── context/
+│   │   └── LanguageContext.tsx    # English/Bengali bilingual state
+│   ├── hooks/                     # SWR/custom data hooks for live sync
+│   └── lib/                       # Prisma client, Auth helpers, Utilities
+├── next.config.ts                 # Next.js 16 configuration & CDN domains
+├── package.json                   # Dependency tree
+└── README.md                      # Platform technical documentation
+```
+
+---
+
+## 📡 REST API Reference
+
+| Endpoint | Method | Auth Required | Description |
+|---|---|---|---|
+| `/api/home-content` | `GET` | No | Retrieves full home page configuration and JSON blocks |
+| `/api/home-content` | `PUT` | **Yes (Admin)** | Updates home sections, progress cards, leadership, and counters |
+| `/api/slides` | `GET` | No | Fetches active 3D cylinder carousel slides |
+| `/api/slides` | `POST` | **Yes (Admin)** | Creates a new hero carousel slide |
+| `/api/slides/[id]` | `PUT` / `DELETE` | **Yes (Admin)** | Updates or deletes an existing slide |
