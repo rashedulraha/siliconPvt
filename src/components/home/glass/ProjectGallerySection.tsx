@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { SectionContainer } from "@/components/layout/SectionContainer";
 import { useLanguage } from "@/context/LanguageContext";
+import { useHomeContent } from "@/hooks/useHomeContent";
 
 const galleryItemsEn = [
 	{
@@ -100,12 +101,29 @@ const galleryItemsBn = [
 
 export function ProjectGallerySection() {
 	const { isBn } = useLanguage();
+	const { data: homeData } = useHomeContent();
 	const sectionRef = useRef<HTMLDivElement>(null);
 	const [activeIndex, setActiveIndex] = useState(0);
 	const lastWheelTime = useRef(0);
 	const isCenteredRef = useRef(false);
 
-	const galleryItems = isBn ? galleryItemsBn : galleryItemsEn;
+	const customItems =
+		homeData.galleryItems && homeData.galleryItems.length > 0
+			? homeData.galleryItems
+			: null;
+
+	const galleryItems = customItems
+		? customItems.map((item) => ({
+				id: item.id,
+				title: isBn ? item.titleBn || item.title : item.title,
+				subtitle: isBn ? item.subtitleBn || item.subtitle : item.subtitle,
+				category: isBn ? item.categoryBn || item.category : item.category,
+				src: item.src,
+				link: item.link || "/projects",
+			}))
+		: isBn
+			? galleryItemsBn
+			: galleryItemsEn;
 
 	// ── BUTTER-SMOOTH WHEEL SCROLL LOCK WITH AUTO-CENTERING ──
 	useEffect(() => {
