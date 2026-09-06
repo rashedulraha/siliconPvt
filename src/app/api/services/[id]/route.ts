@@ -47,14 +47,20 @@ export async function PUT(
 			data: {
 				...(data.num && { num: data.num }),
 				...(data.title && { title: data.title }),
+				...(data.titleBn !== undefined && { titleBn: data.titleBn }),
 				...(data.tag && { tag: data.tag }),
+				...(data.tagBn !== undefined && { tagBn: data.tagBn }),
 				...(data.description !== undefined && {
 					description: data.description,
+				}),
+				...(data.descriptionBn !== undefined && {
+					descriptionBn: data.descriptionBn,
 				}),
 				...(data.icon !== undefined && { icon: data.icon }),
 				...(data.imageUrl !== undefined && { imageUrl: data.imageUrl }),
 				...(data.pricing !== undefined && { pricing: data.pricing }),
 				...(data.benefits && { benefits: data.benefits }),
+				...(data.benefitsBn !== undefined && { benefitsBn: data.benefitsBn }),
 				...(data.order !== undefined && { order: Number(data.order) }),
 				...(data.active !== undefined && { active: Boolean(data.active) }),
 			},
