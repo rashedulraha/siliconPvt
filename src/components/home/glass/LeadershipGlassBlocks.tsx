@@ -178,4 +178,78 @@ export function LeadershipGlassBlocks() {
 										{leader.image ? (
 											<img
 												src={leader.image}
+												alt={leader.name}
+												className="w-full h-full object-cover object-center"
+												onError={(e) => {
+													const target = e.currentTarget;
+													target.style.display = "none";
+													const parent = target.parentElement;
+													if (parent) {
+														const fallback =
+															parent.querySelector(".initials-fallback");
+														if (fallback)
+															(fallback as HTMLElement).style.display = "flex";
+													}
+												}}
+											/>
+										) : null}
+										<div
+											className={`initials-fallback w-full h-full bg-gradient-to-br from-primary/20 via-primary/10 to-accent/20 flex items-center justify-center text-primary font-bold text-lg font-heading ${
+												leader.image ? "hidden" : "flex"
+											}`}
+										>
+											{leader.name
+												.split(" ")
+												.slice(0, 2)
+												.map((n) => n[0])
+												.join("")}
+										</div>
+									</div>
+									<div className="space-y-1">
+										<span className="text-[11px] font-mono font-medium uppercase tracking-widest text-accent font-heading">
+											{leader.title}
+										</span>
+										<h3 className="text-xl font-semibold font-heading text-foreground">
+											{leader.name}
+										</h3>
+										<p className="text-xs text-muted-foreground font-medium font-heading">
+											{leader.role}
+										</p>
+									</div>
+								</div>
+
+								{/* Quote Callout */}
+								{leader.quote && (
+									<div className="bg-muted/40 border-l-4 border-primary rounded-r-2xl p-4 sm:p-5 space-y-1">
+										<Quote className="w-4 h-4 text-primary opacity-60 mb-1" />
+										<blockquote className="text-xs sm:text-sm font-semibold font-heading text-foreground italic leading-relaxed">
+											"{leader.quote}"
+										</blockquote>
+									</div>
+								)}
+
+								{/* Executive Statement Text */}
+								<p className="text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
+									"{leader.message}"
+								</p>
+							</div>
+
+							{/* Footer Verification Badge */}
+							<div className="pt-4 border-t border-border/40 flex items-center justify-between text-[11px] font-heading font-medium text-muted-foreground">
+								<span className="flex items-center gap-1.5 text-foreground/80">
+									<ShieldCheck className="w-3.5 h-3.5 text-primary" />
+									{isBn
+										? "সিলিকন রিয়েল এস্টেট গর্ভন্যান্স"
+										: "Silicon Real Estate Governance"}
+								</span>
+								<span className="text-primary font-medium">
+									{isBn ? "এক্সিকিউটিভ বোর্ড" : "Executive Board"}
+								</span>
+							</div>
+						</motion.div>
+					))}
+				</div>
+			</SectionContainer>
+		</section>
+	);
 }
