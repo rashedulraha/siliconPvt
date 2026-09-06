@@ -398,6 +398,356 @@ export default function HomeSettingsPage() {
 										</div>
 										<Input
 											value={formData.heroBadgeBn || ""}
+											onChange={(e) =>
+												handleChange("heroBadgeBn", e.target.value)
+											}
+											placeholder="যেমনঃ পরিকল্পিত পরিবেশবান্ধব টাউনশিপ"
+										/>
+									</div>
+								</div>
+
+								{/* Company / Subtitle Tag */}
+								<div className="grid sm:grid-cols-2 gap-4">
+									<div className="space-y-2">
+										<div className="flex items-center justify-between">
+											<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+												Company Subtitle Tag
+											</Label>
+											<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
+												EN
+											</span>
+										</div>
+										<Input
+											value={formData.heroSubtitle || ""}
+											onChange={(e) =>
+												handleChange("heroSubtitle", e.target.value)
+											}
+											placeholder="e.g. Silicon Real Estate (Pvt.) Ltd."
+										/>
+									</div>
+									<div className="space-y-2">
+										<div className="flex items-center justify-between">
+											<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+												কোম্পানি সাবটাইটেল
+											</Label>
+											<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+												বাংলা (BN)
+											</span>
+										</div>
+										<Input
+											value={formData.heroSubtitleBn || ""}
+											onChange={(e) =>
+												handleChange("heroSubtitleBn", e.target.value)
+											}
+											placeholder="যেমনঃ সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ"
+										/>
+									</div>
+								</div>
+
+								{/* Hero Main Headline */}
+								<div className="grid sm:grid-cols-2 gap-4">
+									<div className="space-y-2">
+										<div className="flex items-center justify-between">
+											<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+												Hero Main Headline
+											</Label>
+											<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
+												EN
+											</span>
+										</div>
+										<Input
+											value={formData.heroTitle || ""}
+											onChange={(e) =>
+												handleChange("heroTitle", e.target.value)
+											}
+											placeholder="e.g. Silicon City — Master Planned Township"
+											className="font-medium font-heading"
+										/>
+									</div>
+									<div className="space-y-2">
+										<div className="flex items-center justify-between">
+											<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+												হিরো মূল শিরোনাম
+											</Label>
+											<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+												বাংলা (BN)
+											</span>
+										</div>
+										<Input
+											value={formData.heroTitleBn || ""}
+											onChange={(e) =>
+												handleChange("heroTitleBn", e.target.value)
+											}
+											placeholder="যেমনঃ সিলিকন সিটি — পরিকল্পিত আবাসন নগরী"
+											className="font-medium font-heading"
+										/>
+									</div>
+								</div>
+
+								{/* Narrative Description */}
+								<div className="grid sm:grid-cols-2 gap-4">
+									<div className="space-y-2">
+										<div className="flex items-center justify-between">
+											<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+												Hero Description
+											</Label>
+											<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
+												EN
+											</span>
+										</div>
+										<Textarea
+											rows={3}
+											value={formData.heroDesc || ""}
+											onChange={(e) => handleChange("heroDesc", e.target.value)}
+											placeholder="Enter hero paragraph text in English..."
+										/>
+									</div>
+									<div className="space-y-2">
+										<div className="flex items-center justify-between">
+											<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+												হিরো বিবরণ
+											</Label>
+											<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+												বাংলা (BN)
+											</span>
+										</div>
+										<Textarea
+											rows={3}
+											value={formData.heroDescBn || ""}
+											onChange={(e) =>
+												handleChange("heroDescBn", e.target.value)
+											}
+											placeholder="বাংলায় হিরো বিবরণ লিখুন..."
+										/>
+									</div>
+								</div>
+
+								{/* CTA Button & Link */}
+								<div className="grid sm:grid-cols-3 gap-4 pt-2 border-t border-border/40">
+									<div className="space-y-2">
+										<div className="flex items-center justify-between">
+											<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+												CTA Button Text
+											</Label>
+											<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
+												EN
+											</span>
+										</div>
+										<Input
+											value={formData.heroCtaText || ""}
+											onChange={(e) =>
+												handleChange("heroCtaText", e.target.value)
+											}
+											placeholder="e.g. EXPLORE PROJECTS"
+										/>
+									</div>
+									<div className="space-y-2">
+										<div className="flex items-center justify-between">
+											<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+												বাটন টেক্সট
+											</Label>
+											<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+												বাংলা (BN)
+											</span>
+										</div>
+										<Input
+											value={formData.heroCtaTextBn || ""}
+											onChange={(e) =>
+												handleChange("heroCtaTextBn", e.target.value)
+											}
+											placeholder="যেমনঃ প্রজেক্ট বিস্তারিত"
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+											CTA Destination Link
+										</Label>
+										<Input
+											value={formData.heroCtaLink || ""}
+											onChange={(e) =>
+												handleChange("heroCtaLink", e.target.value)
+											}
+											placeholder="e.g. /projects"
+										/>
+									</div>
+								</div>
+
+								{/* Hero Background Image Upload */}
+								<div className="pt-4 border-t border-border/40">
+									<ImageUpload
+										label="Hero Section Architectural Background Image"
+										description="Upload a custom luxury architectural background image for the main Hero section (hosted on ImgBB CDN)."
+										value={formData.heroBgImage || ""}
+										onChange={(url) => handleChange("heroBgImage", url)}
+										aspectRatio="banner"
+									/>
+								</div>
+							</CardContent>
+						</Card>
+					)}
+
+					{/* 2. MASTER PLAN & AMENITIES */}
+					{activeTab === "masterplan" && (
+						<Card className="border border-border/70 rounded-2xl shadow-xs overflow-hidden">
+							<CardHeader className="bg-muted/20 border-b border-border/40 pb-4">
+								<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+									<div>
+										<CardTitle className="text-base font-semibold font-heading">
+											Master Plan & Lifestyle Amenities (2 Showcase Cards)
+										</CardTitle>
+										<CardDescription className="text-xs text-muted-foreground font-light">
+											{editingMasterPlan === null
+												? "Preview both layout and lifestyle cards shown side-by-side on the homepage. Click on either card to upload/change photos on ImgBB CDN and edit bilingual details."
+												: editingMasterPlan === "layout"
+													? "Update Card #1: Aerial Master Plan Layout photograph, bilingual titles, and avenue specifications."
+													: "Update Card #2: Modern Lifestyle Amenities photograph, bilingual titles, and civic facilities overview."}
+										</CardDescription>
+									</div>
+								</div>
+							</CardHeader>
+							<CardContent className="p-6 space-y-6">
+								{editingMasterPlan === null ? (
+									/* ── CARDS GRID OVERVIEW (2 SIDE-BY-SIDE CARDS) ── */
+									<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+										{/* Card 1: Master Plan Layout Card */}
+										<div className="group bg-card/60 hover:bg-card border border-border/70 hover:border-primary/50 rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
+											{/* Image Header */}
+											<div className="relative h-48 sm:h-52 w-full bg-muted/40 overflow-hidden border-b border-border/40">
+												{formData.masterPlanImage ? (
+													<img
+														src={formData.masterPlanImage}
+														alt={
+															formData.masterPlanTitle || "Master Plan Layout"
+														}
+														className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+													/>
+												) : (
+													<div className="w-full h-full flex flex-col items-center justify-center gap-1.5 text-muted-foreground">
+														<ImageIcon className="w-8 h-8 opacity-40" />
+														<span className="text-[11px] font-mono">
+															No Image Uploaded
+														</span>
+													</div>
+												)}
+												<div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/30 pointer-events-none" />
+
+												{/* Top Left Badges */}
+												<div className="absolute top-3 left-3 flex items-center gap-1.5">
+													<span className="w-6 h-6 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-white text-[11px] font-bold font-heading flex items-center justify-center shadow-xs">
+														#1
+													</span>
+													<span className="px-2.5 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-semibold uppercase tracking-wider shadow-xs">
+														{formData.masterPlanBadge || "MASTER PLAN"}
+													</span>
+												</div>
+
+												{/* Bottom on Image */}
+												<div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-white/90 text-[10px] font-mono">
+													<span className="truncate bg-black/50 backdrop-blur-xs px-2 py-0.5 rounded border border-white/10">
+														Left Homepage Card
+													</span>
+													<span className="text-white/70 text-[10px]">
+														Aerial Master Plan
+													</span>
+												</div>
+											</div>
+
+											{/* Content Info */}
+											<div className="p-5 flex-1 flex flex-col justify-between space-y-3">
+												<div className="space-y-1.5">
+													<h4 className="font-semibold font-heading text-sm text-foreground group-hover:text-primary transition-colors line-clamp-1">
+														{formData.masterPlanTitle ||
+															"At a Glance: Township Layout"}
+													</h4>
+													{formData.masterPlanTitleBn && (
+														<p className="text-xs text-muted-foreground/90 font-bangla line-clamp-1">
+															{formData.masterPlanTitleBn}
+														</p>
+													)}
+													<p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed pt-1">
+														{formData.masterPlanDesc ||
+															"Meticulously planned master layout featuring 30ft & 40ft wide avenues..."}
+													</p>
+												</div>
+
+												{/* Action Buttons */}
+												<div className="pt-3 border-t border-border/40 flex items-center gap-2">
+													<Button
+														type="button"
+														onClick={() => setEditingMasterPlan("layout")}
+														className="flex-1 min-w-0 text-xs font-heading cursor-pointer gap-1.5"
+														size="sm"
+													>
+														<Pencil className="w-3.5 h-3.5" />
+														Edit Master Plan Card & Photo
+													</Button>
+													{formData.masterPlanImage && (
+														<Button
+															type="button"
+															variant="outline"
+															size="icon"
+															onClick={() =>
+																handleChange("masterPlanImage", "")
+															}
+															className="h-8 w-8 shrink-0 text-destructive border-destructive/30 hover:bg-destructive/10 cursor-pointer"
+															title="Remove Photo"
+														>
+															<Trash2 className="w-3.5 h-3.5" />
+														</Button>
+													)}
+												</div>
+											</div>
+										</div>
+
+										{/* Card 2: Lifestyle Amenities Card */}
+										<div className="group bg-card/60 hover:bg-card border border-border/70 hover:border-primary/50 rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between">
+											{/* Image Header */}
+											<div className="relative h-48 sm:h-52 w-full bg-muted/40 overflow-hidden border-b border-border/40">
+												{formData.amenitiesImage ? (
+													<img
+														src={formData.amenitiesImage}
+														alt={
+															formData.amenitiesTitle || "Lifestyle Amenities"
+														}
+														className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+													/>
+												) : (
+													<div className="w-full h-full flex flex-col items-center justify-center gap-1.5 text-muted-foreground">
+														<ImageIcon className="w-8 h-8 opacity-40" />
+														<span className="text-[11px] font-mono">
+															No Image Uploaded
+														</span>
+													</div>
+												)}
+												<div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/30 pointer-events-none" />
+
+												{/* Top Left Badges */}
+												<div className="absolute top-3 left-3 flex items-center gap-1.5">
+													<span className="w-6 h-6 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-white text-[11px] font-bold font-heading flex items-center justify-center shadow-xs">
+														#2
+													</span>
+													<span className="px-2.5 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-semibold uppercase tracking-wider shadow-xs">
+														{formData.amenitiesBadge || "LIFESTYLE AMENITIES"}
+													</span>
+												</div>
+
+												{/* Bottom on Image */}
+												<div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-white/90 text-[10px] font-mono">
+													<span className="truncate bg-black/50 backdrop-blur-xs px-2 py-0.5 rounded border border-white/10">
+														Right Homepage Card
+													</span>
+													<span className="text-white/70 text-[10px]">
+														Integrated Civic Facilities
+													</span>
+												</div>
+											</div>
+
+											{/* Content Info */}
+											<div className="p-5 flex-1 flex flex-col justify-between space-y-3">
+												<div className="space-y-1.5">
+													<h4 className="font-semibold font-heading text-sm text-foreground group-hover:text-primary transition-colors line-clamp-1">
+														{formData.amenitiesTitle ||
+															"All Modern Lifestyle Amenities"}
 				</div>
 			</SectionContainer>
 		</div>
