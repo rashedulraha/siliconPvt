@@ -8,28 +8,49 @@ import {
 
 const DEFAULT_ABOUT_CONTENT = {
 	heroTitle: "Building Trust.",
+	heroTitleBn: "আস্থার সাথে এগিয়ে চলা।",
 	heroSubtitle: "Creating Sustainable Communities.",
+	heroSubtitleBn: "একটি পরিকল্পিত ও টেকসই আগামীর অঙ্গীকার।",
 	heroDesc:
 		"Silicon Real Estate (Pvt.) Ltd. is committed to developing secure, modern, and investment-friendly housing projects across Bangladesh, ensuring a prosperous future for the next generations.",
+	heroDescBn:
+		"সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ বাংলাদেশে আধুনিক, পরিবেশবান্ধব ও শতভাগ আইনগত সুরক্ষাসম্পন্ন আবাসন প্রকল্প বাস্তবায়নে নিবেদিত।",
 	whoWeAreTitle: "Pioneering Planned & Eco-Friendly Development",
+	whoWeAreTitleBn: "পরিকল্পিত ও পরিবেশবান্ধব আবাসন উন্নয়নের অগ্রদূত",
 	whoWeAreDesc:
 		"Silicon Real Estate (Pvt.) Ltd. is a highly trusted, eco-friendly, and planned real estate developer in Bangladesh, committed to ensuring safe, modern, and long-term value-driven housing. We implement every project by giving the highest priority to honesty, transparency, quality, and absolute legal security.",
+	whoWeAreDescBn:
+		"সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ একটি অত্যন্ত বিশ্বস্ত, পরিবেশবান্ধব এবং পরিকল্পিত আবাসন উন্নয়ন প্রতিষ্ঠান। সততা, স্বচ্ছতা, মান এবং শতভাগ আইনি নিরাপত্তাকে সর্বোচ্চ অগ্রাধিকার দিয়ে আমরা গড়ে তুলছি সিলিকন সিটি।",
 	missionTitle: "Our Purpose & Commitment",
+	missionTitleBn: "আমাদের লক্ষ্য ও উদ্দেশ্য",
 	missionDesc:
 		"Our mission is to create the highest value for our clients' investments through the combination of integrity, quality, innovation, and professionalism. We are committed to providing reliable services, transparent business practices, and modern technology.",
+	missionDescBn:
+		"গ্রাহকদের বিনিয়োগের সর্বোচ্চ মূল্যায়ন, স্বচ্ছ ব্যবসায়িক নীতি এবং আধুনিক প্রযুক্তির সমন্বয়ে নির্ভরযোগ্য আবাসন গড়ে তোলাই আমাদের মূল লক্ষ্য।",
 	visionTitle: "Our Future Outlook",
+	visionTitleBn: "আমাদের রূপকল্প ও দর্শন",
 	visionDesc:
 		"To establish ourselves as one of the country's most trusted, modern, and eco-friendly real estate companies, where every individual's dream of safe, planned, and quality housing becomes a secure reality.",
+	visionDescBn:
+		"বাংলাদেশের অন্যতম শীর্ষস্থানীয় পরিবেশবান্ধব ও বিশ্বস্ত রিয়েল এস্টেট কোম্পানি হিসেবে প্রতিটি নাগরিকের স্বপ্নের নিরাপদ ও মানসম্মত আবাসন নিশ্চিত করা।",
 	chairmanName: "MD. AHMED KABIR",
+	chairmanNameBn: "মো: আহমেদ কবীর",
 	chairmanRole: "Founder & Chairman",
+	chairmanRoleBn: "চেয়ারম্যান",
 	chairmanSpeech:
 		"Welcome to Silicon Real Estate (Pvt.) Ltd. Our ultimate goal is to present legally secure, strategically located, and highly promising real estate projects where we work diligently to maximize asset value.",
+	chairmanSpeechBn:
+		"সিলিকন রিয়েল এস্টেটে আপনাদের সবাইকে আন্তরিক অভিনন্দন। আমাদের প্রতিটি প্রকল্প আইনগত নিরাপত্তা ও আধুনিক সুযোগ-সুবিধার সমন্বয়ে সাজানো হয়েছে যাতে প্রতিটি প্লট আপনার ভবিষ্যৎ প্রজন্মের শ্রেষ্ঠ সম্পদ হতে পারে।",
 	chairmanImage:
 		"https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80",
 	mdName: "MD. SAROWAR KHALED",
+	mdNameBn: "মো: সরোয়ার খালেদ",
 	mdRole: "Managing Director",
+	mdRoleBn: "ব্যবস্থাপনা পরিচালক",
 	mdSpeech:
 		"Every individual dreams of a beautiful, safe, and planned home. To turn that dream into reality, our 'Silicon City' project is being implemented under experienced management complying with RAJUK rules.",
+	mdSpeechBn:
+		"সিলিকন সিটি অভিজ্ঞ স্থপতি, নগর পরিকল্পনাবিদ ও প্রকৌশলীদের সার্বিক তত্ত্বাবধানে বাস্তবায়িত হচ্ছে। ১৬–১৮ ফুট উঁচু বালু ভরাট, ৩০ ও ৪০ ফুট চওড়া অভ্যন্তরীণ রাস্তা এবং তুরাগ নদীর মনোরম পরিবেশ এই প্রকল্পকে করেছে অনন্য।",
 	mdImage:
 		"https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=80",
 	stats: [
@@ -37,6 +58,12 @@ const DEFAULT_ABOUT_CONTENT = {
 		{ value: "1000+", label: "Happy Clients" },
 		{ value: "12+", label: "Prime Locations" },
 		{ value: "10+", label: "Years Experience" },
+	],
+	statsBn: [
+		{ value: "১৫+", label: "সম্পন্ন প্রকল্প" },
+		{ value: "১০০০+", label: "সন্তুষ্ট গ্রাহক" },
+		{ value: "১২+", label: "কৌশলগত লোকেশন" },
+		{ value: "১০+", label: "বছরের অভিজ্ঞতা" },
 	],
 	coreValues: [
 		{
@@ -56,49 +83,112 @@ const DEFAULT_ABOUT_CONTENT = {
 			desc: "Ensuring maximum value creation through modern urban planning and long-term investment viability.",
 		},
 	],
-	timeline: [
+	coreValuesBn: [
 		{
-			year: "2016",
-			title: "Company Founded",
-			desc: "Founded with a clear vision to provide secure and planned land investments in Dhaka.",
+			title: "আস্থা ও সততা",
+			desc: "গ্রাহকের পূর্ণ বিশ্বাস অর্জনে প্রতিটি পদক্ষেপে সর্বোচ্চ সততা, স্বচ্ছতা ও নৈতিকতা বজায় রাখা।",
 		},
 		{
-			year: "2018",
-			title: "Silicon City Launch",
-			desc: "Commenced premier project 'Silicon City', adjacent to Mohammadpur along Turag River.",
+			title: "স্বচ্ছতা ও স্পষ্টতা",
+			desc: "তথ্য, মূল্য নির্ধারণ, চুক্তিপত্র ও প্রকল্প পরিচালনায় শতভাগ স্বচ্ছতা নিশ্চিতকরণ।",
+		},
+		{
+			title: "উন্নত মান ও নিরাপত্তা",
+			desc: "পরিকল্পিত অবকাঠামো ও আধুনিক স্থাপত্যের মাধ্যমে শ্রেষ্ঠ মানের নাগরিক জীবনযাত্রা নিশ্চিত করা।",
+		},
+		{
+			title: "দৃঢ় অঙ্গীকার",
+			desc: "গ্রাহকের সন্তুষ্টি ও সময়মতো প্লট হস্তান্তরের প্রতিশ্রুতি শতভাগ বাস্তবায়ন করা।",
+		},
+	],
+	timeline: [
+		{
+			year: "2014",
+			title: "Inception & Foundation",
+			desc: "Started ethical real estate development with transparency in Dhaka.",
+		},
+		{
+			year: "2017",
+			title: "Silicon City Acquisition",
+			desc: "Acquired prime riverside lands in Bara Badeshi, Savar.",
 		},
 		{
 			year: "2020",
-			title: "100+ Happy Clients",
-			desc: "Celebrated milestone of securing dreams and investments of over 100+ satisfied plot owners.",
+			title: "Mega Soil Earthwork",
+			desc: "Executed 16-18ft high elevation and 40ft road foundations.",
 		},
 		{
 			year: "2023",
-			title: "Phase 2 Expansion",
-			desc: "Expansion of infrastructure, master layout planning, and 30ft & 40ft wide internal road networks.",
+			title: "Block A Handover",
+			desc: "Successfully handed over demarcation possession to 500+ clients.",
 		},
 		{
 			year: "2026",
-			title: "Thriving Community",
-			desc: "Evolving into a highly successful, modern, and thriving residential housing community.",
+			title: "Expanded Township",
+			desc: "Implementing Turag Bridge link & civic amenity complexes.",
+		},
+	],
+	timelineBn: [
+		{
+			year: "২০১৪",
+			title: "প্রতিষ্ঠা ও সূচনা",
+			desc: "সততা ও স্বচ্ছতার অঙ্গীকার নিয়ে রিয়েল এস্টেট খাতে যাত্রা শুরু।",
+		},
+		{
+			year: "২০১৭",
+			title: "সিলিকন সিটি অধিগ্রহণ",
+			desc: "সাভার বড় বাদেশী মৌজায় তুরাগ নদীতীরবর্তী প্রাইম জমি অধিগ্রহণ।",
+		},
+		{
+			year: "২০২০",
+			title: "মেগা বালু ভরাট",
+			desc: "১৬–১৮ ফুট উঁচু বালু ভরাট ও ৪০ ফুট প্রধান সড়কের অবকাঠামো নির্মাণ।",
+		},
+		{
+			year: "২০২৩",
+			title: "ব্লক-এ প্লট হস্তান্তর",
+			desc: "৫০০+ সম্মানিত গ্রাহকের নিকট রেজিস্ট্রেশন ও বাউন্ডারি হস্তান্তর সম্পন্ন।",
+		},
+		{
+			year: "২০২৬",
+			title: "সম্প্রসারিত মেগা টাউনশিপ",
+			desc: "তুরাগ সেতু সংযোগ ও পূর্ণাঙ্গ আধুনিক নাগরিক সুযোগ-সুবিধা বাস্তবায়ন।",
 		},
 	],
 	whyChooseUs: [
 		{
-			title: "Legal Verification",
-			desc: "100% verified documentation, clear registry, and dispute-free plots.",
+			title: "100% Legal Ownership",
+			desc: "Dispute-free plots with complete CS, SA, RS, BS mutation deeds.",
 		},
 		{
-			title: "Prime Location",
-			desc: "Positioned adjacent to Mohammadpur, under RAJUK's proposed extended master plan.",
+			title: "Flood-Protected Ground",
+			desc: "16 to 18 feet elevated soil filling above historical flood marks.",
 		},
 		{
-			title: "Secure Investment",
-			desc: "Planned in highly promising growth zones, ensuring stable and long-term value appreciation.",
+			title: "Spacious Road Network",
+			desc: "30ft & 40ft wide internal concrete roads for effortless access.",
 		},
 		{
-			title: "Easy Payment Plan",
-			desc: "Flexible and stress-free installment facilities tailored to ease financial planning.",
+			title: "Flexible Installments",
+			desc: "Zero hidden cost installment facilities tailored to your income.",
+		},
+	],
+	whyChooseUsBn: [
+		{
+			title: "১০০% নিষ্কণ্টক মালিকানা",
+			desc: "সিএস, এসএ, আরএস ও বিএস নামজারি সম্পন্ন নির্ভেজাল প্লট।",
+		},
+		{
+			title: "বন্যা সুরক্ষিত উঁচু জমি",
+			desc: "বন্যা সীমা থেকে ১৬–১৮ ফুট উঁচু বালু ভরাটকৃত স্থায়ী জমি।",
+		},
+		{
+			title: "প্রশস্ত অভ্যন্তরীণ সড়ক",
+			desc: "৩০ ও ৪০ ফুট চওড়া অভ্যন্তরীণ আরসিসি রাস্তা নেটওয়ার্ক।",
+		},
+		{
+			title: "সহজ দীর্ঘমেয়াদী কিস্তি",
+			desc: "কোনো গোপন চার্জ ছাড়া সুবিধাজনক কিস্তিতে প্লট ক্রয়ের সুযোগ।",
 		},
 	],
 	managementTeam: [
@@ -118,21 +208,22 @@ const DEFAULT_ABOUT_CONTENT = {
 			image:
 				"https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=80",
 		},
+	],
+	managementTeamBn: [
 		{
-			name: "NUSRAT JAHAN",
-			role: "Director - Operations",
-			philosophy:
-				"Streamlining seamless customer experience, operational precision, and client care.",
+			name: "মো: আহমেদ কবীর",
+			role: "প্রতিষ্ঠাতা ও চেয়ারম্যান",
+			philosophy: "সততা, স্বচ্ছতা এবং গ্রাহকের পূর্ণ আস্থাই আমাদের এগিয়ে চলার মূল শক্তি।",
 			image:
-				"https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80",
+				"https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80",
 		},
 		{
-			name: "TAHMID HOSSAIN",
-			role: "Director - Projects",
+			name: "মো: সরোয়ার খালেদ",
+			role: "ব্যবস্থাপনা পরিচালক",
 			philosophy:
-				"Executing engineering excellence, structural quality, and on-time plot delivery.",
+				"আধুনিক নগর মান, সর্বোচ্চ প্রকৌশল নিরাপত্তা ও রাজউক নিয়মনীতি মেনে টেকসই আবাসন নিশ্চিত করা।",
 			image:
-				"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80",
+				"https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=80",
 		},
 	],
 };
@@ -173,31 +264,99 @@ export async function PUT(req: Request) {
 			content = await prisma.aboutContent.update({
 				where: { id: existing.id },
 				data: {
-					...(data.heroTitle && { heroTitle: data.heroTitle }),
-					...(data.heroSubtitle && { heroSubtitle: data.heroSubtitle }),
-					...(data.heroDesc && { heroDesc: data.heroDesc }),
-					...(data.whoWeAreTitle && { whoWeAreTitle: data.whoWeAreTitle }),
-					...(data.whoWeAreDesc && { whoWeAreDesc: data.whoWeAreDesc }),
-					...(data.missionTitle && { missionTitle: data.missionTitle }),
-					...(data.missionDesc && { missionDesc: data.missionDesc }),
-					...(data.visionTitle && { visionTitle: data.visionTitle }),
-					...(data.visionDesc && { visionDesc: data.visionDesc }),
-					...(data.chairmanName && { chairmanName: data.chairmanName }),
-					...(data.chairmanRole && { chairmanRole: data.chairmanRole }),
-					...(data.chairmanSpeech && { chairmanSpeech: data.chairmanSpeech }),
-					...(data.chairmanImage && { chairmanImage: data.chairmanImage }),
-					...(data.mdName && { mdName: data.mdName }),
-					...(data.mdRole && { mdRole: data.mdRole }),
-					...(data.mdSpeech && { mdSpeech: data.mdSpeech }),
-					...(data.mdImage && { mdImage: data.mdImage }),
+					...(data.heroTitle !== undefined && { heroTitle: data.heroTitle }),
+					...(data.heroTitleBn !== undefined && {
+						heroTitleBn: data.heroTitleBn,
+					}),
+					...(data.heroSubtitle !== undefined && {
+						heroSubtitle: data.heroSubtitle,
+					}),
+					...(data.heroSubtitleBn !== undefined && {
+						heroSubtitleBn: data.heroSubtitleBn,
+					}),
+					...(data.heroDesc !== undefined && { heroDesc: data.heroDesc }),
+					...(data.heroDescBn !== undefined && { heroDescBn: data.heroDescBn }),
+					...(data.whoWeAreTitle !== undefined && {
+						whoWeAreTitle: data.whoWeAreTitle,
+					}),
+					...(data.whoWeAreTitleBn !== undefined && {
+						whoWeAreTitleBn: data.whoWeAreTitleBn,
+					}),
+					...(data.whoWeAreDesc !== undefined && {
+						whoWeAreDesc: data.whoWeAreDesc,
+					}),
+					...(data.whoWeAreDescBn !== undefined && {
+						whoWeAreDescBn: data.whoWeAreDescBn,
+					}),
+					...(data.missionTitle !== undefined && {
+						missionTitle: data.missionTitle,
+					}),
+					...(data.missionTitleBn !== undefined && {
+						missionTitleBn: data.missionTitleBn,
+					}),
+					...(data.missionDesc !== undefined && {
+						missionDesc: data.missionDesc,
+					}),
+					...(data.missionDescBn !== undefined && {
+						missionDescBn: data.missionDescBn,
+					}),
+					...(data.visionTitle !== undefined && {
+						visionTitle: data.visionTitle,
+					}),
+					...(data.visionTitleBn !== undefined && {
+						visionTitleBn: data.visionTitleBn,
+					}),
+					...(data.visionDesc !== undefined && { visionDesc: data.visionDesc }),
+					...(data.visionDescBn !== undefined && {
+						visionDescBn: data.visionDescBn,
+					}),
+					...(data.chairmanName !== undefined && {
+						chairmanName: data.chairmanName,
+					}),
+					...(data.chairmanNameBn !== undefined && {
+						chairmanNameBn: data.chairmanNameBn,
+					}),
+					...(data.chairmanRole !== undefined && {
+						chairmanRole: data.chairmanRole,
+					}),
+					...(data.chairmanRoleBn !== undefined && {
+						chairmanRoleBn: data.chairmanRoleBn,
+					}),
+					...(data.chairmanSpeech !== undefined && {
+						chairmanSpeech: data.chairmanSpeech,
+					}),
+					...(data.chairmanSpeechBn !== undefined && {
+						chairmanSpeechBn: data.chairmanSpeechBn,
+					}),
+					...(data.chairmanImage !== undefined && {
+						chairmanImage: data.chairmanImage,
+					}),
+					...(data.mdName !== undefined && { mdName: data.mdName }),
+					...(data.mdNameBn !== undefined && { mdNameBn: data.mdNameBn }),
+					...(data.mdRole !== undefined && { mdRole: data.mdRole }),
+					...(data.mdRoleBn !== undefined && { mdRoleBn: data.mdRoleBn }),
+					...(data.mdSpeech !== undefined && { mdSpeech: data.mdSpeech }),
+					...(data.mdSpeechBn !== undefined && { mdSpeechBn: data.mdSpeechBn }),
+					...(data.mdImage !== undefined && { mdImage: data.mdImage }),
 					...(data.stats !== undefined && { stats: data.stats }),
+					...(data.statsBn !== undefined && { statsBn: data.statsBn }),
 					...(data.coreValues !== undefined && { coreValues: data.coreValues }),
+					...(data.coreValuesBn !== undefined && {
+						coreValuesBn: data.coreValuesBn,
+					}),
 					...(data.timeline !== undefined && { timeline: data.timeline }),
+					...(data.timelineBn !== undefined && { timelineBn: data.timelineBn }),
 					...(data.whyChooseUs !== undefined && {
 						whyChooseUs: data.whyChooseUs,
 					}),
+					...(data.whyChooseUsBn !== undefined && {
+						whyChooseUsBn: data.whyChooseUsBn,
+					}),
 					...(data.managementTeam !== undefined && {
 						managementTeam: data.managementTeam,
+					}),
+					...(data.managementTeamBn !== undefined && {
+						managementTeamBn: data.managementTeamBn,
 					}),
 				},
 			});
