@@ -23,9 +23,12 @@ export async function PUT(
 			where: { id },
 			data: {
 				title: data.title,
+				titleBn: data.titleBn !== undefined ? data.titleBn : undefined,
 				subtitle: data.subtitle,
+				subtitleBn: data.subtitleBn !== undefined ? data.subtitleBn : undefined,
 				image: data.image,
 				badge: data.badge,
+				badgeBn: data.badgeBn !== undefined ? data.badgeBn : undefined,
 				link: data.link,
 				active: data.active !== undefined ? Boolean(data.active) : undefined,
 				order: data.order !== undefined ? Number(data.order) : undefined,
