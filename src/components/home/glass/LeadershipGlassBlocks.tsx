@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import { SectionContainer } from "@/components/layout/SectionContainer";
 import { Award, Quote, ShieldCheck } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { useHomeContent } from "@/hooks/useHomeContent";
+import { useAboutContent } from "@/hooks/useAboutContent";
 
 interface LeaderData {
 	id: string;
@@ -25,8 +27,7 @@ const DEFAULT_LEADERS_EN: LeaderData[] = [
 		title: "Chairman's Insight",
 		quote:
 			"Our mission is to create secure investment opportunities and deliver lasting value.",
-		image:
-			"https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80",
+		image: "",
 		message:
 			"Welcome to Silicon Real Estate. Our ultimate goal is to present legally sound, strategically positioned, and promising real estate ventures. We work tirelessly to maximize your asset value so that our respected clients can invest in their future with complete peace of mind.",
 	},
@@ -37,8 +38,7 @@ const DEFAULT_LEADERS_EN: LeaderData[] = [
 		title: "Managing Director's Vision",
 		quote:
 			"We build more than properties; we build trust and long-term relationships.",
-		image:
-			"https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=80",
+		image: "",
 		message:
 			"Silicon City is being developed by a premium panel of architects, urban planners, structural engineers, and environmentalists. Our community offers wide 30ft and 40ft roads, lush playgrounds, and a proposed bridge over the Turag River, creating a highly modern and RAJUK-compliant ecosystem.",
 	},
@@ -52,8 +52,7 @@ const DEFAULT_LEADERS_BN: LeaderData[] = [
 		title: "চেয়ারম্যানের অভিমত",
 		quote:
 			"আমাদের মূল লক্ষ্য প্রতিটি পরিবারের জন্য শতভাগ নিরাপদ ও লাভজনক জমির নিশ্চয়তা প্রদান করা।",
-		image:
-			"https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80",
+		image: "",
 		message:
 			"সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ-এ আপনাকে স্বাগতম। আমাদের উদ্দেশ্য সততা ও স্বচ্ছতার সাথে আইনগতভাবে সম্পূর্ণ ঝুঁকিমুক্ত আবাসন প্রকল্প উপস্থাপন করা। আপনার কষ্টার্জিত বিনিয়োগের সর্বোচ্চ ভবিষ্যৎ মূল্য নিশ্চিত করাই আমাদের প্রধান অঙ্গীকার।",
 	},
@@ -64,8 +63,7 @@ const DEFAULT_LEADERS_BN: LeaderData[] = [
 		title: "ব্যবস্থাপনা পরিচালকের বার্তা",
 		quote:
 			"আমরা শুধু জমি বা প্রপার্টি নয়, মানুষের আস্থা ও প্রজন্মের জন্য নিরাপদ ভবিষ্যৎ গড়ে তুলি।",
-		image:
-			"https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=80",
+		image: "",
 		message:
 			"সিলিকন সিটি অভিজ্ঞ স্থপতি, নগর পরিকল্পনাবিদ ও প্রকৌশলীদের সার্বিক তত্ত্বাবধানে বাস্তবায়িত হচ্ছে। ১৬–১৮ ফুট উঁচু বালু ভরাট, ৩০ ও ৪০ ফুট চওড়া অভ্যন্তরীণ রাস্তা এবং তুরাগ নদীর মনোরম পরিবেশ এই প্রকল্পকে করেছে আধুনিক ঢাকার শ্রেষ্ঠ আবাসন ঠিকানা।",
 	},
@@ -73,7 +71,60 @@ const DEFAULT_LEADERS_BN: LeaderData[] = [
 
 export function LeadershipGlassBlocks() {
 	const { isBn } = useLanguage();
-	const leaders = isBn ? DEFAULT_LEADERS_BN : DEFAULT_LEADERS_EN;
+	const { data: homeData } = useHomeContent();
+	const { data: aboutData } = useAboutContent();
+
+	const exec = homeData.executive || {};
+
+	const chairman: LeaderData = {
+		id: "chair-1",
+		name: isBn
+			? exec.chairmanNameBn || aboutData.chairmanNameBn || "মো: আহমেদ কবীর"
+			: exec.chairmanName || aboutData.chairmanName || "MD. AHMED KABIR",
+		role: isBn
+			? exec.chairmanRoleBn || aboutData.chairmanRoleBn || "প্রতিষ্ঠাতা ও চেয়ারম্যান"
+			: exec.chairmanRole || aboutData.chairmanRole || "Founder & Chairman",
+		title: isBn ? "চেয়ারম্যানের অভিমত" : "Chairman's Insight",
+		quote: isBn
+			? exec.chairmanQuoteBn ||
+				"আমাদের মূল লক্ষ্য প্রতিটি পরিবারের জন্য শতভাগ নিরাপদ ও লাভজনক জমির নিশ্চয়তা প্রদান করা।"
+			: exec.chairmanQuote ||
+				"Our mission is to create secure investment opportunities and deliver lasting value.",
+		image: exec.chairmanImage || aboutData.chairmanImage || "",
+		message: isBn
+			? exec.chairmanSpeechBn ||
+				aboutData.chairmanSpeechBn ||
+				"সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ-এ আপনাকে স্বাগতম। আমাদের উদ্দেশ্য সততা ও স্বচ্ছতার সাথে আইনগতভাবে সম্পূর্ণ ঝুঁকিমুক্ত আবাসন প্রকল্প উপস্থাপন করা। আপনার কষ্টার্জিত বিনিয়োগের সর্বোচ্চ ভবিষ্যৎ মূল্য নিশ্চিত করাই আমাদের প্রধান অঙ্গীকার।"
+			: exec.chairmanSpeech ||
+				aboutData.chairmanSpeech ||
+				"Welcome to Silicon Real Estate. Our ultimate goal is to present legally sound, strategically positioned, and promising real estate ventures. We work tirelessly to maximize your asset value so that our respected clients can invest in their future with complete peace of mind.",
+	};
+
+	const md: LeaderData = {
+		id: "md-1",
+		name: isBn
+			? exec.mdNameBn || aboutData.mdNameBn || "মো: সরোয়ার খালেদ"
+			: exec.mdName || aboutData.mdName || "MD. SAROWAR KHALED",
+		role: isBn
+			? exec.mdRoleBn || aboutData.mdRoleBn || "ব্যবস্থাপনা পরিচালক"
+			: exec.mdRole || aboutData.mdRole || "Managing Director",
+		title: isBn ? "ব্যবস্থাপনা পরিচালকের বার্তা" : "Managing Director's Vision",
+		quote: isBn
+			? exec.mdQuoteBn ||
+				"আমরা শুধু জমি বা প্রপার্টি নয়, মানুষের আস্থা ও প্রজন্মের জন্য নিরাপদ ভবিষ্যৎ গড়ে তুলি।"
+			: exec.mdQuote ||
+				"We build more than properties; we build trust and long-term relationships.",
+		image: exec.mdImage || aboutData.mdImage || "",
+		message: isBn
+			? exec.mdSpeechBn ||
+				aboutData.mdSpeechBn ||
+				"সিলিকন সিটি অভিজ্ঞ স্থপতি, নগর পরিকল্পনাবিদ ও প্রকৌশলীদের সার্বিক তত্ত্বাবধানে বাস্তবায়িত হচ্ছে। ১৬–১৮ ফুট উঁচু বালু ভরাট, ৩০ ও ৪০ ফুট চওড়া অভ্যন্তরীণ রাস্তা এবং তুরাগ নদীর মনোরম পরিবেশ এই প্রকল্পকে করেছে আধুনিক ঢাকার শ্রেষ্ঠ আবাসন ঠিকানা।"
+			: exec.mdSpeech ||
+				aboutData.mdSpeech ||
+				"Silicon City is being developed by a premium panel of architects, urban planners, structural engineers, and environmentalists. Our community offers wide 30ft and 40ft roads, lush playgrounds, and a proposed bridge over the Turag River, creating a highly modern and RAJUK-compliant ecosystem.",
+	};
+
+	const leaders = [chairman, md];
 
 	return (
 		<section className="relative py-20 sm:py-24 bg-background overflow-hidden">
@@ -123,60 +174,8 @@ export function LeadershipGlassBlocks() {
 							<div className="space-y-6">
 								{/* Executive Profile Header */}
 								<div className="flex items-center gap-4">
-									<div className="relative w-20 h-20 rounded-2xl overflow-hidden border-2 border-primary/30 shrink-0 shadow-sm">
-										<Image
-											src={leader.image}
-											alt={leader.name}
-											fill
-											className="object-cover"
-											sizes="80px"
-										/>
-									</div>
-									<div className="space-y-1">
-										<span className="text-[11px] font-mono font-medium uppercase tracking-widest text-accent font-heading">
-											{leader.title}
-										</span>
-										<h3 className="text-xl font-semibold font-heading text-foreground">
-											{leader.name}
-										</h3>
-										<p className="text-xs text-muted-foreground font-medium font-heading">
-											{leader.role}
-										</p>
-									</div>
-								</div>
-
-								{/* Quote Callout */}
-								{leader.quote && (
-									<div className="bg-muted/40 border-l-4 border-primary rounded-r-2xl p-4 sm:p-5 space-y-1">
-										<Quote className="w-4 h-4 text-primary opacity-60 mb-1" />
-										<blockquote className="text-xs sm:text-sm font-semibold font-heading text-foreground italic leading-relaxed">
-											"{leader.quote}"
-										</blockquote>
-									</div>
-								)}
-
-								{/* Executive Statement Text */}
-								<p className="text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
-									"{leader.message}"
-								</p>
-							</div>
-
-							{/* Footer Verification Badge */}
-							<div className="pt-4 border-t border-border/40 flex items-center justify-between text-[11px] font-heading font-medium text-muted-foreground">
-								<span className="flex items-center gap-1.5 text-foreground/80">
-									<ShieldCheck className="w-3.5 h-3.5 text-primary" />
-									{isBn
-										? "সিলিকন রিয়েল এস্টেট গর্ভন্যান্স"
-										: "Silicon Real Estate Governance"}
-								</span>
-								<span className="text-primary font-medium">
-									{isBn ? "এক্সিকিউটিভ বোর্ড" : "Executive Board"}
-								</span>
-							</div>
-						</motion.div>
-					))}
-				</div>
-			</SectionContainer>
-		</section>
-	);
+									<div className="relative w-20 h-20 rounded-2xl overflow-hidden border-2 border-primary/30 shrink-0 shadow-sm bg-muted/40 flex items-center justify-center">
+										{leader.image ? (
+											<img
+												src={leader.image}
 }
