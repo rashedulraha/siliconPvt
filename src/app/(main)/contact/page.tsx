@@ -145,7 +145,8 @@ export default function ContactPage() {
 				}
 				description={
 					isBn
-						? "সিলিকন রিয়েল এস্টেটের সাথে যোগাযোগ করুন। প্লট বুকিং ও সাইট ভিজিটের জন্য আমাদের মোহাম্মদপুর অফিসে আসুন।"
+						? contactInfo.heroDescriptionBn ||
+							"সিলিকন রিয়েল এস্টেটের সাথে যোগাযোগ করুন। প্লট বুকিং ও সাইট ভিজিটের জন্য আমাদের মোহাম্মদপুর অফিসে আসুন।"
 						: contactInfo.heroDescription
 				}
 			/>
@@ -179,22 +180,25 @@ export default function ContactPage() {
 						</nav>
 
 						<h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-white tracking-tight leading-snug mb-3">
-							{isBn ? "আমাদের প্রপার্টি ও আইনি " : "Connect with Our "} <br />
-							<span className="text-gold">
-								{isBn ? "পরামর্শক দলের সাথে যোগাযোগ করুন" : "Property Advisory Team"}
-							</span>
+							{isBn
+								? contactInfo.heroTitleBn ||
+									"আমাদের প্রপার্টি ও আইনি পরামর্শক দলের সাথে যোগাযোগ করুন"
+								: contactInfo.heroTitle ||
+									"Connect with Our Property Advisory Team"}
 						</h1>
 
 						<p className="text-white/80 text-xs sm:text-sm md:text-base font-light leading-relaxed max-w-2xl mb-7">
 							{isBn
-								? "সিলিকন সিটিতে প্লট বরাদ্দ, ফ্রি গাড়িতে সাইট পরিদর্শন অথবা সিএস, এসএ, আরএস, বিএস দলিলপত্র যাচাই করতে আমাদের মোহাম্মদপুর কর্পোরেট ডেস্কে যোগাযোগ করুন।"
-								: "Whether you want to inquire about available residential plots in Silicon City, schedule a complimentary guided vehicle site tour, or verify legal land titles, our corporate team in Mohammadpur is here to assist you."}
+								? contactInfo.heroDescriptionBn ||
+									"সিলিকন সিটিতে প্লট বরাদ্দ, ফ্রি গাড়িতে সাইট পরিদর্শন অথবা সিএস, এসএ, আরএস, বিএস দলিলপত্র যাচাই করতে আমাদের মোহাম্মদপুর কর্পোরেট ডেস্কে যোগাযোগ করুন।"
+								: contactInfo.heroDescription ||
+									"Whether you want to inquire about available residential plots in Silicon City, schedule a complimentary guided vehicle site tour, or verify legal land titles, our corporate team in Mohammadpur is here to assist you."}
 						</p>
 
 						{/* 3 Quick-Touch Action Buttons in Hero */}
 						<div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
 							<a
-								href="tel:+88012345678"
+								href={`tel:${contactInfo.phone || "+88012345678"}`}
 								className="flex items-center gap-3 p-3.5 rounded-xl bg-white/[0.07] hover:bg-white/[0.12] border border-white/10 hover:border-accent/40 transition-all text-left group"
 							>
 								<div className="w-9 h-9 rounded-lg bg-accent/20 border border-accent/30 flex items-center justify-center text-accent shrink-0">
@@ -205,13 +209,13 @@ export default function ContactPage() {
 										{isBn ? "হটলাইন" : "HOTLINE"}
 									</span>
 									<span className="text-xs font-bold font-heading text-white group-hover:text-accent transition-colors truncate block">
-										+880 12 345 678
+										{contactInfo.phone || "+880 12 345 678"}
 									</span>
 								</div>
 							</a>
 
 							<a
-								href="https://wa.me/88012345678?text=Hello%20Silicon%20Real%20Estate,%20I%20would%20like%20to%20inquire%20about%20plots."
+								href={`https://wa.me/${(contactInfo.whatsapp || "+88012345678").replace(/[^0-9]/g, "")}?text=Hello%20Silicon%20Real%20Estate`}
 								target="_blank"
 								rel="noopener noreferrer"
 								className="flex items-center gap-3 p-3.5 rounded-xl bg-emerald-950/40 hover:bg-emerald-900/50 border border-emerald-500/30 hover:border-emerald-400/60 transition-all text-left group"
@@ -224,13 +228,13 @@ export default function ContactPage() {
 										{isBn ? "হোয়াটসঅ্যাপ চ্যাট" : "WHATSAPP CHAT"}
 									</span>
 									<span className="text-xs font-bold font-heading text-white group-hover:text-emerald-300 transition-colors truncate block">
-										+880 12 345 678
+										{contactInfo.whatsapp || "+880 12 345 678"}
 									</span>
 								</div>
 							</a>
 
 							<a
-								href="mailto:info@siliconrealestatepvtltd.com"
+								href={`mailto:${contactInfo.email || "info@siliconrealestatepvtltd.com"}`}
 								className="flex items-center gap-3 p-3.5 rounded-xl bg-white/[0.07] hover:bg-white/[0.12] border border-white/10 hover:border-accent/40 transition-all text-left group"
 							>
 								<div className="w-9 h-9 rounded-lg bg-accent/20 border border-accent/30 flex items-center justify-center text-accent shrink-0">
@@ -241,7 +245,7 @@ export default function ContactPage() {
 										{isBn ? "ইমেইল ডেস্ক" : "EMAIL DESK"}
 									</span>
 									<span className="text-xs font-bold font-heading text-white group-hover:text-accent transition-colors truncate block">
-										info@siliconrealestate...
+										{contactInfo.email || "info@siliconrealestate..."}
 									</span>
 								</div>
 							</a>
@@ -524,8 +528,11 @@ export default function ContactPage() {
 										<MapPin className="w-4 h-4 text-primary shrink-0 mt-0.5" />
 										<p className="text-foreground/90">
 											{isBn
-												? "২/৩ (২য় তলা), ব্লক-এ, ইকবাল রোড, মোহাম্মদপুর, ঢাকা-১২০৭ (মোহাম্মদপুর টাউন হলের নিকট)"
-												: "2/3 (2nd Floor), Block-A, Iqbal Road, Mohammadpur, Dhaka-1207 (Adjacent to Mohammadpur Town Hall)"}
+												? contactInfo.addressBn ||
+													contactInfo.address ||
+													"২/৩ (২য় তলা), ব্লক-এ, ইকবাল রোড, মোহাম্মদপুর, ঢাকা-১২০৭ (মোহাম্মদপুর টাউন হলের নিকট)"
+												: contactInfo.address ||
+													"2/3 (2nd Floor), Block-A, Iqbal Road, Mohammadpur, Dhaka-1207 (Adjacent to Mohammadpur Town Hall)"}
 										</p>
 									</div>
 
@@ -533,19 +540,24 @@ export default function ContactPage() {
 										<Clock className="w-4 h-4 text-primary shrink-0" />
 										<span>
 											{isBn
-												? "শনিবার – বৃহস্পতিবার: সকাল ৯:০০ – বিকাল ৫:০০"
-												: "Saturday – Thursday: 9:00 AM – 5:00 PM"}
+												? contactInfo.businessHoursBn ||
+													contactInfo.businessHours ||
+													"শনিবার – বৃহস্পতিবার: সকাল ৯:০০ – বিকাল ৫:০০"
+												: contactInfo.businessHours ||
+													"Saturday – Thursday: 9:00 AM – 5:00 PM"}
 										</span>
 									</div>
 
 									<div className="flex items-center gap-3">
 										<Phone className="w-4 h-4 text-primary shrink-0" />
-										<span>+880 12 345 678 / +880 1712 345 678</span>
+										<span>{contactInfo.phone || "+880 12 345 678"}</span>
 									</div>
 
 									<div className="flex items-center gap-3">
 										<Mail className="w-4 h-4 text-primary shrink-0" />
-										<span>info@siliconrealestatepvtltd.com</span>
+										<span>
+											{contactInfo.email || "info@siliconrealestatepvtltd.com"}
+										</span>
 									</div>
 								</div>
 							</motion.div>
@@ -580,8 +592,10 @@ export default function ContactPage() {
 								</h4>
 								<p className="relative z-10 text-xs text-white/80 font-light leading-relaxed">
 									{isBn
-										? "প্রতিটি আগ্রহী গ্রাহকের জন্য আমাদের নিজস্ব পরিবহনে অভিজ্ঞ গাইডসহ সরজমিনে প্লটের সীমানা পরিদর্শনের সুব্যবস্থা রয়েছে।"
-										: "We arrange executive microbus departures from our Mohammadpur corporate office to conduct on-ground plot boundary walkthroughs with our senior survey officers."}
+										? contactInfo.siteVisitNoticeBn ||
+											"প্রতিটি আগ্রহী গ্রাহকের জন্য আমাদের নিজস্ব পরিবহনে অভিজ্ঞ গাইডসহ সরজমিনে প্লটের সীমানা পরিদর্শনের সুব্যবস্থা রয়েছে।"
+										: contactInfo.siteVisitNotice ||
+											"We arrange executive microbus departures from our Mohammadpur corporate office to conduct on-ground plot boundary walkthroughs with our senior survey officers."}
 								</p>
 							</motion.div>
 
