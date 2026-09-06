@@ -598,6 +598,419 @@ export default function ManageSlidesPage() {
 								</div>
 							</form>
 
+							{/* Single Floating Bottom-Right Save Capsule */}
+							<div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 p-1.5 rounded-full bg-card/90 backdrop-blur-xl border border-border/80 shadow-[0_12px_36px_rgba(0,0,0,0.25)]">
+								<button
+									onClick={() => handleFormSubmit()}
+									disabled={actionLoading}
+									className="h-11 px-6 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground text-xs sm:text-sm font-medium font-heading inline-flex items-center gap-2 shadow-md shadow-primary/25 hover:shadow-lg transition-all active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+								>
+									{actionLoading ? (
+										<Loader2 className="w-4 h-4 animate-spin" />
+									) : (
+										<Save className="w-4 h-4" />
+									)}
+									<span>
+										{actionLoading
+											? "Saving..."
+											: editingSlide
+												? "Save Slide Changes"
+												: "Save Slide"}
+									</span>
+								</button>
+							</div>
+						</div>
+					) : (
+						/* ─────────────────────────────────────────────────────────────
+						    VIEW 2: SLIDES LIST VIEW
+						   ───────────────────────────────────────────────────────────── */
+						<div className="space-y-6">
+							<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+								<div className="space-y-1 text-left">
+									<span className="text-xs font-semibold uppercase tracking-wider text-primary font-heading">
+										HERO CAROUSEL VISUAL CONTROLLER
+									</span>
+									<h1 className="text-2xl sm:text-3xl font-semibold font-heading text-foreground tracking-tight">
+										Manage Hero Carousel Slides
+									</h1>
+									<p className="text-xs sm:text-sm text-muted-foreground font-light">
+										Add and organize images, badges, and headline titles in
+										English and Bengali for the 3D rotating cylinder hero
+										banner.
+									</p>
+								</div>
+
+								<div className="flex flex-wrap items-center gap-3">
+									{/* View Switcher Segmented Control */}
+									<div className="flex items-center gap-1 p-1 rounded-xl bg-card border border-border/80 shadow-2xs">
+										<button
+											type="button"
+											onClick={() => setDisplayFormat("cards")}
+											className={`px-3 py-1.5 rounded-lg text-xs font-heading font-medium flex items-center gap-1.5 transition-all cursor-pointer ${
+												displayFormat === "cards"
+													? "bg-primary text-primary-foreground shadow-xs font-semibold"
+													: "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+											}`}
+											title="Grid Cards View"
+										>
+											<LayoutGrid className="w-3.5 h-3.5" />
+											<span>Cards</span>
+										</button>
+										<button
+											type="button"
+											onClick={() => setDisplayFormat("list")}
+											className={`px-3 py-1.5 rounded-lg text-xs font-heading font-medium flex items-center gap-1.5 transition-all cursor-pointer ${
+												displayFormat === "list"
+													? "bg-primary text-primary-foreground shadow-xs font-semibold"
+													: "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+											}`}
+											title="Table List View"
+										>
+											<List className="w-3.5 h-3.5" />
+											<span>List</span>
+										</button>
+										<button
+											type="button"
+											onClick={() => setDisplayFormat("images")}
+											className={`px-3 py-1.5 rounded-lg text-xs font-heading font-medium flex items-center gap-1.5 transition-all cursor-pointer ${
+												displayFormat === "images"
+													? "bg-primary text-primary-foreground shadow-xs font-semibold"
+													: "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+											}`}
+											title="Images Only Gallery View"
+										>
+											<ImageIcon className="w-3.5 h-3.5" />
+											<span>Images Only</span>
+										</button>
+									</div>
+
+									<Button
+										onClick={openCreateForm}
+										className="gap-2 shrink-0 font-medium font-heading text-xs"
+									>
+										<Plus className="w-4 h-4" />
+										Add New Slide
+									</Button>
+								</div>
+							</div>
+
+							<div className="space-y-4">
+								{loading ? (
+									<div className="p-16 text-center text-muted-foreground text-xs flex items-center justify-center gap-2">
+										<Loader2 className="w-4 h-4 animate-spin text-primary" />
+										<span>Loading hero slides from database...</span>
+									</div>
+								) : slides.length === 0 ? (
+									<div className="p-12 text-center border border-dashed border-border/80 rounded-2xl space-y-3 bg-muted/10">
+										<h3 className="text-sm font-semibold font-heading">
+											No Slides Found
+										</h3>
+										<p className="text-xs text-muted-foreground font-light max-w-sm mx-auto">
+											Add your first hero banner slide to populate the 3D
+											rotating cylinder carousel.
+										</p>
+										<Button
+											onClick={openCreateForm}
+											size="sm"
+											className="gap-1"
+										>
+											<Plus className="w-3.5 h-3.5" />
+											Add First Slide
+										</Button>
+									</div>
+								) : displayFormat === "cards" ? (
+									/* FORMAT 1: GRID CARDS VIEW */
+									<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+										{slides.map((slide, index) => (
+											<div
+												key={slide.id}
+												className="bg-card border border-border/70 rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all flex flex-col justify-between group"
+											>
+												{/* Image Preview Box */}
+												<div className="relative h-44 w-full overflow-hidden bg-muted">
+													<img
+														src={slide.image}
+														alt={slide.title}
+														className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+													/>
+													<div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+
+													{/* Top Badges */}
+													<div className="absolute top-3 left-3 right-3 flex items-center justify-between">
+														<span className="px-2.5 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/20 text-[10px] font-medium font-mono text-white uppercase tracking-wider">
+															#{index + 1}
+														</span>
+														<span className="px-2.5 py-0.5 rounded-md bg-primary text-primary-foreground text-[10px] font-medium uppercase tracking-wider shadow-xs">
+															{slide.badge || "FEATURED"}
+														</span>
+													</div>
+
+													{/* Bottom Image Title */}
+													<div className="absolute bottom-3 left-3 right-3 text-left">
+														<h3 className="text-sm font-medium font-heading text-white line-clamp-1">
+															{slide.title}
+														</h3>
+														{slide.titleBn && (
+															<p className="text-[11px] text-white/90 font-medium truncate">
+																{slide.titleBn}
+															</p>
+														)}
+													</div>
+												</div>
+
+												{/* Card Body */}
+												<div className="p-4 space-y-3 flex-1 flex flex-col justify-between text-left">
+													<div className="space-y-1">
+														<span className="text-[10px] font-mono text-muted-foreground block truncate">
+															URL: {slide.image}
+														</span>
+														<span className="text-[10px] font-mono text-primary block truncate">
+															Target: {slide.link || "/projects"}
+														</span>
+													</div>
+
+													{/* Actions Strip */}
+													<div className="pt-3 border-t border-border/50 flex items-center justify-between">
+														<button
+															type="button"
+															onClick={() => handleToggleActive(slide)}
+															className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold font-heading transition-all cursor-pointer ${
+																slide.active
+																	? "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20"
+																	: "bg-muted text-muted-foreground"
+															}`}
+														>
+															{slide.active ? "● Active" : "Inactive"}
+														</button>
+
+														<div className="flex items-center gap-1.5">
+															<Button
+																variant="ghost"
+																size="icon"
+																onClick={() => openEditForm(slide)}
+																className="h-8 w-8 text-foreground hover:bg-muted"
+																title="Edit Slide"
+															>
+																<Edit className="w-3.5 h-3.5" />
+															</Button>
+															<Button
+																variant="ghost"
+																size="icon"
+																onClick={() =>
+																	handleDelete(slide.id, slide.title)
+																}
+																className="h-8 w-8 text-destructive hover:bg-destructive/10"
+																title="Delete Slide"
+															>
+																<Trash2 className="w-3.5 h-3.5" />
+															</Button>
+														</div>
+													</div>
+												</div>
+											</div>
+										))}
+									</div>
+								) : displayFormat === "list" ? (
+									/* FORMAT 2: TABLE LIST VIEW */
+									<div className="bg-card border border-border/70 rounded-2xl overflow-hidden shadow-xs">
+										<div className="overflow-x-auto">
+											<table className="w-full text-left text-xs border-collapse">
+												<thead>
+													<tr className="border-b border-border/60 bg-muted/30 text-muted-foreground font-heading uppercase text-[11px] tracking-wider">
+														<th className="py-3.5 px-4 font-semibold w-16">
+															#
+														</th>
+														<th className="py-3.5 px-4 font-semibold w-24">
+															Photo
+														</th>
+														<th className="py-3.5 px-4 font-semibold">
+															Title & Subtitle
+														</th>
+														<th className="py-3.5 px-4 font-semibold hidden md:table-cell">
+															Badge Tag
+														</th>
+														<th className="py-3.5 px-4 font-semibold hidden lg:table-cell">
+															Target Link
+														</th>
+														<th className="py-3.5 px-4 font-semibold text-center w-28">
+															Status
+														</th>
+														<th className="py-3.5 px-4 font-semibold text-right w-28">
+															Actions
+														</th>
+													</tr>
+												</thead>
+												<tbody className="divide-y divide-border/50">
+													{slides.map((slide, index) => (
+														<tr
+															key={slide.id}
+															className="hover:bg-muted/20 transition-colors group"
+														>
+															<td className="py-3 px-4 font-mono text-muted-foreground font-medium">
+																#{index + 1}
+															</td>
+															<td className="py-3 px-4">
+																<div className="w-16 h-11 rounded-lg overflow-hidden border border-border/60 bg-muted shrink-0 relative group-hover:scale-105 transition-transform">
+																	<img
+																		src={slide.image}
+																		alt={slide.title}
+																		className="w-full h-full object-cover"
+																	/>
+																</div>
+															</td>
+															<td className="py-3 px-4 max-w-xs">
+																<div className="space-y-0.5">
+																	<p className="font-semibold font-heading text-foreground truncate">
+																		{slide.title}
+																	</p>
+																	{slide.titleBn && (
+																		<p className="text-[11px] text-muted-foreground font-bangla truncate">
+																			{slide.titleBn}
+																		</p>
+																	)}
+																	{slide.subtitle && (
+																		<p className="text-[10px] text-muted-foreground/75 truncate hidden sm:block">
+																			{slide.subtitle}
+																		</p>
+																	)}
+																</div>
+															</td>
+															<td className="py-3 px-4 hidden md:table-cell">
+																<span className="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20 text-[10px] font-semibold font-heading uppercase tracking-wider">
+																	{slide.badge || "FEATURED"}
+																</span>
+															</td>
+															<td className="py-3 px-4 hidden lg:table-cell font-mono text-[11px] text-muted-foreground truncate max-w-[150px]">
+																{slide.link || "/projects"}
+															</td>
+															<td className="py-3 px-4 text-center">
+																<button
+																	type="button"
+																	onClick={() => handleToggleActive(slide)}
+																	className={`px-2.5 py-1 rounded-full text-[10px] font-semibold font-heading transition-all cursor-pointer ${
+																		slide.active
+																			? "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 hover:bg-emerald-500/20"
+																			: "bg-muted text-muted-foreground hover:bg-muted/80"
+																	}`}
+																>
+																	{slide.active ? "● Active" : "Inactive"}
+																</button>
+															</td>
+															<td className="py-3 px-4 text-right">
+																<div className="flex items-center justify-end gap-1">
+																	<Button
+																		variant="ghost"
+																		size="icon"
+																		onClick={() => openEditForm(slide)}
+																		className="h-8 w-8 text-foreground hover:bg-muted cursor-pointer"
+																		title="Edit Slide"
+																	>
+																		<Edit className="w-3.5 h-3.5" />
+																	</Button>
+																	<Button
+																		variant="ghost"
+																		size="icon"
+																		onClick={() =>
+																			handleDelete(slide.id, slide.title)
+																		}
+																		className="h-8 w-8 text-destructive hover:bg-destructive/10 cursor-pointer"
+																		title="Delete Slide"
+																	>
+																		<Trash2 className="w-3.5 h-3.5" />
+																	</Button>
+																</div>
+															</td>
+														</tr>
+													))}
+												</tbody>
+											</table>
+										</div>
+									</div>
+								) : (
+									/* FORMAT 3: IMAGES ONLY / GALLERY VIEW */
+									<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+										{slides.map((slide, index) => (
+											<div
+												key={slide.id}
+												className="group relative h-60 rounded-2xl overflow-hidden border border-border/70 bg-card shadow-xs hover:shadow-lg hover:border-primary/50 transition-all duration-300 flex flex-col justify-between"
+											>
+												{/* Image Background */}
+												<img
+													src={slide.image}
+													alt={slide.title}
+													className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+												/>
+
+												{/* Dark Gradient Overlay */}
+												<div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/40 group-hover:from-black/95 transition-opacity pointer-events-none" />
+
+												{/* Top Bar */}
+												<div className="relative z-10 p-3.5 flex items-center justify-between">
+													<span className="px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/20 text-[10px] font-mono text-white">
+														#{index + 1}
+													</span>
+													<span className="px-2.5 py-0.5 rounded-md bg-primary text-primary-foreground text-[10px] font-semibold font-heading uppercase tracking-wider shadow-sm">
+														{slide.badge || "FEATURED"}
+													</span>
+												</div>
+
+												{/* Bottom Content & Hover Actions */}
+												<div className="relative z-10 p-4 space-y-2.5 text-left text-white">
+													<div className="space-y-0.5">
+														<h4 className="text-sm font-semibold font-heading text-white line-clamp-1 drop-shadow-sm">
+															{slide.title}
+														</h4>
+														{slide.titleBn && (
+															<p className="text-[11px] text-white/80 font-bangla truncate">
+																{slide.titleBn}
+															</p>
+														)}
+													</div>
+
+													{/* Actions Strip */}
+													<div className="pt-2 border-t border-white/20 flex items-center justify-between">
+														<button
+															type="button"
+															onClick={() => handleToggleActive(slide)}
+															className={`px-2 py-0.5 rounded text-[10px] font-semibold font-heading transition-all cursor-pointer backdrop-blur-md ${
+																slide.active
+																	? "bg-emerald-500/80 text-white"
+																	: "bg-black/60 text-white/70"
+															}`}
+														>
+															{slide.active ? "● Live" : "Draft"}
+														</button>
+
+														<div className="flex items-center gap-1">
+															<button
+																type="button"
+																onClick={() => openEditForm(slide)}
+																className="h-7 px-2.5 rounded-lg bg-white/20 hover:bg-white text-white hover:text-black text-[10px] font-medium font-heading transition-all inline-flex items-center gap-1 cursor-pointer backdrop-blur-sm"
+																title="Edit Slide"
+															>
+																<Edit className="w-3 h-3" />
+																<span>Edit</span>
+															</button>
+															<button
+																type="button"
+																onClick={() =>
+																	handleDelete(slide.id, slide.title)
+																}
+																className="h-7 w-7 rounded-lg bg-red-500/80 hover:bg-red-600 text-white text-[10px] flex items-center justify-center transition-all cursor-pointer shadow-sm"
+																title="Delete Slide"
+															>
+																<Trash2 className="w-3 h-3" />
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										))}
+									</div>
+								)}
+							</div>
+						</div>
+					)}
 				</div>
 			</SectionContainer>
 		</div>
