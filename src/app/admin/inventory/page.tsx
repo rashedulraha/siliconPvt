@@ -127,7 +127,10 @@ export default function InventoryPage() {
 	};
 
 	// ── Quick Patch Operations ──
-	const handlePatchStatus = async (id: string, newStatus: Property["status"]) => {
+	const handlePatchStatus = async (
+		id: string,
+		newStatus: Property["status"],
+	) => {
 		try {
 			await patchProperty(id, { status: newStatus });
 			toast.success(`Plot status updated to ${newStatus}.`);
@@ -373,13 +376,10 @@ export default function InventoryPage() {
 								</TableRow>
 							) : (
 								filtered.map((p, i) => {
-									const kathaCount =
-										p.katha || (p.bedrooms ? p.bedrooms : 3);
+									const kathaCount = p.katha || (p.bedrooms ? p.bedrooms : 3);
 									const sqftArea = p.area || kathaCount * 720;
 									const pricePerKathaCalc =
-										kathaCount > 0
-											? Math.round(p.price / kathaCount)
-											: null;
+										kathaCount > 0 ? Math.round(p.price / kathaCount) : null;
 
 									return (
 										<TableRow
@@ -487,9 +487,7 @@ export default function InventoryPage() {
 														<SelectValue />
 													</SelectTrigger>
 													<SelectContent>
-														<SelectItem value="available">
-															Available
-														</SelectItem>
+														<SelectItem value="available">Available</SelectItem>
 														<SelectItem value="pending">
 															Booked / In Process
 														</SelectItem>
