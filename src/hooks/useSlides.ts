@@ -6,9 +6,12 @@ import { apiFetch } from "@/lib/api-client";
 export interface Slide {
 	id: string;
 	title: string;
+	titleBn?: string;
 	subtitle?: string;
+	subtitleBn?: string;
 	image: string;
 	badge?: string;
+	badgeBn?: string;
 	link?: string;
 	active: boolean;
 	order: number;
@@ -20,9 +23,13 @@ export const DEFAULT_SLIDES: Slide[] = [
 	{
 		id: "slide-1",
 		badge: "SILICON CITY TOWNSHIP",
+		badgeBn: "সিলিকন সিটি টাউনশিপ",
 		title: "Your Trusted Partner in Land Investment",
+		titleBn: "ভূমি বিনিয়োগে আপনার সর্বাধিক বিশ্বস্ত সঙ্গী",
 		subtitle:
 			"Meticulously planned, eco-friendly residential plots with 30ft & 40ft wide avenues adjacent to Mohammadpur, Dhaka.",
+		subtitleBn:
+			"মোহাম্মদপুর সংলগ্ন সাভারে ৩০ ও ৪০ ফুট চওড়া প্রশস্ত রাস্তা সহ সুপরিকল্পিত পরিবেশবান্ধব মেগা টাউনশিপ।",
 		image:
 			"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80",
 		link: "/projects",
@@ -32,9 +39,13 @@ export const DEFAULT_SLIDES: Slide[] = [
 	{
 		id: "slide-2",
 		badge: "DISPUTE-FREE LAND",
+		badgeBn: "শতভাগ নিষ্কণ্টক জমি",
 		title: "A Secure Home for Future Generations",
+		titleBn: "ভবিষ্যৎ প্রজন্মের জন্য একটি নিরাপদ ও নিশ্চিন্ত ঠিকানা",
 		subtitle:
 			"100% legally sound land deeds with immediate registration, RAJUK masterplan compliance, and flood-proof elevation.",
+		subtitleBn:
+			"তাৎক্ষণিক সাব-রেজিস্ট্রি ও নামজারি প্রস্তুত, রাজউক মাস্টারপ্ল্যান আওতাভুক্ত এবং ১৬-১৮ ফুট উঁচু বন্যামুক্ত জমি।",
 		image:
 			"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1920&q=80",
 		link: "/projects",
@@ -44,9 +55,13 @@ export const DEFAULT_SLIDES: Slide[] = [
 	{
 		id: "slide-3",
 		badge: "NATURAL RIVERFRONT LIVING",
+		badgeBn: "নদীতীরবর্তী মনোরম পরিবেশ",
 		title: "Experience Peaceful Eco Township Living",
+		titleBn: "প্রাকৃতিক নির্মল পরিবেশে আধুনিক জীবনযাপন",
 		subtitle:
 			"Located next to the scenic Turag River with green parks, central mosque, schools, and 24/7 security services.",
+		subtitleBn:
+			"তুরাগ নদীর তীরে গ্রিন পার্ক, সেন্ট্রাল মসজিদ, আধুনিক স্কুল, হাসপাতাল এবং সার্বক্ষণিক নিরাপত্তা সুবিধা।",
 		image:
 			"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1920&q=80",
 		link: "/about",
