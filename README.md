@@ -93,3 +93,53 @@ graph TD
 | **09** | **Executive Leadership Statements** | Chairman & Managing Director speeches with high-res portraits, fallback avatar badges | `sectionsConfig.executive` |
 | **10** | **Regulatory Accreditations** | Official compliance badges: RAJUK Master Plan, Flood Embankment Zone, CS/SA/RS/BS Khatiyan | `HomeContent.accreditations` |
 | **11** | **Dynamic Company Press & News** | Editorial articles, handover announcements, and infrastructure updates | `BlogPost` Model |
+| **12** | **Offline Membership Guidelines** | Printable PDF download, BDT 1,000 application fee guide, Mohammadpur HQ submission | `MembershipContent` Model |
+
+---
+
+### 2. 🎛️ Complete Admin CMS Suite (`/admin`)
+
+The platform contains a unified, real-time Content Management System built for non-technical administrators:
+
+```
+src/app/admin/
+├── page.tsx                 # Executive Dashboard Overview (KPIs, Leads, Quick Links)
+├── home-settings/           # Live synchronization for all 8 Home Page sections
+├── manage-slides/           # Multi-format 3D cylinder slide manager
+├── about-settings/          # Corporate identity, Mission, Vision, Milestones, Team
+├── projects-settings/       # Mega township sectors, Plot catalog, Spotlight details
+├── services-settings/       # Citizen amenities & legal land vetting services
+├── inventory/               # Full Property & Plot CRUD with katha & pricing
+├── leads/                   # Customer inquiry & site visit lead management
+└── site-settings/           # Headquarters contact, Hotline numbers, Google Maps
+```
+
+#### 🖼️ Multi-Format Hero Slide Studio (`/admin/manage-slides`)
+Includes an instant 3-way view switcher for slide deck management:
+1. **Cards Grid View**: Rich visual presentation cards with live previews, active/inactive toggles, badge chips, and direct edit modals.
+2. **Table / List View**: High-density data grid with sorting, search filtering, quick status toggles, and compact action controls.
+3. **Images Only Gallery View**: High-speed visual media audit wall displaying pure photography with badge overlays for fast curation.
+
+#### 🏗️ Dynamic Progress Showcase Manager (`/admin/home-settings`)
+- Direct management for the **5 Landmark Progress Cards**.
+- One-click image replacement via the **ImgBB Cloud Upload Pipeline**.
+- Dual bilingual fields for English and Bengali titles, tags, and progress descriptions.
+
+#### 👔 Executive Leadership Studio (`/admin/home-settings`)
+- Dedicated panels for the **Chairman** and **Managing Director**.
+- Intelligent image rendering: Direct CDN upload preview with automatic initials badge fallback (`AK` / `SK`) if an image is missing or loading.
+- Optimized 2-column split layout: Left side for Photo & Basic Info, Right side with full-width side-by-side textareas for English and Bengali formal speeches.
+
+---
+
+## ☁️ Cloud Media & Storage Pipeline
+
+Images are dynamically hosted on **ImgBB Cloud CDN** via a secure server-side proxy route:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Admin as Admin User
+    participant UI as CMS Upload Component
+    participant API as Next.js API (/api/upload)
+    participant ImgBB as ImgBB Global CDN
