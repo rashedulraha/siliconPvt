@@ -243,6 +243,244 @@ export function HomePageClient() {
 
 			{/* ── SECTION 2: MASTER PLAN & LIFESTYLE AMENITIES CARDS ── */}
 			<MasterPlanAmenities />
+
+			{/* ── SECTION 3: LIVE DATABASE FEATURED PLOTS & PROJECTS ── */}
+			<section className="py-20 bg-background text-foreground relative">
+				<SectionContainer className="space-y-12">
+					<div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 text-left">
+						<div className="space-y-2 max-w-2xl">
+							<span className="inline-block px-3.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium uppercase tracking-widest text-primary font-heading">
+								{isBn ? "বিশেষ প্লট ইনভেন্টরি" : "FEATURED PLOT INVENTORY"}
+							</span>
+							<h2 className="text-3xl sm:text-4xl font-semibold font-heading text-foreground tracking-tight">
+								{isBn
+									? "সিলিকন সিটির সেরা ভেরিফাইড প্লটসমূহ"
+									: "Prime Verified Plots in Silicon City"}
+							</h2>
+							<p className="text-xs sm:text-sm md:text-base text-muted-foreground font-light leading-relaxed">
+								{isBn
+									? "তাৎক্ষণিক রেজিস্ট্রেশন, স্পষ্ট সীমানা চিহ্নিতকরণ এবং সহজ কিস্তির সুবিধা সহ বাছাইকৃত আবাসিক ও বাণিজ্যিক প্লট।"
+									: "Handpicked RAJUK-compliant residential and commercial plots with immediate registration, clear boundary demarcation, and flexible installments."}
+							</p>
+						</div>
+						<Link
+							href="/projects"
+							className="text-xs font-semibold font-heading text-primary hover:underline inline-flex items-center gap-1 shrink-0"
+						>
+							{isBn ? "সব প্লট ও প্রজেক্ট দেখুন" : "View All Plots & Projects"}{" "}
+							<ArrowRight className="w-3.5 h-3.5" />
+						</Link>
+					</div>
+
+					{/* Plots Grid */}
+					<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+						{featuredPlots.map((prop) => {
+							const kathaCount =
+								prop.katha ||
+								(prop.bedrooms && prop.bedrooms > 0 ? prop.bedrooms : 3);
+							const blockName =
+								prop.block ||
+								prop.location.match(/Block-[A-D]|Main Boulevard/i)?.[0] ||
+								"Block-A";
+
+							return (
+								<div
+									key={prop.id}
+									className="group bg-card border border-border/60 rounded-3xl overflow-hidden shadow-xs hover:shadow-md hover:border-primary/40 transition-all duration-300 flex flex-col justify-between text-left"
+								>
+									<div className="relative h-52 w-full overflow-hidden bg-muted">
+										<img
+											src={
+												prop.images[0] ||
+												"https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200"
+											}
+											alt={prop.title}
+											className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+										/>
+										<div className="absolute top-3 left-3 flex items-center gap-1.5">
+											<span className="bg-dark-hero/90 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border border-white/20 shadow-xs">
+												{blockName}
+											</span>
+											<span className="bg-primary text-primary-foreground text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs">
+												{isBn ? `${kathaCount} কাঠা` : `${kathaCount} Katha`}
+											</span>
+										</div>
+										<div className="absolute top-3 right-3">
+											<span
+												className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs ${
+													prop.status === "available"
+														? "bg-emerald-600 text-white"
+														: prop.status === "pending"
+															? "bg-amber-600 text-white"
+															: "bg-rose-600 text-white"
+												}`}
+											>
+												{prop.status}
+											</span>
+										</div>
+									</div>
+
+									<div className="p-6 space-y-3.5 flex-1 flex flex-col justify-between">
+										<div className="space-y-2">
+											<h3 className="text-base font-bold font-heading text-foreground group-hover:text-primary transition-colors line-clamp-1">
+												{prop.title}
+											</h3>
+											<p className="text-xs text-muted-foreground flex items-center gap-1 font-light truncate">
+												<MapPin className="w-3.5 h-3.5 text-primary shrink-0" />
+												{prop.location}
+											</p>
+											<p className="text-xs text-muted-foreground line-clamp-2 font-light">
+												{prop.description}
+											</p>
+										</div>
+
+										<div className="pt-3 border-t border-border/40 flex items-center justify-between">
+											<div>
+												<span className="text-[10px] text-muted-foreground block font-mono uppercase">
+													{isBn ? "মূল্য" : "PRICE"}
+												</span>
+												<span className="text-base font-bold font-heading text-primary">
+													{formatCurrency(prop.price)}
+												</span>
+											</div>
+											<Link
+												href={`/projects/${prop.slug}`}
+												className="px-4 py-2 rounded-xl bg-muted hover:bg-primary hover:text-primary-foreground text-xs font-semibold font-heading transition-all"
+											>
+												{isBn ? "বিস্তারিত দেখুন" : "Details"}
+											</Link>
+										</div>
+									</div>
+								</div>
+							);
+						})}
+					</div>
+				</SectionContainer>
+			</section>
+
+			{/* ── SECTION 4: WHY CHOOSE US / TRUST BENTO GRID ── */}
+			<WhyChooseUs />
+
+			{/* ── SECTION 5: SILICON CITY HIGHLIGHT + SUMMARY OF SERVICES ── */}
+			<SiliconCityShowcase />
+
+			{/* ── SECTION 6: PROJECT PHOTO GALLERY SHOWCASE ── */}
+			<ProjectGallerySection />
+
+			{/* ── SECTION 7: 4-STEP TRANSPARENT INVESTMENT PROCESS ── */}
+			<InvestmentProcess />
+
+			{/* ── SECTION 8: OUR TRACK RECORD & TRUST COUNTERS ── */}
+			<section className="py-20 sm:py-24 bg-dark-hero text-white relative overflow-hidden">
+				<div
+					className="absolute inset-0 opacity-[0.08] pointer-events-none"
+					style={{
+						backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px)`,
+						backgroundSize: "24px 24px",
+					}}
+				/>
+
+				<SectionContainer className="relative z-10 space-y-12">
+					<div className="max-w-3xl text-left space-y-2">
+						<span className="inline-block px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-medium uppercase tracking-widest text-accent font-heading">
+							{isBn ? "আমাদের ট্র্যাক রেকর্ড" : "OUR TRACK RECORD"}
+						</span>
+						<h2 className="text-3xl sm:text-4xl font-semibold font-heading text-white tracking-tight">
+							{isBn
+								? homeData.trackRecordTitleBn ||
+									"বিশ্বস্ততা ও সাফল্যের বাস্তব পরিসংখ্যান"
+								: homeData.trackRecordTitle ||
+									"Proven Trust & Excellence in Numbers"}
+						</h2>
+						<p className="text-white/70 text-xs sm:text-sm font-light leading-relaxed">
+							{isBn
+								? homeData.trackRecordDescBn ||
+									"এক দশকেরও বেশি সময় ধরে আধুনিক নগর পরিকল্পনা, আইনগত স্বচ্ছতা এবং গ্রাহক সন্তুষ্টির সাথে আমরা বাস্তবায়ন করছি নিরাপদ আবাসন।"
+								: homeData.trackRecordDesc ||
+									"Over a decade of ethical land development, transparent documentation, and customer-first execution in Dhaka."}
+						</p>
+					</div>
+
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
+						{trustCounters.map((s, idx) => {
+							const val = isBn ? s.valueBn || s.value : s.value;
+							const lbl = isBn ? s.labelBn || s.label : s.label;
+							const det = isBn ? s.detailBn || s.detail : s.detail;
+
+							return (
+								<motion.div
+									key={idx}
+									initial={{ opacity: 0, y: 20 }}
+									whileInView={{ opacity: 1, y: 0 }}
+									viewport={{ once: true }}
+									transition={{ duration: 0.4, delay: idx * 0.08 }}
+									whileHover={{ y: -4, transition: { duration: 0.2 } }}
+									className="bg-white/[0.06] backdrop-blur-xl border border-white/12 rounded-3xl p-7 flex flex-col justify-between space-y-4 hover:border-accent/60 transition-all duration-300 shadow-lg"
+								>
+									<div className="space-y-3">
+										<span className="text-3xl sm:text-4xl font-extrabold font-heading text-accent tracking-tight block">
+											{val}
+										</span>
+										<p className="text-xs sm:text-sm text-white/90 font-medium font-heading leading-relaxed">
+											{lbl}
+										</p>
+									</div>
+
+									<div className="pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-white/50 font-heading">
+										<span>{det}</span>
+										<span className="text-accent font-medium">
+											{isBn ? "যাচাইকৃত" : "Verified"}
+										</span>
+									</div>
+								</motion.div>
+							);
+						})}
+					</div>
+				</SectionContainer>
+			</section>
+
+			{/* ── SECTION 9: LEADERSHIP STATEMENTS ── */}
+			<LeadershipGlassBlocks />
+
+			{/* ── SECTION 10: TRUST BADGES & ACCREDITATIONS ── */}
+			<section className="py-14 bg-muted/40 border-y border-border/50 relative overflow-hidden">
+				<SectionContainer>
+					<div className="text-center space-y-2 mb-8">
+						<span className="text-xs font-medium uppercase tracking-widest text-primary font-heading">
+							{isBn ? "অনুমোদন ও স্বীকৃতি" : "ACCREDITATIONS & RECOGNITIONS"}
+						</span>
+						<h3 className="text-base sm:text-lg font-semibold font-heading text-foreground">
+							{isBn
+								? "সরকারি অনুমোদন ও আইনগত স্বীকৃতি"
+								: "Official Regulatory Compliance & Certifications"}
+						</h3>
+					</div>
+
+					<div className="flex flex-wrap items-center justify-center gap-3">
+						{(isBn &&
+						homeData.accreditationsBn &&
+						homeData.accreditationsBn.length > 0
+							? homeData.accreditationsBn
+							: isBn
+								? bnAccreditations
+								: accreditations
+						).map((badge, bIdx) => (
+							<div
+								key={bIdx}
+								className="bg-card px-4 py-2 rounded-full border border-border/60 text-xs font-medium font-heading text-foreground/90 shadow-2xs"
+							>
+								{badge}
+							</div>
+						))}
+					</div>
+				</SectionContainer>
+			</section>
+
+			{/* ── SECTION 11: DYNAMIC DATABASE COMPANY NEWS & ARTICLES ── */}
+			<CompanyNewsSection />
+
+			{/* ── SECTION 12: OFFLINE MEMBERSHIP GUIDE & CTA BANNER ── */}
+			<OfflineMembershipGlassBanner />
 		</div>
 	);
 }
