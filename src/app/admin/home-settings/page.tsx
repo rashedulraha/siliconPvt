@@ -748,6 +748,356 @@ export default function HomeSettingsPage() {
 													<h4 className="font-semibold font-heading text-sm text-foreground group-hover:text-primary transition-colors line-clamp-1">
 														{formData.amenitiesTitle ||
 															"All Modern Lifestyle Amenities"}
+													</h4>
+													{formData.amenitiesTitleBn && (
+														<p className="text-xs text-muted-foreground/90 font-bangla line-clamp-1">
+															{formData.amenitiesTitleBn}
+														</p>
+													)}
+													<p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed pt-1">
+														{formData.amenitiesDesc ||
+															"Dedicated Central Mosque, Grand Athletics Sports Ground, Riverfront Green Eco Parks..."}
+													</p>
+												</div>
+
+												{/* Action Buttons */}
+												<div className="pt-3 border-t border-border/40 flex items-center gap-2">
+													<Button
+														type="button"
+														onClick={() => setEditingMasterPlan("amenities")}
+														className="flex-1 min-w-0 text-xs font-heading cursor-pointer gap-1.5"
+														size="sm"
+													>
+														<Pencil className="w-3.5 h-3.5" />
+														Edit Amenities Card & Photo
+													</Button>
+													{formData.amenitiesImage && (
+														<Button
+															type="button"
+															variant="outline"
+															size="icon"
+															onClick={() => handleChange("amenitiesImage", "")}
+															className="h-8 w-8 shrink-0 text-destructive border-destructive/30 hover:bg-destructive/10 cursor-pointer"
+															title="Remove Photo"
+														>
+															<Trash2 className="w-3.5 h-3.5" />
+														</Button>
+													)}
+												</div>
+											</div>
+										</div>
+									</div>
+								) : editingMasterPlan === "layout" ? (
+									/* ── IN-PLACE DEDICATED EDITOR: CARD 1 (MASTER PLAN) ── */
+									<div className="space-y-6">
+										{/* Editor Navigation Bar */}
+										<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-muted/40 border border-border/70">
+											<div className="flex items-center gap-3">
+												<Button
+													type="button"
+													variant="outline"
+													size="sm"
+													onClick={() => setEditingMasterPlan(null)}
+													className="gap-1.5 text-xs font-heading cursor-pointer shadow-2xs hover:bg-background"
+												>
+													<ArrowLeft className="w-3.5 h-3.5" />
+													Back to Cards Overview
+												</Button>
+												<div className="h-4 w-px bg-border/60 hidden sm:block" />
+												<div className="flex items-center gap-2">
+													<span className="w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-bold font-heading flex items-center justify-center">
+														#1
+													</span>
+													<span className="font-semibold font-heading text-sm text-foreground truncate max-w-[200px] sm:max-w-xs">
+														{formData.masterPlanTitle || "Master Plan Layout"}
+													</span>
+												</div>
+											</div>
+
+											{/* Switch to Amenities Card Button */}
+											<Button
+												type="button"
+												variant="ghost"
+												size="sm"
+												onClick={() => setEditingMasterPlan("amenities")}
+												className="h-8 px-2.5 text-xs gap-1 cursor-pointer hover:bg-muted text-muted-foreground hover:text-foreground"
+											>
+												<span>Switch to Card #2: Lifestyle Amenities</span>
+												<ChevronRight className="w-4 h-4" />
+											</Button>
+										</div>
+
+										{/* TOP ROW: Photo on Left (5 cols), Basic Info on Right (7 cols) */}
+										<div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+											{/* Left Column: Photo Upload Component */}
+											<div className="lg:col-span-5 p-5 sm:p-6 rounded-2xl bg-muted/20 border border-border/70 space-y-4">
+												<div className="flex items-center justify-between pb-2 border-b border-border/40">
+													<Label className="text-xs font-semibold font-heading uppercase tracking-wider text-primary">
+														Master Plan Layout Image (ImgBB CDN)
+													</Label>
+													<span className="text-[11px] font-mono text-muted-foreground">
+														16:9 / Video Ratio
+													</span>
+												</div>
+
+												<ImageUpload
+													label="Aerial Master Plan Layout Photo"
+													description="Upload master plan aerial layout directly to ImgBB CDN with instant live preview."
+													value={formData.masterPlanImage || ""}
+													onChange={(url) =>
+														handleChange("masterPlanImage", url)
+													}
+													aspectRatio="video"
+												/>
+											</div>
+
+											{/* Right Column: Titles & Badges */}
+											<div className="lg:col-span-7 p-5 sm:p-6 rounded-2xl bg-muted/20 border border-border/70 space-y-4 flex flex-col justify-between">
+												<div className="space-y-4">
+													<div className="pb-2 border-b border-border/40">
+														<Label className="text-xs font-semibold font-heading uppercase tracking-wider text-primary">
+															Titles & Badge Tag
+														</Label>
+													</div>
+
+													{/* Badge Tag EN & BN */}
+													<div className="grid sm:grid-cols-2 gap-4">
+														<div className="space-y-2">
+															<div className="flex items-center justify-between">
+																<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+																	Badge Tag
+																</Label>
+																<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
+																	EN
+																</span>
+															</div>
+															<Input
+																value={formData.masterPlanBadge || ""}
+																onChange={(e) =>
+																	handleChange(
+																		"masterPlanBadge",
+																		e.target.value,
+																	)
+																}
+																placeholder="e.g. MASTER PLAN"
+																className="font-medium font-heading"
+															/>
+														</div>
+														<div className="space-y-2">
+															<div className="flex items-center justify-between">
+																<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+																	ব্যাজ ট্যাগ
+																</Label>
+																<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+																	বাংলা (BN)
+																</span>
+															</div>
+															<Input
+																value={formData.masterPlanBadgeBn || ""}
+																onChange={(e) =>
+																	handleChange(
+																		"masterPlanBadgeBn",
+																		e.target.value,
+																	)
+																}
+																placeholder="যেমনঃ মাস্টার প্ল্যান"
+																className="font-medium font-heading"
+															/>
+														</div>
+													</div>
+
+													{/* Titles EN & BN */}
+													<div className="grid sm:grid-cols-2 gap-4">
+														<div className="space-y-2">
+															<div className="flex items-center justify-between">
+																<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+																	Card Title
+																</Label>
+																<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
+																	EN
+																</span>
+															</div>
+															<Input
+																value={formData.masterPlanTitle || ""}
+																onChange={(e) =>
+																	handleChange(
+																		"masterPlanTitle",
+																		e.target.value,
+																	)
+																}
+																placeholder="e.g. At a Glance: Township Layout"
+																className="font-bold font-heading"
+															/>
+														</div>
+														<div className="space-y-2">
+															<div className="flex items-center justify-between">
+																<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+																	কার্ড শিরোনাম
+																</Label>
+																<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+																	বাংলা (BN)
+																</span>
+															</div>
+															<Input
+																value={formData.masterPlanTitleBn || ""}
+																onChange={(e) =>
+																	handleChange(
+																		"masterPlanTitleBn",
+																		e.target.value,
+																	)
+																}
+																placeholder="যেমনঃ এক নজরে: টাউনশিপ লেআউট"
+																className="font-bold font-heading"
+															/>
+														</div>
+													</div>
+												</div>
+
+												{/* Quick Status Info */}
+												<div className="p-3 rounded-xl bg-muted/40 border border-border/40 flex items-center justify-between text-xs text-muted-foreground">
+													<span className="font-heading">
+														Position: Left Card (#1 of 2)
+													</span>
+													<span className="text-emerald-500 font-medium flex items-center gap-1">
+														<CheckCircle2 className="w-3.5 h-3.5" />
+														Auto-synced to form state
+													</span>
+												</div>
+											</div>
+										</div>
+
+										{/* BOTTOM ROW: Description in Full Width Split */}
+										<div className="p-5 sm:p-6 rounded-2xl bg-muted/20 border border-border/70 space-y-4">
+											<div className="pb-2 border-b border-border/40">
+												<Label className="text-xs font-semibold font-heading uppercase tracking-wider text-primary">
+													Layout Narrative Description (লেআউট বিবরণ ও রূপরেখা)
+												</Label>
+											</div>
+
+											<div className="grid sm:grid-cols-2 gap-4">
+												<div className="space-y-2">
+													<div className="flex items-center justify-between">
+														<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+															Layout Description
+														</Label>
+														<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
+															English
+														</span>
+													</div>
+													<Textarea
+														rows={4}
+														value={formData.masterPlanDesc || ""}
+														onChange={(e) =>
+															handleChange("masterPlanDesc", e.target.value)
+														}
+														placeholder="Enter master plan avenues and layout description in English..."
+														className="leading-relaxed"
+													/>
+												</div>
+												<div className="space-y-2">
+													<div className="flex items-center justify-between">
+														<Label className="text-xs font-semibold font-heading uppercase text-muted-foreground">
+															মাস্টার প্ল্যান লেআউট বিবরণ
+														</Label>
+														<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+															বাংলা (BN)
+														</span>
+													</div>
+													<Textarea
+														rows={4}
+														value={formData.masterPlanDescBn || ""}
+														onChange={(e) =>
+															handleChange("masterPlanDescBn", e.target.value)
+														}
+														placeholder="রাস্তা ও মাস্টার প্ল্যান জোনিং বিবরণ বাংলায় লিখুন..."
+														className="leading-relaxed font-bangla"
+													/>
+												</div>
+											</div>
+										</div>
+
+										{/* ACTION FOOTER */}
+										<div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+											<Button
+												type="button"
+												variant="outline"
+												onClick={() => setEditingMasterPlan(null)}
+												className="w-full sm:w-auto text-xs font-heading cursor-pointer gap-1.5"
+											>
+												<ArrowLeft className="w-3.5 h-3.5" />
+												Return to Cards Overview
+											</Button>
+
+											<Button
+												type="button"
+												onClick={() => setEditingMasterPlan(null)}
+												className="w-full sm:w-auto text-xs font-heading cursor-pointer gap-1.5"
+											>
+												<CheckCircle2 className="w-3.5 h-3.5" />
+												Done & Return
+											</Button>
+										</div>
+									</div>
+								) : (
+									/* ── IN-PLACE DEDICATED EDITOR: CARD 2 (LIFESTYLE AMENITIES) ── */
+									<div className="space-y-6">
+										{/* Editor Navigation Bar */}
+										<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-muted/40 border border-border/70">
+											<div className="flex items-center gap-3">
+												<Button
+													type="button"
+													variant="outline"
+													size="sm"
+													onClick={() => setEditingMasterPlan(null)}
+													className="gap-1.5 text-xs font-heading cursor-pointer shadow-2xs hover:bg-background"
+												>
+													<ArrowLeft className="w-3.5 h-3.5" />
+													Back to Cards Overview
+												</Button>
+												<div className="h-4 w-px bg-border/60 hidden sm:block" />
+												<div className="flex items-center gap-2">
+													<span className="w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-bold font-heading flex items-center justify-center">
+														#2
+													</span>
+													<span className="font-semibold font-heading text-sm text-foreground truncate max-w-[200px] sm:max-w-xs">
+														{formData.amenitiesTitle || "Lifestyle Amenities"}
+													</span>
+												</div>
+											</div>
+
+											{/* Switch to Master Plan Card Button */}
+											<Button
+												type="button"
+												variant="ghost"
+												size="sm"
+												onClick={() => setEditingMasterPlan("layout")}
+												className="h-8 px-2.5 text-xs gap-1 cursor-pointer hover:bg-muted text-muted-foreground hover:text-foreground"
+											>
+												<ChevronLeft className="w-4 h-4" />
+												<span>Switch to Card #1: Master Plan Layout</span>
+											</Button>
+										</div>
+
+										{/* TOP ROW: Photo on Left (5 cols), Basic Info on Right (7 cols) */}
+										<div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+											{/* Left Column: Photo Upload Component */}
+											<div className="lg:col-span-5 p-5 sm:p-6 rounded-2xl bg-muted/20 border border-border/70 space-y-4">
+												<div className="flex items-center justify-between pb-2 border-b border-border/40">
+													<Label className="text-xs font-semibold font-heading uppercase tracking-wider text-primary">
+														Amenities Showcase Image (ImgBB CDN)
+													</Label>
+													<span className="text-[11px] font-mono text-muted-foreground">
+														16:9 / Video Ratio
+													</span>
+												</div>
+
+												<ImageUpload
+													label="Lifestyle Amenities Photograph"
+													description="Upload eco park and civic amenities photo directly to ImgBB CDN with instant live preview."
+													value={formData.amenitiesImage || ""}
+													onChange={(url) =>
+														handleChange("amenitiesImage", url)
+													}
 				</div>
 			</SectionContainer>
 		</div>
