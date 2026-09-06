@@ -143,3 +143,53 @@ sequenceDiagram
     participant UI as CMS Upload Component
     participant API as Next.js API (/api/upload)
     participant ImgBB as ImgBB Global CDN
+    participant DB as Neon PostgreSQL
+
+    Admin->>UI: Selects image file or pastes image URL
+    UI->>API: POST /api/upload (Multipart FormData)
+    API->>API: Authenticate Admin Session (JWT)
+    API->>API: Convert file to Base64 buffer
+    API->>ImgBB: POST https://api.imgbb.com/1/upload (API Key Auth)
+    ImgBB-->>API: Returns direct permanent CDN URL (https://i.ibb.co/...)
+    API-->>UI: { success: true, url: "https://i.ibb.co/..." }
+    UI->>DB: Saves updated record via Prisma
+    DB-->>UI: Stored & live on website immediately
+```
+
+> [!NOTE]
+> Next.js image domains are configured in `next.config.ts` to allow `i.ibb.co`, `**.ibb.co`, and `ibb.co` for optimized rendering with Next.js Image components and raw CDN `<img>` elements.
+
+---
+
+## 🗄️ Database Architecture & Prisma Schema
+
+Built on **Neon Serverless PostgreSQL** using **Prisma ORM 7.10** with connection pooling via `@prisma/adapter-pg`.
+
+### Key Data Entities
+
+| Model | Primary Purpose | Key Fields |
+|---|---|---|
+| `HomeContent` | Global Home Page CMS | `heroTitle`, `masterPlan*`, `showcase*`, `trustCounters`, `accreditations`, `sectionsConfig` (JSON) |
+| `Slide` | 3D Cylinder Hero Carousel | `title`, `titleBn`, `subtitle`, `image`, `badge`, `order`, `active` |
+| `Property` | Township Plot & Inventory | `title`, `slug`, `type`, `category`, `status`, `price`, `areaSqFt`, `images`, `featured` |
+| `Lead` | Client Inquiries & Site Bookings | `name`, `email`, `phone`, `message`, `status` (new, contacted, qualified, closed) |
+| `AboutContent` | Corporate Identity & Timeline | `mission*`, `vision*`, `chairmanSpeech*`, `mdSpeech*`, `coreValues`, `timeline` |
+| `ProjectsContent`| Master Township Spotlight | `heroTitle*`, `spotlightBox*`, `specs`, `amenities`, `roadmap`, `trustMetrics` |
+| `ContactInfo` | Headquarters & Office Info | `heroTitle*`, `address*`, `phone`, `whatsapp`, `email`, `mapEmbedUrl` |
+| `MembershipContent` | Offline Member Application | `heroTitle*`, `formPdfUrl`, `applicationFee`, `soilElevationHeight`, `pathways` |
+| `Service` | Real Estate & Legal Services | `title*`, `tag*`, `description*`, `pricing`, `benefits` |
+| `BlogPost` | Press Releases & News | `title*`, `slug`, `excerpt*`, `content*`, `image`, `category`, `author` |
+| `Admin` | CMS Authentication | `email`, `passwordHash`, `role`, `createdAt` |
+
+---
+
+## 🌐 Dual-Language Bilingual Engine (English & Bengali)
+
+The platform features a zero-reload, instant bilingual translation engine powered by React Context (`LanguageContext`):
+
+```typescript
+// Example usage across any component:
+const { isBn, language, setLanguage } = useLanguage();
+
+// Graceful fallback architecture:
+const title = isBn ? data.titleBn || data.title : data.title;
