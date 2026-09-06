@@ -272,7 +272,10 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
 				dispatch({ type: "SET_PROPERTIES", payload: mapped });
 			}
 		} catch (error) {
-			console.warn("[CMSContext] Backend offline or fetch skipped, using local state:", error);
+			console.warn(
+				"[CMSContext] Backend offline or fetch skipped, using local state:",
+				error,
+			);
 		}
 	}, []);
 
