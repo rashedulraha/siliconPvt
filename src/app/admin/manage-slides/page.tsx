@@ -418,6 +418,186 @@ export default function ManageSlidesPage() {
 												</div>
 
 												{/* Destination Link & Order */}
+												<div className="grid sm:grid-cols-3 gap-4 pt-2 border-t border-border/40">
+													<div className="sm:col-span-2 space-y-2">
+														<Label className="text-xs font-semibold font-heading text-muted-foreground uppercase">
+															Destination Link
+														</Label>
+														<Input
+															value={formData.link}
+															onChange={(e) =>
+																setFormData((prev) => ({
+																	...prev,
+																	link: e.target.value,
+																}))
+															}
+															placeholder="e.g. /projects or /contact"
+														/>
+													</div>
+													<div className="space-y-2">
+														<Label className="text-xs font-semibold font-heading text-muted-foreground uppercase">
+															Display Order
+														</Label>
+														<Input
+															type="number"
+															value={formData.order}
+															onChange={(e) =>
+																setFormData((prev) => ({
+																	...prev,
+																	order: parseInt(e.target.value) || 0,
+																}))
+															}
+														/>
+													</div>
+												</div>
+
+												{/* Active Switch */}
+												<div className="pt-2 flex items-center justify-between">
+													<div>
+														<span className="text-xs font-semibold font-heading text-foreground block">
+															Slide Visibility
+														</span>
+														<span className="text-[11px] text-muted-foreground font-light block">
+															Enable to show this slide in the 3D rotating
+															cylinder.
+														</span>
+													</div>
+
+													<button
+														type="button"
+														onClick={() =>
+															setFormData((prev) => ({
+																...prev,
+																active: !prev.active,
+															}))
+														}
+														className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold font-heading transition-all cursor-pointer ${
+															formData.active
+																? "bg-emerald-500/15 text-emerald-600 border border-emerald-500/30"
+																: "bg-muted text-muted-foreground border border-border"
+														}`}
+													>
+														{formData.active
+															? "● Active in Carousel"
+															: "Inactive"}
+													</button>
+												</div>
+											</CardContent>
+										</Card>
+									</div>
+
+									{/* Right Column: Image Upload & Live Preview (5 Cols) */}
+									<div className="lg:col-span-5 space-y-6">
+										<Card className="border border-border/70 rounded-2xl shadow-xs overflow-hidden">
+											<CardHeader className="bg-muted/20 border-b border-border/40 pb-4">
+												<CardTitle className="text-base font-semibold font-heading">
+													2. Slide Cover Photo (ImgBB CDN)
+												</CardTitle>
+												<CardDescription className="text-xs text-muted-foreground font-light">
+													Upload directly to ImgBB CDN or enter a direct web
+													URL.
+												</CardDescription>
+											</CardHeader>
+											<CardContent className="p-6 space-y-5">
+												<ImageUpload
+													label="Slide Image"
+													description="Upload an image from your device directly to ImgBB CDN."
+													value={formData.image}
+													onChange={(url) =>
+														setFormData((prev) => ({ ...prev, image: url }))
+													}
+													aspectRatio="video"
+												/>
+
+												{/* 3D Cylinder Card Simulation Preview */}
+												<div className="pt-4 border-t border-border/40 space-y-2">
+													<div className="flex items-center justify-between">
+														<span className="text-xs font-semibold font-heading text-muted-foreground uppercase">
+															Live Slide Card Preview
+														</span>
+														<span className="text-[10px] font-mono text-muted-foreground">
+															Simulated
+														</span>
+													</div>
+
+													<div className="relative rounded-2xl overflow-hidden border border-border/70 bg-slate-950 text-white shadow-md aspect-[16/10] flex flex-col justify-between p-4">
+														{formData.image ? (
+															<img
+																src={formData.image}
+																alt="Slide Preview"
+																className="absolute inset-0 w-full h-full object-cover"
+															/>
+														) : (
+															<div className="absolute inset-0 bg-slate-900 flex items-center justify-center text-xs text-muted-foreground font-light">
+																No image selected
+															</div>
+														)}
+
+														<div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/20 pointer-events-none" />
+
+														{/* Top Badge */}
+														<div className="relative z-10 flex items-center justify-between">
+															<span className="px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-[10px] font-bold font-heading text-amber-300 uppercase tracking-wider">
+																{formData.badge || "FEATURED"}
+															</span>
+															<span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/20 text-white backdrop-blur-md">
+																#{formData.order || 1}
+															</span>
+														</div>
+
+														{/* Bottom Title & Subtitle */}
+														<div className="relative z-10 space-y-1 text-left">
+															<h4 className="text-sm font-bold font-heading text-white line-clamp-1 drop-shadow-md">
+																{formData.title || "Slide Title Preview"}
+															</h4>
+															{formData.titleBn && (
+																<p className="text-[11px] text-white/90 font-medium truncate">
+																	{formData.titleBn}
+																</p>
+															)}
+															<p className="text-[10px] text-white/75 font-light line-clamp-1">
+																{formData.subtitle ||
+																	"Location or description..."}
+															</p>
+														</div>
+													</div>
+												</div>
+											</CardContent>
+										</Card>
+									</div>
+								</div>
+
+								{/* Bottom Save & Cancel Strip */}
+								<div className="flex items-center justify-between pt-4 border-t border-border/40">
+									<Button
+										type="button"
+										variant="outline"
+										onClick={() => {
+											setViewMode("list");
+											setEditingSlide(null);
+										}}
+										disabled={actionLoading}
+									>
+										Cancel & Return to Slides
+									</Button>
+
+									<Button
+										type="submit"
+										disabled={actionLoading}
+										className="gap-2 px-6 font-heading"
+									>
+										{actionLoading ? (
+											<Loader2 className="w-4 h-4 animate-spin" />
+										) : (
+											<Check className="w-4 h-4" />
+										)}
+										{editingSlide
+											? "Save Changes to Database"
+											: "Add Slide to Database"}
+									</Button>
+								</div>
+							</form>
+
 				</div>
 			</SectionContainer>
 		</div>
