@@ -255,12 +255,39 @@ export default function AboutPage() {
 		},
 	];
 
+	const dynamicCoreValues = (
+		data.coreValues && data.coreValues.length > 0
+			? data.coreValues
+			: coreValuesEn
+	).map((val: any) => ({
+		title: isBn ? val.titleBn || val.title : val.title,
+		desc: isBn ? val.descBn || val.desc : val.desc,
+	}));
+
+	const dynamicTimeline = (
+		data.timeline && data.timeline.length > 0 ? data.timeline : timelineEn
+	).map((item: any) => ({
+		year: isBn ? item.yearBn || item.year : item.year,
+		title: isBn ? item.titleBn || item.title : item.title,
+		desc: isBn ? item.descBn || item.desc : item.desc,
+	}));
+
 	const trustBadges = isBn ? trustBadgesBn : trustBadgesEn;
 	const workProcess = isBn ? workProcessBn : workProcessEn;
 	const certifications = isBn ? certificationsBn : certificationsEn;
-	const coreValues = isBn ? coreValuesBn : coreValuesEn;
-	const timeline = isBn ? timelineBn : timelineEn;
-	const whyChooseUs = isBn ? whyChooseUsBn : whyChooseUsEn;
+	const coreValues = dynamicCoreValues;
+	const timeline = dynamicTimeline;
+	const dynamicWhyChooseUs = (
+		data.whyChooseUs && data.whyChooseUs.length > 0
+			? data.whyChooseUs
+			: isBn
+				? whyChooseUsBn
+				: whyChooseUsEn
+	).map((item: any) => ({
+		title: isBn ? item.titleBn || item.title : item.title,
+		desc: isBn ? item.descBn || item.desc : item.desc,
+	}));
+	const whyChooseUs = dynamicWhyChooseUs;
 
 	return (
 		<>
@@ -307,18 +334,24 @@ export default function AboutPage() {
 						</nav>
 
 						<h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-white tracking-tight leading-snug mb-4">
-							{isBn ? "আস্থার সাথে এগিয়ে চলা।" : data.heroTitle} <br />
+							{isBn
+								? data.heroTitleBn || "আস্থার সাথে এগিয়ে চলা।"
+								: data.heroTitle || "Moving Forward with Trust."}{" "}
+							<br />
 							<span className="text-gold">
 								{isBn
-									? "একটি পরিকল্পিত ও টেকসই আগামীর অঙ্গীকার।"
-									: data.heroSubtitle}
+									? data.heroSubtitleBn || "একটি পরিকল্পিত ও টেকসই আগামীর অঙ্গীকার।"
+									: data.heroSubtitle ||
+										"Committed to a Planned & Sustainable Tomorrow."}
 							</span>
 						</h1>
 
 						<p className="text-white/80 text-xs sm:text-sm md:text-base font-light leading-relaxed max-w-2xl mb-7">
 							{isBn
-								? "সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ বাংলাদেশে আধুনিক, পরিবেশবান্ধব ও শতভাগ আইনগত সুরক্ষাসম্পন্ন আবাসন প্রকল্প বাস্তবায়নে নিবেদিত।"
-								: data.heroDesc}
+								? data.heroDescBn ||
+									"সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ বাংলাদেশে আধুনিক, পরিবেশবান্ধব ও শতভাগ আইনগত সুরক্ষাসম্পন্ন আবাসন প্রকল্প বাস্তবায়নে নিবেদিত।"
+								: data.heroDesc ||
+									"Silicon Real Estate (Pvt.) Ltd. is dedicated to developing legally secure, environment-friendly, and flood-protected mega townships in Dhaka."}
 						</p>
 
 						<Link
@@ -348,13 +381,16 @@ export default function AboutPage() {
 						</span>
 						<h2 className="text-2xl sm:text-3xl font-bold font-heading text-foreground tracking-tight">
 							{isBn
-								? "পরিকল্পিত ও পরিবেশবান্ধব আবাসন উন্নয়নের অগ্রদূত"
-								: data.whoWeAreTitle}
+								? data.whoWeAreTitleBn ||
+									"পরিকল্পিত ও পরিবেশবান্ধব আবাসন উন্নয়নের অগ্রদূত"
+								: data.whoWeAreTitle || "Pioneering Planned Eco-Townships"}
 						</h2>
 						<p className="text-muted-foreground text-xs sm:text-sm leading-relaxed font-light max-w-2xl mx-auto">
 							{isBn
-								? "সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ একটি অত্যন্ত বিশ্বস্ত, পরিবেশবান্ধব এবং পরিকল্পিত আবাসন উন্নয়ন প্রতিষ্ঠান। সততা, স্বচ্ছতা, মান এবং শতভাগ আইনি নিরাপত্তাকে সর্বোচ্চ অগ্রাধিকার দিয়ে আমরা গড়ে তুলছি সিলিকন সিটি।"
-								: data.whoWeAreDesc}
+								? data.whoWeAreDescBn ||
+									"সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ একটি অত্যন্ত বিশ্বস্ত, পরিবেশবান্ধব এবং পরিকল্পিত আবাসন উন্নয়ন প্রতিষ্ঠান। সততা, স্বচ্ছতা, মান এবং শতভাগ আইনি নিরাপত্তাকে সর্বোচ্চ অগ্রাধিকার দিয়ে আমরা গড়ে তুলছি সিলিকন সিটি।"
+								: data.whoWeAreDesc ||
+									"Silicon Real Estate (Pvt.) Ltd. is a trusted, environment-friendly real estate development company in Bangladesh."}
 						</p>
 					</div>
 
@@ -411,11 +447,14 @@ export default function AboutPage() {
 								{isBn ? "আমাদের লক্ষ্য (MISSION)" : "MISSION"}
 							</span>
 							<h3 className="text-lg sm:text-xl font-bold font-heading text-foreground">
-								{isBn ? "আমাদের উদ্দেশ্য ও অঙ্গীকার" : data.missionTitle}
+								{isBn
+									? data.missionTitleBn || "আমাদের উদ্দেশ্য ও অঙ্গীকার"
+									: data.missionTitle}
 							</h3>
 							<p className="text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
 								{isBn
-									? "সততা, গুণগত মান, উদ্ভাবন ও পেশাদারিত্বের সমন্বয়ে গ্রাহকদের বিনিয়োগের সর্বোচ্চ মূল্য নিশ্চিত করা। আমরা স্বচ্ছ ব্যবসায়িক নীতি ও উন্নত নাগরিক সুযোগ-সুবিধা প্রদানে প্রতিশ্রুতিবদ্ধ।"
+									? data.missionDescBn ||
+										"সততা, গুণগত মান, উদ্ভাবন ও পেশাদারিত্বের সমন্বয়ে গ্রাহকদের বিনিয়োগের সর্বোচ্চ মূল্য নিশ্চিত করা। আমরা স্বচ্ছ ব্যবসায়িক নীতি ও উন্নত নাগরিক সুযোগ-সুবিধা প্রদানে প্রতিশ্রুতিবদ্ধ।"
 									: data.missionDesc}
 							</p>
 						</motion.div>
@@ -430,11 +469,14 @@ export default function AboutPage() {
 								{isBn ? "আমাদের ভিশন (VISION)" : "VISION"}
 							</span>
 							<h3 className="text-lg sm:text-xl font-bold font-heading text-foreground">
-								{isBn ? "ভবিষ্যৎ দৃষ্টিভঙ্গি" : data.visionTitle}
+								{isBn
+									? data.visionTitleBn || "ভবিষ্যৎ দৃষ্টিভঙ্গি"
+									: data.visionTitle}
 							</h3>
 							<p className="text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
 								{isBn
-									? "দেশের অন্যতম শীর্ষ বিশ্বস্ত ও পরিবেশবান্ধব আবাসন নির্মাতা হিসেবে প্রতিষ্ঠিত হওয়া, যেখানে প্রতিটি মানুষের স্বপ্নের নিরাপদ আবাসন রূপ নেবে সফল বাস্তবে।"
+									? data.visionDescBn ||
+										"দেশের অন্যতম শীর্ষ বিশ্বস্ত ও পরিবেশবান্ধব আবাসন নির্মাতা হিসেবে প্রতিষ্ঠিত হওয়া, যেখানে প্রতিটি মানুষের স্বপ্নের নিরাপদ আবাসন রূপ নেবে সফল বাস্তবে।"
 									: data.visionDesc}
 							</p>
 						</motion.div>
@@ -547,10 +589,14 @@ export default function AboutPage() {
 									{isBn ? "চেয়ারম্যানের বাণী" : "MESSAGE FROM CHAIRMAN"}
 								</span>
 								<h3 className="text-lg font-bold font-heading text-foreground">
-									{isBn ? "মো: আহমেদ কবীর" : data.chairmanName}
+									{isBn
+										? data.chairmanNameBn || "মো: আহমেদ কবীর"
+										: data.chairmanName}
 								</h3>
 								<p className="text-xs text-muted-foreground">
-									{isBn ? "প্রতিষ্ঠাতা ও চেয়ারম্যান" : data.chairmanRole}
+									{isBn
+										? data.chairmanRoleBn || "প্রতিষ্ঠাতা ও চেয়ারম্যান"
+										: data.chairmanRole || "Founder & Chairman"}
 								</p>
 							</div>
 						</div>
@@ -559,13 +605,17 @@ export default function AboutPage() {
 							<blockquote className="text-xs sm:text-sm font-semibold font-heading text-primary italic border-l-2 border-primary pl-4">
 								"
 								{isBn
-									? "গ্রাহকের বিনিয়োগকে শতভাগ ঝুঁকিমুক্ত ও সমৃদ্ধিময় করাই আমাদের প্রধান ব্রত।"
+									? (data.chairmanSpeechBn || data.chairmanSpeech).slice(
+											0,
+											80,
+										) + "..."
 									: `${data.chairmanSpeech.slice(0, 100)}...`}
 								"
 							</blockquote>
 							<p className="text-xs sm:text-sm text-foreground/90 font-light leading-relaxed whitespace-pre-line">
 								{isBn
-									? "সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ-এ আপনাকে আন্তরিক শুভেচ্ছা। আমাদের একমাত্র লক্ষ্য হলো আইনগতভাবে সম্পূর্ণ নিরাপদ, কৌশলগত অবস্থানে অবস্থিত এবং ভবিষ্যৎ সম্ভাবনাময় আবাসন প্রকল্প উপস্থাপন করা। আপনার কষ্টার্জিত সঞ্চয়ের সর্বোচ্চ নিরাপত্তা নিশ্চিত করতে আমরা প্রতিনিয়ত কাজ করছি।"
+									? data.chairmanSpeechBn ||
+										"সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ-এ আপনাকে আন্তরিক শুভেচ্ছা। আমাদের একমাত্র লক্ষ্য হলো আইনগতভাবে সম্পূর্ণ নিরাপদ, কৌশলগত অবস্থানে অবস্থিত এবং ভবিষ্যৎ সম্ভাবনাময় আবাসন প্রকল্প উপস্থাপন করা।"
 									: data.chairmanSpeech}
 							</p>
 						</div>
@@ -584,13 +634,14 @@ export default function AboutPage() {
 							<blockquote className="text-xs sm:text-sm font-semibold font-heading text-primary italic border-l-2 border-primary pl-4">
 								"
 								{isBn
-									? "আমরা শুধু জমি বিক্রি নয়, ভবিষ্যৎ প্রজন্মের জন্য একটি পরিকল্পিত স্বপ্নের আবাস গড়ে তুলছি।"
+									? (data.mdSpeechBn || data.mdSpeech).slice(0, 80) + "..."
 									: `${data.mdSpeech.slice(0, 100)}...`}
 								"
 							</blockquote>
 							<p className="text-xs sm:text-sm text-foreground/90 font-light leading-relaxed whitespace-pre-line">
 								{isBn
-									? "প্রতিটি মানুষের স্বপ্ন থাকে একটি সুন্দর, নিরাপদ ও সুপরিকল্পিত স্থায়ী ঠিকানা। সেই স্বপ্নকে সফল করতেই রাজউকের বিধিবিধান ও আন্তর্জাতিক নগর পরিকল্পনার নীতি অনুসরণ করে অভিজ্ঞ প্রকৌশলীদের দ্বারা বাস্তবায়িত হচ্ছে সিলিকন সিটি।"
+									? data.mdSpeechBn ||
+										"প্রতিটি মানুষের স্বপ্ন থাকে একটি সুন্দর, নিরাপদ ও সুপরিকল্পিত স্থায়ী ঠিকানা। সেই স্বপ্নকে সফল করতেই রাজউকের বিধিবিধান ও আন্তর্জাতিক নগর পরিকল্পনার নীতি অনুসরণ করে অভিজ্ঞ প্রকৌশলীদের দ্বারা বাস্তবায়িত হচ্ছে সিলিকন সিটি।"
 									: data.mdSpeech}
 							</p>
 						</div>
@@ -612,10 +663,12 @@ export default function AboutPage() {
 										: "MESSAGE FROM MANAGING DIRECTOR"}
 								</span>
 								<h3 className="text-lg font-bold font-heading text-foreground">
-									{isBn ? "ইঞ্জি. মো: সরোয়ার খালেদ" : data.mdName}
+									{isBn ? data.mdNameBn || "ইঞ্জি. মো: সরোয়ার খালেদ" : data.mdName}
 								</h3>
 								<p className="text-xs text-muted-foreground">
-									{isBn ? "ব্যবস্থাপনা পরিচালক" : data.mdRole}
+									{isBn
+										? data.mdRoleBn || "ব্যবস্থাপনা পরিচালক"
+										: data.mdRole || "Managing Director"}
 								</p>
 							</div>
 						</div>
