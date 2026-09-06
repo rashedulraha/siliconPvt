@@ -140,15 +140,20 @@ export async function PATCH(
 		if (data.status !== undefined) updateData.status = data.status;
 		if (data.price !== undefined) updateData.price = Number(data.price);
 		if (data.location !== undefined) updateData.location = data.location;
-		if (data.areaSqFt !== undefined) updateData.areaSqFt = Number(data.areaSqFt);
+		if (data.areaSqFt !== undefined)
+			updateData.areaSqFt = Number(data.areaSqFt);
 		else if (data.area !== undefined) updateData.areaSqFt = Number(data.area);
-		if (data.bedrooms !== undefined) updateData.bedrooms = Number(data.bedrooms);
+		if (data.bedrooms !== undefined)
+			updateData.bedrooms = Number(data.bedrooms);
 		else if (data.katha !== undefined) updateData.bedrooms = Number(data.katha);
-		if (data.bathrooms !== undefined) updateData.bathrooms = Number(data.bathrooms);
-		if (data.description !== undefined) updateData.description = data.description;
+		if (data.bathrooms !== undefined)
+			updateData.bathrooms = Number(data.bathrooms);
+		if (data.description !== undefined)
+			updateData.description = data.description;
 		if (Array.isArray(data.features)) updateData.features = data.features;
 		if (Array.isArray(data.images)) updateData.images = data.images;
-		if (data.featured !== undefined) updateData.featured = Boolean(data.featured);
+		if (data.featured !== undefined)
+			updateData.featured = Boolean(data.featured);
 
 		const property = await prisma.property.update({
 			where: { id },
