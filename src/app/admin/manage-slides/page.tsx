@@ -258,6 +258,166 @@ export default function ManageSlidesPage() {
 										className="gap-2 text-xs font-heading"
 									>
 										{actionLoading ? (
+											<Loader2 className="w-4 h-4 animate-spin" />
+										) : (
+											<Check className="w-4 h-4" />
+										)}
+										{editingSlide ? "Update Slide" : "Save to Database"}
+									</Button>
+								</div>
+							</div>
+
+							<form onSubmit={handleFormSubmit} className="space-y-6">
+								<div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+									{/* Left Column: Form Inputs (7 Cols) */}
+									<div className="lg:col-span-7 space-y-6">
+										<Card className="border border-border/70 rounded-2xl shadow-xs">
+											<CardHeader className="bg-muted/20 border-b border-border/40 pb-4">
+												<CardTitle className="text-base font-semibold font-heading">
+													1. Slide Details & Bilingual Content
+												</CardTitle>
+												<CardDescription className="text-xs text-muted-foreground font-light">
+													Enter the slide headlines and badges in both English
+													and Bengali.
+												</CardDescription>
+											</CardHeader>
+											<CardContent className="p-6 space-y-5">
+												{/* Slide Title */}
+												<div className="grid sm:grid-cols-2 gap-4">
+													<div className="space-y-2">
+														<div className="flex items-center justify-between">
+															<Label className="text-xs font-semibold font-heading text-muted-foreground uppercase">
+																Slide Title (EN) *
+															</Label>
+															<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
+																EN
+															</span>
+														</div>
+														<Input
+															required
+															value={formData.title}
+															onChange={(e) =>
+																setFormData((prev) => ({
+																	...prev,
+																	title: e.target.value,
+																}))
+															}
+															placeholder="e.g. Silicon City Prime Plots"
+															className="font-medium font-heading"
+														/>
+													</div>
+													<div className="space-y-2">
+														<div className="flex items-center justify-between">
+															<Label className="text-xs font-semibold font-heading text-muted-foreground uppercase">
+																স্লাইড শিরোনাম (BN)
+															</Label>
+															<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+																বাংলা (BN)
+															</span>
+														</div>
+														<Input
+															value={formData.titleBn}
+															onChange={(e) =>
+																setFormData((prev) => ({
+																	...prev,
+																	titleBn: e.target.value,
+																}))
+															}
+															placeholder="যেমনঃ সিলিকন সিটি আবাসিক প্লট"
+															className="font-medium font-heading"
+														/>
+													</div>
+												</div>
+
+												{/* Badge Tag */}
+												<div className="grid sm:grid-cols-2 gap-4">
+													<div className="space-y-2">
+														<div className="flex items-center justify-between">
+															<Label className="text-xs font-semibold font-heading text-muted-foreground uppercase">
+																Badge Tag (EN)
+															</Label>
+															<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
+																EN
+															</span>
+														</div>
+														<Input
+															value={formData.badge}
+															onChange={(e) =>
+																setFormData((prev) => ({
+																	...prev,
+																	badge: e.target.value,
+																}))
+															}
+															placeholder="e.g. FEATURED / RESIDENTIAL"
+														/>
+													</div>
+													<div className="space-y-2">
+														<div className="flex items-center justify-between">
+															<Label className="text-xs font-semibold font-heading text-muted-foreground uppercase">
+																ব্যাজ ট্যাগ (BN)
+															</Label>
+															<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+																বাংলা (BN)
+															</span>
+														</div>
+														<Input
+															value={formData.badgeBn}
+															onChange={(e) =>
+																setFormData((prev) => ({
+																	...prev,
+																	badgeBn: e.target.value,
+																}))
+															}
+															placeholder="যেমনঃ ফিচার্ড / আবাসিক"
+														/>
+													</div>
+												</div>
+
+												{/* Subtitle / Location */}
+												<div className="grid sm:grid-cols-2 gap-4">
+													<div className="space-y-2">
+														<div className="flex items-center justify-between">
+															<Label className="text-xs font-semibold font-heading text-muted-foreground uppercase">
+																Subtitle / Location (EN)
+															</Label>
+															<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
+																EN
+															</span>
+														</div>
+														<Input
+															value={formData.subtitle}
+															onChange={(e) =>
+																setFormData((prev) => ({
+																	...prev,
+																	subtitle: e.target.value,
+																}))
+															}
+															placeholder="e.g. Masterplanned Township at Savar"
+														/>
+													</div>
+													<div className="space-y-2">
+														<div className="flex items-center justify-between">
+															<Label className="text-xs font-semibold font-heading text-muted-foreground uppercase">
+																সাবটাইটেল / অবস্থান (BN)
+															</Label>
+															<span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary">
+																বাংলা (BN)
+															</span>
+														</div>
+														<Input
+															value={formData.subtitleBn}
+															onChange={(e) =>
+																setFormData((prev) => ({
+																	...prev,
+																	subtitleBn: e.target.value,
+																}))
+															}
+															placeholder="যেমনঃ সাভারে পরিকল্পিত আবাসন নগরী"
+														/>
+													</div>
+												</div>
+
+												{/* Destination Link & Order */}
 				</div>
 			</SectionContainer>
 		</div>
