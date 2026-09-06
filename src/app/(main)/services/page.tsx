@@ -165,11 +165,27 @@ export default function ServicesPage() {
 			: "Our Services | Silicon Real Estate (Pvt.) Ltd.";
 	}, [isBn]);
 
-	const services = isBn
-		? SERVICES_BN
-		: rawServices && rawServices.length > 0
-			? rawServices
-			: SERVICES_BN;
+	const services = (
+		rawServices && rawServices.length > 0 ? rawServices : SERVICES_BN
+	).map((serv: any, idx: number) => {
+		const fallbackBn = SERVICES_BN[idx] as any;
+		return {
+			...serv,
+			num: isBn ? fallbackBn?.num || `০${idx + 1}` : serv.num || `0${idx + 1}`,
+			title: isBn
+				? serv.titleBn || fallbackBn?.title || serv.title
+				: serv.title,
+			tag: isBn ? serv.tagBn || fallbackBn?.tag || serv.tag : serv.tag,
+			description: isBn
+				? serv.descriptionBn || fallbackBn?.description || serv.description
+				: serv.description,
+			benefits: isBn
+				? serv.benefitsBn && serv.benefitsBn.length > 0
+					? serv.benefitsBn
+					: fallbackBn?.benefits || serv.benefits
+				: serv.benefits,
+		};
+	});
 	const currentService = services[activeTab] || services[0];
 	const serviceFeatures = isBn ? SERVICE_FEATURES_BN : SERVICE_FEATURES_EN;
 
@@ -337,7 +353,7 @@ export default function ServicesPage() {
 															: "KEY HIGHLIGHTS & BENEFITS:"}
 													</span>
 													<div className="space-y-2">
-														{currentService.benefits.map((b) => (
+														{currentService.benefits.map((b: string) => (
 															<div
 																key={b}
 																className="bg-muted/40 border border-border/40 rounded-2xl p-3.5 flex items-start gap-2.5"
