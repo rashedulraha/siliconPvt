@@ -30,11 +30,14 @@ export async function POST(req: Request) {
 		const slide = await prisma.slide.create({
 			data: {
 				title: data.title || "New Slide",
+				titleBn: data.titleBn,
 				subtitle: data.subtitle || "",
+				subtitleBn: data.subtitleBn,
 				image:
 					data.image ||
 					"https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600",
 				badge: data.badge || "FEATURED",
+				badgeBn: data.badgeBn,
 				link: data.link || "/projects",
 				active: data.active !== undefined ? Boolean(data.active) : true,
 				order: data.order !== undefined ? Number(data.order) : count + 1,
