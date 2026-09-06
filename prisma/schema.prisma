@@ -110,3 +110,90 @@ model ContactInfo {
   updatedAt         DateTime @updatedAt
 }
 
+model MembershipContent {
+  id                  String   @id @default("global")
+  heroTitle           String   @default("Silicon City Membership Guidelines")
+  heroTitleBn         String?  @default("সিলিকন সিটি মেম্বারশিপ ও বুকিং নির্দেশিকা")
+  heroDescription     String   @default("Review our official offline membership process, download the printable application form, and understand the terms and conditions required to secure your plot ownership in Silicon City.")
+  heroDescriptionBn   String?  @default("অফিসিয়াল মেম্বারশিপ আবেদন প্রক্রিয়া পর্যালোচনা করুন, আবেদন ফরম ডাউনলোড করুন এবং সিলিকন সিটিতে প্লট বরাদ্দ নিশ্চিত করতে শর্তাবলী জানুন।")
+  formPdfUrl          String   @default("/assets/silicon-membership-form.pdf")
+  applicationFee      String   @default("BDT 1,000")
+  landSharePercentage String   @default("25% - 30%")
+  soilElevationHeight String   @default("16 to 18 Feet")
+  offlineNoticeText   String   @default("Download the printable PDF application form, attach your NID copies and photographs, and submit it at our Mohammadpur Corporate Office with the BDT 1,000 application fee.")
+  offlineNoticeTextBn String?  @default("প্রিন্টযোগ্য আবেদন ফরমটি ডাউনলোড করে এনআইডি কপি ও ছবি সংযুক্ত করুন এবং মোহাম্মদপুর অফিসে জমা দিন।")
+  contactHotline      String   @default("+880 12 345 678 / +880 1712 345 678")
+  pathways            String?  // JSON stringified array of pathways
+  termsAndConditions  String?  // JSON stringified array of terms
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  title       String
+  titleBn     String?
+  slug        String   @unique
+  excerpt     String
+  excerptBn   String?
+  content     String
+  contentBn   String?
+  image       String
+  category    String   @default("Company News")
+  author      String   @default("Silicon Editorial")
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model GalleryItem {
+  id        String   @id @default(cuid())
+  title     String
+  titleBn   String?
+  category  String   // project | infrastructure | office | handovers
+  badge     String
+  location  String
+  overview  String
+  overviewBn String?
+  images    String[]
+  features  String[]
+  order     Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  name      String
+  nameBn    String?
+  role      String   // Chairman, Managing Director, Executive, etc.
+  roleBn    String?
+  speech    String   // Formal leadership address speech
+  speechBn  String?
+  image     String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Service {
+  id            String   @id @default(cuid())
+  num           String?
+  title         String
+  titleBn       String?
+  tag           String
+  tagBn         String?
+  description   String
+  descriptionBn String?
+  icon          String?
+  imageUrl      String?
+  pricing       String?
+  benefits      String[]
+  benefitsBn    String[]
+  order         Int      @default(0)
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
