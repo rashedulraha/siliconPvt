@@ -62,8 +62,19 @@ const PRESET_FEATURES = [
 	"Flood Free Zone",
 ];
 
-const PRESET_BLOCKS = ["Block-A", "Block-B", "Block-C", "Block-D", "Main Boulevard"];
-const PRESET_ROADS = ["25ft Road", "30ft Avenue", "40ft Avenue", "60ft Main Boulevard"];
+const PRESET_BLOCKS = [
+	"Block-A",
+	"Block-B",
+	"Block-C",
+	"Block-D",
+	"Main Boulevard",
+];
+const PRESET_ROADS = [
+	"25ft Road",
+	"30ft Avenue",
+	"40ft Avenue",
+	"60ft Main Boulevard",
+];
 const PRESET_FACINGS = [
 	"South Facing",
 	"North Facing",
@@ -89,8 +100,10 @@ export function PlotEditor({
 }: PlotEditorProps) {
 	// Parse initial values safely
 	const isEdit = !!initial;
-	const initialKatha = initial?.katha ?? (initial?.bedrooms ? initial.bedrooms : 3);
-	const initialArea = initial?.area ?? (initial as any)?.areaSqFt ?? initialKatha * 720;
+	const initialKatha =
+		initial?.katha ?? (initial?.bedrooms ? initial.bedrooms : 3);
+	const initialArea =
+		initial?.area ?? (initial as any)?.areaSqFt ?? initialKatha * 720;
 	const initialPrice = initial?.price ?? 2500000;
 	const initialPricePerKatha =
 		initialKatha > 0 ? Math.round(initialPrice / initialKatha) : 700000;
@@ -106,7 +119,9 @@ export function PlotEditor({
 	const [title, setTitle] = useState(initial?.title || "");
 	const [block, setBlock] = useState(detectedBlock);
 	const [plotNumber, setPlotNumber] = useState(
-		initial?.address?.includes("Plot") ? initial.address : "Plot # 12, Road # 03",
+		initial?.address?.includes("Plot")
+			? initial.address
+			: "Plot # 12, Road # 03",
 	);
 	const [location, setLocation] = useState(
 		initial?.location || "Block-A, Silicon City, Savar, Dhaka",
@@ -117,7 +132,9 @@ export function PlotEditor({
 	const [pricePerKatha, setPricePerKatha] = useState<string>(
 		String(initialPricePerKatha),
 	);
-	const [roadWidth, setRoadWidth] = useState(initial?.roadWidth || "30ft Avenue");
+	const [roadWidth, setRoadWidth] = useState(
+		initial?.roadWidth || "30ft Avenue",
+	);
 	const [facing, setFacing] = useState(initial?.facing || "South Facing");
 	const [type, setType] = useState<"sale" | "rent">(initial?.type || "sale");
 	const [category, setCategory] = useState<Property["category"]>(
@@ -372,7 +389,10 @@ export function PlotEditor({
 			</div>
 
 			{/* ── 2. MAIN FORM & LIVE PREVIEW GRID ── */}
-			<form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+			<form
+				onSubmit={handleSubmit}
+				className="grid grid-cols-1 lg:grid-cols-12 gap-6"
+			>
 				{/* ── LEFT COLUMN: PLOT DETAILS FORM (8 COLS) ── */}
 				<div className="lg:col-span-8 space-y-6">
 					{/* 1. Basic Identification */}
@@ -614,7 +634,10 @@ export function PlotEditor({
 						<CardContent className="p-5 sm:p-6 space-y-4">
 							<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 								<div className="space-y-1.5">
-									<Label htmlFor="pricePerKatha" className="text-xs font-semibold">
+									<Label
+										htmlFor="pricePerKatha"
+										className="text-xs font-semibold"
+									>
 										Price per Katha (BDT)
 									</Label>
 									<div className="relative">
@@ -685,9 +708,7 @@ export function PlotEditor({
 											<SelectItem value="available">
 												Available (Open for Booking)
 											</SelectItem>
-											<SelectItem value="pending">
-												Pending / Booked
-											</SelectItem>
+											<SelectItem value="pending">Pending / Booked</SelectItem>
 											<SelectItem value="sold">Sold Out</SelectItem>
 										</SelectContent>
 									</Select>
