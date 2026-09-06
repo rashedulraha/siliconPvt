@@ -41,6 +41,10 @@ export interface Property {
 	roadWidth?: string;
 	facing?: string;
 	katha?: number;
+	titleBn?: string;
+	descriptionBn?: string;
+	locationBn?: string;
+	featuresBn?: string[];
 	createdAt: string;
 	updatedAt: string;
 }
