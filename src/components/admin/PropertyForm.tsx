@@ -63,12 +63,24 @@ export function PropertyForm({ initial, onSave, onCancel }: PropertyFormProps) {
 			setForm({
 				title: initial.title || "",
 				description: initial.description || "",
-				price: initial.price !== undefined && initial.price !== null ? initial.price.toString() : "",
+				price:
+					initial.price !== undefined && initial.price !== null
+						? initial.price.toString()
+						: "",
 				location: initial.location || "",
 				address: initial.address || initial.location || "",
-				bedrooms: initial.bedrooms !== undefined && initial.bedrooms !== null ? initial.bedrooms.toString() : "",
-				bathrooms: initial.bathrooms !== undefined && initial.bathrooms !== null ? initial.bathrooms.toString() : "",
-				area: initial.area !== undefined && initial.area !== null ? initial.area.toString() : "",
+				bedrooms:
+					initial.bedrooms !== undefined && initial.bedrooms !== null
+						? initial.bedrooms.toString()
+						: "",
+				bathrooms:
+					initial.bathrooms !== undefined && initial.bathrooms !== null
+						? initial.bathrooms.toString()
+						: "",
+				area:
+					initial.area !== undefined && initial.area !== null
+						? initial.area.toString()
+						: "",
 				type: initial.type || "sale",
 				category: initial.category || "land",
 				images: Array.isArray(initial.images) ? [...initial.images] : [],
