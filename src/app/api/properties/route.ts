@@ -36,13 +36,15 @@ export async function POST(req: Request) {
 
 		const property = await prisma.property.create({
 			data: {
-				title: data.title || "New Property",
+				title: data.title || "",
+				titleBn: data.titleBn,
 				slug,
 				type: data.type || "plot",
 				category: data.category || "residential",
 				status: data.status || "available",
 				price: Number(data.price) || 0,
-				location: data.location || "Dhaka",
+				location: data.location || "",
+				locationBn: data.locationBn,
 				areaSqFt: data.areaSqFt ? Number(data.areaSqFt) : null,
 				bedrooms: data.bedrooms ? Number(data.bedrooms) : null,
 				bathrooms: data.bathrooms ? Number(data.bathrooms) : null,
@@ -51,10 +53,9 @@ export async function POST(req: Request) {
 				images:
 					Array.isArray(data.images) && data.images.length > 0
 						? data.images
-						: [
-								data.image ||
-									"https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200",
-							],
+						: data.image
+							? [data.image]
+							: [],
 				featured: Boolean(data.featured),
 			},
 		});

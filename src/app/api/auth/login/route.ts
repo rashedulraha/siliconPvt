@@ -30,8 +30,7 @@ export async function POST(req: Request) {
 		// Check if credentials match default/master admin
 		const isDefaultAdmin =
 			(email === defaultAdminEmail ||
-				email === "admin@siliconrealestatepvtltd.com" ||
-				email === "admin@afiaholdingsltd.com") &&
+				email === "admin@siliconrealestatepvtltd.com") &&
 			(password === defaultAdminPass || password === "admin123456");
 
 		let admin: {
@@ -47,12 +46,7 @@ export async function POST(req: Request) {
 			admin = await prisma.admin.findFirst({
 				where: {
 					email: {
-						in: [
-							email,
-							defaultAdminEmail,
-							"admin@siliconrealestatepvtltd.com",
-							"admin@afiaholdingsltd.com",
-						],
+						in: [email, defaultAdminEmail, "admin@siliconrealestatepvtltd.com"],
 					},
 				},
 			});

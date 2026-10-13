@@ -87,42 +87,42 @@ model SiteSettings {
 
 model ContactInfo {
   id                String   @id @default("global")
-  heroTitle         String   @default("Get in Touch with Us")
-  heroTitleBn       String?  @default("আমাদের প্রপার্টি ও আইনি পরামর্শক দলের সাথে যোগাযোগ করুন")
-  heroDescription   String   @default("Have questions about our residential plots in Silicon City? Want to schedule a physical site visit or discuss membership guidelines? Reach out to our corporate help desk. We are here to help you secure your dream address.")
-  heroDescriptionBn String?  @default("সিলিকন সিটিতে প্লট বরাদ্দ, ফ্রি গাড়িতে সাইট পরিদর্শন অথবা সিএস, এসএ, আরএস, বিএস দলিলপত্র যাচাই করতে আমাদের মোহাম্মদপুর কর্পোরেট ডেস্কে যোগাযোগ করুন।")
-  address           String   @default("2/3 (2nd Floor), Block # A, Iqbal Road, Mohammadpur, Dhaka-1207, Bangladesh")
-  addressBn         String?  @default("২/৩ (২য় তলা), ব্লক-এ, ইকবাল রোড, মোহাম্মদপুর, ঢাকা-১২০৭ (মোহাম্মদপুর টাউন হলের নিকট)")
-  phone             String   @default("+880 12 345 678, +880 1234 567 890")
-  whatsapp          String   @default("+880 12 345 678")
-  email             String   @default("info@siliconrealestatepvtltd.com")
-  secondaryEmail    String?  @default("siliconrealestate@gmail.com")
-  website           String   @default("siliconrealestatepvtltd.com")
-  businessHours     String   @default("Saturday - Thursday: 9:00 AM – 5:00 PM | Friday: Closed")
-  businessHoursBn   String?  @default("শনিবার – বৃহস্পতিবার: সকাল ৯:০০ – বিকাল ৫:০০ | শুক্রবার: বন্ধ")
-  mapEmbedUrl       String   @default("https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.8973685412356!2d90.3621!3d23.7509!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755bf4f483c6d7d%3A0x6b4f74d6c6e18f2f!2sIqbal%20Rd%2C%20Dhaka%201207!5e0!3m2!1sen!2sbd!4v1700000000000!5m2!1sen!2sbd")
-  siteVisitNotice   String   @default("Silicon City is strategically located in Bara Badeshi Mouza, Savar, right next to the Turag River and adjacent to Mohammadpur Beribadh. We arrange physical site guided tours for our clients directly from our Corporate Office.")
-  siteVisitNoticeBn String?  @default("সিলিকন সিটি সাভারের বড় বাদেশী মৌজায় তুরাগ নদীর তীরে ও মোহাম্মদপুর বেড়িবাঁধ সংলগ্ন এলাকায় অবস্থিত। আমাদের কর্পোরেট অফিস থেকে নিয়মিত নিজস্ব পরিবহনে সাইট ভিজিট পরিচালনা করা হয়।")
+  heroTitle         String?
+  heroTitleBn       String?
+  heroDescription   String?
+  heroDescriptionBn String?
+  address           String?
+  addressBn         String?
+  phone             String?
+  whatsapp          String?
+  email             String?
+  secondaryEmail    String?
+  website           String?
+  businessHours     String?
+  businessHoursBn   String?
+  mapEmbedUrl       String?
+  siteVisitNotice   String?
+  siteVisitNoticeBn String?
   imageUrl          String?  
-  facebookUrl       String?  @default("https://facebook.com")
-  youtubeUrl        String?  @default("https://youtube.com")
+  facebookUrl       String?
+  youtubeUrl        String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 }
 
 model MembershipContent {
   id                  String   @id @default("global")
-  heroTitle           String   @default("Silicon City Membership Guidelines")
-  heroTitleBn         String?  @default("সিলিকন সিটি মেম্বারশিপ ও বুকিং নির্দেশিকা")
-  heroDescription     String   @default("Review our official offline membership process, download the printable application form, and understand the terms and conditions required to secure your plot ownership in Silicon City.")
-  heroDescriptionBn   String?  @default("অফিসিয়াল মেম্বারশিপ আবেদন প্রক্রিয়া পর্যালোচনা করুন, আবেদন ফরম ডাউনলোড করুন এবং সিলিকন সিটিতে প্লট বরাদ্দ নিশ্চিত করতে শর্তাবলী জানুন।")
-  formPdfUrl          String   @default("/assets/silicon-membership-form.pdf")
-  applicationFee      String   @default("BDT 1,000")
-  landSharePercentage String   @default("25% - 30%")
-  soilElevationHeight String   @default("16 to 18 Feet")
-  offlineNoticeText   String   @default("Download the printable PDF application form, attach your NID copies and photographs, and submit it at our Mohammadpur Corporate Office with the BDT 1,000 application fee.")
-  offlineNoticeTextBn String?  @default("প্রিন্টযোগ্য আবেদন ফরমটি ডাউনলোড করে এনআইডি কপি ও ছবি সংযুক্ত করুন এবং মোহাম্মদপুর অফিসে জমা দিন।")
-  contactHotline      String   @default("+880 12 345 678 / +880 1712 345 678")
+  heroTitle           String?
+  heroTitleBn         String?
+  heroDescription     String?
+  heroDescriptionBn   String?
+  formPdfUrl          String?
+  applicationFee      String?
+  landSharePercentage String?
+  soilElevationHeight String?
+  offlineNoticeText   String?
+  offlineNoticeTextBn String?
+  contactHotline      String?
   pathways            String?  // JSON stringified array of pathways
   termsAndConditions  String?  // JSON stringified array of terms
   createdAt           DateTime @default(now())
@@ -139,8 +139,8 @@ model BlogPost {
   content     String
   contentBn   String?
   image       String
-  category    String   @default("Company News")
-  author      String   @default("Silicon Editorial")
+  category    String
+  author      String?
   publishedAt DateTime @default(now())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -258,25 +258,25 @@ model HomeContent {
   heroCtaText        String
   heroCtaTextBn      String?
   heroCtaLink        String
-  masterPlanBadge    String?  @default("MASTER PLAN")
-  masterPlanBadgeBn  String?  @default("মাস্টার প্ল্যান")
-  masterPlanTitle    String?  @default("At a Glance: Township Layout")
-  masterPlanTitleBn  String?  @default("এক নজরে: আধুনিক টাউনশিপ লেআউট")
-  masterPlanDesc     String?  @default("Meticulously planned master layout featuring 30ft & 40ft wide avenues, optimal sunlight orientation, and eco-zoning for every plot.")
-  masterPlanDescBn   String?  @default("৩০ ও ৪০ ফুট প্রশস্ত অভ্যন্তরীণ রাস্তা, পর্যাপ্ত আলো-বাতাস চলাচলের নিশ্চয়তা এবং প্রতিটি প্লটের জন্য পরিবেশবান্ধব জোনিং সহ সুপরিকল্পিত লেআউট।")
-  masterPlanImage    String?  @default("https://images.unsplash.com/photo-1524813686514-a57563d77965?q=80&w=1200")
-  amenitiesBadge     String?  @default("LIFESTYLE AMENITIES")
-  amenitiesBadgeBn   String?  @default("নাগরিক সুযোগ-সুবিধা")
-  amenitiesTitle     String?  @default("Integrated Modern Civic Amenities")
-  amenitiesTitleBn   String?  @default("সকল আধুনিক নাগরিক ও লাইফস্টাইল সুবিধা")
-  amenitiesDesc      String?  @default("Dedicated Central Mosque, Grand Athletics Sports Ground, Riverfront Green Eco Parks, School & Medical Centers inside the boundary.")
-  amenitiesDescBn    String?  @default("কেন্দ্রীয় মসজিদ, প্রশস্ত খেলার মাঠ, নদীতীরবর্তী গ্রিন পার্ক, স্কুল ও মেডিকেল সেন্টার সমৃদ্ধ পরিবেশ।")
-  showcaseBadge      String?  @default("FLAGSHIP TOWNSHIP")
-  showcaseBadgeBn    String?  @default("ফ্ল্যাগশিপ টাউনশিপ")
-  showcaseTitle      String?  @default("Silicon City — Planned Eco-Township")
-  showcaseTitleBn    String?  @default("সিলিকন সিটি – পরিকল্পিত নিরাপদ আবাসন নগরী")
-  showcaseDesc       String?  @default("Located at Bara Badeshi Mouza, Savar, Dhaka — strategically positioned adjacent to Mohammadpur Beribadh along the scenic Turag River.")
-  showcaseDescBn     String?  @default("ঢাকার মোহাম্মদপুর সংলগ্ন সাভার বড় বাদেশী মৌজায়, রাজউকের সম্প্রসারিত মহাপরিকল্পনার আওতাভুক্ত ও ঢাকা বন্যা নিয়ন্ত্রণ বাঁধ সুরক্ষিত অঞ্চলে অবস্থিত।")
+  masterPlanBadge    String?
+  masterPlanBadgeBn  String?
+  masterPlanTitle    String?
+  masterPlanTitleBn  String?
+  masterPlanDesc     String?
+  masterPlanDescBn   String?
+  masterPlanImage    String?
+  amenitiesBadge     String?
+  amenitiesBadgeBn   String?
+  amenitiesTitle     String?
+  amenitiesTitleBn   String?
+  amenitiesDesc      String?
+  amenitiesDescBn    String?
+  showcaseBadge      String?
+  showcaseBadgeBn    String?
+  showcaseTitle      String?
+  showcaseTitleBn    String?
+  showcaseDesc       String?
+  showcaseDescBn     String?
   trackRecordTitle   String
   trackRecordTitleBn String?
   trackRecordDesc    String
@@ -303,7 +303,7 @@ model Project {
   title         String
   titleBn       String?
   slug          String?  @unique
-  type          String   @default("Township Project") // e.g. "Ongoing Flagship Township"
+  type          String?  // e.g. "Ongoing Flagship Township"
   typeBn        String?
   status        String   @default("Ongoing") // Ongoing, Upcoming, Completed
   statusBn      String?
@@ -324,30 +324,30 @@ model Project {
 
 model ProjectsContent {
   id                String   @id @default(cuid())
-  heroTitle         String   @default("Master Planned Townships & Prime Land Developments")
-  heroTitleBn       String?  @default("পরিকল্পিত আধুনিক মেগা টাউনশিপ ও")
-  heroSubtitle      String   @default("Prime Land Developments")
-  heroSubtitleBn    String?  @default("নিরাপদ প্রাইম ল্যান্ড ডেভেলপমেন্ট")
-  heroDesc          String   @default("Silicon Real Estate (Pvt.) Ltd. develops legally secure, environment-friendly, and flood-protected mega townships designed for peaceful living and high-yielding real estate investments in Dhaka.")
-  heroDescBn        String?  @default("সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ আইনি সুরক্ষা, পরিবেশবান্ধব অবকাঠামো এবং বন্যা প্রতিরোধী আধুনিক মেগা টাউনশিপ বাস্তবায়নে শীর্ষস্থানীয়।")
+  heroTitle         String?
+  heroTitleBn       String?
+  heroSubtitle      String?
+  heroSubtitleBn    String?
+  heroDesc          String?
+  heroDescBn        String?
   trustMetrics      Json?
   trustMetricsBn    Json?
-  spotlightBadge    String   @default("FLAGSHIP TOWNSHIP")
-  spotlightBadgeBn  String?  @default("ফ্ল্যাগশিপ মেগা প্রজেক্ট")
-  spotlightTitle    String   @default("Silicon City — Planned Eco-Township")
-  spotlightTitleBn  String?  @default("সিলিকন সিটি – পরিকল্পিত নিরাপদ আবাসন নগরী")
-  spotlightDesc     String   @default("Located at Bara Badeshi Mouza, Savar, Dhaka — strategically positioned adjacent to Mohammadpur Beribadh along the scenic Turag River.")
-  spotlightDescBn   String?  @default("ঢাকার মোহাম্মদপুর সংলগ্ন সাভার বড় বাদেশী মৌজায়, রাজউকের সম্প্রসারিত মহাপরিকল্পনার আওতাভুক্ত ও ঢাকা বন্যা নিয়ন্ত্রণ বাঁধ সুরক্ষিত অঞ্চলে অবস্থিত।")
-  spotlightTag      String   @default("ONGOING MEGA PROJECT")
-  spotlightTagBn    String?  @default("চলমান মেগা টাউনশিপ")
-  spotlightBoxTitle String   @default("RAJUK Extended Masterplan & Embankment Protected")
-  spotlightBoxTitleBn String? @default("রাজউক সম্প্রসারিত মাস্টারপ্ল্যান ও বন্যা নিয়ন্ত্রণ বাঁধ সুরক্ষিত")
-  spotlightBoxDesc  String   @default("Silicon City falls under the proposed extended urban development master plan of RAJUK and is fully secured inside the proposed Dhaka Flood Protection Embankment for 100% environmental safety.")
-  spotlightBoxDescBn String? @default("সিলিকন সিটি রাজউকের প্রস্তাবিত সম্প্রসারিত মহাপরিকল্পনার আওতাভুক্ত এবং বন্যা নিয়ন্ত্রণ বাঁধের অভ্যন্তরে শতভাগ নিরাপদ।")
-  spotlightLocation String   @default("Savar (Bara Badeshi)")
-  spotlightLocationBn String? @default("সাভার (বড় বাদেশী মৌজা)")
-  spotlightBadge2   String   @default("100% Ready Mutation")
-  spotlightBadge2Bn String?  @default("১০০% রেডি মিউটেশন")
+  spotlightBadge    String?
+  spotlightBadgeBn  String?
+  spotlightTitle    String?
+  spotlightTitleBn  String?
+  spotlightDesc     String?
+  spotlightDescBn   String?
+  spotlightTag      String?
+  spotlightTagBn    String?
+  spotlightBoxTitle String?
+  spotlightBoxTitleBn String?
+  spotlightBoxDesc  String?
+  spotlightBoxDescBn String?
+  spotlightLocation String?
+  spotlightLocationBn String?
+  spotlightBadge2   String?
+  spotlightBadge2Bn String?
   specs             Json?
   specsBn           Json?
   categories        Json?
@@ -358,16 +358,16 @@ model ProjectsContent {
   proximitiesBn     Json?
   roadmap           Json?
   roadmapBn         Json?
-  ctaBadge          String   @default("DIRECT CONSULTATION DESK")
-  ctaBadgeBn        String?  @default("সরাসরি পরামর্শ ডেস্ক")
-  ctaTitle          String   @default("Ready to Secure Your Plot in Silicon City?")
-  ctaTitleBn        String?  @default("সিলিকন সিটিতে প্লট বরাদ্দ নিতে প্রস্তুত?")
-  ctaDesc           String   @default("Schedule a guided vehicle site visit or speak directly with our senior property advisors at our Mohammadpur Corporate Office.")
-  ctaDescBn         String?  @default("মোহাম্মদপুর কর্পোরেট অফিস থেকে সরাসরি সিনিয়র প্রপার্টি উপদেষ্টাদের সাথে কথা বলুন অথবা সাইট পরিদর্শন শিডিউল করুন।")
-  ctaHotline        String   @default("+880 12 345 678 / +880 1712 345 678")
-  ctaEmail          String   @default("info@siliconrealestatepvtltd.com")
-  ctaOffice         String   @default("2/3 (2nd Floor), Block-A, Iqbal Road, Mohammadpur, Dhaka-1207")
-  ctaOfficeBn       String?  @default("২/৩ (২য় তলা), ব্লক-এ, ইকবাল রোড, মোহাম্মদপুর, ঢাকা-১২০৭")
+  ctaBadge          String?
+  ctaBadgeBn        String?
+  ctaTitle          String?
+  ctaTitleBn        String?
+  ctaDesc           String?
+  ctaDescBn         String?
+  ctaHotline        String?
+  ctaEmail          String?
+  ctaOffice         String?
+  ctaOfficeBn       String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 }

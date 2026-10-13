@@ -28,7 +28,7 @@ export async function POST(req: Request) {
 
 		const lead = await prisma.lead.create({
 			data: {
-				name: data.name || "Client Inquiry",
+				name: data.name || "",
 				email: data.email || "",
 				phone: data.phone || data.phoneNumber || "",
 				message: data.message || "",

@@ -17,6 +17,7 @@ import {
 	LogOut,
 	Compass,
 	ArrowUpRight,
+	Video,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -32,7 +33,11 @@ const navItems = [
 		label: "Home Page Settings",
 		icon: HomeIcon,
 	},
-	{ href: "/admin/manage-slides", label: "Hero Banners", icon: ImageIcon },
+	{
+		href: "/admin/manage-slides",
+		label: "Hero Video Carousel",
+		icon: Video,
+	},
 	{
 		href: "/admin/about-settings",
 		label: "About & Leadership",
@@ -55,7 +60,7 @@ const navItems = [
 	},
 	{
 		href: "/admin/site-settings",
-		label: "Site Contact & Info",
+		label: "Site & Footer Info",
 		icon: Settings,
 	},
 	{ href: "/admin/leads", label: "Client Inquiries", icon: Users },

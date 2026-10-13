@@ -148,6 +148,14 @@ export async function apiFetch<T>(
 			message = response.statusText;
 		}
 
+		if (response.status === 401 && typeof window !== "undefined") {
+			try {
+				localStorage.removeItem("silicon_jwt_token");
+			} catch {
+				// ignore localStorage error
+			}
+		}
+
 		const error: ApiError = {
 			status: response.status,
 			message,

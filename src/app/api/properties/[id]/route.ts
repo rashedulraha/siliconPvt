@@ -82,34 +82,38 @@ export async function PUT(
 			},
 			create: {
 				id,
-				title: data.title || "New Plot",
+				title: data.title || "",
+				titleBn: data.titleBn,
 				slug,
 				type: data.type || "plot",
 				category: data.category || "residential",
 				status: data.status || "available",
 				price: Number(data.price) || 0,
-				location: data.location || "Silicon City, Savar, Dhaka",
+				location: data.location || "",
+				locationBn: data.locationBn,
 				areaSqFt:
 					data.areaSqFt !== undefined
 						? Number(data.areaSqFt)
 						: data.area !== undefined
 							? Number(data.area)
-							: 2160,
+							: null,
 				bedrooms:
 					data.bedrooms !== undefined
 						? Number(data.bedrooms)
 						: data.katha !== undefined
 							? Number(data.katha)
-							: 3,
-				bathrooms: data.bathrooms !== undefined ? Number(data.bathrooms) : 0,
+							: null,
+				bathrooms: data.bathrooms !== undefined ? Number(data.bathrooms) : null,
 				description: data.description || "",
+				descriptionBn: data.descriptionBn,
 				features: Array.isArray(data.features) ? data.features : [],
+				featuresBn: Array.isArray(data.featuresBn) ? data.featuresBn : [],
 				images:
 					Array.isArray(data.images) && data.images.length > 0
 						? data.images
-						: [
-								"https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200",
-							],
+						: data.image
+							? [data.image]
+							: [],
 				featured: Boolean(data.featured),
 			},
 		});

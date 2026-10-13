@@ -38,26 +38,12 @@ async function handleSeed() {
 		// 2. Settings
 		await prisma.siteSettings.upsert({
 			where: { id: "global" },
-			update: {
-				email: "info@siliconrealestatepvtltd.com",
-				phone: "+880 12 345 678",
-				hotline: "+880 1712 345 678",
-				address:
-					"2/3 (2nd Floor), Block # A, Iqbal Road, Mohammadpur, Dhaka-1207, Bangladesh",
-				facebookUrl: "https://facebook.com",
-				youtubeUrl: "https://youtube.com",
-				aboutSummary:
-					"Silicon Real Estate (Pvt.) Ltd. is a premier land developer building modern eco-townships in Mohammadpur, Savar, Dhaka.",
-				mission:
-					"To deliver legally verified, flood-protected, planned residential plots with 30ft & 40ft internal road networks for every family.",
-				vision:
-					"To become Bangladesh's most trusted eco-friendly township real estate company offering sustainable urban living.",
-			},
+			update: {},
 			create: {
 				id: "global",
 				email: "info@siliconrealestatepvtltd.com",
-				phone: "+880 12 345 678",
-				hotline: "+880 1712 345 678",
+				phone: "+8801911222110",
+				hotline: "+8801911222110",
 				address:
 					"2/3 (2nd Floor), Block # A, Iqbal Road, Mohammadpur, Dhaka-1207, Bangladesh",
 				facebookUrl: "https://facebook.com",
@@ -82,8 +68,8 @@ async function handleSeed() {
 					"Have questions about our residential plots in Silicon City? Want to schedule a physical site visit or discuss membership guidelines? Reach out to our corporate help desk.",
 				address:
 					"2/3 (2nd Floor), Block # A, Iqbal Road, Mohammadpur, Dhaka-1207, Bangladesh",
-				phone: "+880 12 345 678, +880 1712 345 678",
-				whatsapp: "+880 12 345 678",
+				phone: "+8801911222110",
+				whatsapp: "01911222110",
 				email: "info@siliconrealestatepvtltd.com",
 				businessHours:
 					"Saturday - Thursday: 9:00 AM – 5:00 PM | Friday: Closed",
@@ -97,10 +83,13 @@ async function handleSeed() {
 				await prisma.slide.create({
 					data: {
 						title: slide.title,
+						titleBn: slide.titleBn || null,
 						subtitle: slide.subtitle || "",
+						subtitleBn: slide.subtitleBn || null,
 						image: slide.image,
 						badge: slide.badge || "",
-						link: slide.link || "/projects",
+						badgeBn: slide.badgeBn || null,
+						link: slide.link || "https://www.youtube.com/watch?v=F7NX9Ry4EJc",
 						order: slide.order,
 						active: slide.active,
 					},

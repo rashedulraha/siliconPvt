@@ -13,8 +13,7 @@ export async function POST(req: Request) {
 		const apiKey =
 			process.env.IMGBB_API_KEY ||
 			process.env.NEXT_PUBLIC_IMGBB_API_KEY ||
-			headerKey ||
-			"652df40a5c686059d830fe0a556f020a";
+			headerKey;
 
 		if (!apiKey) {
 			return NextResponse.json(

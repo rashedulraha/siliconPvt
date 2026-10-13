@@ -29,11 +29,13 @@ export async function POST(req: Request) {
 
 		const item = await prisma.galleryItem.create({
 			data: {
-				title: data.title || "Gallery Item",
-				category: data.category || "project",
-				badge: data.badge || "PROJECT",
+				title: data.title || "",
+				titleBn: data.titleBn,
+				category: data.category || "",
+				badge: data.badge || "",
 				location: data.location || "",
 				overview: data.overview || "",
+				overviewBn: data.overviewBn,
 				images: Array.isArray(data.images) ? data.images : [],
 				features: Array.isArray(data.features) ? data.features : [],
 				order: data.order !== undefined ? Number(data.order) : count + 1,

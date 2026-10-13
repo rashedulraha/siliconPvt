@@ -1,6 +1,5 @@
 import { Property } from "@/types";
 import { apiFetch } from "@/lib/api-client";
-import { seedProperties } from "./seed";
 
 /**
  * Maps the backend's property structure to the client's flat Property structure.
@@ -70,14 +69,13 @@ export async function fetchProperties(apiUrl?: string): Promise<Property[]> {
 		}>("/properties");
 
 		if (response && response.success && Array.isArray(response.properties)) {
-			const mapped = response.properties.map(mapApiPropertyToProperty);
-			return mapped.length > 0 ? mapped : seedProperties;
+			return response.properties.map(mapApiPropertyToProperty);
 		}
-		return seedProperties;
+		return [];
 	} catch (error: any) {
 		console.warn(
-			`[DataSync] Backend offline or fallback to local seed data: ${error?.message || error}`,
+			`[DataSync] Backend offline or error fetching properties: ${error?.message || error}`,
 		);
-		return seedProperties;
+		return [];
 	}
 }

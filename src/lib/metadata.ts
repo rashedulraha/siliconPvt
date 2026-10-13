@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://estatehub.com";
-const SITE_NAME = "EstateHub";
-const TWITTER_HANDLE = "@estatehub";
+const SITE_URL =
+	process.env.NEXT_PUBLIC_SITE_URL || "https://siliconrealestatepvtltd.com";
+const SITE_NAME =
+	process.env.NEXT_PUBLIC_SITE_NAME || "Silicon Real Estate (Pvt.) Ltd.";
+const TWITTER_HANDLE = "@siliconrealltd";
 
 interface MetadataOptions {
 	title: string;
@@ -32,12 +34,17 @@ export function generateMetadata(options: MetadataOptions): Metadata {
 		title: `${title} | ${SITE_NAME}`,
 		description,
 		keywords: keywords || [
-			"real estate",
-			"properties",
-			"homes",
-			"apartments",
-			"villas",
-			"luxury",
+			"Silicon Real Estate",
+			"Silicon City",
+			"সিলিকন রিয়েল এস্টেট",
+			"সিলিকন সিটি সাভার",
+			"plots in Savar",
+			"residential plots Mohammadpur",
+			"RAJUK approved plot",
+			"flood free land Dhaka",
+			"100% mutation ready plot",
+			"Dhaka real estate",
+			"Mohammadpur Beribadh land",
 		],
 		authors: [{ name: SITE_NAME }],
 		creator: SITE_NAME,
@@ -53,23 +60,23 @@ export function generateMetadata(options: MetadataOptions): Metadata {
 		},
 		openGraph: {
 			type: "website",
-			locale: "en_US",
+			locale: "bn_BD",
 			url,
 			siteName: SITE_NAME,
-			title,
+			title: `${title} | ${SITE_NAME}`,
 			description,
 			images: [
 				{
 					url: ogImage,
 					width: 1200,
 					height: 630,
-					alt: title,
+					alt: `${title} - ${SITE_NAME}`,
 				},
 			],
 		},
 		twitter: {
 			card: "summary_large_image",
-			title,
+			title: `${title} | ${SITE_NAME}`,
 			description,
 			images: [ogImage],
 			creator: TWITTER_HANDLE,
@@ -93,22 +100,35 @@ export function generateMetadata(options: MetadataOptions): Metadata {
  */
 export const defaultMetadata: Metadata = {
 	title: {
-		default: `${SITE_NAME} — Premium Real Estate`,
+		default: `${SITE_NAME} — Silicon City Planned Mega Township`,
 		template: `%s | ${SITE_NAME}`,
 	},
 	description:
-		"Find your dream property with EstateHub. Premium real estate listings for modern living.",
+		"সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ — মোহাম্মদপুর সংলগ্ন সাভারে তুরাগ নদীর তীরে ১৫০+ একর পরিকল্পিত মেগা টাউনশিপ 'সিলিকন সিটি'। ১৬–১৮ ফুট উঁচু বালু ভরাট ও ১০০% নিষ্কণ্টক প্লট।",
 	metadataBase: new URL(SITE_URL),
 	alternates: {
 		canonical: SITE_URL,
 	},
+	keywords: [
+		"Silicon Real Estate",
+		"Silicon City",
+		"সিলিকন রিয়েল এস্টেট",
+		"সিলিকন সিটি",
+		"সাভার আবাসিক প্লট",
+		"মোহাম্মদপুর সংলগ্ন জমি",
+		"বন্যা মুক্ত প্লট",
+		"রাজউক মাস্টারপ্ল্যান",
+		"Dhaka plot for sale",
+		"ready registration plot Dhaka",
+	],
 	openGraph: {
 		type: "website",
-		locale: "en_US",
+		locale: "bn_BD",
 		url: SITE_URL,
 		siteName: SITE_NAME,
-		title: SITE_NAME,
-		description: "Premium real estate listings for modern living.",
+		title: `${SITE_NAME} — Silicon City Planned Mega Township`,
+		description:
+			"সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ — মোহাম্মদপুর সংলগ্ন সাভারে তুরাগ নদীর তীরে ১৫০+ একর পরিকল্পিত মেগা টাউনশিপ 'সিলিকন সিটি'।",
 		images: [
 			{
 				url: `${SITE_URL}/opengraph-image`,
@@ -121,6 +141,9 @@ export const defaultMetadata: Metadata = {
 	twitter: {
 		card: "summary_large_image",
 		creator: TWITTER_HANDLE,
+		title: `${SITE_NAME} — Silicon City Planned Mega Township`,
+		description:
+			"সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ — মোহাম্মদপুর সংলগ্ন সাভারে তুরাগ নদীর তীরে ১৫০+ একর পরিকল্পিত মেগা টাউনশিপ 'সিলিকন সিটি'।",
 	},
 	robots: {
 		index: true,

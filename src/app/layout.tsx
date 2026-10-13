@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Hind_Siliguri, Poppins, Roboto } from "next/font/google";
+import { Hind_Siliguri, Inter, Poppins, Roboto } from "next/font/google";
 import "./globals.css";
 import "@/styles/a11y.css";
 
@@ -15,6 +15,13 @@ const hindSiliguri = Hind_Siliguri({
 	weight: ["300", "400", "500", "600", "700"],
 	subsets: ["bengali", "latin"],
 	variable: "--font-hind-siliguri",
+	display: "swap",
+});
+
+const inter = Inter({
+	weight: ["300", "400", "500", "600", "700", "800", "900"],
+	subsets: ["latin"],
+	variable: "--font-inter",
 	display: "swap",
 });
 
@@ -58,9 +65,15 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="bn" data-lang="bn" className="light" suppressHydrationWarning>
+		<html
+			lang="bn"
+			data-lang="bn"
+			data-scroll-behavior="smooth"
+			className="light"
+			suppressHydrationWarning
+		>
 			<body
-				className={`${hindSiliguri.variable} ${poppins.variable} ${roboto.variable} font-sans antialiased min-h-screen bg-background text-foreground`}
+				className={`${hindSiliguri.variable} ${inter.variable} ${poppins.variable} ${roboto.variable} font-sans antialiased min-h-screen bg-background text-foreground`}
 			>
 				<LanguageProvider>
 					<CMSProvider>

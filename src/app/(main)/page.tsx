@@ -1,18 +1,36 @@
 import { HomePageClient } from "@/components/home/HomePageClient";
 import { Metadata } from "next";
 
+const SITE_URL =
+	process.env.NEXT_PUBLIC_SITE_URL || "https://siliconrealestatepvtltd.com";
+
 export const metadata: Metadata = {
-	title: "Silicon Real Estate - Premium Land Development in Dhaka",
+	title: "Silicon Real Estate — Silicon City Planned Mega Township",
 	description:
-		"Secure RAJUK-approved plots with transparent documentation and flexible payment plans. Trusted land developer with 1500+ happy clients.",
-	keywords:
-		"real estate, land development, plots, Dhaka, RAJUK approved, property investment",
+		"সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ — মোহাম্মদপুর সংলগ্ন সাভার বড় বাদেশী মৌজায় তুরাগ নদীর তীরে ১৫০+ একর পরিকল্পিত মেগা টাউনশিপ 'সিলিকন সিটি'। ১৬–১৮ ফুট উঁচু বালু ভরাট, ৩০/৪০ ফুট প্রশস্ত রাস্তা ও ১০০% নিষ্কণ্টক মিউটেশন প্রস্তুত প্লট।",
+	keywords: [
+		"Silicon Real Estate",
+		"Silicon City",
+		"সিলিকন সিটি সাভার",
+		"সিলিকন রিয়েল এস্টেট",
+		"প্লট সাভার ঢাকা",
+		"মোহাম্মদপুর সংলগ্ন আবাসিক প্লট",
+		"তুরাগ নদী আবাসন",
+		"RAJUK masterplan plots",
+		"flood free residential land Dhaka",
+		"plots for sale near Mohammadpur",
+	],
+	alternates: {
+		canonical: SITE_URL,
+	},
 	openGraph: {
-		title: "Silicon Real Estate - Premium Land Development in Dhaka",
+		title: "Silicon Real Estate — Silicon City Planned Mega Township",
 		description:
-			"Secure RAJUK-approved plots with transparent documentation and flexible payment plans.",
+			"সাভার বড় বাদেশী মৌজায় মোহাম্মদপুর বেড়িবাঁধ সংলগ্ন ১৫০+ একর পরিকল্পিত আধুনিক আবাসন নগরী 'সিলিকন সিটি'র অফিশিয়াল প্ল্যাটফর্ম।",
 		type: "website",
-		url: "https://siliconrealestate.com",
+		url: SITE_URL,
+		locale: "bn_BD",
+		siteName: "Silicon Real Estate (Pvt.) Ltd.",
 	},
 };
 

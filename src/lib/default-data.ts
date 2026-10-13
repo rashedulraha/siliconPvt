@@ -157,36 +157,48 @@ export const DEFAULT_SLIDES = [
 	{
 		id: "slide-1",
 		title: "Silicon City — Master Planned Township",
+		titleBn: "সিলিকন সিটি — মাস্টার প্ল্যানড মেগা টাউনশিপ",
 		subtitle:
 			"16–18ft high elevation, 30ft & 40ft wide internal concrete roads, and clear legal title in Savar, adjacent to Mohammadpur, Dhaka.",
+		subtitleBn:
+			"সাভার, ঢাকায় ১৬–১৮ ফুট উঁচু বালু ভরাট, ৪০ ফুট প্রশস্ত অভ্যন্তরীণ আরসিসি সড়ক ও শতভাগ নিষ্কণ্টক হস্তান্তরে আপনার স্থায়ী ঠিকানা।",
 		badge: "FLAGSHIP TOWNSHIP",
+		badgeBn: "ফ্ল্যাগশিপ ইকো-টাউনশিপ",
 		image:
 			"https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1600&q=80",
-		link: "/projects",
+		link: "https://www.youtube.com/watch?v=F7NX9Ry4EJc",
 		active: true,
 		order: 1,
 	},
 	{
 		id: "slide-2",
 		title: "100% Legal & Mutation Ready Plots",
+		titleBn: "১০০% নিষ্কণ্টক ও মিউটেশন প্রস্তুত আবাসিক প্লট",
 		subtitle:
 			"Verified CS, SA, RS, BS khatians with instant deed registration and immediate boundary handover.",
+		subtitleBn:
+			"সিএস, এসএ, আরএস ও বিএস খতিয়ান যাচাইকৃত শতভাগ নিষ্কণ্টক মালিকানায় মোহাম্মদপুর সংলগ্ন সাভারে এখনই নিরাপদ বিনিয়োগ করুন।",
 		badge: "LEGAL SECURITY",
+		badgeBn: "নিষ্কণ্টক আইনি নিরাপত্তা",
 		image:
 			"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80",
-		link: "/about",
+		link: "https://www.youtube.com/watch?v=7LJj7SCknnM",
 		active: true,
 		order: 2,
 	},
 	{
 		id: "slide-3",
 		title: "Turag Riverfront Ecological Corridor",
+		titleBn: "তুরাগ রিভারফ্রন্ট ইকোলজিক্যাল গ্রিন সিটি",
 		subtitle:
 			"Serene riverside living with planned bridge connectivity reducing commute time to Mohammadpur to just 10 minutes.",
+		subtitleBn:
+			"তুরাগ নদের কোল ঘেঁষে আধুনিক ড্রেনেজ, সুপ্রশস্ত লেকভিউ রোড ও সবুজ উন্মুক্ত পার্কসহ পরিবেশবান্ধব আবাসিক জীবন।",
 		badge: "PRIME CONNECTIVITY",
+		badgeBn: "রিভারফ্রন্ট সংযোগ",
 		image:
 			"https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80",
-		link: "/services",
+		link: "https://www.youtube.com/watch?v=HDG0lPLooJ4",
 		active: true,
 		order: 3,
 	},

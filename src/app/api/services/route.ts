@@ -30,9 +30,9 @@ export async function POST(req: Request) {
 		const service = await prisma.service.create({
 			data: {
 				num: data.num || `0${count + 1}`,
-				title: data.title || "New Service",
+				title: data.title || "",
 				titleBn: data.titleBn,
-				tag: data.tag || "Core Service",
+				tag: data.tag || "",
 				tagBn: data.tagBn,
 				description: data.description || "",
 				descriptionBn: data.descriptionBn,

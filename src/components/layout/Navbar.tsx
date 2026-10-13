@@ -24,11 +24,15 @@ import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 export function Navbar() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [showLogoutModal, setShowLogoutModal] = useState(false);
+	const [scrolled, setScrolled] = useState(false);
 	const pathname = usePathname();
 	const router = useRouter();
 	const { state } = useCMS();
 	const { user, isLoggedIn, logout } = useUserAuth();
 	const { isBn } = useLanguage();
+
+	const isHome = pathname === "/";
+	const isTransparent = isHome && !scrolled;
 
 	// Public nav links with conditional rendering
 	const navItems = [
@@ -46,6 +50,20 @@ export function Navbar() {
 	useEffect(() => {
 		setIsOpen(false);
 	}, [pathname]);
+
+	// Listen to scroll position for smooth transparent-to-solid glass navbar transition
+	useEffect(() => {
+		const handleScroll = () => {
+			if (window.scrollY > 25) {
+				setScrolled(true);
+			} else {
+				setScrolled(false);
+			}
+		};
+		handleScroll();
+		window.addEventListener("scroll", handleScroll, { passive: true });
+		return () => window.removeEventListener("scroll", handleScroll);
+	}, []);
 
 	// Lock body scroll when mobile side drawer is open
 	useEffect(() => {
@@ -77,28 +95,26 @@ export function Navbar() {
 
 	return (
 		<>
-			<header className="fixed top-0 left-0 right-0 z-50 w-full duration-300 ease-out border-b shadow-xs bg-background/90 backdrop-blur-md border-border/50">
+			<header
+				className={cn(
+					"fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ease-out border-b",
+					isTransparent
+						? "bg-slate-950/45 backdrop-blur-md border-white/10 text-white shadow-lg"
+						: "bg-background/90 backdrop-blur-md border-border/50 text-foreground shadow-xs",
+				)}
+			>
 				<SectionContainer>
 					<div className="relative flex h-16 items-center justify-between gap-4">
 						{/* ── 1. Left: Logo Section ───────────── */}
 						<div className="flex items-center justify-start shrink-0">
 							<Link href="/" className="flex items-center gap-3 group">
 								<div
-									className="
-                    relative
-                    h-11 w-11
-                    overflow-hidden
-                    rounded-full
-                    border border-primary/20
-                    bg-background/80
-                    backdrop-blur-md
-                    transition-all duration-300
-                    group-hover:scale-[1.04]
-                    group-hover:border-primary/40
-                    group-hover:shadow-xs
-                    flex items-center justify-center
-                    shrink-0
-                  "
+									className={cn(
+										"relative h-11 w-11 overflow-hidden rounded-full border backdrop-blur-md transition-all duration-300 group-hover:scale-[1.04] flex items-center justify-center shrink-0",
+										isTransparent
+											? "border-white/30 bg-black/40 group-hover:border-white/60 shadow-md"
+											: "border-primary/20 bg-background/80 group-hover:border-primary/40 shadow-xs",
+									)}
 								>
 									<Image
 										src="/silicon.png"
@@ -112,10 +128,22 @@ export function Navbar() {
 								</div>
 
 								<div className="hidden sm:flex flex-col text-left">
-									<span className="font-heading font-bold text-sm tracking-tight leading-tight text-foreground group-hover:text-primary transition-colors">
+									<span
+										className={cn(
+											"font-heading font-bold text-sm tracking-tight leading-tight transition-colors",
+											isTransparent
+												? "text-white group-hover:text-amber-300 drop-shadow-sm"
+												: "text-foreground group-hover:text-primary",
+										)}
+									>
 										Silicon
 									</span>
-									<span className="text-[10px] tracking-[0.18em] uppercase font-medium leading-none text-muted-foreground">
+									<span
+										className={cn(
+											"text-[10px] tracking-[0.18em] uppercase font-medium leading-none",
+											isTransparent ? "text-white/75" : "text-muted-foreground",
+										)}
+									>
 										{isBn ? "রিয়েল এস্টেট প্রাঃ লিঃ" : "Real Estate Pvt. Ltd."}
 									</span>
 								</div>
@@ -123,7 +151,14 @@ export function Navbar() {
 						</div>
 
 						{/* ── 2. Center: Navigation Links ─────────── */}
-						<nav className="hidden lg:flex items-center absolute left-1/2 -translate-x-1/2 gap-1 px-3 py-1 bg-muted/40 backdrop-blur-xs rounded-full border border-border/50 shadow-2xs">
+						<nav
+							className={cn(
+								"hidden lg:flex items-center absolute left-1/2 -translate-x-1/2 gap-1 px-3 py-1 rounded-full border transition-all duration-300",
+								isTransparent
+									? "bg-black/35 backdrop-blur-md border-white/20 shadow-md"
+									: "bg-muted/40 backdrop-blur-xs border-border/50 shadow-2xs",
+							)}
+						>
 							{navItems.map((item) => {
 								const isActive =
 									pathname === item.href ||
@@ -135,9 +170,13 @@ export function Navbar() {
 										href={item.href}
 										className={cn(
 											"px-3.5 py-1.5 text-[13px] font-medium rounded-full transition-all duration-200 select-none cursor-pointer whitespace-nowrap",
-											isActive
-												? "bg-background text-primary border border-border/60 shadow-xs font-semibold"
-												: "text-muted-foreground hover:text-foreground hover:bg-background/50",
+											isTransparent
+												? isActive
+													? "bg-white/25 text-white border border-white/35 shadow-xs font-semibold backdrop-blur-xs"
+													: "text-white/80 hover:text-white hover:bg-white/10"
+												: isActive
+													? "bg-background text-primary border border-border/60 shadow-xs font-semibold"
+													: "text-muted-foreground hover:text-foreground hover:bg-background/50",
 										)}
 									>
 										{item.label}
@@ -149,11 +188,24 @@ export function Navbar() {
 						{/* ── 3. Right: Luxury Action Capsule ───── */}
 						<div className="hidden lg:flex items-center justify-end gap-2.5 shrink-0">
 							{/* Single Compact Language Toggle Button */}
-							<LanguageToggle />
+							<LanguageToggle
+								className={
+									isTransparent
+										? "bg-black/40 border-white/25 text-white hover:bg-white/20 shadow-xs"
+										: ""
+								}
+							/>
 
 							{/* Conditional Action: Show Admin Portal ONLY when logged in; otherwise show Book Site Visit CTA */}
 							{isLoggedIn ? (
-								<div className="flex items-center gap-1.5 p-0.5 rounded-full bg-primary/5 border border-primary/20 shadow-2xs">
+								<div
+									className={cn(
+										"flex items-center gap-1.5 p-0.5 rounded-full border shadow-2xs",
+										isTransparent
+											? "bg-black/40 border-white/25"
+											: "bg-primary/5 border-primary/20",
+									)}
+								>
 									<Link
 										href="/admin"
 										className="inline-flex items-center gap-2 h-8 px-3.5 rounded-full bg-primary text-primary-foreground text-xs font-semibold font-heading hover:bg-primary/90 transition-all shadow-xs cursor-pointer"
@@ -167,7 +219,12 @@ export function Navbar() {
 									<button
 										type="button"
 										onClick={() => setShowLogoutModal(true)}
-										className="w-8 h-8 rounded-full hover:bg-destructive/10 text-muted-foreground hover:text-destructive flex items-center justify-center transition-all cursor-pointer"
+										className={cn(
+											"w-8 h-8 rounded-full flex items-center justify-center transition-all cursor-pointer",
+											isTransparent
+												? "text-white/80 hover:text-red-400 hover:bg-white/10"
+												: "hover:bg-destructive/10 text-muted-foreground hover:text-destructive",
+										)}
 										title={isBn ? "লগআউট" : "Sign Out"}
 									>
 										<LogOut className="w-3.5 h-3.5" />
@@ -176,7 +233,7 @@ export function Navbar() {
 							) : (
 								<Link
 									href="/contact"
-									className="inline-flex items-center gap-2 h-8 px-4 rounded-full bg-primary text-primary-foreground text-xs font-semibold font-heading hover:bg-primary/90 transition-all duration-200 shadow-xs hover:shadow-md hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+									className="inline-flex items-center gap-2 h-8 px-4 rounded-full bg-primary text-primary-foreground text-xs font-semibold font-heading hover:bg-primary/90 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
 								>
 									<CalendarCheck className="w-3.5 h-3.5" />
 									<span>{isBn ? "সাইট ভিজিট বুক করুন" : "Book Site Visit"}</span>
@@ -186,12 +243,24 @@ export function Navbar() {
 
 						{/* ── Mobile Right Actions ──────────────────────── */}
 						<div className="flex lg:hidden items-center gap-2 ml-auto">
-							<LanguageToggle compact />
+							<LanguageToggle
+								compact
+								className={
+									isTransparent
+										? "bg-black/40 border-white/25 text-white hover:bg-white/20"
+										: ""
+								}
+							/>
 							<button
 								onClick={() => setIsOpen(!isOpen)}
 								aria-label="Toggle menu"
 								aria-expanded={isOpen}
-								className="w-9 h-9 rounded-lg border border-border text-foreground hover:bg-muted flex items-center justify-center transition-all duration-300 cursor-pointer"
+								className={cn(
+									"w-9 h-9 rounded-lg border flex items-center justify-center transition-all duration-300 cursor-pointer",
+									isTransparent
+										? "border-white/25 text-white bg-black/40 hover:bg-white/15"
+										: "border-border text-foreground hover:bg-muted",
+								)}
 							>
 								{isOpen ? (
 									<X className="h-4 w-4" />

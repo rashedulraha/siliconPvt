@@ -31,6 +31,7 @@ import {
 	Lock,
 	PhoneCall,
 	Zap,
+	Video,
 } from "lucide-react";
 import {
 	Card,
@@ -97,17 +98,17 @@ export default function AdminDashboard() {
 				"bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white",
 		},
 		{
-			title: "Hero Banner Slides",
+			title: "Hero Video Carousel",
 			description:
-				"Manage 3D rotating cylinder slides, photo assets, badges, and CTAs.",
+				"Add, edit, and organize 4K YouTube drone videos, embed codes, titles, and slide order.",
 			href: "/admin/manage-slides",
-			icon: ImageIcon,
-			tag: "3D Carousel",
-			badgeColor: "bg-amber-50 text-amber-700 border-amber-200/70",
-			accentColor: "group-hover:border-amber-400/50",
+			icon: Video,
+			tag: "4K Video Carousel",
+			badgeColor: "bg-red-50 text-red-700 border-red-200/70",
+			accentColor: "group-hover:border-red-400/50",
 			iconBg:
-				"bg-amber-50 text-amber-600 group-hover:bg-amber-600 group-hover:text-white",
-			stat: `${slides.length || 6} Slides Active`,
+				"bg-red-50 text-red-600 group-hover:bg-red-600 group-hover:text-white",
+			stat: `${slides.length || 3} Drone Videos Active`,
 		},
 		{
 			title: "About & Leadership",
@@ -160,12 +161,12 @@ export default function AdminDashboard() {
 				"bg-teal-50 text-teal-600 group-hover:bg-teal-600 group-hover:text-white",
 		},
 		{
-			title: "Site Contact & Info",
+			title: "Site Contact & Footer Settings",
 			description:
-				"Manage corporate office address, hotlines, WhatsApp, and Google Map.",
+				"Manage corporate office address, hotlines, WhatsApp, email, and live website footer.",
 			href: "/admin/site-settings",
 			icon: Settings,
-			tag: "Page 5 • Contact",
+			tag: "Footer & Contact",
 			badgeColor: "bg-rose-50 text-rose-700 border-rose-200/70",
 			accentColor: "group-hover:border-rose-400/50",
 			iconBg:

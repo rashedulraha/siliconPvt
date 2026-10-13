@@ -15,13 +15,17 @@ import {
 	FileText,
 	ExternalLink,
 	Lock,
+	Facebook,
+	Youtube,
 } from "lucide-react";
 import { toast } from "sonner";
 import { SectionContainer } from "../ui/section-container";
 import { useLanguage } from "@/context/LanguageContext";
+import { useContactInfo } from "@/hooks/useContactInfo";
 
 export function Footer() {
 	const { isBn } = useLanguage();
+	const { contactInfo } = useContactInfo();
 	const [email, setEmail] = useState("");
 	const [submitting, setSubmitting] = useState(false);
 
@@ -73,6 +77,35 @@ export function Footer() {
 			setSubmitting(false);
 		}, 800);
 	};
+
+	// Dynamic contact information with robust defaults
+	const displayAddress = isBn
+		? contactInfo.addressBn ||
+			contactInfo.address ||
+			"২/৩ (২য় তলা), ব্লক # এ, ইকবাল রোড, মোহাম্মদপুর, ঢাকা-১২০৭"
+		: contactInfo.address ||
+			"2/3 (2nd Floor), Block # A, Iqbal Road, Mohammadpur, Dhaka-1207";
+
+	const displayPhone =
+		contactInfo.phone || "+880 12 345 678 / +880 1712 345 678";
+	const phoneCallDigits = (contactInfo.phone || "+88012345678")
+		.split("/")[0]
+		.trim()
+		.replace(/[^\d+]/g, "");
+
+	const displayWhatsapp = contactInfo.whatsapp || "+880 1712 345 678";
+	const whatsappDigits = (contactInfo.whatsapp || "+8801712345678").replace(
+		/\D/g,
+		"",
+	);
+
+	const displayEmail = contactInfo.email || "info@siliconrealestatepvtltd.com";
+
+	const displayAbout = isBn
+		? contactInfo.heroDescriptionBn ||
+			"ঢাকার মোহাম্মদপুর সংলগ্ন পরিকল্পিত ও পরিবেশবান্ধব মেগা টাউনশিপ 'সিলিকন সিটি'। শতভাগ নিষ্কণ্টক মালিকানা, আধুনিক নাগরিক সুবিধা ও সহজ কিস্তিতে প্লট বরাদ্দ।"
+		: contactInfo.heroDescription ||
+			"A trusted pioneer in modern land development across Dhaka. RAJUK-compliant planned residential township in Silicon City with legal deed transparency.";
 
 	return (
 		<footer className="bg-dark-hero text-white border-t border-white/10 font-sans relative overflow-hidden">
@@ -148,40 +181,95 @@ export function Footer() {
 						</Link>
 
 						<p className="text-white/70 text-xs sm:text-sm leading-relaxed font-light">
-							{isBn
-								? "ঢাকার মোহাম্মদপুর সংলগ্ন পরিকল্পিত ও পরিবেশবান্ধব মেগা টাউনশিপ 'সিলিকন সিটি'। শতভাগ নিষ্কণ্টক মালিকানা, আধুনিক নাগরিক সুবিধা ও সহজ কিস্তিতে প্লট বরাদ্দ।"
-								: "A trusted pioneer in modern land development across Dhaka. RAJUK-compliant planned residential township in Silicon City with legal deed transparency."}
+							{displayAbout}
 						</p>
 
-						{/* Corporate Address & Hotlines */}
+						{/* Corporate Address & Hotlines (Dynamic from DB) */}
 						<div className="space-y-3 pt-2 text-xs font-light text-white/80">
 							<div className="flex items-start gap-3">
 								<MapPin className="w-4 h-4 text-accent shrink-0 mt-0.5" />
-								<span>
-									{isBn
-										? "২/৩ (২য় তলা), ব্লক # এ, ইকবাল রোড, মোহাম্মদপুর, ঢাকা-১২০৭"
-										: "2/3 (2nd Floor), Block # A, Iqbal Road, Mohammadpur, Dhaka-1207"}
-								</span>
+								<span className="leading-relaxed">{displayAddress}</span>
 							</div>
 
 							<div className="flex items-center gap-3">
 								<Phone className="w-4 h-4 text-accent shrink-0" />
-								<span>+880 12 345 678 / +880 1712 345 678</span>
+								{phoneCallDigits ? (
+									<a
+										href={`tel:${phoneCallDigits}`}
+										className="hover:text-accent transition-colors underline-offset-2 hover:underline"
+									>
+										{displayPhone}
+									</a>
+								) : (
+									<span>{displayPhone}</span>
+								)}
 							</div>
 
 							<div className="flex items-center gap-3">
 								<MessageSquare className="w-4 h-4 text-emerald-400 shrink-0" />
-								<span>
-									{isBn
-										? "হোয়াটসঅ্যাপ: +880 1712 345 678"
-										: "WhatsApp: +880 1712 345 678"}
-								</span>
+								{whatsappDigits ? (
+									<a
+										href={`https://wa.me/${whatsappDigits}?text=${encodeURIComponent(
+											isBn
+												? "আসসালামু আলাইকুম, আমি সিলিকন সিটির প্লট সম্পর্কে বিস্তারিত জানতে আগ্রহী।"
+												: "Hello, I am interested in Silicon City residential plots.",
+										)}`}
+										target="_blank"
+										rel="noopener noreferrer"
+										className="hover:text-emerald-300 transition-colors underline-offset-2 hover:underline"
+									>
+										{isBn
+											? `হোয়াটসঅ্যাপ: ${displayWhatsapp}`
+											: `WhatsApp: ${displayWhatsapp}`}
+									</a>
+								) : (
+									<span>
+										{isBn
+											? `হোয়াটসঅ্যাপ: ${displayWhatsapp}`
+											: `WhatsApp: ${displayWhatsapp}`}
+									</span>
+								)}
 							</div>
 
 							<div className="flex items-center gap-3">
 								<Mail className="w-4 h-4 text-accent shrink-0" />
-								<span>info@siliconrealestatepvtltd.com</span>
+								<a
+									href={`mailto:${displayEmail}`}
+									className="hover:text-accent transition-colors underline-offset-2 hover:underline truncate"
+								>
+									{displayEmail}
+								</a>
 							</div>
+
+							{/* Optional Dynamic Social Links */}
+							{(contactInfo.facebookUrl || contactInfo.youtubeUrl) && (
+								<div className="flex items-center gap-2 pt-1 text-[11px] text-white/70">
+									{contactInfo.facebookUrl && (
+										<a
+											href={contactInfo.facebookUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-400/40 text-white/80 hover:text-blue-400 transition-all inline-flex items-center gap-1.5"
+										>
+											<Facebook className="w-3.5 h-3.5 text-blue-400" />
+											<span>Facebook</span>
+											<ExternalLink className="w-3 h-3 opacity-60" />
+										</a>
+									)}
+									{contactInfo.youtubeUrl && (
+										<a
+											href={contactInfo.youtubeUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-red-400/40 text-white/80 hover:text-red-400 transition-all inline-flex items-center gap-1.5"
+										>
+											<Youtube className="w-3.5 h-3.5 text-red-500" />
+											<span>YouTube</span>
+											<ExternalLink className="w-3 h-3 opacity-60" />
+										</a>
+									)}
+								</div>
+							)}
 						</div>
 					</div>
 
@@ -276,8 +364,10 @@ export function Footer() {
 									<span className="text-xs font-heading text-white font-medium block">
 										{isBn ? "কর্পোরেট প্রধান কার্যালয়" : "Corporate Head Office"}
 									</span>
-									<span className="text-[10px] text-white/60 font-light block">
-										{isBn ? "মোহাম্মদপুর, ঢাকা" : "Mohammadpur, Dhaka"}
+									<span className="text-[10px] text-white/60 font-light block truncate max-w-[190px]">
+										{isBn
+											? contactInfo.addressBn || "মোহাম্মদপুর, ঢাকা"
+											: contactInfo.address || "Mohammadpur, Dhaka"}
 									</span>
 								</div>
 							</div>

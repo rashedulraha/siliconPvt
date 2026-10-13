@@ -6,33 +6,11 @@ import {
 	unauthorizedResponse,
 } from "@/lib/server-auth";
 
-const DEFAULT_SETTINGS = {
-	id: "global",
-	email: "info@siliconrealestatepvtltd.com",
-	phone: "+880 1711-000000",
-	hotline: "16789",
-	address: "2/3 (2nd Floor), Block-A, Iqbal Road, Mohammadpur, Dhaka-1207",
-	facebookUrl: "https://facebook.com",
-	youtubeUrl: "https://youtube.com",
-	aboutSummary:
-		"Silicon Real Estate (Pvt.) Ltd. is a premier land developer in Dhaka dedicated to eco-friendly planned townships and legally sound plot registration.",
-	mission:
-		"To provide dispute-free, RAJUK-compliant, planned residential & commercial land plots for every family in Bangladesh.",
-	vision:
-		"To become Bangladesh's most trusted real estate developer through transparent documentation, planned infrastructure, and ethical service.",
-};
-
 export async function GET() {
 	try {
-		let settings = await prisma.siteSettings.findUnique({
+		const settings = await prisma.siteSettings.findUnique({
 			where: { id: "global" },
 		});
-
-		if (!settings) {
-			settings = await prisma.siteSettings.create({
-				data: DEFAULT_SETTINGS,
-			});
-		}
 
 		return NextResponse.json({ success: true, settings, data: settings });
 	} catch (error: any) {
@@ -55,6 +33,7 @@ export async function PUT(req: Request) {
 				...(data.phone && { phone: data.phone }),
 				...(data.hotline !== undefined && { hotline: data.hotline }),
 				...(data.address && { address: data.address }),
+				...(data.addressBn !== undefined && { addressBn: data.addressBn }),
 				...(data.facebookUrl !== undefined && {
 					facebookUrl: data.facebookUrl,
 				}),
@@ -62,15 +41,33 @@ export async function PUT(req: Request) {
 				...(data.aboutSummary !== undefined && {
 					aboutSummary: data.aboutSummary,
 				}),
+				...(data.aboutSummaryBn !== undefined && {
+					aboutSummaryBn: data.aboutSummaryBn,
+				}),
 				...(data.mission !== undefined && { mission: data.mission }),
+				...(data.missionBn !== undefined && { missionBn: data.missionBn }),
 				...(data.vision !== undefined && { vision: data.vision }),
+				...(data.visionBn !== undefined && { visionBn: data.visionBn }),
 				...(data.socialLinks !== undefined && {
 					socialLinks: data.socialLinks,
 				}),
 			},
 			create: {
-				...DEFAULT_SETTINGS,
-				...data,
+				id: "global",
+				email: data.email || "",
+				phone: data.phone || "",
+				hotline: data.hotline,
+				address: data.address || "",
+				addressBn: data.addressBn,
+				facebookUrl: data.facebookUrl,
+				youtubeUrl: data.youtubeUrl,
+				aboutSummary: data.aboutSummary,
+				aboutSummaryBn: data.aboutSummaryBn,
+				mission: data.mission,
+				missionBn: data.missionBn,
+				vision: data.vision,
+				visionBn: data.visionBn,
+				socialLinks: data.socialLinks,
 			},
 		});
 

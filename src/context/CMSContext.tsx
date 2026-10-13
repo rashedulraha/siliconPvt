@@ -12,7 +12,6 @@ import React, {
 import { apiFetch } from "@/lib/api-client";
 import { STORAGE_KEYS } from "@/utils/constants";
 import { storage } from "@/utils/storage";
-import { seedProperties } from "@/utils/seed";
 import { mapApiPropertyToProperty } from "@/utils/dataSync";
 import { initialState } from "./cms-state";
 import type { CMSAction, CMSState } from "@/types";
@@ -239,9 +238,8 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
 			initialState,
 		);
 
-		// Ensure properties are populated with seed data if storage is empty
-		if (!storedState.properties || storedState.properties.length === 0) {
-			storedState.properties = seedProperties;
+		if (!storedState.properties) {
+			storedState.properties = [];
 		}
 
 		dispatch({ type: "SET_STATE", payload: storedState });
@@ -267,7 +265,7 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
 					? (response as any)
 					: undefined;
 
-			if (Array.isArray(rawProps) && rawProps.length > 0) {
+			if (Array.isArray(rawProps)) {
 				const mapped = rawProps.map(mapApiPropertyToProperty);
 				dispatch({ type: "SET_PROPERTIES", payload: mapped });
 			}

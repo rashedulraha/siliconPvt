@@ -4,9 +4,12 @@ import pg from "pg";
 
 const { Pool } = pg;
 
-const connectionString =
-	process.env.DATABASE_URL ||
-	"postgresql://neondb_owner:npg_ZTgy90pjwLSf@ep-calm-wind-azneegzi-pooler.c-3.ap-southeast-1.aws.neon.tech/neondb?sslmode=require";
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+	throw new Error(
+		"DATABASE_URL environment variable is not defined. Please set it in your .env file.",
+	);
+}
 
 // Prevent multiple instances of Prisma Client in development
 const globalForPrisma = globalThis as unknown as {

@@ -46,8 +46,11 @@ export async function PUT(
 			where: { id },
 			data: {
 				...(data.name && { name: data.name }),
+				...(data.nameBn !== undefined && { nameBn: data.nameBn }),
 				...(data.role && { role: data.role }),
+				...(data.roleBn !== undefined && { roleBn: data.roleBn }),
 				...(data.speech !== undefined && { speech: data.speech }),
+				...(data.speechBn !== undefined && { speechBn: data.speechBn }),
 				...(data.image && { image: data.image }),
 				...(data.order !== undefined && { order: Number(data.order) }),
 			},

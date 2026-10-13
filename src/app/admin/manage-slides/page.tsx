@@ -16,7 +16,10 @@ import {
 	Sparkles,
 	LayoutGrid,
 	List,
-	Image as ImageIcon,
+	Video,
+	Play,
+	ExternalLink,
+	Film,
 } from "lucide-react";
 import { SectionContainer } from "@/components/layout/SectionContainer";
 import { useSlides, Slide } from "@/hooks/useSlides";
@@ -30,7 +33,11 @@ import {
 	CardTitle,
 	CardDescription,
 } from "@/components/ui/card";
-import { ImageUpload } from "@/components/ui/image-upload";
+import {
+	extractYouTubeId,
+	DEFAULT_DRONE_VIDEOS,
+	DroneVideoItem,
+} from "@/lib/youtube";
 
 export default function ManageSlidesPage() {
 	const { slides, loading, refetch, createSlide, updateSlide, deleteSlide } =
@@ -41,10 +48,8 @@ export default function ManageSlidesPage() {
 
 	// Dedicated Page View State: "list" | "form"
 	const [viewMode, setViewMode] = useState<"list" | "form">("list");
-	// Display Format State: "cards" | "list" | "images"
-	const [displayFormat, setDisplayFormat] = useState<
-		"cards" | "list" | "images"
-	>("cards");
+	// Display Format State: "cards" | "list"
+	const [displayFormat, setDisplayFormat] = useState<"cards" | "list">("cards");
 	const [editingSlide, setEditingSlide] = useState<Slide | null>(null);
 
 	const [formData, setFormData] = useState({
@@ -55,7 +60,7 @@ export default function ManageSlidesPage() {
 		badge: "FEATURED",
 		badgeBn: "ফিচার্ড",
 		image: "",
-		link: "/projects",
+		link: "https://www.youtube.com/watch?v=F7NX9Ry4EJc",
 		active: true,
 		order: 0,
 	});
@@ -69,9 +74,8 @@ export default function ManageSlidesPage() {
 			subtitleBn: "সাভার, ঢাকায় মাস্টারপ্ল্যানড ইকো-টাউনশিপ",
 			badge: "FEATURED",
 			badgeBn: "ফিচার্ড",
-			image:
-				"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600",
-			link: "/projects",
+			image: "",
+			link: "https://www.youtube.com/watch?v=F7NX9Ry4EJc",
 			active: true,
 			order: slides.length + 1,
 		});
@@ -101,19 +105,34 @@ export default function ManageSlidesPage() {
 
 	const handleFormSubmit = async (e?: React.FormEvent) => {
 		if (e) e.preventDefault();
-		if (!formData.title || !formData.image) {
-			alert("Please provide both a Slide Title and Image.");
+		if (!formData.title) {
+			alert("Please provide a Slide Title.");
 			return;
 		}
+
+		const ytId = extractYouTubeId(formData.link);
+		const resolvedImage = ytId
+			? `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`
+			: formData.image ||
+				"https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1920&q=80";
+
+		const payload = {
+			...formData,
+			image: resolvedImage,
+		};
 
 		setActionLoading(true);
 		try {
 			if (editingSlide) {
-				await updateSlide(editingSlide.id, formData);
-				setSavedMessage(`Slide "${formData.title}" updated successfully!`);
+				await updateSlide(editingSlide.id, payload);
+				setSavedMessage(
+					`Hero Video Slide "${formData.title}" updated successfully!`,
+				);
 			} else {
-				await createSlide(formData);
-				setSavedMessage(`New slide "${formData.title}" added to database!`);
+				await createSlide(payload);
+				setSavedMessage(
+					`New Hero Video Slide "${formData.title}" added to database!`,
+				);
 			}
 			setViewMode("list");
 			setEditingSlide(null);
@@ -224,17 +243,19 @@ export default function ManageSlidesPage() {
 							<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/40 pb-5">
 								<div className="space-y-1">
 									<span className="text-xs font-semibold uppercase tracking-wider text-primary font-heading">
-										{editingSlide ? "EDIT HERO SLIDE" : "NEW HERO BANNER SLIDE"}
+										{editingSlide
+											? "EDIT HERO DRONE VIDEO"
+											: "NEW HERO DRONE VIDEO"}
 									</span>
 									<h1 className="text-2xl sm:text-3xl font-semibold font-heading text-foreground tracking-tight">
 										{editingSlide
-											? `Edit Slide: "${formData.title}"`
-											: "Add New Hero Banner Slide"}
+											? `Edit Video Slide: "${formData.title}"`
+											: "Add New Hero Drone Video Slide"}
 									</h1>
 									<p className="text-xs sm:text-sm text-muted-foreground font-light">
-										Configure bilingual title, badges, links, and
-										high-resolution cover image for the 3D rotating cylinder
-										hero banner.
+										Configure 4K YouTube drone video URL, embed code
+										(&lt;iframe...&gt;), or video ID, along with clean headlines
+										and badges for the full-screen hero carousel.
 									</p>
 								</div>
 
@@ -417,38 +438,113 @@ export default function ManageSlidesPage() {
 													</div>
 												</div>
 
-												{/* Destination Link & Order */}
-												<div className="grid sm:grid-cols-3 gap-4 pt-2 border-t border-border/40">
-													<div className="sm:col-span-2 space-y-2">
-														<Label className="text-xs font-semibold font-heading text-muted-foreground uppercase">
-															Destination Link
+												{/* Drone Footage Video Link / ID (Primary YouTube Link) */}
+												<div className="space-y-3 pt-3 border-t border-border/40">
+													<div className="flex items-center justify-between">
+														<Label className="text-xs font-semibold font-heading text-foreground uppercase flex items-center gap-1.5">
+															<Video className="w-4 h-4 text-red-500" />
+															<span>
+																YouTube Drone Video Link, Embed Code, or Video
+																ID *
+															</span>
 														</Label>
-														<Input
-															value={formData.link}
-															onChange={(e) =>
-																setFormData((prev) => ({
-																	...prev,
-																	link: e.target.value,
-																}))
-															}
-															placeholder="e.g. /projects or /contact"
-														/>
+														<span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-red-500/10 text-red-600 font-semibold border border-red-500/20">
+															STREAMING 4K
+														</span>
 													</div>
-													<div className="space-y-2">
-														<Label className="text-xs font-semibold font-heading text-muted-foreground uppercase">
-															Display Order
-														</Label>
-														<Input
-															type="number"
-															value={formData.order}
-															onChange={(e) =>
-																setFormData((prev) => ({
-																	...prev,
-																	order: parseInt(e.target.value) || 0,
-																}))
-															}
-														/>
+
+													<Input
+														value={formData.link}
+														onChange={(e) =>
+															setFormData((prev) => ({
+																...prev,
+																link: e.target.value,
+															}))
+														}
+														placeholder="Paste YouTube Link, Embed Code (<iframe ...>), or Video ID"
+														className="font-mono text-xs"
+													/>
+
+													{/* YouTube ID Detection Status & Action */}
+													{(() => {
+														const ytId = extractYouTubeId(formData.link);
+														if (ytId) {
+															return (
+																<div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+																	<div className="flex items-center gap-1.5 text-emerald-600 font-medium">
+																		<CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-emerald-500" />
+																		<span>
+																			Detected Video ID:{" "}
+																			<strong className="font-mono">
+																				{ytId}
+																			</strong>{" "}
+																			(Chunked streaming ready)
+																		</span>
+																	</div>
+																	<div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-600/15 text-emerald-700 dark:text-emerald-300 text-[11px] font-heading font-medium shrink-0">
+																		<Sparkles className="w-3 h-3 text-amber-500" />
+																		<span>Auto-Thumbnail Synced</span>
+																	</div>
+																</div>
+															);
+														}
+														return (
+															<p className="text-[11px] text-muted-foreground font-light leading-relaxed">
+																Paste any YouTube URL, embed code
+																(&lt;iframe...&gt;), or 11-digit video ID. When
+																a visitor lands on the site, video streams
+																immediately in high-definition chunks without
+																waiting for the full file to download.
+															</p>
+														);
+													})()}
+
+													{/* Quick Drone Footage Presets */}
+													<div className="space-y-1.5 pt-1">
+														<span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold block">
+															Quick 4K Drone Presets (Click to Load):
+														</span>
+														<div className="flex flex-wrap gap-1.5">
+															{DEFAULT_DRONE_VIDEOS.map(
+																(preset: DroneVideoItem, pIdx: number) => (
+																	<button
+																		key={preset.id}
+																		type="button"
+																		onClick={() =>
+																			setFormData((prev) => ({
+																				...prev,
+																				link: `https://www.youtube.com/watch?v=${preset.id}`,
+																				image: prev.image || preset.poster,
+																			}))
+																		}
+																		className="px-2.5 py-1 rounded-lg bg-muted hover:bg-muted/80 text-[11px] text-foreground border border-border/70 font-medium inline-flex items-center gap-1 transition-all cursor-pointer"
+																	>
+																		<Play className="w-2.5 h-2.5 text-red-500" />
+																		<span>
+																			Preset {pIdx + 1}: {preset.badge}
+																		</span>
+																	</button>
+																),
+															)}
+														</div>
 													</div>
+												</div>
+
+												{/* Display Order */}
+												<div className="pt-2 border-t border-border/40 space-y-2">
+													<Label className="text-xs font-semibold font-heading text-muted-foreground uppercase">
+														Display Order
+													</Label>
+													<Input
+														type="number"
+														value={formData.order}
+														onChange={(e) =>
+															setFormData((prev) => ({
+																...prev,
+																order: parseInt(e.target.value) || 0,
+															}))
+														}
+													/>
 												</div>
 
 												{/* Active Switch */}
@@ -458,8 +554,8 @@ export default function ManageSlidesPage() {
 															Slide Visibility
 														</span>
 														<span className="text-[11px] text-muted-foreground font-light block">
-															Enable to show this slide in the 3D rotating
-															cylinder.
+															Enable to show this drone footage in the hero
+															carousel.
 														</span>
 													</div>
 
@@ -486,82 +582,104 @@ export default function ManageSlidesPage() {
 										</Card>
 									</div>
 
-									{/* Right Column: Image Upload & Live Preview (5 Cols) */}
+									{/* Right Column: Live Video Player Preview (5 Cols) */}
 									<div className="lg:col-span-5 space-y-6">
 										<Card className="border border-border/70 rounded-2xl shadow-xs overflow-hidden">
 											<CardHeader className="bg-muted/20 border-b border-border/40 pb-4">
-												<CardTitle className="text-base font-semibold font-heading">
-													2. Slide Cover Photo (ImgBB CDN)
-												</CardTitle>
-												<CardDescription className="text-xs text-muted-foreground font-light">
-													Upload directly to ImgBB CDN or enter a direct web
-													URL.
-												</CardDescription>
+												<div>
+													<CardTitle className="text-base font-semibold font-heading flex items-center gap-2">
+														<Video className="w-4 h-4 text-red-500" />
+														<span>2. Live YouTube Drone Video Preview</span>
+													</CardTitle>
+													<CardDescription className="text-xs text-muted-foreground font-light">
+														Interactive player preview. Fullscreen 4K drone
+														footage autoplays directly on the website hero
+														carousel.
+													</CardDescription>
+												</div>
 											</CardHeader>
-											<CardContent className="p-6 space-y-5">
-												<ImageUpload
-													label="Slide Image"
-													description="Upload an image from your device directly to ImgBB CDN."
-													value={formData.image}
-													onChange={(url) =>
-														setFormData((prev) => ({ ...prev, image: url }))
-													}
-													aspectRatio="video"
-												/>
+											<CardContent className="p-6 space-y-4">
+												{(() => {
+													const ytId = extractYouTubeId(formData.link);
+													if (ytId) {
+														return (
+															<div className="space-y-4">
+																<div className="relative rounded-2xl overflow-hidden border border-border/70 bg-black aspect-video shadow-md">
+																	<iframe
+																		src={`https://www.youtube-nocookie.com/embed/${ytId}?autoplay=0&controls=1&rel=0`}
+																		title="Preview YouTube Drone Video"
+																		className="w-full h-full"
+																		allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+																	/>
+																</div>
+																<div className="flex items-center justify-between text-xs px-1">
+																	<span className="text-muted-foreground font-light flex items-center gap-1.5">
+																		<span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+																		4K Stream Ready (Video ID:{" "}
+																		<strong className="font-mono text-foreground">
+																			{ytId}
+																		</strong>
+																		)
+																	</span>
+																	<a
+																		href={`https://www.youtube.com/watch?v=${ytId}`}
+																		target="_blank"
+																		rel="noopener noreferrer"
+																		className="text-primary hover:underline inline-flex items-center gap-1 text-[11px] font-medium"
+																	>
+																		<span>Open on YouTube</span>
+																		<ExternalLink className="w-3 h-3" />
+																	</a>
+																</div>
 
-												{/* 3D Cylinder Card Simulation Preview */}
-												<div className="pt-4 border-t border-border/40 space-y-2">
-													<div className="flex items-center justify-between">
-														<span className="text-xs font-semibold font-heading text-muted-foreground uppercase">
-															Live Slide Card Preview
-														</span>
-														<span className="text-[10px] font-mono text-muted-foreground">
-															Simulated
-														</span>
-													</div>
+																{/* Auto Thumbnail Info */}
+																<div className="p-3.5 rounded-xl bg-muted/40 border border-border/70 space-y-2">
+																	<div className="flex items-center justify-between">
+																		<span className="text-[11px] font-semibold font-heading uppercase text-muted-foreground tracking-wider flex items-center gap-1.5">
+																			<Sparkles className="w-3.5 h-3.5 text-amber-500" />
+																			<span>Cloud Video Thumbnail</span>
+																		</span>
+																		<span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 font-semibold border border-emerald-500/20">
+																			AUTO-SYNCED
+																		</span>
+																	</div>
 
-													<div className="relative rounded-2xl overflow-hidden border border-border/70 bg-slate-950 text-white shadow-md aspect-[16/10] flex flex-col justify-between p-4">
-														{formData.image ? (
-															<img
-																src={formData.image}
-																alt="Slide Preview"
-																className="absolute inset-0 w-full h-full object-cover"
-															/>
-														) : (
-															<div className="absolute inset-0 bg-slate-900 flex items-center justify-center text-xs text-muted-foreground font-light">
-																No image selected
+																	<div className="flex items-center gap-3">
+																		<img
+																			src={`https://img.youtube.com/vi/${ytId}/hqdefault.jpg`}
+																			alt="YouTube Thumbnail"
+																			className="w-20 h-12 object-cover rounded-lg border border-border/80 shrink-0 shadow-2xs"
+																		/>
+																		<div className="text-left space-y-1 min-w-0">
+																			<p className="text-xs font-semibold font-heading text-foreground truncate">
+																				{formData.title ||
+																					"Slide Title Preview"}
+																			</p>
+																			<p className="text-[10px] text-muted-foreground font-light leading-snug">
+																				High-res YouTube poster is fetched
+																				automatically. No manual image upload
+																				needed!
+																			</p>
+																		</div>
+																	</div>
+																</div>
 															</div>
-														)}
-
-														<div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/20 pointer-events-none" />
-
-														{/* Top Badge */}
-														<div className="relative z-10 flex items-center justify-between">
-															<span className="px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-[10px] font-bold font-heading text-amber-300 uppercase tracking-wider">
-																{formData.badge || "FEATURED"}
-															</span>
-															<span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/20 text-white backdrop-blur-md">
-																#{formData.order || 1}
-															</span>
-														</div>
-
-														{/* Bottom Title & Subtitle */}
-														<div className="relative z-10 space-y-1 text-left">
-															<h4 className="text-sm font-bold font-heading text-white line-clamp-1 drop-shadow-md">
-																{formData.title || "Slide Title Preview"}
-															</h4>
-															{formData.titleBn && (
-																<p className="text-[11px] text-white/90 font-medium truncate">
-																	{formData.titleBn}
-																</p>
-															)}
-															<p className="text-[10px] text-white/75 font-light line-clamp-1">
-																{formData.subtitle ||
-																	"Location or description..."}
+														);
+													}
+													return (
+														<div className="rounded-2xl border border-dashed border-border/80 p-8 text-center space-y-2 bg-muted/10">
+															<Film className="w-8 h-8 text-muted-foreground mx-auto stroke-1" />
+															<p className="text-xs font-semibold font-heading text-foreground">
+																No YouTube Video Linked Yet
+															</p>
+															<p className="text-[11px] text-muted-foreground font-light max-w-xs mx-auto">
+																Paste a YouTube drone video link or embed code
+																on the left to preview the interactive player
+																here.
 															</p>
 														</div>
-													</div>
-												</div>
+													);
+												})()}
 											</CardContent>
 										</Card>
 									</div>
@@ -627,16 +745,17 @@ export default function ManageSlidesPage() {
 						<div className="space-y-6">
 							<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 								<div className="space-y-1 text-left">
-									<span className="text-xs font-semibold uppercase tracking-wider text-primary font-heading">
-										HERO CAROUSEL VISUAL CONTROLLER
+									<span className="text-xs font-semibold uppercase tracking-wider text-primary font-heading flex items-center gap-1.5">
+										<Video className="w-3.5 h-3.5 text-red-500" />
+										<span>HERO DRONE VIDEO CONTROLLER</span>
 									</span>
 									<h1 className="text-2xl sm:text-3xl font-semibold font-heading text-foreground tracking-tight">
-										Manage Hero Carousel Slides
+										Hero Video Carousel (হিরো ড্রোন ভিডিও ম্যানেজার)
 									</h1>
 									<p className="text-xs sm:text-sm text-muted-foreground font-light">
-										Add and organize images, badges, and headline titles in
-										English and Bengali for the 3D rotating cylinder hero
-										banner.
+										Add, edit, or delete 4K YouTube drone videos, embed codes,
+										and clean headlines that play in the homepage fullscreen
+										hero carousel.
 									</p>
 								</div>
 
@@ -669,19 +788,6 @@ export default function ManageSlidesPage() {
 											<List className="w-3.5 h-3.5" />
 											<span>List</span>
 										</button>
-										<button
-											type="button"
-											onClick={() => setDisplayFormat("images")}
-											className={`px-3 py-1.5 rounded-lg text-xs font-heading font-medium flex items-center gap-1.5 transition-all cursor-pointer ${
-												displayFormat === "images"
-													? "bg-primary text-primary-foreground shadow-xs font-semibold"
-													: "text-muted-foreground hover:text-foreground hover:bg-muted/60"
-											}`}
-											title="Images Only Gallery View"
-										>
-											<ImageIcon className="w-3.5 h-3.5" />
-											<span>Images Only</span>
-										</button>
 									</div>
 
 									<Button
@@ -689,7 +795,7 @@ export default function ManageSlidesPage() {
 										className="gap-2 shrink-0 font-medium font-heading text-xs"
 									>
 										<Plus className="w-4 h-4" />
-										Add New Slide
+										Add New Drone Video
 									</Button>
 								</div>
 							</div>
@@ -706,8 +812,9 @@ export default function ManageSlidesPage() {
 											No Slides Found
 										</h3>
 										<p className="text-xs text-muted-foreground font-light max-w-sm mx-auto">
-											Add your first hero banner slide to populate the 3D
-											rotating cylinder carousel.
+											Add your first hero banner slide to manage 4K drone
+											footage YouTube videos and headlines for the fullscreen
+											hero carousel.
 										</p>
 										<Button
 											onClick={openCreateForm}
@@ -726,18 +833,25 @@ export default function ManageSlidesPage() {
 												key={slide.id}
 												className="bg-card border border-border/70 rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all flex flex-col justify-between group"
 											>
-												{/* Image Preview Box */}
-												<div className="relative h-44 w-full overflow-hidden bg-muted">
+												{/* Video Drone Footage Preview Box */}
+												<div className="relative h-44 w-full overflow-hidden bg-black group/thumb">
 													<img
 														src={slide.image}
 														alt={slide.title}
-														className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+														className="w-full h-full object-cover group-hover/thumb:scale-105 transition-transform duration-500 opacity-90"
 													/>
-													<div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+													<div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30" />
+
+													{/* Centered Video Play Badge */}
+													<div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+														<div className="w-11 h-11 rounded-full bg-red-600/90 text-white flex items-center justify-center shadow-lg group-hover/thumb:scale-110 group-hover/thumb:bg-red-600 transition-all">
+															<Play className="w-5 h-5 fill-white text-white translate-x-0.5" />
+														</div>
+													</div>
 
 													{/* Top Badges */}
 													<div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-														<span className="px-2.5 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/20 text-[10px] font-medium font-mono text-white uppercase tracking-wider">
+														<span className="px-2.5 py-0.5 rounded-md bg-black/70 backdrop-blur-md border border-white/20 text-[10px] font-medium font-mono text-white uppercase tracking-wider">
 															#{index + 1}
 														</span>
 														<span className="px-2.5 py-0.5 rounded-md bg-primary text-primary-foreground text-[10px] font-medium uppercase tracking-wider shadow-xs">
@@ -747,11 +861,11 @@ export default function ManageSlidesPage() {
 
 													{/* Bottom Image Title */}
 													<div className="absolute bottom-3 left-3 right-3 text-left">
-														<h3 className="text-sm font-medium font-heading text-white line-clamp-1">
+														<h3 className="text-sm font-semibold font-heading text-white line-clamp-1 drop-shadow-md">
 															{slide.title}
 														</h3>
 														{slide.titleBn && (
-															<p className="text-[11px] text-white/90 font-medium truncate">
+															<p className="text-[11px] text-white/90 font-medium truncate font-bangla">
 																{slide.titleBn}
 															</p>
 														)}
@@ -761,12 +875,22 @@ export default function ManageSlidesPage() {
 												{/* Card Body */}
 												<div className="p-4 space-y-3 flex-1 flex flex-col justify-between text-left">
 													<div className="space-y-1">
-														<span className="text-[10px] font-mono text-muted-foreground block truncate">
-															URL: {slide.image}
-														</span>
-														<span className="text-[10px] font-mono text-primary block truncate">
-															Target: {slide.link || "/projects"}
-														</span>
+														{(() => {
+															const ytId = extractYouTubeId(slide.link);
+															if (ytId) {
+																return (
+																	<span className="text-[11px] font-mono text-red-600 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20 inline-flex items-center gap-1 font-semibold">
+																		<Video className="w-3 h-3 text-red-500" />
+																		<span>Drone Video: {ytId}</span>
+																	</span>
+																);
+															}
+															return (
+																<span className="text-[10px] font-mono text-muted-foreground block truncate">
+																	Target: {slide.link || "/projects"}
+																</span>
+															);
+														})()}
 													</div>
 
 													{/* Actions Strip */}
@@ -810,7 +934,7 @@ export default function ManageSlidesPage() {
 											</div>
 										))}
 									</div>
-								) : displayFormat === "list" ? (
+								) : (
 									/* FORMAT 2: TABLE LIST VIEW */
 									<div className="bg-card border border-border/70 rounded-2xl overflow-hidden shadow-xs">
 										<div className="overflow-x-auto">
@@ -820,8 +944,8 @@ export default function ManageSlidesPage() {
 														<th className="py-3.5 px-4 font-semibold w-16">
 															#
 														</th>
-														<th className="py-3.5 px-4 font-semibold w-24">
-															Photo
+														<th className="py-3.5 px-4 font-semibold w-28">
+															Drone Video
 														</th>
 														<th className="py-3.5 px-4 font-semibold">
 															Title & Subtitle
@@ -830,7 +954,7 @@ export default function ManageSlidesPage() {
 															Badge Tag
 														</th>
 														<th className="py-3.5 px-4 font-semibold hidden lg:table-cell">
-															Target Link
+															Drone Video / Link
 														</th>
 														<th className="py-3.5 px-4 font-semibold text-center w-28">
 															Status
@@ -850,12 +974,15 @@ export default function ManageSlidesPage() {
 																#{index + 1}
 															</td>
 															<td className="py-3 px-4">
-																<div className="w-16 h-11 rounded-lg overflow-hidden border border-border/60 bg-muted shrink-0 relative group-hover:scale-105 transition-transform">
+																<div className="w-20 h-12 rounded-lg overflow-hidden border border-border/60 bg-black shrink-0 relative group-hover:scale-105 transition-transform">
 																	<img
 																		src={slide.image}
 																		alt={slide.title}
-																		className="w-full h-full object-cover"
+																		className="w-full h-full object-cover opacity-90"
 																	/>
+																	<div className="absolute inset-0 flex items-center justify-center bg-black/30">
+																		<Play className="w-3.5 h-3.5 fill-white text-white translate-x-0.5" />
+																	</div>
 																</div>
 															</td>
 															<td className="py-3 px-4 max-w-xs">
@@ -880,8 +1007,23 @@ export default function ManageSlidesPage() {
 																	{slide.badge || "FEATURED"}
 																</span>
 															</td>
-															<td className="py-3 px-4 hidden lg:table-cell font-mono text-[11px] text-muted-foreground truncate max-w-[150px]">
-																{slide.link || "/projects"}
+															<td className="py-3 px-4 hidden lg:table-cell font-mono text-[11px] truncate max-w-[200px]">
+																{(() => {
+																	const ytId = extractYouTubeId(slide.link);
+																	if (ytId) {
+																		return (
+																			<span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-red-500/10 text-red-600 border border-red-500/20 font-semibold">
+																				<Video className="w-3 h-3 text-red-500" />
+																				<span>YouTube: {ytId}</span>
+																			</span>
+																		);
+																	}
+																	return (
+																		<span className="text-muted-foreground">
+																			{slide.link || "/projects"}
+																		</span>
+																	);
+																})()}
 															</td>
 															<td className="py-3 px-4 text-center">
 																<button
@@ -925,87 +1067,6 @@ export default function ManageSlidesPage() {
 												</tbody>
 											</table>
 										</div>
-									</div>
-								) : (
-									/* FORMAT 3: IMAGES ONLY / GALLERY VIEW */
-									<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-										{slides.map((slide, index) => (
-											<div
-												key={slide.id}
-												className="group relative h-60 rounded-2xl overflow-hidden border border-border/70 bg-card shadow-xs hover:shadow-lg hover:border-primary/50 transition-all duration-300 flex flex-col justify-between"
-											>
-												{/* Image Background */}
-												<img
-													src={slide.image}
-													alt={slide.title}
-													className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
-												/>
-
-												{/* Dark Gradient Overlay */}
-												<div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/40 group-hover:from-black/95 transition-opacity pointer-events-none" />
-
-												{/* Top Bar */}
-												<div className="relative z-10 p-3.5 flex items-center justify-between">
-													<span className="px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/20 text-[10px] font-mono text-white">
-														#{index + 1}
-													</span>
-													<span className="px-2.5 py-0.5 rounded-md bg-primary text-primary-foreground text-[10px] font-semibold font-heading uppercase tracking-wider shadow-sm">
-														{slide.badge || "FEATURED"}
-													</span>
-												</div>
-
-												{/* Bottom Content & Hover Actions */}
-												<div className="relative z-10 p-4 space-y-2.5 text-left text-white">
-													<div className="space-y-0.5">
-														<h4 className="text-sm font-semibold font-heading text-white line-clamp-1 drop-shadow-sm">
-															{slide.title}
-														</h4>
-														{slide.titleBn && (
-															<p className="text-[11px] text-white/80 font-bangla truncate">
-																{slide.titleBn}
-															</p>
-														)}
-													</div>
-
-													{/* Actions Strip */}
-													<div className="pt-2 border-t border-white/20 flex items-center justify-between">
-														<button
-															type="button"
-															onClick={() => handleToggleActive(slide)}
-															className={`px-2 py-0.5 rounded text-[10px] font-semibold font-heading transition-all cursor-pointer backdrop-blur-md ${
-																slide.active
-																	? "bg-emerald-500/80 text-white"
-																	: "bg-black/60 text-white/70"
-															}`}
-														>
-															{slide.active ? "● Live" : "Draft"}
-														</button>
-
-														<div className="flex items-center gap-1">
-															<button
-																type="button"
-																onClick={() => openEditForm(slide)}
-																className="h-7 px-2.5 rounded-lg bg-white/20 hover:bg-white text-white hover:text-black text-[10px] font-medium font-heading transition-all inline-flex items-center gap-1 cursor-pointer backdrop-blur-sm"
-																title="Edit Slide"
-															>
-																<Edit className="w-3 h-3" />
-																<span>Edit</span>
-															</button>
-															<button
-																type="button"
-																onClick={() =>
-																	handleDelete(slide.id, slide.title)
-																}
-																className="h-7 w-7 rounded-lg bg-red-500/80 hover:bg-red-600 text-white text-[10px] flex items-center justify-center transition-all cursor-pointer shadow-sm"
-																title="Delete Slide"
-															>
-																<Trash2 className="w-3 h-3" />
-															</button>
-														</div>
-													</div>
-												</div>
-											</div>
-										))}
 									</div>
 								)}
 							</div>

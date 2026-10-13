@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { PageSEO } from "@/components/seo/PageSEO";
 import { SectionContainer } from "@/components/ui/section-container";
+import { ExecutiveLeadership } from "@/components/team/ExecutiveLeadership";
 import { useAboutContent } from "@/hooks/useAboutContent";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -559,122 +559,8 @@ export default function AboutPage() {
 				</SectionContainer>
 			</section>
 
-			{/* ── BLOCK 5: Message From Chairman ────────────────────────────── */}
-			<section
-				className="py-16 sm:py-20 bg-muted/40 border-y border-border/50 relative overflow-hidden text-left"
-				id="chairman"
-			>
-				<div
-					className="absolute inset-0 opacity-[0.03] pointer-events-none"
-					style={{
-						backgroundImage: `radial-gradient(rgba(26, 95, 168, 0.8) 1px, transparent 1px)`,
-						backgroundSize: "24px 24px",
-					}}
-				/>
-
-				<SectionContainer className="relative z-10">
-					<div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-						<div className="lg:col-span-4 text-center lg:text-left space-y-3">
-							<div className="relative w-36 h-36 rounded-full overflow-hidden border-2 border-primary/30 shadow-md mx-auto lg:mx-0">
-								<Image
-									src={data.chairmanImage}
-									alt={data.chairmanName}
-									fill
-									className="object-cover"
-									sizes="144px"
-								/>
-							</div>
-							<div>
-								<span className="text-[11px] font-semibold uppercase tracking-widest text-primary font-heading block">
-									{isBn ? "চেয়ারম্যানের বাণী" : "MESSAGE FROM CHAIRMAN"}
-								</span>
-								<h3 className="text-lg font-bold font-heading text-foreground">
-									{isBn
-										? data.chairmanNameBn || "মো: আহমেদ কবীর"
-										: data.chairmanName}
-								</h3>
-								<p className="text-xs text-muted-foreground">
-									{isBn
-										? data.chairmanRoleBn || "প্রতিষ্ঠাতা ও চেয়ারম্যান"
-										: data.chairmanRole || "Founder & Chairman"}
-								</p>
-							</div>
-						</div>
-
-						<div className="lg:col-span-8 bg-card border border-border/60 rounded-2xl p-7 sm:p-9 space-y-4 shadow-xs">
-							<blockquote className="text-xs sm:text-sm font-semibold font-heading text-primary italic border-l-2 border-primary pl-4">
-								"
-								{isBn
-									? (data.chairmanSpeechBn || data.chairmanSpeech).slice(
-											0,
-											80,
-										) + "..."
-									: `${data.chairmanSpeech.slice(0, 100)}...`}
-								"
-							</blockquote>
-							<p className="text-xs sm:text-sm text-foreground/90 font-light leading-relaxed whitespace-pre-line">
-								{isBn
-									? data.chairmanSpeechBn ||
-										"সিলিকন রিয়েল এস্টেট (প্রাঃ) লিঃ-এ আপনাকে আন্তরিক শুভেচ্ছা। আমাদের একমাত্র লক্ষ্য হলো আইনগতভাবে সম্পূর্ণ নিরাপদ, কৌশলগত অবস্থানে অবস্থিত এবং ভবিষ্যৎ সম্ভাবনাময় আবাসন প্রকল্প উপস্থাপন করা।"
-									: data.chairmanSpeech}
-							</p>
-						</div>
-					</div>
-				</SectionContainer>
-			</section>
-
-			{/* ── BLOCK 6: Message From Managing Director ──────────────────── */}
-			<section
-				className="py-16 sm:py-20 bg-background relative overflow-hidden text-left"
-				id="md"
-			>
-				<SectionContainer>
-					<div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-						<div className="lg:col-span-8 bg-card border border-border/60 rounded-2xl p-7 sm:p-9 space-y-4 shadow-xs order-2 lg:order-1">
-							<blockquote className="text-xs sm:text-sm font-semibold font-heading text-primary italic border-l-2 border-primary pl-4">
-								"
-								{isBn
-									? (data.mdSpeechBn || data.mdSpeech).slice(0, 80) + "..."
-									: `${data.mdSpeech.slice(0, 100)}...`}
-								"
-							</blockquote>
-							<p className="text-xs sm:text-sm text-foreground/90 font-light leading-relaxed whitespace-pre-line">
-								{isBn
-									? data.mdSpeechBn ||
-										"প্রতিটি মানুষের স্বপ্ন থাকে একটি সুন্দর, নিরাপদ ও সুপরিকল্পিত স্থায়ী ঠিকানা। সেই স্বপ্নকে সফল করতেই রাজউকের বিধিবিধান ও আন্তর্জাতিক নগর পরিকল্পনার নীতি অনুসরণ করে অভিজ্ঞ প্রকৌশলীদের দ্বারা বাস্তবায়িত হচ্ছে সিলিকন সিটি।"
-									: data.mdSpeech}
-							</p>
-						</div>
-
-						<div className="lg:col-span-4 text-center lg:text-right space-y-3 order-1 lg:order-2">
-							<div className="relative w-36 h-36 rounded-full overflow-hidden border-2 border-primary/30 shadow-md mx-auto lg:ml-auto lg:mr-0">
-								<Image
-									src={data.mdImage}
-									alt={data.mdName}
-									fill
-									className="object-cover"
-									sizes="144px"
-								/>
-							</div>
-							<div>
-								<span className="text-[11px] font-semibold uppercase tracking-widest text-primary font-heading block">
-									{isBn
-										? "ব্যবস্থাপনা পরিচালকের বার্তা"
-										: "MESSAGE FROM MANAGING DIRECTOR"}
-								</span>
-								<h3 className="text-lg font-bold font-heading text-foreground">
-									{isBn ? data.mdNameBn || "ইঞ্জি. মো: সরোয়ার খালেদ" : data.mdName}
-								</h3>
-								<p className="text-xs text-muted-foreground">
-									{isBn
-										? data.mdRoleBn || "ব্যবস্থাপনা পরিচালক"
-										: data.mdRole || "Managing Director"}
-								</p>
-							</div>
-						</div>
-					</div>
-				</SectionContainer>
-			</section>
+			{/* ── BLOCK 5: Executive Leadership (Chairman & Managing Director) ──── */}
+			<ExecutiveLeadership />
 
 			{/* ── BLOCK 7: Company At A Glance ───────────────────────────── */}
 			<section className="py-14 bg-dark-hero text-white relative overflow-hidden text-left">

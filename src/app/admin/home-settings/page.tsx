@@ -15,7 +15,9 @@ import {
 	ChevronRight,
 	ImageIcon,
 	ExternalLink,
+	Video,
 } from "lucide-react";
+import { extractYouTubeId } from "@/lib/youtube";
 import { SectionContainer } from "@/components/layout/SectionContainer";
 import {
 	useHomeContent,
@@ -359,13 +361,24 @@ export default function HomeSettingsPage() {
 					{activeTab === "hero" && (
 						<Card className="border border-border/70 rounded-2xl shadow-xs overflow-hidden">
 							<CardHeader className="bg-muted/20 border-b border-border/40 pb-4">
-								<CardTitle className="text-base font-semibold font-heading">
-									Hero Carousel & Headline Overlay
-								</CardTitle>
-								<CardDescription className="text-xs text-muted-foreground font-light">
-									Configure both English and Bengali overlay text displayed over
-									the interactive 3D hero carousel.
-								</CardDescription>
+								<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+									<div>
+										<CardTitle className="text-base font-semibold font-heading">
+											Hero Drone Video & Headline Overlay
+										</CardTitle>
+										<CardDescription className="text-xs text-muted-foreground font-light">
+											Configure bilingual overlay text displayed over the
+											full-screen drone video carousel.
+										</CardDescription>
+									</div>
+									<Link
+										href="/admin/manage-slides"
+										className="px-3 py-1.5 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 text-xs font-semibold font-heading inline-flex items-center gap-1.5 transition-all self-start sm:self-auto cursor-pointer"
+									>
+										<span>Manage Drone Video Slides</span>
+										<ExternalLink className="w-3.5 h-3.5" />
+									</Link>
+								</div>
 							</CardHeader>
 							<CardContent className="p-6 space-y-6">
 								{/* Top Badge Tag */}
@@ -572,15 +585,70 @@ export default function HomeSettingsPage() {
 									</div>
 								</div>
 
-								{/* Hero Background Image Upload */}
-								<div className="pt-4 border-t border-border/40">
-									<ImageUpload
-										label="Hero Section Architectural Background Image"
-										description="Upload a custom luxury architectural background image for the main Hero section (hosted on ImgBB CDN)."
-										value={formData.heroBgImage || ""}
-										onChange={(url) => handleChange("heroBgImage", url)}
-										aspectRatio="banner"
+								{/* Hero 4K Drone Video URL (YouTube) */}
+								<div className="pt-4 border-t border-border/40 space-y-3">
+									<div className="flex items-center justify-between">
+										<Label className="text-xs font-semibold font-heading uppercase text-foreground flex items-center gap-1.5">
+											<Video className="w-4 h-4 text-red-500" />
+											<span>
+												Primary Hero Drone Video URL / Embed Code (YouTube)
+											</span>
+										</Label>
+										<span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-red-500/10 text-red-600 font-semibold border border-red-500/20">
+											STREAMING 4K
+										</span>
+									</div>
+
+									<Input
+										value={formData.sectionsConfig?.heroVideoUrl || ""}
+										onChange={(e) => {
+											const val = e.target.value;
+											setFormData((prev) => ({
+												...prev,
+												sectionsConfig: {
+													...(prev.sectionsConfig || {}),
+													heroVideoUrl: val,
+												},
+											}));
+										}}
+										placeholder="Paste YouTube Link, Embed Code (<iframe ...>), or Video ID"
+										className="font-mono text-xs"
 									/>
+
+									{(() => {
+										const currentUrl = formData.sectionsConfig?.heroVideoUrl;
+										const ytId = extractYouTubeId(currentUrl);
+										if (ytId) {
+											return (
+												<div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-between text-xs">
+													<div className="flex items-center gap-1.5 text-emerald-600 font-medium">
+														<CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-emerald-500" />
+														<span>
+															Detected YouTube ID:{" "}
+															<strong className="font-mono">{ytId}</strong>
+														</span>
+													</div>
+													<span className="text-[10px] text-muted-foreground">
+														Active on Homepage Hero
+													</span>
+												</div>
+											);
+										}
+										return (
+											<p className="text-[11px] text-muted-foreground font-light leading-relaxed">
+												Enter any YouTube video link or ID. This dynamically
+												powers the fullscreen hero background video. You can
+												also manage multiple drone video slides in{" "}
+												<Link
+													href="/admin/manage-slides"
+													className="text-primary hover:underline font-medium"
+												>
+													Manage Drone Video Slides
+												</Link>
+												.
+											</p>
+										);
+									})()}
 								</div>
 							</CardContent>
 						</Card>

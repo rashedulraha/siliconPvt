@@ -38,8 +38,9 @@ const pageMeta: Record<string, { title: string; description: string }> = {
 		description: "Manage corporate services and real estate offerings",
 	},
 	"/admin/site-settings": {
-		title: "Site Contact & Info",
-		description: "Manage corporate address, hotlines, emails, and social links",
+		title: "Site Contact & Footer Settings",
+		description:
+			"Manage corporate office address, hotlines, WhatsApp, emails, and live website footer",
 	},
 	"/admin/leads": {
 		title: "Client Inquiries",
