@@ -4,10 +4,13 @@ import pg from "pg";
 
 const { Pool } = pg;
 
-const connectionString = process.env.DATABASE_URL;
-if (!connectionString) {
-	throw new Error(
-		"DATABASE_URL environment variable is not defined. Please set it in your .env file.",
+const connectionString =
+	process.env.DATABASE_URL ||
+	"postgresql://postgres:postgres@localhost:5432/silicon_real_estate";
+
+if (!process.env.DATABASE_URL) {
+	console.warn(
+		"[Prisma] Warning: DATABASE_URL is not defined in the environment. Using fallback for build time.",
 	);
 }
 
